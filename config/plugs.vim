@@ -47,7 +47,7 @@ Plug 'prabirshrestha/asyncomplete-tags.vim'
 Plug 'ludovicchabant/vim-gutentags'                                             # 管理 tags 文件
 Plug 'skywind3000/gutentags_plus', { 'on': 'GscopeFind' }
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'lilydjwg/colorizer', { 'on': 'Colorizer' }
+Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
 Plug 'luochen1990/rainbow'                                                      # 彩虹括号
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
@@ -297,6 +297,7 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
 
 #  asynctasks [[[
 g:asynctasks_term_pos = 'vim' # quickfix | vim | tab | bottom | external
+g:asyncrun_open = 6
 noremap <silent><f7> <cmd>AsyncTask file-run<cr>
 noremap <silent><f8> <cmd>AsyncTask file-build<cr>
 noremap <silent><f9> <cmd>AsyncTask project-run<cr>
