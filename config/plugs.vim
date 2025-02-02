@@ -56,7 +56,7 @@ Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop'] }
 Plug 'skywind3000/asynctasks.vim', { 'on': ['AsyncTask', 'AsyncTaskMacro', 'AsyncTaskList', 'AsyncTaskEdit'], 'for': 'taskini' }
 Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              # 撤销树
-Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension', 'on': 'Leaderf' }
+# Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension', 'on': 'Leaderf' }
 Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
 Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
@@ -81,11 +81,12 @@ Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'preservim/vim-pencil', { 'for': [ 'text', 'markdown', 'tex' ] }
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 
 
 # Plug 'yegappan/lsp'
 # Plug 'jessepav/vim-boxdraw'
-# Plug 'Donaldttt/fuzzyy'
+Plug 'Donaldttt/fuzzyy'
 # Plug 'justinmk/vim-dirvish'
 # Plug 'bounceme/remote-viewer'
 # Plug 'habamax/vim-dir'
@@ -94,6 +95,7 @@ Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 # Plug 'ZSaberLv0/ZFVimGitUtil' # 可选, 如果你希望定期自动清理词库 push 历史
 # Plug 'leafOfTree/vim-project'
 # Plug 'girishji/vimcomplete'
+Plug 'girishji/devdocs.vim'
 # copilot
 # Plug 'github/copilot.vim', {'on': 'Copilot'}
 # Plug 'exafunction/codeium.vim', {'on': 'Codeium'}
@@ -127,18 +129,19 @@ nnoremap <silent><leader>e <cmd>Fern . -reveal=%<cr>
 g:fern#renderer = "nerdfont"
 #  ]]]
 
-#  Leaderf [[[
-g:Lf_ReverseOrder = 1
-nnoremap <leader>f <cmd>Leaderf file<cr>
-nnoremap <leader>h <cmd>Leaderf help<cr>
-nnoremap <leader>t <cmd>Leaderf bufTag<cr>
-nnoremap <leader>sg <cmd>Leaderf rg<cr>
-nnoremap <localleader>b <cmd>Leaderf buffer<cr>
-nnoremap <leader>r <cmd>Leaderf mru<cr>
-nnoremap <leader>/ <cmd>Leaderf line<cr>
-nnoremap <leader><space> <cmd>Leaderf file<cr>
-#  g:Lf_WindowPosition = 'popup'
-g:Lf_CommandMap = {'<C-J>': ['<C-J>', '<C-N>'], '<C-K>': ['<C-P>', '<C-K>'], '<C-P>': ['<C-L>'], '<HOME>': ['<C-A>'], '<Del>': ['<Del>', '<C-D>']}
+#  fuzzy [[[
+nnoremap <leader>df :DevdocsFind<CR>
+nnoremap <leader>di :DevdocsInstall<CR>
+nnoremap <leader>du :DevdocsUninstall<CR>
+nnoremap <silent> <localleader>b :FuzzyBuffers<CR>
+nnoremap <silent> <leader>: :FuzzyCommands<CR>
+nnoremap <silent> <leader>f :FuzzyFiles<CR>
+nnoremap <silent> <leader><space> :FuzzyFiles<CR>
+nnoremap <silent> <leader>sg :FuzzyGrep<CR>
+nnoremap <silent> <leader>h :FuzzyHelp<CR>
+nnoremap <silent> <leader>/ :FuzzyInBuffer<CR>
+nnoremap <silent> <leader>m :FuzzyMru<CR>
+nnoremap <silent> <leader>r :FuzzyMruCwd<CR>
 #  ]]]
 
 #  Git [[[
