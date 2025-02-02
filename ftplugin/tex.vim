@@ -16,5 +16,5 @@ let g:vimtex_compiler_latexmk = {
 			\   '-interaction=nonstopmode',
 			\ ],
 			\}
-let g:vimtex_view_general_viewer = "SumatraPDF"
-autocmd FileType tex call pencil#init({'wrap': 'hard', 'autoformat': 1})
+autocmd FileType tex call pencil#init({'wrap': 'soft', 'autoformat': 1})
+" gvim -v --not-a-term -T dumb -c "VimtexInverseSearch %l '%f'"

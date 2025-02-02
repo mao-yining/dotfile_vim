@@ -73,7 +73,7 @@ Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
 Plug 'vim-python/python-syntax', {'for': 'py'}
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
-Plug 'lervag/vimtex', { 'for': 'tex' }
+Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
