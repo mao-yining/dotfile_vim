@@ -35,15 +35,6 @@ Plug 'lambdalisue/fern-renderer-nerdfont.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/glyph-palette.vim', { 'on': 'Fern' }
 Plug 'lambdalisue/vim-nerdfont'
 Plug 'dense-analysis/ale'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'laixintao/asyncomplete-gitcommit'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'prabirshrestha/asyncomplete-necovim.vim'
-Plug 'Shougo/neco-vim'
-Plug 'prabirshrestha/asyncomplete-tags.vim'
 Plug 'ludovicchabant/vim-gutentags'                                             # 管理 tags 文件
 Plug 'skywind3000/gutentags_plus', { 'on': 'GscopeFind' }
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
@@ -56,7 +47,6 @@ Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop'] }
 Plug 'skywind3000/asynctasks.vim', { 'on': ['AsyncTask', 'AsyncTaskMacro', 'AsyncTaskList', 'AsyncTaskEdit'], 'for': 'taskini' }
 Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              # 撤销树
-# Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension', 'on': 'Leaderf' }
 Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
 Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
@@ -84,7 +74,7 @@ Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 
 
-# Plug 'yegappan/lsp'
+Plug 'yegappan/lsp'
 # Plug 'jessepav/vim-boxdraw'
 Plug 'Donaldttt/fuzzyy'
 # Plug 'justinmk/vim-dirvish'
@@ -94,8 +84,14 @@ Plug 'Donaldttt/fuzzyy'
 # Plug 'ZSaberLv0/ZFVimJob' # 可选, 用于提升词库加载性能
 # Plug 'ZSaberLv0/ZFVimGitUtil' # 可选, 如果你希望定期自动清理词库 push 历史
 # Plug 'leafOfTree/vim-project'
-# Plug 'girishji/vimcomplete'
+Plug 'girishji/vimcomplete'
+# Plug 'girishji/vimsuggest'
+Plug 'girishji/ngram-complete.vim'
 Plug 'girishji/devdocs.vim'
+# Plug 'girishji/scope.vim'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'rafamadriz/friendly-snippets'
 # copilot
 # Plug 'github/copilot.vim', {'on': 'Copilot'}
 # Plug 'exafunction/codeium.vim', {'on': 'Codeium'}
@@ -129,7 +125,7 @@ nnoremap <silent><leader>e <cmd>Fern . -reveal=%<cr>
 g:fern#renderer = "nerdfont"
 #  ]]]
 
-#  fuzzy [[[
+#  Leaderf [[[
 nnoremap <leader>df :DevdocsFind<CR>
 nnoremap <leader>di :DevdocsInstall<CR>
 nnoremap <leader>du :DevdocsUninstall<CR>
@@ -142,6 +138,14 @@ nnoremap <silent> <leader>h :FuzzyHelp<CR>
 nnoremap <silent> <leader>/ :FuzzyInBuffer<CR>
 nnoremap <silent> <leader>m :FuzzyMru<CR>
 nnoremap <silent> <leader>r :FuzzyMruCwd<CR>
+nnoremap <silent> <leader>fb :FuzzyBuffers<CR>
+nnoremap <silent> <leader>fc :FuzzyCommands<CR>
+nnoremap <silent> <leader>ff :FuzzyFiles<CR>
+nnoremap <silent> <leader>fg :FuzzyGrep<CR>
+nnoremap <silent> <leader>fh :FuzzyHelp<CR>
+nnoremap <silent> <leader>fi :FuzzyInBuffer<CR>
+nnoremap <silent> <leader>fm :FuzzyMru<CR>
+nnoremap <silent> <leader>fr :FuzzyMruCwd<CR>
 #  ]]]
 
 #  Git [[[
@@ -203,100 +207,128 @@ g:vista_executive_for = {
 
 
 #  ALE [[[
+g:vimcomplete_tab_enable = 1
+var lspServers = [
+	# {
+	# 	name: 'typescriptls',
+	# 	filetype: ['javascript', 'typescript'],
+	# 	path: '/usr/local/bin/typescript-language-server',
+	# 	args: ['--stdio']
+	# },
+	{
+		name: 'pyright',
+		filetype: 'python',
+		path: 'pyright-langserver',
+		args: ['--stdio'],
+		workspaceConfig: {
+		  python: {
+			pythonPath: '/usr/bin/python3.10'
+		}}
+	},
+	{
+		name: 'clangd',
+		filetype: ['c', 'cpp'],
+		path: 'clangd',
+		args: ['--background-index', '--clang-tidy', '--header-insertion=iwyu', '--completion-style=detailed', '--function-arg-placeholders', '--fallback-style=llvm' ]
+	},
+	# {
+	# 	name: 'golang',
+	# 	filetype: ['go', 'gomod', 'gohtmltmpl', 'gotexttmpl'],
+	# 	path: '/path/to/.go/bin/gopls',
+	# 	args: [],
+	# 	syncInit: true,
+	# },
+	{
+		name: 'rustls',
+		filetype: ['rust'],
+		path: 'rust-analyzer',
+		args: [],
+		syncInit: true,
+	},
+	# {
+	# 	name: 'bashls',
+	# 	filetype: 'sh',
+	# 	path: '/usr/local/bin/bash-language-server',
+	# 	args: ['start']
+	# },
+	{
+		name: 'vimls',
+		filetype: ['vim'],
+		path: 'vim-language-server',
+		args: ['--stdio']
+	},
+	# {
+	# 	name: 'phpls',
+	# 	filetype: ['php'],
+	# 	path: '/usr/local/bin/intelephense',
+	# 	args: ['--stdio'],
+	# 	syncInit: true,
+	# 	initializationOptions: {
+	# 		licenceKey: 'xxxxxxxxxxxxxxx'
+	# 	}
+	# }
+]
+var lspOpts = {
+	aleSupport: false,
+	autoComplete: true,
+	autoHighlight: false,
+	autoHighlightDiags: true,
+	completionMatcher: 'case',
+	completionMatcherValue: 1,
+	diagSignErrorText: 'E>',
+	diagSignHintText: 'H>',
+	diagSignInfoText: 'I>',
+	diagSignWarningText: 'W>',
+	echoSignature: false,
+	hideDisabledCodeActions: false,
+	highlightDiagInline: true,
+	hoverInPreview: false,
+	ignoreMissingServer: false,
+	keepFocusInDiags: true,
+	keepFocusInReferences: true,
+	completionTextEdit: true,
+	diagVirtualTextAlign: 'above',
+	diagVirtualTextWrap: 'default',
+	noNewlineInCompletion: false,
+	omniComplete: null,
+	outlineOnRight: false,
+	outlineWinSize: 20,
+	semanticHighlight: true,
+	showDiagInBalloon: true,
+	showDiagInPopup: true,
+	showDiagOnStatusLine: false,
+	showDiagWithSign: true,
+	showDiagWithVirtualText: false,
+	showInlayHints: false,
+	showSignature: true,
+	snippetSupport: true,
+	ultisnipsSupport: true,
+	useBufferCompletion: false,
+	usePopupInCodeAction: false,
+	useQuickfixForLocations: false,
+	vsnipSupport: true,
+	bufferCompletionTimeout: 100,
+	customCompletionKinds: false,
+	completionKinds: {},
+	filterCompletionDuplicates: false,
+}
+autocmd User LspSetup call LspOptionsSet(lspOpts)
+autocmd User LspSetup call LspAddServer(lspServers)
+noremap <leader>cr <cmd>LspRename<cr>
+noremap <leader>cR <cmd>ALEFileRename<cr>
+noremap gr <cmd>LspPeekReferences<cr>
+noremap gd <cmd>LspGotoDefinition<cr>
+noremap gD <cmd>LspGotoDeclaration<cr>
+noremap gI <cmd>LspGotoImpl<cr>
+noremap gy <cmd>LspGotoTypeDef<cr>
+noremap K <cmd>LspHover<cr>
+au Filetype vim noremap <buffer>K K
+noremap gK <cmd>LspSymbolSearch<cr>
+noremap <leader>ca <cmd>LspCodeAction<cr>
+noremap <leader>cA <cmd>LspCodeLens<cr>
 noremap ]d <Plug>(ale_previous_wrap)
 noremap [d <Plug>(ale_next_wrap)
-noremap <leader>cr <cmd>ALERename<cr>
-noremap <leader>cR <cmd>ALEFileRename<cr>
-noremap gr <cmd>ALEFindReferences<cr>
-noremap gd <cmd>ALEGoToDefinition<cr>
-noremap gI <cmd>ALEGoToImplementation<cr>
-noremap gy <cmd>ALEGoToTypeDefinition<cr>
-noremap K <cmd>ALEHover<cr>
-au Filetype vim noremap <buffer>K K
-noremap gK <cmd>ALESymbolSearch<cr>
-noremap <leader>ca <cmd>ALECodeAction<cr>
-#  g:ale_completion_enabled = 1
 #  g:ale_sign_column_always = 1
-g:ale_lsp_suggestions = 1
-g:ale_detail_to_floating_preview = 1
-g:ale_hover_to_preview = 1
-g:ale_floating_preview = 1
-g:ale_lint_on_text_changed = "normal"
-g:ale_lint_on_insert_leave = 1
-g:ale_completion_symbols = {
-			\ 'text': '󰉿',
-			\ 'method': '󰆧',
-			\ 'function': '󰊕',
-			\ 'constructor': '',
-			\ 'field': '󰜢',
-			\ 'variable': '󰀫',
-			\ 'class': '󰠱',
-			\ 'interface': '',
-			\ 'module': '',
-			\ 'property': '󰜢',
-			\ 'unit': '󰑭',
-			\ 'value': '󰎠',
-			\ 'enum': '',
-			\ 'keyword': '󰌋',
-			\ 'snippet': '',
-			\ 'color': '󰏘',
-			\ 'file': '󰈙',
-			\ 'reference': '󰈇',
-			\ 'folder': '󰈇',
-			\ 'enum_member': '',
-			\ 'constant': '󰏿',
-			\ 'struct': '󰙅',
-			\ 'event': '',
-			\ 'operator': '󰆕',
-			\ 'type_parameter': 'p',
-			\ '<default>': 'v'
-			\ }
-#  ]]]
-
-#  complete [[[
-#  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
-#			\ 'name': 'emoji',
-#			\ 'allowlist': ['*'],
-#			\ 'completor': function('asyncomplete#sources#emoji#completor'),
-#			\ }))
-call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-			\ 'name': 'ultisnips',
-			\ 'allowlist': ['*'],
-			\ 'priority': 20,
-			\ 'completor': function('asyncomplete#sources#ultisnips#completor'),
-			\ }))
-#  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-#  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#file#get_source_options({
-			\ 'name': 'file',
-			\ 'allowlist': ['*'],
-			\ 'priority': 10,
-			\ 'completor': function('asyncomplete#sources#file#completor')
-			\ }))
-au User asyncomplete_setup call asyncomplete#register_source({
-			\ 'name': 'gitcommit',
-			\ 'whitelist': ['gitcommit'],
-			\ 'priority': 10,
-			\ 'completor': function('asyncomplete#sources#gitcommit#completor')
-			\ })
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#necovim#get_source_options({
-			\ 'name': 'necovim',
-			\ 'allowlist': ['vim'],
-			\ 'completor': function('asyncomplete#sources#necovim#completor'),
-			\ }))
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#tags#get_source_options({
-			\ 'name': 'tags',
-			\ 'allowlist': ['c'],
-			\ 'completor': function('asyncomplete#sources#tags#completor'),
-			\ 'config': {
-			\    'max_file_size': 50000000,
-			\  },
-			\ }))
-au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ale#get_source_options({
-			\ 'priority': 10,
-			\ }))
-#  ]]]
 
 #  asynctasks [[[
 g:asynctasks_term_pos = 'vim' # quickfix | vim | tab | bottom | external
