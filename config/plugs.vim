@@ -82,20 +82,12 @@ Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'preservim/vim-pencil', { 'for': [ 'text', 'markdown', 'tex' ] }
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
-
-
-# Plug 'yegappan/lsp'
-# Plug 'jessepav/vim-boxdraw'
 Plug 'Donaldttt/fuzzyy'
-# Plug 'justinmk/vim-dirvish'
-# Plug 'bounceme/remote-viewer'
-# Plug 'habamax/vim-dir'
+Plug 'girishji/devdocs.vim'
+
 # Plug 'ZSaberLv0/ZFVimIM'
 # Plug 'ZSaberLv0/ZFVimJob' # 可选, 用于提升词库加载性能
 # Plug 'ZSaberLv0/ZFVimGitUtil' # 可选, 如果你希望定期自动清理词库 push 历史
-# Plug 'leafOfTree/vim-project'
-# Plug 'girishji/vimcomplete'
-Plug 'girishji/devdocs.vim'
 # copilot
 # Plug 'github/copilot.vim', {'on': 'Copilot'}
 # Plug 'exafunction/codeium.vim', {'on': 'Codeium'}
@@ -215,7 +207,6 @@ noremap K <cmd>ALEHover<cr>
 au Filetype vim noremap <buffer>K K
 noremap gK <cmd>ALESymbolSearch<cr>
 noremap <leader>ca <cmd>ALECodeAction<cr>
-#  g:ale_completion_enabled = 1
 #  g:ale_sign_column_always = 1
 g:ale_lsp_suggestions = 1
 g:ale_detail_to_floating_preview = 1
@@ -314,8 +305,6 @@ noremap <leader>T :Tabularize /
 xnoremap <leader>T :Tabularize /
 noremap <leader>cf <cmd>Autoformat<cr>
 noremap <leader>u <cmd>UndotreeToggle<cr>
-#  nmap gw <Plug>(easymotion-bd-w)
-#  nmap s <Plug>(easymotion-s)
 #  ]]]
 
 
