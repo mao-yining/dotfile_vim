@@ -14,13 +14,16 @@ Plug 'kshenoy/vim-signature'                                                    
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-indent'
-Plug 'kana/vim-textobj-function'
+Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'sgur/vim-textobj-parameter'
+Plug 'bps/vim-textobj-python', {'for': 'python'}
+Plug 'jceb/vim-textobj-uri'
 Plug 'skywind3000/vim-terminal-help'
+Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
 Plug 'andymass/vim-matchup'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession'
+# Plug 'tpope/vim-obsession'
+# Plug 'dhruvasagar/vim-prosession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
@@ -49,6 +52,7 @@ Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              # 撤销树
 Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
 Plug 'jamessan/vim-gnupg'
+Plug 'tbastos/vim-lua', { 'for': 'lua' }
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
@@ -60,8 +64,10 @@ Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
 Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' }              # jupyter
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
-Plug 'vim-python/python-syntax', {'for': 'py'}
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'kh3phr3n/python-syntax', {'for': 'python'}
+Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
+Plug 'ubaldot/vim-microdebugger', { 'on': 'MicroDebug' }
+Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
@@ -72,14 +78,11 @@ Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'preservim/vim-pencil', { 'for': [ 'text', 'markdown', 'tex' ] }
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
-
-
 Plug 'yegappan/lsp'
 # Plug 'jessepav/vim-boxdraw'
 Plug 'Donaldttt/fuzzyy'
-# Plug 'justinmk/vim-dirvish'
-# Plug 'bounceme/remote-viewer'
-# Plug 'habamax/vim-dir'
+Plug 'girishji/devdocs.vim'
+
 # Plug 'ZSaberLv0/ZFVimIM'
 # Plug 'ZSaberLv0/ZFVimJob' # 可选, 用于提升词库加载性能
 # Plug 'ZSaberLv0/ZFVimGitUtil' # 可选, 如果你希望定期自动清理词库 push 历史
@@ -100,6 +103,38 @@ Plug 'rafamadriz/friendly-snippets'
 call plug#end()
 
 g:prosession_dir = expandcmd('~/.cache/sessions/')
+nmap <m-w> <Plug>(choosewin)
+imap <m-w> <esc><Plug>(choosewin)
+tnoremap <m-w> <c-\><c-n><Plug>(choosewin)
+# g:startify_disable_at_vimenter = 1
+g:startify_session_dir = '~/.cache/sessions'
+g:startify_enable_special      = 0
+g:startify_files_number        = 5
+g:startify_relative_path       = 1
+g:startify_change_to_dir       = 1
+g:startify_update_oldfiles     = 1
+g:startify_session_autoload    = 1
+g:startify_session_persistence = 1
+g:startify_skiplist = [
+	\ 'COMMIT_EDITMSG',
+	\ '/data/repo/neovim/runtime/doc',
+	\ ]
+
+g:startify_bookmarks = [
+	\ { 'c': $VIMRC },
+	\ ]
+
+g:startify_custom_footer =
+   \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
+
+hi StartifyBracket ctermfg=240
+hi StartifyFile    ctermfg=147
+hi StartifyFooter  ctermfg=240
+hi StartifyHeader  ctermfg=114
+hi StartifyNumber  ctermfg=215
+hi StartifyPath    ctermfg=245
+hi StartifySlash   ctermfg=240
+hi StartifySpecial ctermfg=240
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ';'<CR>
 # nnoremap <silent> = :<c-u>WhichKey  '='<CR>
@@ -121,7 +156,7 @@ g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
 g:rainbow_active = 1
 nnoremap <silent>- <cmd>Fern %:h -reveal=%<cr>
 nnoremap <silent><leader>e <cmd>Fern . -reveal=%<cr>
-#  nnoremap <leader>e <cmd>Fern . -reveal=% -drawer<cr><cmd>setlocal nonumber<cr>
+nnoremap <leader>e <cmd>Fern . -reveal=% -drawer<cr><cmd>setlocal nonumber<cr>
 g:fern#renderer = "nerdfont"
 #  ]]]
 
@@ -149,6 +184,20 @@ nnoremap <silent> <leader>fr :FuzzyMruCwd<CR>
 #  ]]]
 
 #  Git [[[
+g:signify_sign_add               = '+'
+g:signify_sign_delete            = '_'
+g:signify_sign_delete_first_line = '‾'
+g:signify_sign_change            = '~'
+g:signify_sign_changedelete      = g:signify_sign_change
+g:gitgutter_map_keys = 0
+g:gitgutter_preview_win_floating = 1
+nmap <localleader>hs <Plug>(GitGutterStageHunk)
+nmap <localleader>hu <Plug>(GitGutterUndoHunk)
+nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 nnoremap <leader>gg <cmd>Git<cr>
@@ -329,6 +378,14 @@ noremap <leader>cA <cmd>LspCodeLens<cr>
 noremap ]d <Plug>(ale_previous_wrap)
 noremap [d <Plug>(ale_next_wrap)
 #  g:ale_sign_column_always = 1
+g:ale_sign_error = "\ue009"
+g:ale_echo_msg_format = '[%linter%] %code: %%s'
+g:ale_lsp_suggestions = 1
+g:ale_detail_to_floating_preview = 1
+g:ale_hover_to_preview = 1
+g:ale_floating_preview = 1
+g:ale_lint_on_text_changed = "normal"
+g:ale_lint_on_insert_leave = 1
 
 #  asynctasks [[[
 g:asynctasks_term_pos = 'vim' # quickfix | vim | tab | bottom | external
@@ -346,8 +403,6 @@ noremap <leader>T :Tabularize /
 xnoremap <leader>T :Tabularize /
 noremap <leader>cf <cmd>Autoformat<cr>
 noremap <leader>u <cmd>UndotreeToggle<cr>
-#  nmap gw <Plug>(easymotion-bd-w)
-#  nmap s <Plug>(easymotion-s)
 #  ]]]
 
 
@@ -359,3 +414,4 @@ g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' -
 g:python3_host_prog = 'python'
 
 # vim:fdm=marker:fmr=[[[,]]]:ft=vim
+

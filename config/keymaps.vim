@@ -1,8 +1,6 @@
 noremap j gj
 noremap k gk
 nnoremap <esc> <cmd>nohlsearch<cr><esc>
-inoremap <c-s-v> <cmd><c-r>+<cr>
-cnoremap <c-s-v> <cmd><c-r>+<cr>
 
 " vim-buffer {{{
 nnoremap <silent>H     <cmd>call <sid>ChangeBuffer('p')<cr>
@@ -85,6 +83,10 @@ nnoremap <silent><nowait><space>q <cmd>call <sid>GetRecentClose()<cr>
 
 " term console
 tnoremap <c-\> <c-\><c-n>
+tnoremap <m-H> <c-_>h
+tnoremap <m-L> <c-_>l
+tnoremap <m-J> <c-_>j
+tnoremap <m-K> <c-_>k
 
 " vimdiff tool
 cab <expr>Diff "Diff ".expand('%:p:h')."/"
@@ -107,6 +109,10 @@ nnoremap <c-k> <c-w>k
 nnoremap <c-j> <c-w>j
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
+nnoremap <m-k> <c-w>k
+nnoremap <m-j> <c-w>j
+nnoremap <m-h> <c-w>h
+nnoremap <m-l> <c-w>l
 
 nnoremap <silent><nowait>=q <cmd>copen<cr>
 nnoremap <silent><nowait>\q <cmd>cclose<cr>
@@ -140,11 +146,51 @@ nnoremap <silent><nowait>=o zO
 nnoremap <silent><nowait>\o zC
 nnoremap <silent><nowait><expr><bs> foldlevel('.')>0?"zc":"\<bs>"
 
-" tab ctrl
-nnoremap <silent><nowait>=t <cmd>tabnew<cr>
-nnoremap <silent><nowait>\t <cmd>tabc<cr>
-nnoremap <silent><nowait>[t <cmd>tabp<cr>
-nnoremap <silent><nowait>]t <cmd>tabn<cr>
+" " tab ctrl
+nnoremap <silent><nowait>=<tab> <cmd>tabnew<cr>
+nnoremap <silent><nowait>\<tab> <cmd>tabc<cr>
+nnoremap <silent><nowait>[<tab> <cmd>tabp<cr>
+nnoremap <silent><nowait>]<tab> <cmd>tabn<cr>
+
+noremap <silent><m-1> <cmd>tabn 1<cr>
+noremap <silent><m-2> <cmd>tabn 2<cr>
+noremap <silent><m-3> <cmd>tabn 3<cr>
+noremap <silent><m-4> <cmd>tabn 4<cr>
+noremap <silent><m-5> <cmd>tabn 5<cr>
+noremap <silent><m-6> <cmd>tabn 6<cr>
+noremap <silent><m-7> <cmd>tabn 7<cr>
+noremap <silent><m-8> <cmd>tabn 8<cr>
+noremap <silent><m-9> <cmd>tabn 9<cr>
+noremap <silent><m-0> <cmd>tabn 10<cr>
+inoremap <silent><m-1> <ESC><cmd>tabn 1<cr>
+inoremap <silent><m-2> <ESC><cmd>tabn 2<cr>
+inoremap <silent><m-3> <ESC><cmd>tabn 3<cr>
+inoremap <silent><m-4> <ESC><cmd>tabn 4<cr>
+inoremap <silent><m-5> <ESC><cmd>tabn 5<cr>
+inoremap <silent><m-6> <ESC><cmd>tabn 6<cr>
+inoremap <silent><m-7> <ESC><cmd>tabn 7<cr>
+inoremap <silent><m-8> <ESC><cmd>tabn 8<cr>
+inoremap <silent><m-9> <ESC><cmd>tabn 9<cr>
+inoremap <silent><m-0> <ESC><cmd>tabn 10<cr>
+
+" 左移 tab
+function! Tab_MoveLeft()
+	let l:tabnr = tabpagenr() - 2
+	if l:tabnr >= 0
+		exec 'tabmove '.l:tabnr
+	endif
+endfunc
+
+" 右移 tab
+function! Tab_MoveRight()
+	let l:tabnr = tabpagenr() + 1
+	if l:tabnr <= tabpagenr('$')
+		exec 'tabmove '.l:tabnr
+	endif
+endfunc
+
+noremap <silent><m-left> :call Tab_MoveLeft()<cr>
+noremap <silent><m-right> :call Tab_MoveRight()<cr>
 
 " set search noh
 nnoremap <silent><nowait>\h <cmd>noh<cr>
