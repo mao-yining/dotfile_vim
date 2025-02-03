@@ -91,10 +91,11 @@ Plug 'girishji/vimcomplete'
 # Plug 'girishji/vimsuggest'
 Plug 'girishji/ngram-complete.vim'
 Plug 'girishji/devdocs.vim'
-# Plug 'girishji/scope.vim'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/vim-vsnip-integ'
-Plug 'rafamadriz/friendly-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+# Plug 'hrsh7th/vim-vsnip'
+# Plug 'hrsh7th/vim-vsnip-integ'
+# Plug 'rafamadriz/friendly-snippets'
 # copilot
 # Plug 'github/copilot.vim', {'on': 'Copilot'}
 # Plug 'exafunction/codeium.vim', {'on': 'Codeium'}
@@ -256,37 +257,26 @@ g:vista_executive_for = {
 
 
 #  ALE [[[
-g:vimcomplete_tab_enable = 1
+g:vimcomplete_tab_enable = 0
+g:UltiSnipsExpandTrigger = "<tab>"
 var lspServers = [
-	# {
-	# 	name: 'typescriptls',
-	# 	filetype: ['javascript', 'typescript'],
-	# 	path: '/usr/local/bin/typescript-language-server',
-	# 	args: ['--stdio']
-	# },
-	{
-		name: 'pyright',
-		filetype: 'python',
-		path: 'pyright-langserver',
-		args: ['--stdio'],
-		workspaceConfig: {
-		  python: {
-			pythonPath: '/usr/bin/python3.10'
-		}}
-	},
 	{
 		name: 'clangd',
 		filetype: ['c', 'cpp'],
 		path: 'clangd',
 		args: ['--background-index', '--clang-tidy', '--header-insertion=iwyu', '--completion-style=detailed', '--function-arg-placeholders', '--fallback-style=llvm' ]
 	},
-	# {
-	# 	name: 'golang',
-	# 	filetype: ['go', 'gomod', 'gohtmltmpl', 'gotexttmpl'],
-	# 	path: '/path/to/.go/bin/gopls',
-	# 	args: [],
-	# 	syncInit: true,
-	# },
+	{
+		name: 'pyright',
+		filetype: 'python.cmd',
+		path: 'pyright',
+		args: ['--stdio'],
+		workspaceConfig: {
+		  python: {
+			pythonPath: 'python'
+		  }
+		}
+	},
 	{
 		name: 'rustls',
 		filetype: ['rust'],
@@ -294,31 +284,21 @@ var lspServers = [
 		args: [],
 		syncInit: true,
 	},
-	# {
-	# 	name: 'bashls',
-	# 	filetype: 'sh',
-	# 	path: '/usr/local/bin/bash-language-server',
-	# 	args: ['start']
-	# },
 	{
 		name: 'vimls',
 		filetype: ['vim'],
-		path: 'vim-language-server',
+		path: 'vim-language-server.cmd',
 		args: ['--stdio']
 	},
-	# {
-	# 	name: 'phpls',
-	# 	filetype: ['php'],
-	# 	path: '/usr/local/bin/intelephense',
-	# 	args: ['--stdio'],
-	# 	syncInit: true,
-	# 	initializationOptions: {
-	# 		licenceKey: 'xxxxxxxxxxxxxxx'
-	# 	}
-	# }
+	{
+		name: 'texlab',
+		filetype: ['tex'],
+		path: 'texlab.cmd',
+		args: []
+	},
 ]
 var lspOpts = {
-	aleSupport: false,
+	aleSupport: true,
 	autoComplete: true,
 	autoHighlight: false,
 	autoHighlightDiags: true,
@@ -347,15 +327,15 @@ var lspOpts = {
 	showDiagInPopup: true,
 	showDiagOnStatusLine: false,
 	showDiagWithSign: true,
-	showDiagWithVirtualText: false,
-	showInlayHints: false,
+	showDiagWithVirtualText: true,
+	showInlayHints: true,
 	showSignature: true,
 	snippetSupport: true,
-	ultisnipsSupport: true,
+	ultisnipsSupport: false,
 	useBufferCompletion: false,
-	usePopupInCodeAction: false,
+	usePopupInCodeAction: true,
 	useQuickfixForLocations: false,
-	vsnipSupport: true,
+	vsnipSupport: false,
 	bufferCompletionTimeout: 100,
 	customCompletionKinds: false,
 	completionKinds: {},
