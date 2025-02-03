@@ -70,7 +70,8 @@ Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
 Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' }              # jupyter
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
-Plug 'kh3phr3n/python-syntax', {'for': 'py'}
+Plug 'kh3phr3n/python-syntax', {'for': 'python'}
+Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
