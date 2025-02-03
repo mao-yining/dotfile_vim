@@ -1,8 +1,6 @@
 noremap j gj
 noremap k gk
 nnoremap <esc> <cmd>nohlsearch<cr><esc>
-inoremap <c-s-v> <cmd><c-r>+<cr>
-cnoremap <c-s-v> <cmd><c-r>+<cr>
 
 " vim-buffer {{{
 nnoremap <silent>H     <cmd>call <sid>ChangeBuffer('p')<cr>
