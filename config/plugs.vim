@@ -71,6 +71,7 @@ Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' }              
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
 Plug 'kh3phr3n/python-syntax', {'for': 'py'}
+Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
