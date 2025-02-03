@@ -56,8 +56,8 @@ Plug 'tbastos/vim-lua', { 'for': 'lua' }
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
-Plug 'tpope/vim-fugitive', { 'on': ['Git', 'GV', 'GV!', 'Gread', 'Gwrite', 'Gclog', 'Flog']}
-Plug 'rbong/vim-flog', { 'on': [ "Flog", "Flogsplit", "Floggit" ], }
+Plug 'tpope/vim-fugitive', { 'on': ['Git', 'GV', 'GV!', 'Gread', 'Gwrite']}
+# Plug 'rbong/vim-flog', { 'on': [ "Flog", "Flogsplit", "FlogGit" ], }
 Plug 'junegunn/gv.vim', { 'on': ['Git', 'GV', 'GV!']}
 Plug 'airblade/vim-gitgutter'                                                   # 在侧边显示 Git 文件修改信息
 Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
@@ -193,7 +193,7 @@ g:signify_sign_changedelete      = g:signify_sign_change
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
 nmap <localleader>hs <Plug>(GitGutterStageHunk)
-nmap <localleader>hu <Plug>(GitGutterUndoHunk)
+nmap <localleader>hr <Plug>(GitGutterUndoHunk)
 nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
 omap ih <Plug>(GitGutterTextObjectInnerPending)
 omap ah <Plug>(GitGutterTextObjectOuterPending)
@@ -202,7 +202,10 @@ xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 nnoremap <leader>gg <cmd>Git<cr>
-nnoremap <leader>gl <cmd>Flog<cr>
+nnoremap <leader>gl <cmd>GV<cr>
+nnoremap <leader>gc <cmd>Git commit<cr>
+nnoremap <leader>gs :Git switch 
+nnoremap <leader>gb <cmd>Git branch<cr>
 nnoremap <localleader>gb <cmd>Git blame<cr>
 nnoremap <localleader>gr <cmd>Gread<cr>
 nnoremap <localleader>gw <cmd>Gwrite<cr>
