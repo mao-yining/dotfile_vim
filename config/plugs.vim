@@ -70,8 +70,7 @@ Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
 Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' }              # jupyter
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
-Plug 'vim-python/python-syntax', {'for': 'py'}
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'kh3phr3n/python-syntax', {'for': 'py'}
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
@@ -117,7 +116,7 @@ g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
 g:rainbow_active = 1
 nnoremap <silent>- <cmd>Fern %:h -reveal=%<cr>
 nnoremap <silent><leader>e <cmd>Fern . -reveal=%<cr>
-#  nnoremap <leader>e <cmd>Fern . -reveal=% -drawer<cr><cmd>setlocal nonumber<cr>
+nnoremap <leader>e <cmd>Fern . -reveal=% -drawer<cr><cmd>setlocal nonumber<cr>
 g:fern#renderer = "nerdfont"
 #  ]]]
 
@@ -316,3 +315,4 @@ g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' -
 g:python3_host_prog = 'python'
 
 # vim:fdm=marker:fmr=[[[,]]]:ft=vim
+

@@ -17,4 +17,8 @@ augroup Binary
   au BufWritePost *.bin,*.exe set nomod | endif
 augroup END
 
+# 自动去除尾随空格
+
+autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
+
 # vim:fdm=marker:fmr=[[[,]]]:ft=vim
