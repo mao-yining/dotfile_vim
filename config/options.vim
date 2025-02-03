@@ -25,6 +25,7 @@ set laststatus=2               # 总是显示状态栏
 set timeoutlen=500             # 设置<ESC>键响应时间
 set virtualedit=block,onemore  # 允许光标出现在最后一个字符的后面
 set noshowmode                 # 设置不打开底部insert
+set switchbuf=useopen,usetab
 set hidden                     # 设置允许在未保存切换buffer
 set matchpairs+=<:>            # 设置%匹配<>
 set background=dark            # 设置背景默认黑色
@@ -72,7 +73,6 @@ set clipboard=unnamed
 # 缓存设置
 set undodir=~/.cache/undofiles/  # 需是一个已经存在的文件夹
 set undofile
-set switchbuf=useopen,usetab
 # set tabpagemax=50
 set foldopen+=jump
 set autowrite

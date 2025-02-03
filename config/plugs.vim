@@ -14,13 +14,16 @@ Plug 'kshenoy/vim-signature'                                                    
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-indent'
-Plug 'kana/vim-textobj-function'
+Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'sgur/vim-textobj-parameter'
+Plug 'bps/vim-textobj-python', {'for': 'python'}
+Plug 'jceb/vim-textobj-uri'
 Plug 'skywind3000/vim-terminal-help'
+Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
 Plug 'andymass/vim-matchup'
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-Plug 'tpope/vim-obsession'
-Plug 'dhruvasagar/vim-prosession'
+# Plug 'tpope/vim-obsession'
+# Plug 'dhruvasagar/vim-prosession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
@@ -59,6 +62,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              
 # Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension', 'on': 'Leaderf' }
 Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
 Plug 'jamessan/vim-gnupg'
+Plug 'tbastos/vim-lua', { 'for': 'lua' }
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
@@ -72,6 +76,7 @@ Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
 Plug 'kh3phr3n/python-syntax', {'for': 'python'}
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
+Plug 'ubaldot/vim-microdebugger', { 'on': 'MicroDebug' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
@@ -97,6 +102,38 @@ Plug 'girishji/devdocs.vim'
 call plug#end()
 
 g:prosession_dir = expandcmd('~/.cache/sessions/')
+nmap <m-w> <Plug>(choosewin)
+imap <m-w> <esc><Plug>(choosewin)
+tnoremap <m-w> <c-\><c-n><Plug>(choosewin)
+# g:startify_disable_at_vimenter = 1
+g:startify_session_dir = '~/.cache/sessions'
+g:startify_enable_special      = 0
+g:startify_files_number        = 5
+g:startify_relative_path       = 1
+g:startify_change_to_dir       = 1
+g:startify_update_oldfiles     = 1
+g:startify_session_autoload    = 1
+g:startify_session_persistence = 1
+g:startify_skiplist = [
+	\ 'COMMIT_EDITMSG',
+	\ '/data/repo/neovim/runtime/doc',
+	\ ]
+
+g:startify_bookmarks = [
+	\ { 'c': $VIMRC },
+	\ ]
+
+g:startify_custom_footer =
+   \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
+
+hi StartifyBracket ctermfg=240
+hi StartifyFile    ctermfg=147
+hi StartifyFooter  ctermfg=240
+hi StartifyHeader  ctermfg=114
+hi StartifyNumber  ctermfg=215
+hi StartifyPath    ctermfg=245
+hi StartifySlash   ctermfg=240
+hi StartifySpecial ctermfg=240
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ';'<CR>
 # nnoremap <silent> = :<c-u>WhichKey  '='<CR>
@@ -138,6 +175,20 @@ nnoremap <silent> <leader>r :FuzzyMruCwd<CR>
 #  ]]]
 
 #  Git [[[
+g:signify_sign_add               = '+'
+g:signify_sign_delete            = '_'
+g:signify_sign_delete_first_line = '‾'
+g:signify_sign_change            = '~'
+g:signify_sign_changedelete      = g:signify_sign_change
+g:gitgutter_map_keys = 0
+g:gitgutter_preview_win_floating = 1
+nmap <localleader>hs <Plug>(GitGutterStageHunk)
+nmap <localleader>hu <Plug>(GitGutterUndoHunk)
+nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 nnoremap <leader>gg <cmd>Git<cr>
@@ -209,6 +260,8 @@ au Filetype vim noremap <buffer>K K
 noremap gK <cmd>ALESymbolSearch<cr>
 noremap <leader>ca <cmd>ALECodeAction<cr>
 #  g:ale_sign_column_always = 1
+g:ale_sign_error = "\ue009"
+g:ale_echo_msg_format = '[%linter%] %code: %%s'
 g:ale_lsp_suggestions = 1
 g:ale_detail_to_floating_preview = 1
 g:ale_hover_to_preview = 1
