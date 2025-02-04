@@ -1,0 +1,9 @@
+[submodule "pack/ui/opt/wincap.vim"]
+	path = pack/ui/opt/wincap.vim
+	url = https://github.com/stillwwater/wincap.vim
+[submodule "pack/colorsheme/opt/typewriter"]
+	path = pack/colorsheme/opt/typewriter
+	url = https://github.com/logico/typewriter-vim
+[submodule "pack/colorsheme/start/catppuccin"]
+	path = pack/colorsheme/start/catppuccin
+	url = https://github.com/catppuccin/vim
