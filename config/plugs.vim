@@ -267,6 +267,16 @@ var lspServers = [
 		filetype: ['rust'],
 		path: 'rust-analyzer',
 		args: [],
+		initializationOptions: {
+		  inlayHints: {
+		    typeHints: {
+		      enable: true
+		    },
+		    parameterHints: {
+		      enable: true
+		    }
+		  },
+		},
 		syncInit: true,
 	},
 	{
@@ -315,12 +325,12 @@ var lspOpts = {
 	showDiagWithVirtualText: true,
 	showInlayHints: true,
 	showSignature: true,
-	snippetSupport: false,
+	snippetSupport: true,
 	ultisnipsSupport: false,
 	useBufferCompletion: false,
 	usePopupInCodeAction: true,
 	useQuickfixForLocations: false,
-	vsnipSupport: false,
+	vsnipSupport: true,
 	bufferCompletionTimeout: 100,
 	customCompletionKinds: false,
 	completionKinds: {},
@@ -371,6 +381,12 @@ Plug 'girishji/devdocs.vim'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'rafamadriz/friendly-snippets'
+imap <expr> <Tab> vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+smap <expr> <Tab> vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+imap <expr> <c-j> vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+smap <expr> <c-j> vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+imap <expr> <c-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+smap <expr> <c-k> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 
 # Plug 'ZSaberLv0/ZFVimIM'
 # Plug 'ZSaberLv0/ZFVimJob' # 可选, 用于提升词库加载性能
