@@ -7,7 +7,6 @@ if has('win32')
 endif
 
 call plug#begin()
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'yianwillis/vimcdoc'
 
 # coding [[[
