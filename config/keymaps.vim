@@ -81,13 +81,6 @@ func! s:GetRecentClose()
 endfunc
 nnoremap <silent><nowait><space>q <cmd>call <sid>GetRecentClose()<cr>
 
-" term console
-tnoremap <c-\> <c-\><c-n>
-tnoremap <m-H> <c-_>h
-tnoremap <m-L> <c-_>l
-tnoremap <m-J> <c-_>j
-tnoremap <m-K> <c-_>k
-
 " vimdiff tool
 cab <expr>Diff "Diff ".expand('%:p:h')."/"
 command! -nargs=1 -bang -complete=file Diff exec ":vert diffsplit ".<q-args>
