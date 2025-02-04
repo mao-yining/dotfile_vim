@@ -198,12 +198,19 @@ nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 nnoremap <leader>gg <cmd>Git<cr>
 nnoremap <leader>gl <cmd>GV<cr>
-nnoremap <leader>gc <cmd>Git commit<cr>
-nnoremap <leader>gs :Git switch 
-nnoremap <leader>gb <cmd>Git branch<cr>
-nnoremap <localleader>gb <cmd>Git blame<cr>
-nnoremap <localleader>gr <cmd>Gread<cr>
-nnoremap <localleader>gw <cmd>Gwrite<cr>
+nnoremap <leader>gcc <cmd>Git commit<cr>
+nnoremap <leader>gca <cmd>Git commit --amend<cr>
+nnoremap <leader>gce <cmd>Git commit --amend --no-edit<cr>
+nnoremap <leader>gs :Git switch<space>
+nnoremap <leader>gco :Git checkout<space>
+nnoremap <leader>gcb :Git branch<cr>
+nnoremap <leader>gm :Git merge<space>
+nnoremap <leader>gM <cmd>Git mergetool<cr>
+nnoremap <leader>gd <cmd>Git diff<cr>
+nnoremap <leader>gD <cmd>Git difftool<cr>
+nnoremap <leader>gb <cmd>Git blame<cr>
+nnoremap <leader>gr <cmd>Gread<cr>
+nnoremap <leader>gw <cmd>Gwrite<cr>
 Plug 'airblade/vim-gitgutter'                                                   # 在侧边显示 Git 文件修改信息
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
