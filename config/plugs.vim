@@ -190,18 +190,9 @@ nnoremap <leader>di :DevdocsInstall<CR>
 nnoremap <leader>du :DevdocsUninstall<CR>
 
 #  Git [[[
-Plug 'tpope/vim-fugitive', { 'on': ['Git', 'GV', 'GV!', 'Gread', 'Gwrite']}
-# Plug 'rbong/vim-flog', { 'on': [ "Flog", "Flogsplit", "FlogGit" ], }
-Plug 'junegunn/gv.vim', { 'on': ['Git', 'GV', 'GV!']}
-nmap <localleader>hs <Plug>(GitGutterStageHunk)
-nmap <localleader>hr <Plug>(GitGutterUndoHunk)
-nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
-omap ih <Plug>(GitGutterTextObjectInnerPending)
-omap ah <Plug>(GitGutterTextObjectOuterPending)
-xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
+Plug 'tpope/vim-fugitive'
+# Plug 'rbong/vim-flog', { 'on': [ "Flog", "Flogsplit", "FlogGit" ] }
+Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
 nnoremap <leader>gg <cmd>Git<cr>
 nnoremap <leader>gl <cmd>GV<cr>
 nnoremap <leader>gcc <cmd>Git commit<cr>
@@ -217,7 +208,16 @@ nnoremap <leader>gD <cmd>Git difftool<cr>
 nnoremap <leader>gb <cmd>Git blame<cr>
 nnoremap <leader>gr <cmd>Gread<cr>
 nnoremap <leader>gw <cmd>Gwrite<cr>
-Plug 'airblade/vim-gitgutter'                                                   # 在侧边显示 Git 文件修改信息
+Plug 'airblade/vim-gitgutter'
+nmap <localleader>hs <Plug>(GitGutterStageHunk)
+nmap <localleader>hr <Plug>(GitGutterUndoHunk)
+nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
 Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
