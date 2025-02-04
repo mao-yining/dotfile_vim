@@ -164,12 +164,6 @@ g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' -
 g:python3_host_prog = 'python'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              # 撤销树
 noremap <leader>u <cmd>UndotreeToggle<cr>
-Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
-Plug 'jamessan/vim-gnupg'
-Plug 'tbastos/vim-lua', { 'for': 'lua' }
-Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
-Plug 'romainl/vim-qf', { 'for': 'qf' }
-Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
 
 #  fuzzy [[[
 Plug 'Donaldttt/fuzzyy'
@@ -228,6 +222,11 @@ g:signify_sign_change            = '~'
 g:signify_sign_changedelete      = g:signify_sign_change
 #  ]]]
 
+Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
+Plug 'jamessan/vim-gnupg'
+Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
+Plug 'romainl/vim-qf', { 'for': 'qf' }
+Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
 Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' }              # jupyter
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
