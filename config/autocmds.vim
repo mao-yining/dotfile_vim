@@ -25,4 +25,8 @@ autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
 
 autocmd FileType tex,cpp,python,c,lua,json,vim setlocal shellslash
 
+# 软换行
+
+autocmd FileType tex,markdown,text set wrap
+
 # vim:fdm=marker:fmr=[[[,]]]:ft=vim

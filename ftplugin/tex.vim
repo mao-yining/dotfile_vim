@@ -16,5 +16,4 @@ let g:vimtex_compiler_latexmk = {
 			\   '-interaction=nonstopmode',
 			\ ],
 			\}
-autocmd FileType tex call pencil#init({'wrap': 'soft', 'autoformat': 1})
 " gvim -v --not-a-term -T dumb -c "VimtexInverseSearch %l '%f'"

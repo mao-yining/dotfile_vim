@@ -244,7 +244,6 @@ noremap <leader>T :Tabularize /
 xnoremap <leader>T :Tabularize /
 Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
-Plug 'preservim/vim-pencil', { 'for': [ 'text', 'markdown', 'tex' ] }
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 
