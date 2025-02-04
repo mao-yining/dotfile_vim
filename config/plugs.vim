@@ -69,15 +69,8 @@ nnoremap <silent> <localleader> :<c-u>WhichKey  ';'<CR>
 Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
 noremap <localleader>di <cmd>DIstart<cr>
 
-Plug 'lambdalisue/vim-fern', { 'on': 'Fern' }
-Plug 'lambdalisue/fern-git-status.vim', { 'on': 'Fern' }
-Plug 'lambdalisue/fern-renderer-nerdfont.vim', { 'on': 'Fern' }
-Plug 'lambdalisue/glyph-palette.vim', { 'on': 'Fern' }
-Plug 'lambdalisue/vim-nerdfont'
-nnoremap <silent>- <cmd>Fern %:h -reveal=%<cr>
-nnoremap <silent><leader>e <cmd>Fern . -reveal=%<cr>
-nnoremap <leader>e <cmd>Fern . -reveal=% -drawer<cr><cmd>setlocal nonumber<cr>
-g:fern#renderer = "nerdfont"
+Plug 'habamax/vim-dir', { 'on': [ 'Dir' ] }
+nnoremap <silent>- <cmd>Dir<cr>
 
 Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
 noremap =c <cmd>ColorHighlight<cr>
