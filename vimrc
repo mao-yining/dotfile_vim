@@ -15,5 +15,3 @@ source $v/config/autocmds.vim
 source $v/config/plugs.vim
 
 colorscheme catppuccin_mocha                                # 颜色主题
-
-# vim:fdm=marker:fmr=[[[,]]]:ft=vim

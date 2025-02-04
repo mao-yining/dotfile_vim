@@ -7,8 +7,10 @@ if has('win32')
 endif
 
 call plug#begin()
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'yianwillis/vimcdoc'
-Plug 'mhinz/vim-startify'
+
+# coding [[[
 Plug 'Eliot00/auto-pairs'                                                       # Vim9
 Plug 'kshenoy/vim-signature'                                                    # show marks
 Plug 'kana/vim-textobj-user'
@@ -18,12 +20,7 @@ Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'sgur/vim-textobj-parameter'
 Plug 'bps/vim-textobj-python', {'for': 'python'}
 Plug 'jceb/vim-textobj-uri'
-Plug 'skywind3000/vim-terminal-help'
-Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
 Plug 'andymass/vim-matchup'
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-# Plug 'tpope/vim-obsession'
-# Plug 'dhruvasagar/vim-prosession'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
@@ -31,81 +28,10 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
-Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
-Plug 'lambdalisue/vim-fern', { 'on': 'Fern' }
-Plug 'lambdalisue/fern-git-status.vim', { 'on': 'Fern' }
-Plug 'lambdalisue/fern-renderer-nerdfont.vim', { 'on': 'Fern' }
-Plug 'lambdalisue/glyph-palette.vim', { 'on': 'Fern' }
-Plug 'lambdalisue/vim-nerdfont'
-Plug 'dense-analysis/ale'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'laixintao/asyncomplete-gitcommit'
-Plug 'prabirshrestha/asyncomplete-file.vim'
-Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'prabirshrestha/asyncomplete-necovim.vim'
-Plug 'Shougo/neco-vim'
-Plug 'prabirshrestha/asyncomplete-tags.vim'
-Plug 'ludovicchabant/vim-gutentags'                                             # 管理 tags 文件
-Plug 'skywind3000/gutentags_plus', { 'on': 'GscopeFind' }
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
-Plug 'luochen1990/rainbow'                                                      # 彩虹括号
-Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
-Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
-Plug 'itchyny/lightline.vim'
-Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop'] }
-Plug 'skywind3000/asynctasks.vim', { 'on': ['AsyncTask', 'AsyncTaskMacro', 'AsyncTaskList', 'AsyncTaskEdit'], 'for': 'taskini' }
-Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              # 撤销树
-# Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension', 'on': 'Leaderf' }
-Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
-Plug 'jamessan/vim-gnupg'
-Plug 'tbastos/vim-lua', { 'for': 'lua' }
-Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
-Plug 'romainl/vim-qf', { 'for': 'qf' }
-Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
-Plug 'tpope/vim-fugitive', { 'on': ['Git', 'GV', 'GV!', 'Gread', 'Gwrite']}
-# Plug 'rbong/vim-flog', { 'on': [ "Flog", "Flogsplit", "FlogGit" ], }
-Plug 'junegunn/gv.vim', { 'on': ['Git', 'GV', 'GV!']}
-Plug 'airblade/vim-gitgutter'                                                   # 在侧边显示 Git 文件修改信息
-Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
-Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' }              # jupyter
-Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
-Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
-Plug 'kh3phr3n/python-syntax', {'for': 'python'}
-Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
-Plug 'ubaldot/vim-microdebugger', { 'on': 'MicroDebug' }
-Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
-Plug 'jceb/vim-orgmode', { 'for': 'org' }
-Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
-Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
-Plug 'preservim/vim-markdown', { 'for': 'markdown' }
-Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
-Plug 'preservim/vim-pencil', { 'for': [ 'text', 'markdown', 'tex' ] }
-Plug 'chrisbra/csv.vim', { 'for': 'csv' }
-Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
-Plug 'Donaldttt/fuzzyy'
-Plug 'girishji/devdocs.vim'
+# ]]]
 
-# Plug 'ZSaberLv0/ZFVimIM'
-# Plug 'ZSaberLv0/ZFVimJob' # 可选, 用于提升词库加载性能
-# Plug 'ZSaberLv0/ZFVimGitUtil' # 可选, 如果你希望定期自动清理词库 push 历史
-# copilot
-# Plug 'github/copilot.vim', {'on': 'Copilot'}
-# Plug 'exafunction/codeium.vim', {'on': 'Codeium'}
-# vim-ai
-# Plug 'chenxuan520/vim-ai-doubao', {'on': ['AIChat', 'AI', 'AIEdit', 'AIConfigEdit']}
-call plug#end()
-
-g:prosession_dir = expandcmd('~/.cache/sessions/')
-nmap <m-w> <Plug>(choosewin)
-imap <m-w> <esc><Plug>(choosewin)
-tnoremap <m-w> <c-\><c-n><Plug>(choosewin)
-# g:startify_disable_at_vimenter = 1
+# ui [[[
+Plug 'mhinz/vim-startify'
 g:startify_session_dir = '~/.cache/sessions'
 g:startify_enable_special      = 0
 g:startify_files_number        = 5
@@ -126,21 +52,51 @@ g:startify_bookmarks = [
 g:startify_custom_footer =
    \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
 
-hi StartifyBracket ctermfg=240
-hi StartifyFile    ctermfg=147
-hi StartifyFooter  ctermfg=240
-hi StartifyHeader  ctermfg=114
-hi StartifyNumber  ctermfg=215
-hi StartifyPath    ctermfg=245
-hi StartifySlash   ctermfg=240
-hi StartifySpecial ctermfg=240
+# ]]]
+
+Plug 'skywind3000/vim-terminal-help'
+
+Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
+nmap <m-w> <Plug>(choosewin)
+imap <m-w> <esc><Plug>(choosewin)
+tnoremap <m-w> <c-\><c-n><Plug>(choosewin)
+
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ';'<CR>
 # nnoremap <silent> = :<c-u>WhichKey  '='<CR>
+
+Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
+noremap <localleader>di <cmd>DIstart<cr>
+
+Plug 'lambdalisue/vim-fern', { 'on': 'Fern' }
+Plug 'lambdalisue/fern-git-status.vim', { 'on': 'Fern' }
+Plug 'lambdalisue/fern-renderer-nerdfont.vim', { 'on': 'Fern' }
+Plug 'lambdalisue/glyph-palette.vim', { 'on': 'Fern' }
+Plug 'lambdalisue/vim-nerdfont'
+nnoremap <silent>- <cmd>Fern %:h -reveal=%<cr>
+nnoremap <silent><leader>e <cmd>Fern . -reveal=%<cr>
+nnoremap <leader>e <cmd>Fern . -reveal=% -drawer<cr><cmd>setlocal nonumber<cr>
+g:fern#renderer = "nerdfont"
+
+Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
 noremap =c <cmd>ColorHighlight<cr>
 noremap \c <cmd>ColorClear<cr>
-noremap <localleader>di <cmd>DIstart<cr>
-# UI [[[
+Plug 'luochen1990/rainbow'                                                      # 彩虹括号
+g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
+g:rainbow_active = 1
+
+Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
+nnoremap <silent><leader>cs <cmd>Vista!!<cr>
+g:vista_executive_for = {
+			\ 'c': 'ale',
+			\ 'cpp': 'ale',
+			\ 'markdown': 'ale',
+			\ }
+
+Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
+
+Plug 'itchyny/lightline.vim'
 g:lightline = {
 	  \ 'colorscheme': 'catppuccin_mocha',
 	  \ 'active': {
@@ -151,66 +107,10 @@ g:lightline = {
 	  \   'gitbranch': 'FugitiveHead'
 	  \ },
 	  \ }
-g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
-g:rainbow_active = 1
-nnoremap <silent>- <cmd>Fern %:h -reveal=%<cr>
-nnoremap <silent><leader>e <cmd>Fern . -reveal=%<cr>
-nnoremap <leader>e <cmd>Fern . -reveal=% -drawer<cr><cmd>setlocal nonumber<cr>
-g:fern#renderer = "nerdfont"
-#  ]]]
-
-#  fuzzy [[[
-nnoremap <leader>df :DevdocsFind<CR>
-nnoremap <leader>di :DevdocsInstall<CR>
-nnoremap <leader>du :DevdocsUninstall<CR>
-nnoremap <silent> <localleader>b :FuzzyBuffers<CR>
-nnoremap <silent> <leader>: :FuzzyCommands<CR>
-nnoremap <silent> <leader>f :FuzzyFiles<CR>
-nnoremap <silent> <leader><space> :FuzzyFiles<CR>
-nnoremap <silent> <leader>sg :FuzzyGrep<CR>
-nnoremap <silent> <leader>h :FuzzyHelp<CR>
-nnoremap <silent> <leader>/ :FuzzyInBuffer<CR>
-nnoremap <silent> <leader>m :FuzzyMru<CR>
-nnoremap <silent> <leader>r :FuzzyMruCwd<CR>
-#  ]]]
-
-#  Git [[[
-g:signify_sign_add               = '+'
-g:signify_sign_delete            = '_'
-g:signify_sign_delete_first_line = '‾'
-g:signify_sign_change            = '~'
-g:signify_sign_changedelete      = g:signify_sign_change
-g:gitgutter_map_keys = 0
-g:gitgutter_preview_win_floating = 1
-nmap <localleader>hs <Plug>(GitGutterStageHunk)
-nmap <localleader>hr <Plug>(GitGutterUndoHunk)
-nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
-omap ih <Plug>(GitGutterTextObjectInnerPending)
-omap ah <Plug>(GitGutterTextObjectOuterPending)
-xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
-nnoremap <leader>gg <cmd>Git<cr>
-nnoremap <leader>gl <cmd>GV<cr>
-nnoremap <leader>gc <cmd>Git commit<cr>
-nnoremap <leader>gs :Git switch 
-nnoremap <leader>gb <cmd>Git branch<cr>
-nnoremap <localleader>gb <cmd>Git blame<cr>
-nnoremap <localleader>gr <cmd>Gread<cr>
-nnoremap <localleader>gw <cmd>Gwrite<cr>
-#  ]]]
-
-#  cpp [[[
-g:cpp_class_scope_highlight = 1
-g:cpp_class_decl_highlight = 1
-g:cpp_member_variable_highlight = 1
-g:cpp_posix_standard = 1
-g:cpp_experimental_simple_template_highlight = 1
-g:cpp_concepts_highlight = 1
-#  ]]]
 
 #  gutentags [[[
+Plug 'ludovicchabant/vim-gutentags'                                             # 管理 tags 文件
+Plug 'skywind3000/gutentags_plus', { 'on': 'GscopeFind' }
 #  gutentags 搜索工程目录的标志，当前文件路径向上递归直到碰到这些文件/目录名
 g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 
@@ -241,15 +141,108 @@ g:gutentags_auto_add_gtags_cscope = 0
 
 # change focus to quickfix window after search (optional).
 g:gutentags_plus_switch = 1
-g:vista_executive_for = {
-			\ 'c': 'ale',
-			\ 'cpp': 'ale',
-			\ 'markdown': 'ale',
-			\ }
 #  ]]]
+#  asynctasks [[[
+Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop'] }
+Plug 'skywind3000/asynctasks.vim', { 'on': ['AsyncTask', 'AsyncTaskMacro', 'AsyncTaskList', 'AsyncTaskEdit'], 'for': 'taskini' }
+g:asynctasks_term_pos = 'vim' # quickfix | vim | tab | bottom | external
+g:asyncrun_open = 6
+noremap <silent><f7> <cmd>AsyncTask file-run<cr>
+noremap <silent><f8> <cmd>AsyncTask file-build<cr>
+noremap <silent><f9> <cmd>AsyncTask project-run<cr>
+noremap <silent><f10> <cmd>AsyncTask project-build<cr>
+noremap <silent><leader>o <cmd>Leaderf --nowrap task<cr>
+#  ]]]
+Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
+noremap <leader>cf <cmd>Autoformat<cr>
+g:autoformat_autoindent = 0
+g:autoformat_retab = 0
+g:autoformat_remove_trailing_spaces = 0
+
+g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" --style=D:/Competitive-Programming/.clang-format'" 
+g:python3_host_prog = 'python'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              # 撤销树
+noremap <leader>u <cmd>UndotreeToggle<cr>
+Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
+Plug 'jamessan/vim-gnupg'
+Plug 'tbastos/vim-lua', { 'for': 'lua' }
+Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
+Plug 'romainl/vim-qf', { 'for': 'qf' }
+Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
+
+#  fuzzy [[[
+Plug 'Donaldttt/fuzzyy'
+nnoremap <silent> <localleader>b :FuzzyBuffers<CR>
+nnoremap <silent> <leader>: :FuzzyCommands<CR>
+nnoremap <silent> <leader>f :FuzzyFiles<CR>
+nnoremap <silent> <leader><space> :FuzzyFiles<CR>
+nnoremap <silent> <leader>sg :FuzzyGrep<CR>
+nnoremap <silent> <leader>h :FuzzyHelp<CR>
+nnoremap <silent> <leader>/ :FuzzyInBuffer<CR>
+nnoremap <silent> <leader>m :FuzzyMru<CR>
+nnoremap <silent> <leader>r :FuzzyMruCwd<CR>
+#  ]]]
+
+Plug 'girishji/devdocs.vim'
+nnoremap <leader>df :DevdocsFind<CR>
+nnoremap <leader>di :DevdocsInstall<CR>
+nnoremap <leader>du :DevdocsUninstall<CR>
+
+#  Git [[[
+Plug 'tpope/vim-fugitive', { 'on': ['Git', 'GV', 'GV!', 'Gread', 'Gwrite']}
+# Plug 'rbong/vim-flog', { 'on': [ "Flog", "Flogsplit", "FlogGit" ], }
+Plug 'junegunn/gv.vim', { 'on': ['Git', 'GV', 'GV!']}
+nmap <localleader>hs <Plug>(GitGutterStageHunk)
+nmap <localleader>hr <Plug>(GitGutterUndoHunk)
+nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nnoremap <leader>gg <cmd>Git<cr>
+nnoremap <leader>gl <cmd>GV<cr>
+nnoremap <leader>gc <cmd>Git commit<cr>
+nnoremap <leader>gs :Git switch 
+nnoremap <leader>gb <cmd>Git branch<cr>
+nnoremap <localleader>gb <cmd>Git blame<cr>
+nnoremap <localleader>gr <cmd>Gread<cr>
+nnoremap <localleader>gw <cmd>Gwrite<cr>
+Plug 'airblade/vim-gitgutter'                                                   # 在侧边显示 Git 文件修改信息
+g:gitgutter_map_keys = 0
+g:gitgutter_preview_win_floating = 1
+Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
+g:signify_sign_add               = '+'
+g:signify_sign_delete            = '_'
+g:signify_sign_delete_first_line = '‾'
+g:signify_sign_change            = '~'
+g:signify_sign_changedelete      = g:signify_sign_change
+#  ]]]
+
+Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' }              # jupyter
+Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
+Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
+Plug 'kh3phr3n/python-syntax', {'for': 'python'}
+Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
+Plug 'ubaldot/vim-microdebugger', { 'on': 'MicroDebug' }
+Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
+Plug 'jceb/vim-orgmode', { 'for': 'org' }
+Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
+Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
+noremap <leader>T :Tabularize /
+xnoremap <leader>T :Tabularize /
+Plug 'preservim/vim-markdown', { 'for': 'markdown' }
+Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
+Plug 'preservim/vim-pencil', { 'for': [ 'text', 'markdown', 'tex' ] }
+Plug 'chrisbra/csv.vim', { 'for': 'csv' }
+Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 
 
 #  ALE [[[
+Plug 'dense-analysis/ale'
 noremap ]d <Plug>(ale_previous_wrap)
 noremap [d <Plug>(ale_next_wrap)
 noremap <leader>cr <cmd>ALERename<cr>
@@ -302,6 +295,15 @@ g:ale_completion_symbols = {
 #  ]]]
 
 #  complete [[[
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'laixintao/asyncomplete-gitcommit'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'prabirshrestha/asyncomplete-necovim.vim'
+Plug 'Shougo/neco-vim'
+Plug 'prabirshrestha/asyncomplete-tags.vim'
 #  au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#emoji#get_source_options({
 #			\ 'name': 'emoji',
 #			\ 'allowlist': ['*'],
@@ -346,31 +348,11 @@ au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#source
 			\ }))
 #  ]]]
 
-#  asynctasks [[[
-g:asynctasks_term_pos = 'vim' # quickfix | vim | tab | bottom | external
-g:asyncrun_open = 6
-noremap <silent><f7> <cmd>AsyncTask file-run<cr>
-noremap <silent><f8> <cmd>AsyncTask file-build<cr>
-noremap <silent><f9> <cmd>AsyncTask project-run<cr>
-noremap <silent><f10> <cmd>AsyncTask project-build<cr>
-noremap <silent><leader>o <cmd>Leaderf --nowrap task<cr>
-#  ]]]
-
-#  plugins misc keymaps [[[
-nnoremap <silent><leader>cs <cmd>Vista!!<cr>
-noremap <leader>T :Tabularize /
-xnoremap <leader>T :Tabularize /
-noremap <leader>cf <cmd>Autoformat<cr>
-noremap <leader>u <cmd>UndotreeToggle<cr>
-#  ]]]
-
-
-g:autoformat_autoindent = 0
-g:autoformat_retab = 0
-g:autoformat_remove_trailing_spaces = 0
-
-g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" --style=D:/Competitive-Programming/.clang-format'" 
-g:python3_host_prog = 'python'
-
+# Plug 'ZSaberLv0/ZFVimIM'
+# Plug 'ZSaberLv0/ZFVimJob' # 可选, 用于提升词库加载性能
+# Plug 'ZSaberLv0/ZFVimGitUtil' # 可选, 如果你希望定期自动清理词库 push 历史
+# Plug 'github/copilot.vim', {'on': 'Copilot'}
+# Plug 'exafunction/codeium.vim', {'on': 'Codeium'}
+# Plug 'chenxuan520/vim-ai-doubao', {'on': ['AIChat', 'AI', 'AIEdit', 'AIConfigEdit']}
+call plug#end()
 # vim:fdm=marker:fmr=[[[,]]]:ft=vim
-
