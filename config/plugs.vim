@@ -309,7 +309,7 @@ Plug 'prabirshrestha/asyncomplete-tags.vim'
 #			\ 'allowlist': ['*'],
 #			\ 'completor': function('asyncomplete#sources#emoji#completor'),
 #			\ }))
-call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
+au User asyncomplete_setup call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
 			\ 'name': 'ultisnips',
 			\ 'allowlist': ['*'],
 			\ 'priority': 20,
