@@ -14,7 +14,6 @@ g:vim_markdown_autowrite = 1
 # g:vim_markdown_auto_extension_ext = 'txt'
 g:vim_markdown_edit_url_in = 'tab'
 # g:vim_markdown_borderless_table = 1
-autocmd FileType markdown call pencil#init({'wrap': 'soft', 'autoformat': 0})
 call LspAddServer([{name: 'marksman',
 		    filetype: ['markdown'],
 		    path: 'marksman.cmd',
