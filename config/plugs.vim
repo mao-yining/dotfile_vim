@@ -54,6 +54,15 @@ g:startify_custom_footer =
 # ]]]
 
 Plug 'skywind3000/vim-terminal-help'
+g:terminal_key = "<m-/>"
+g:terminal_list = 0
+g:terminal_shell = 'nu'
+tnoremap <c-\> <c-\><c-n>
+tnoremap <m-H> <c-_>h
+tnoremap <m-L> <c-_>l
+tnoremap <m-J> <c-_>j
+tnoremap <m-K> <c-_>k
+
 
 Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
 nmap <m-w> <Plug>(choosewin)
