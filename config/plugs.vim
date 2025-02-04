@@ -298,6 +298,20 @@ var lspServers = [
 		path: 'texlab.cmd',
 		args: []
 	},
+	{
+		name: 'luals',
+		filetype: 'lua',
+		path: 'lua-language-server.cmd',
+		args: [],
+		workspaceConfig: { Lua: { hint: { enable: true, } } }
+	},
+	{
+		name: 'marksman',
+		filetype: ['markdown'],
+		path: 'marksman.cmd',
+		args: [],
+	}
+
 ]
 var lspOpts = {
 	aleSupport: true,
