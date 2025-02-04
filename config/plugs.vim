@@ -253,8 +253,8 @@ var lspServers = [
 	},
 	{
 		name: 'pyright',
-		filetype: 'python.cmd',
-		path: 'pyright',
+		filetype: 'python',
+		path: 'pyright-langserver.cmd',
 		args: ['--stdio'],
 		workspaceConfig: {
 		  python: {
