@@ -21,4 +21,8 @@ augroup END
 
 autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
 
+# 斜杠
+
+autocmd FileType tex,cpp,python,c,lua,json,vim setlocal shellslash
+
 # vim:fdm=marker:fmr=[[[,]]]:ft=vim
