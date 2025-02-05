@@ -31,6 +31,7 @@ set matchpairs+=<:>            # 设置%匹配<>
 set background=dark            # 设置背景默认黑色
 set autoindent                 # 设置自动缩进
 set cindent                    # 设置使用C/C++语言的自动缩进方式
+autocmd VimEnter * set shellslash # 不知道为什么直接设置会导致vim-plug出bug
 set cinoptions=g0,:0,N-s,(0    # 设置C/C++语言的具体缩进方式
 set smartindent                # 智能的选择对其方式
 set noexpandtab                # 设置禁止空格替换tab,tab党

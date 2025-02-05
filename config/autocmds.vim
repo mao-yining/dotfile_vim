@@ -21,9 +21,9 @@ augroup END
 
 autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
 
-# 斜杠
+# 软换行
 
-autocmd FileType tex,cpp,python,c,lua,json,vim setlocal shellslash
+autocmd FileType tex,markdown,text set wrap
 
 # 软换行
 
