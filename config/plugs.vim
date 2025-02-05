@@ -263,7 +263,6 @@ au Filetype vim noremap <buffer>K K
 noremap gK <cmd>ALESymbolSearch<cr>
 noremap <leader>ca <cmd>ALECodeAction<cr>
 #  g:ale_sign_column_always = 1
-g:ale_sign_error = "\ue009"
 g:ale_echo_msg_format = '[%linter%] %code: %%s'
 g:ale_lsp_suggestions = 1
 g:ale_detail_to_floating_preview = 1
@@ -271,34 +270,6 @@ g:ale_hover_to_preview = 1
 g:ale_floating_preview = 1
 g:ale_lint_on_text_changed = "normal"
 g:ale_lint_on_insert_leave = 1
-g:ale_completion_symbols = {
-			\ 'text': '󰉿',
-			\ 'method': '󰆧',
-			\ 'function': '󰊕',
-			\ 'constructor': '',
-			\ 'field': '󰜢',
-			\ 'variable': '󰀫',
-			\ 'class': '󰠱',
-			\ 'interface': '',
-			\ 'module': '',
-			\ 'property': '󰜢',
-			\ 'unit': '󰑭',
-			\ 'value': '󰎠',
-			\ 'enum': '',
-			\ 'keyword': '󰌋',
-			\ 'snippet': '',
-			\ 'color': '󰏘',
-			\ 'file': '󰈙',
-			\ 'reference': '󰈇',
-			\ 'folder': '󰈇',
-			\ 'enum_member': '',
-			\ 'constant': '󰏿',
-			\ 'struct': '󰙅',
-			\ 'event': '',
-			\ 'operator': '󰆕',
-			\ 'type_parameter': 'p',
-			\ '<default>': 'v'
-			\ }
 #  ]]]
 
 #  complete [[[
