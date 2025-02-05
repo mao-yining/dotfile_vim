@@ -23,10 +23,14 @@ Plug 'andymass/vim-matchup'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-characterize' # ga
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
+Plug 'bootleq/vim-cycle', { 'on': '<Plug>CycleNext' }
+nmap <silent> <Leader>a <Plug>CycleNext
+vmap <silent> <Leader>a <Plug>CycleNext
 # ]]]
 
 # ui [[[
@@ -162,7 +166,7 @@ g:autoformat_autoindent = 0
 g:autoformat_retab = 0
 g:autoformat_remove_trailing_spaces = 0
 
-g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" --style=D:/Competitive-Programming/.clang-format'" 
+g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" --style=D:/Competitive-Programming/.clang-format'"
 g:python3_host_prog = 'python'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              # 撤销树
 noremap <leader>u <cmd>UndotreeToggle<cr>
@@ -195,6 +199,7 @@ nnoremap <leader>gcc <cmd>Git commit<cr>
 nnoremap <leader>gca <cmd>Git commit --amend<cr>
 nnoremap <leader>gce <cmd>Git commit --amend --no-edit<cr>
 nnoremap <leader>gs :Git switch<space>
+nnoremap <leader>gS :Git stash<space>
 nnoremap <leader>gco :Git checkout<space>
 nnoremap <leader>gcb :Git branch<cr>
 nnoremap <leader>gm :Git merge<space>
@@ -205,7 +210,7 @@ nnoremap <leader>gb <cmd>Git blame<cr>
 nnoremap <leader>gr <cmd>Gread<cr>
 nnoremap <leader>gw <cmd>Gwrite<cr>
 Plug 'airblade/vim-gitgutter'
-nmap <localleader>hs <Plug>(GitGutterStageHunk)
+nmap <localleader>hw <Plug>(GitGutterStageHunk)
 nmap <localleader>hr <Plug>(GitGutterUndoHunk)
 nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
 omap ih <Plug>(GitGutterTextObjectInnerPending)
@@ -216,6 +221,8 @@ nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
+Plug 'Eliot00/git-lens.vim'
+Plug 'rhysd/conflict-marker.vim'
 Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
 g:signify_sign_add               = '+'
 g:signify_sign_delete            = '_'
