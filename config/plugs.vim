@@ -67,7 +67,6 @@ tnoremap <m-L> <c-_>l
 tnoremap <m-J> <c-_>j
 tnoremap <m-K> <c-_>k
 
-
 Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
 nmap <m-w> <Plug>(choosewin)
 imap <m-w> <esc><Plug>(choosewin)
@@ -87,9 +86,6 @@ nnoremap <silent>- <cmd>Dir<cr>
 Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
 noremap =c <cmd>ColorHighlight<cr>
 noremap \c <cmd>ColorClear<cr>
-Plug 'luochen1990/rainbow'                                                      # 彩虹括号
-g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
-g:rainbow_active = 1
 
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 nnoremap <silent><leader>cs <cmd>Vista!!<cr>
@@ -244,7 +240,6 @@ Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
 noremap <leader>T :Tabularize /
 xnoremap <leader>T :Tabularize /
