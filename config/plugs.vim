@@ -29,6 +29,8 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 Plug 'bootleq/vim-cycle', { 'on': '<Plug>CycleNext' }
+Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
+nmap <localleader>c <cmd>Calendar<cr>
 nmap <silent> <Leader>a <Plug>CycleNext
 vmap <silent> <Leader>a <Plug>CycleNext
 # ]]]
