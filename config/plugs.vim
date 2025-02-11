@@ -197,8 +197,11 @@ nnoremap <leader>gce <cmd>Git commit --amend --no-edit<cr>
 nnoremap <leader>gs :Git switch<space>
 nnoremap <leader>gS :Git stash<space>
 nnoremap <leader>gco :Git checkout<space>
-nnoremap <leader>gcb :Git branch<cr>
+nnoremap <leader>gcp :Git cherry-pick<space>
 nnoremap <leader>gm :Git merge<space>
+nnoremap <leader>gcb <cmd>Git branch<cr>
+nnoremap <leader>gp <cmd>Git pull<cr>
+nnoremap <leader>gP <cmd>Git push<cr>
 nnoremap <leader>gM <cmd>Git mergetool<cr>
 nnoremap <leader>gd <cmd>Git diff<cr>
 nnoremap <leader>gD <cmd>Git difftool<cr>
