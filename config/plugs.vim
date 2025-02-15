@@ -1,12 +1,10 @@
 vim9script
 
 packadd comment
-if has('win32')
-	packadd wincap.vim
-	g:wincap_plugin_exe = $v .. '/pack/ui/opt/wincap.vim/bin/wincap.exe'
-endif
 
 call plug#begin()
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+Plug 'stillwwater/wincap.vim'
 Plug 'yianwillis/vimcdoc'
 
 # coding [[[
@@ -60,7 +58,6 @@ g:startify_custom_footer =
 # ]]]
 
 Plug 'skywind3000/vim-terminal-help'
-g:terminal_key = "<m-/>"
 g:terminal_list = 0
 g:terminal_shell = 'nu'
 tnoremap <c-\> <c-\><c-n>
