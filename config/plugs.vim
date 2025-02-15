@@ -202,6 +202,7 @@ nnoremap <leader>gP <cmd>Git push<cr>
 nnoremap <leader>gM <cmd>Git mergetool<cr>
 nnoremap <leader>gd <cmd>Git diff<cr>
 nnoremap <leader>gD <cmd>Git difftool<cr>
+nnoremap <leader>gB <cmd>Git branch<cr>
 nnoremap <leader>gb <cmd>Git blame<cr>
 nnoremap <leader>gr <cmd>Gread<cr>
 nnoremap <leader>gw <cmd>Gwrite<cr>
