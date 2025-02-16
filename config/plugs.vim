@@ -168,15 +168,15 @@ noremap <leader>u <cmd>UndotreeToggle<cr>
 
 #  fuzzy [[[
 Plug 'Donaldttt/fuzzyy'
-nnoremap <silent> <localleader>b :FuzzyBuffers<CR>
-nnoremap <silent> <leader>: :FuzzyCommands<CR>
-nnoremap <silent> <leader>f :FuzzyFiles<CR>
-nnoremap <silent> <leader><space> :FuzzyFiles<CR>
-nnoremap <silent> <leader>sg :FuzzyGrep<CR>
-nnoremap <silent> <leader>h :FuzzyHelp<CR>
-nnoremap <silent> <leader>/ :FuzzyInBuffer<CR>
-nnoremap <silent> <leader>m :FuzzyMru<CR>
-nnoremap <silent> <leader>r :FuzzyMruCwd<CR>
+nnoremap <silent> <leader>b <cmd>FuzzyBuffers<CR>
+nnoremap <silent> <leader>: <cmd>FuzzyCommands<CR>
+nnoremap <silent> <leader>f <cmd>FuzzyFiles<CR>
+nnoremap <silent> <leader><space> <cmd>FuzzyFiles<CR>
+nnoremap <silent> <leader>sg <cmd>FuzzyGrep<CR>
+nnoremap <silent> <leader>h <cmd>FuzzyHelp<CR>
+nnoremap <silent> <leader>/ <cmd>FuzzyInBuffer<CR>
+nnoremap <silent> <leader>m <cmd>FuzzyMru<CR>
+nnoremap <silent> <leader>r <cmd>FuzzyMruCwd<CR>
 #  ]]]
 
 Plug 'girishji/devdocs.vim'
