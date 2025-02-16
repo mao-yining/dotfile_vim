@@ -46,6 +46,8 @@ g:startify_session_persistence = 1
 g:startify_skiplist = [
 	\ 'COMMIT_EDITMSG',
 	\ '/data/repo/neovim/runtime/doc',
+	\ '/Temp/',
+	\ '/plugged/.*/doc/',
 	\ ]
 
 g:startify_bookmarks = [
