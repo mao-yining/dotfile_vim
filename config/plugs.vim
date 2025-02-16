@@ -35,7 +35,6 @@ vmap <silent> <Leader>a <Plug>CycleNext
 
 # ui [[[
 Plug 'mhinz/vim-startify'
-g:startify_session_dir = '~/.cache/sessions'
 g:startify_enable_special      = 0
 g:startify_files_number        = 5
 g:startify_relative_path       = 1
