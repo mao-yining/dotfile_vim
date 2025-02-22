@@ -60,7 +60,9 @@ g:startify_custom_footer =
 
 Plug 'skywind3000/vim-terminal-help'
 g:terminal_list = 0
-g:terminal_shell = 'nu'
+if has('win32') 
+	g:terminal_shell = 'pwsh -NoProfile'
+endif
 tnoremap <c-\> <c-\><c-n>
 tnoremap <m-H> <c-_>h
 tnoremap <m-L> <c-_>l
@@ -146,7 +148,8 @@ g:gutentags_plus_switch = 1
 #  asynctasks [[[
 Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop'] }
 Plug 'skywind3000/asynctasks.vim', { 'on': ['AsyncTask', 'AsyncTaskMacro', 'AsyncTaskList', 'AsyncTaskEdit'], 'for': 'taskini' }
-g:asynctasks_term_pos = 'vim' # quickfix | vim | tab | bottom | external
+g:asynctasks_term_pos = 'tab' # quickfix | vim | tab | bottom | external
+# ‘vim' 时无法运行路径中有空格的情况
 g:asyncrun_open = 6
 noremap <silent><f7> <cmd>AsyncTask file-run<cr>
 noremap <silent><f8> <cmd>AsyncTask file-build<cr>
