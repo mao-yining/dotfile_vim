@@ -1,7 +1,7 @@
 vim9script
 
-b:table_mode_corner = '|'
-b:table_mode_always_active = 1
+g:table_mode_corner = '|'
+g:table_mode_always_active = 1
 nnoremap <buffer><leader>cp <cmd>MarkdownPreviewToggle<cr>
 
 g:vim_markdown_frontmatter = 1 # YAML
