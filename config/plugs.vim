@@ -23,7 +23,8 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-characterize' # ga
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-sleuth'
+Plug 'sheerun/vim-polyglot'
+g:polyglot_disabled = ['sensible']
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 Plug 'bootleq/vim-cycle', { 'on': '<Plug>CycleNext' }
