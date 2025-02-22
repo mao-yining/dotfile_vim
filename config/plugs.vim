@@ -35,6 +35,7 @@ vmap <silent> <Leader>a <Plug>CycleNext
 
 # ui [[[
 Plug 'mhinz/vim-startify'
+autocmd User Startified setlocal cursorline
 g:startify_enable_special      = 0
 g:startify_files_number        = 5
 g:startify_relative_path       = 1
@@ -145,6 +146,7 @@ g:gutentags_auto_add_gtags_cscope = 0
 # change focus to quickfix window after search (optional).
 g:gutentags_plus_switch = 1
 #  ]]]
+
 #  asynctasks [[[
 Plug 'skywind3000/asyncrun.vim', { 'on': ['AsyncRun', 'AsyncStop'] }
 Plug 'skywind3000/asynctasks.vim', { 'on': ['AsyncTask', 'AsyncTaskMacro', 'AsyncTaskList', 'AsyncTaskEdit'], 'for': 'taskini' }
@@ -157,6 +159,7 @@ noremap <silent><f9> <cmd>AsyncTask project-run<cr>
 noremap <silent><f10> <cmd>AsyncTask project-build<cr>
 noremap <silent><leader>o <cmd>Leaderf --nowrap task<cr>
 #  ]]]
+
 Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
 noremap <leader>cf <cmd>Autoformat<cr>
 g:autoformat_autoindent = 0
@@ -165,7 +168,7 @@ g:autoformat_remove_trailing_spaces = 0
 
 g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" --style=D:/Competitive-Programming/.clang-format'"
 g:python3_host_prog = 'python'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }                              # 撤销树
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } # 撤销树
 noremap <leader>u <cmd>UndotreeToggle<cr>
 
 #  fuzzy [[[
@@ -237,7 +240,7 @@ Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
-Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' }              # jupyter
+Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' } # jupyter
 Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
 Plug 'kh3phr3n/python-syntax', {'for': 'python'}
@@ -247,9 +250,9 @@ Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
-Plug 'godlygeek/tabular', { 'on': 'Tabularize' }
-noremap <leader>T :Tabularize /
-xnoremap <leader>T :Tabularize /
+Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
+xmap <localleader>a <Plug>(EasyAlign)
+nmap <localleader>a <Plug>(EasyAlign)
 Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
