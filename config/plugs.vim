@@ -237,7 +237,6 @@ Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
 Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' } # jupyter
-Plug 'octol/vim-cpp-enhanced-highlight', { 'for': 'cpp' }
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
 Plug 'kh3phr3n/python-syntax', {'for': 'python'}
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
