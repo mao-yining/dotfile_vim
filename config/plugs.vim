@@ -93,11 +93,6 @@ noremap \c <cmd>ColorClear<cr>
 
 Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
 nnoremap <silent><leader>cs <cmd>Vista!!<cr>
-g:vista_executive_for = {
-			\ 'c': 'ale',
-			\ 'cpp': 'ale',
-			\ 'markdown': 'ale',
-			\ }
 
 Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
 
