@@ -187,7 +187,6 @@ nnoremap <leader>du :DevdocsUninstall<CR>
 
 #  Git [[[
 Plug 'tpope/vim-fugitive'
-# Plug 'rbong/vim-flog', { 'on': [ "Flog", "Flogsplit", "FlogGit" ] }
 Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
 nnoremap <leader>gg <cmd>Git<cr>
 nnoremap <leader>gl <cmd>GV<cr>
@@ -200,8 +199,8 @@ nnoremap <leader>gco :Git checkout<space>
 nnoremap <leader>gcp :Git cherry-pick<space>
 nnoremap <leader>gm :Git merge<space>
 nnoremap <leader>gcb <cmd>Git branch<cr>
-nnoremap <leader>gp <cmd>Git pull<cr>
-nnoremap <leader>gP <cmd>Git push<cr>
+nnoremap <leader>gp <cmd>Git! pull<cr>
+nnoremap <leader>gP <cmd>Git! push<cr>
 nnoremap <leader>gM <cmd>Git mergetool<cr>
 nnoremap <leader>gd <cmd>Git diff<cr>
 nnoremap <leader>gD <cmd>Git difftool<cr>
