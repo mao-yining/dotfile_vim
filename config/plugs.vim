@@ -247,7 +247,6 @@ Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
 xmap <localleader>a <Plug>(EasyAlign)
 nmap <localleader>a <Plug>(EasyAlign)
-Plug 'preservim/vim-markdown', { 'for': 'markdown' }
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
