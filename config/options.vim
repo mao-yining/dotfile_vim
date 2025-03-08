@@ -15,7 +15,7 @@ set termguicolors                 # 在终端上使用与 GUI 一致的颜色
 set vb t_vb=
 set formatoptions+=mM1            # 强制自动换行，应对中文无空格
 set formatoptions+=j              # 按 J 时自动删除注释符号
-set conceallevel=3
+set conceallevel=2
 set cmdheight=1                   # 设置命令行的高度
 set showcmd                       # select模式下显示选中的行数
 set textwidth=0                   # 设置禁止自动断行

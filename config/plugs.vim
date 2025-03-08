@@ -24,7 +24,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-characterize' # ga
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
-g:polyglot_disabled = ['sensible']
+g:polyglot_disabled = ['sensible', 'markdown']
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 Plug 'bootleq/vim-cycle', { 'on': '<Plug>CycleNext' }
@@ -223,18 +223,18 @@ Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
 Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' } # jupyter
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
-Plug 'kh3phr3n/python-syntax', {'for': 'python'}
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
 Plug 'ubaldot/vim-microdebugger', { 'on': 'MicroDebug' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': 'VimtexInverseSearch' }
 Plug 'dhruvasagar/vim-table-mode', { 'for': ['tex', 'markdown'] }
+g:table_mode_corner = '|'
+g:table_mode_always_active = 1
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
 xmap <localleader>a <Plug>(EasyAlign)
 nmap <localleader>a <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
-Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 
 source $v/config/coc.vim
