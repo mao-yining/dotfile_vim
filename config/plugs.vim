@@ -30,8 +30,8 @@ Plug 'girishji/vimbits'
 Plug 'bootleq/vim-cycle', { 'on': '<Plug>CycleNext' }
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 nmap <localleader>c <cmd>Calendar<cr>
-nmap <silent> <Leader>a <Plug>CycleNext
-vmap <silent> <Leader>a <Plug>CycleNext
+nmap <silent> <c-s-a> <Plug>CycleNext
+vmap <silent> <c-s-a> <Plug>CycleNext
 # ]]]
 
 # ui [[[
@@ -153,11 +153,10 @@ noremap <silent><f7> <cmd>AsyncTask file-run<cr>
 noremap <silent><f8> <cmd>AsyncTask file-build<cr>
 noremap <silent><f9> <cmd>AsyncTask project-run<cr>
 noremap <silent><f10> <cmd>AsyncTask project-build<cr>
-noremap <silent><leader>o <cmd>Leaderf --nowrap task<cr>
 #  ]]]
 
 Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
-noremap <leader>cf <cmd>Autoformat<cr>
+noremap <localleader>f <cmd>Autoformat<cr>
 g:autoformat_autoindent = 0
 g:autoformat_retab = 0
 g:autoformat_remove_trailing_spaces = 0
