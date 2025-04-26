@@ -37,6 +37,7 @@ set cinoptions=g0,:0,N-s,(0       # 设置C/C++语言的具体缩进方式
 set smartindent                   # 智能的选择对其方式
 set noexpandtab                   # 设置禁止空格替换tab,tab党
 set tabstop=4                     # 设置编辑时制表符占用空格数
+set list
 set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 set shiftwidth=4                  # 设置格式化时制表符占用空格数
 set softtabstop=4                 # 设置4个空格为制表符
