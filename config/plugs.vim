@@ -35,6 +35,9 @@ vmap <silent> <c-s-a> <Plug>CycleNext
 # ]]]
 
 # ui [[[
+Plug 'luochen1990/rainbow'                                                      # 彩虹括号
+g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
+g:rainbow_active = 1
 Plug 'mhinz/vim-startify'
 autocmd User Startified setlocal cursorline
 g:startify_enable_special      = 0
@@ -149,6 +152,7 @@ Plug 'skywind3000/asynctasks.vim'
 g:asynctasks_term_pos = 'tab' # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况
 g:asyncrun_open = 6
+g:asyncrun_save = 1
 noremap <silent><f7> <cmd>AsyncTask file-run<cr>
 noremap <silent><f8> <cmd>AsyncTask file-build<cr>
 noremap <silent><f9> <cmd>AsyncTask project-run<cr>
