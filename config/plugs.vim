@@ -21,17 +21,22 @@ Plug 'andymass/vim-matchup'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-characterize' # ga
+Plug 'tpope/vim-characterize' # 'ga' improve
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['sensible', 'markdown']
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
-Plug 'bootleq/vim-cycle', { 'on': '<Plug>CycleNext' }
+Plug 'AndrewRadev/switch.vim'
+g:speeddating_no_mappings = 1
+nnoremap <Plug>SpeedDatingFallbackUp <c-a>
+nnoremap <Plug>SpeedDatingFallbackDown <c-x>
+nnoremap <silent><c-a> :if !switch#Switch() <bar>
+      \ call speeddating#increment(v:count1) <bar> endif<cr>
+nnoremap <silent><c-x> :if !switch#Switch({'reverse': 1}) <bar>
+      \ call speeddating#increment(-v:count1) <bar> endif<cr>
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 nmap <localleader>c <cmd>Calendar<cr>
-nmap <silent> <c-s-a> <Plug>CycleNext
-vmap <silent> <c-s-a> <Plug>CycleNext
 # ]]]
 
 # ui [[[
