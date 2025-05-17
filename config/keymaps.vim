@@ -1,11 +1,13 @@
 noremap j gj
 noremap k gk
+inoremap <up> <c-o>gk
+inoremap <down> <c-o>gj
 nnoremap <esc> <cmd>nohlsearch<cr><esc>
 
 " vim-buffer {{{
 nnoremap <silent>H     <cmd>call <sid>ChangeBuffer('p')<cr>
 nnoremap <silent>L     <cmd>call <sid>ChangeBuffer('n')<cr>
-nnoremap <silent><expr><c-m> &bt==''?":w<cr>":&bt=='terminal'?"i\<enter>":
+nnoremap <expr><cr> &bt==''?":w<cr>":&bt=='terminal'?"i\<enter>":
 			\ getwininfo(win_getid())[0]["quickfix"]!=0?"\<cr>:cclose<cr>":
 			\ getwininfo(win_getid())[0]["loclist"]!=0?"\<cr>:lclose<cr>":"\<cr>"
 
