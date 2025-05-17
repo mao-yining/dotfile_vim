@@ -71,6 +71,7 @@ set wildignore=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__
 set completepopup=highlight:Pmenu,border:off
 set diffopt=vertical,internal,filler,closeoff,indent-heuristic,hiddenoff,algorithm:patience
+set diffopt+=inline:word # word / char  patch 9.1.1243
 set sessionoptions=buffers,curdir,folds,help,resize,tabpages,winsize,slash,terminal,unix
 set viewoptions=cursor,folds,slash,unix
 set clipboard=unnamed
