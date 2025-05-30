@@ -117,7 +117,8 @@ g:lightline = {
 	  \ }
 
 #  gutentags [[[
-Plug 'ludovicchabant/vim-gutentags'                                             # 管理 tags 文件
+Plug 'ludovicchabant/vim-gutentags', { 'on': 'GutentagsToggleEnabled' } # 管理 tags 文件
+# 现在一般使用lsp， tags 功能保留。
 Plug 'skywind3000/gutentags_plus', { 'on': 'GscopeFind' }
 #  gutentags 搜索工程目录的标志，当前文件路径向上递归直到碰到这些文件/目录名
 g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
