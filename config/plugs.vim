@@ -165,14 +165,23 @@ noremap <silent><f9> <cmd>AsyncTask project-run<cr>
 noremap <silent><f10> <cmd>AsyncTask project-build<cr>
 #  ]]]
 
-Plug 'vim-autoformat/vim-autoformat', { 'on': 'Autoformat' }
-noremap <localleader>f <cmd>Autoformat<cr>
-g:autoformat_autoindent = 0
-g:autoformat_retab = 0
-g:autoformat_remove_trailing_spaces = 0
+Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
+noremap <localleader>f <cmd>undojoin \| Neoformat<cr>
+g:neoformat_basic_format_align = 1 # Enable alignment
+g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
+g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
+g:neoformat_cpp_clangformat = {
+            \ 'exe': 'clang-format',
+            \ 'args': ['-assume-filename=' .. expandcmd('"%"')],
+            \ 'stdin': 1,
+            \ }
+g:neoformat_tex_texfmt = {
+        \ 'exe': 'tex-fmt',
+        \ 'args': [ '--stdin' ],
+        \ 'stdin': 1,
+        \ }
+g:neoformat_enabled_tex = [ 'texfmt' ]
 
-g:formatdef_clangformat = "'clang-format -lines='.a:firstline.':'.a:lastline.' --assume-filename=\"'.expand('%:p').'\" --style=D:/Competitive-Programming/.clang-format'"
-g:python3_host_prog = 'python'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } # 撤销树
 noremap <leader>u <cmd>UndotreeToggle<cr>
 
