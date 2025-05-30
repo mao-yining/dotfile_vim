@@ -8,8 +8,8 @@ Plug 'stillwwater/wincap.vim'
 Plug 'yianwillis/vimcdoc'
 
 # coding [[[
-Plug 'Eliot00/auto-pairs'                                                       # Vim9
-Plug 'kshenoy/vim-signature'                                                    # show marks
+Plug 'Eliot00/auto-pairs'    # Vim9
+Plug 'kshenoy/vim-signature' # show marks
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-indent'
@@ -32,9 +32,9 @@ g:speeddating_no_mappings = 1
 nnoremap <Plug>SpeedDatingFallbackUp <c-a>
 nnoremap <Plug>SpeedDatingFallbackDown <c-x>
 nnoremap <silent><c-a> :if !switch#Switch() <bar>
-      \ call speeddating#increment(v:count1) <bar> endif<cr>
+			\ call speeddating#increment(v:count1) <bar> endif<cr>
 nnoremap <silent><c-x> :if !switch#Switch({'reverse': 1}) <bar>
-      \ call speeddating#increment(-v:count1) <bar> endif<cr>
+			\ call speeddating#increment(-v:count1) <bar> endif<cr>
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 nmap <localleader>c <cmd>Calendar<cr>
 # ]]]
@@ -53,24 +53,24 @@ g:startify_update_oldfiles     = 1
 g:startify_session_autoload    = 1
 g:startify_session_persistence = 1
 g:startify_skiplist = [
-	\ 'COMMIT_EDITMSG',
-	\ '/data/repo/neovim/runtime/doc',
-	\ '/Temp/',
-	\ '/plugged/.*/doc/',
-	\ ]
+			\ 'COMMIT_EDITMSG',
+			\ '/data/repo/neovim/runtime/doc',
+			\ '/Temp/',
+			\ '/plugged/.*/doc/',
+			\ ]
 
 g:startify_bookmarks = [
-	\ { 'c': $VIMRC },
-	\ ]
+			\ { 'c': $VIMRC },
+			\ ]
 
 g:startify_custom_footer =
-   \ ['', "   Vim is charityware. Please read ':help uganda'.", '']
+			\ ['', "   Vim is charityware. Please read ':help uganda'.", '']
 
 # ]]]
 
 Plug 'skywind3000/vim-terminal-help'
 g:terminal_list = 0
-if has('win32') 
+if has('win32')
 	g:terminal_shell = 'pwsh -NoProfile'
 endif
 tnoremap <c-\> <c-\><c-n>
@@ -106,15 +106,15 @@ Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
 
 Plug 'itchyny/lightline.vim'
 g:lightline = {
-	  \ 'colorscheme': 'catppuccin_mocha',
-	  \ 'active': {
-	  \   'left': [ [ 'mode', 'paste' ],
-	  \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-	  \ },
-	  \ 'component_function': {
-	  \   'gitbranch': 'FugitiveHead'
-	  \ },
-	  \ }
+			\ 'colorscheme': 'catppuccin_mocha',
+			\ 'active': {
+			\   'left': [ [ 'mode', 'paste' ],
+			\             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+			\ },
+			\ 'component_function': {
+			\   'gitbranch': 'FugitiveHead'
+			\ },
+			\ }
 
 #  gutentags [[[
 Plug 'ludovicchabant/vim-gutentags', { 'on': 'GutentagsToggleEnabled' } # 管理 tags 文件
@@ -171,15 +171,15 @@ g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
 g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
 g:neoformat_cpp_clangformat = {
-            \ 'exe': 'clang-format',
-            \ 'args': ['-assume-filename=' .. expandcmd('"%"')],
-            \ 'stdin': 1,
-            \ }
+			\ 'exe': 'clang-format',
+			\ 'args': ['-assume-filename=' .. expandcmd('"%"')],
+			\ 'stdin': 1,
+			\ }
 g:neoformat_tex_texfmt = {
-        \ 'exe': 'tex-fmt',
-        \ 'args': [ '--stdin' ],
-        \ 'stdin': 1,
-        \ }
+			\ 'exe': 'tex-fmt',
+			\ 'args': [ '--stdin' ],
+			\ 'stdin': 1,
+			\ }
 g:neoformat_enabled_tex = [ 'texfmt' ]
 
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } # 撤销树
