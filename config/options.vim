@@ -1,10 +1,5 @@
 vim9script
 
-syntax enable                     # 开启语法高亮功能
-syntax on                         # 自动语法高亮
-filetype on                       # 设置开启文件类型侦测
-filetype plugin on
-filetype indent on                # 自适应不同语言的智能缩进
 set nocompatible                  # 设置不兼容原始vi模式
 set noerrorbells                  # 关闭错误提示
 set belloff=all

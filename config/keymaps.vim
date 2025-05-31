@@ -2,7 +2,6 @@ noremap j gj
 noremap k gk
 inoremap <up> <c-o>gk
 inoremap <down> <c-o>gj
-nnoremap <esc> <cmd>nohlsearch<cr><esc>
 
 " vim-buffer {{{
 nnoremap <silent>H     <cmd>call <sid>ChangeBuffer('p')<cr>
@@ -320,23 +319,3 @@ xnoremap <silent><c-j>   <cmd>move '>+1<cr>gv
 xnoremap <silent><c-k>   <cmd>move '<-2<cr>gv
 xnoremap <silent><c-l>   y<c-w>lo<c-[>Vpgv
 xnoremap <silent><c-h>   y<c-w>ho<c-[>Vpgv
-" slash {{{
-func! s:SlashCb()
-	if g:slash_able
-		set nohlsearch|autocmd! slash
-	else
-		set hlsearch|let g:slash_able=1
-	endif
-endf
-func! s:Slash(oper)
-	augroup slash
-		autocmd!
-		autocmd CursorMoved,CursorMovedI * call <sid>SlashCb()
-	augroup END
-	let g:slash_able=0
-	return a:oper."zz"
-endf
-" }}}
-nnoremap <silent><expr>n <sid>Slash('n')
-nnoremap <silent><expr>N <sid>Slash('N')
-
