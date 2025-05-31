@@ -25,6 +25,8 @@ Plug 'tpope/vim-characterize' # 'ga' improve
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['sensible', 'markdown']
+g:markdown_fenced_languages = ['html', 'python', 'bash', 'c', 'cpp', 'shell=sh', 'tex']
+g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 Plug 'AndrewRadev/switch.vim'
@@ -52,6 +54,7 @@ g:startify_change_to_dir       = 1
 g:startify_update_oldfiles     = 1
 g:startify_session_autoload    = 1
 g:startify_session_persistence = 1
+g:startify_session_dir = $v .. '/sessions'
 g:startify_skiplist = [
 			\ 'COMMIT_EDITMSG',
 			\ '/data/repo/neovim/runtime/doc',
