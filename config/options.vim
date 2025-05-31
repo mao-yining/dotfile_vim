@@ -3,7 +3,6 @@ vim9script
 set nocompatible                  # 设置不兼容原始vi模式
 set noerrorbells                  # 关闭错误提示
 set belloff=all
-set ambiwidth=double
 set display=lastline
 set smoothscroll
 set t_Co=256                      # 开启256色支持
