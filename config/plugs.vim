@@ -257,6 +257,7 @@ Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 
 source $v/config/coc.vim
+source $v/config/ale.vim
 
 # Plug 'ZSaberLv0/ZFVimIM'
 # Plug 'ZSaberLv0/ZFVimJob' # 可选, 用于提升词库加载性能
