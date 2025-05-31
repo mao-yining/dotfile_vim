@@ -25,7 +25,7 @@ Plug 'tpope/vim-characterize' # 'ga' improve
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['sensible', 'markdown']
-g:markdown_fenced_languages = ['html', 'python', 'bash', 'c', 'cpp', 'shell=sh', 'tex']
+g:markdown_fenced_languages = ['html', 'python', 'bash', 'c', 'cpp', 'shell=sh', 'tex', 'dosbatch']
 g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
@@ -169,7 +169,7 @@ noremap <silent><f10> <cmd>AsyncTask project-build<cr>
 #  ]]]
 
 Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
-noremap <localleader>f <cmd>undojoin \| Neoformat<cr>
+noremap <localleader>f <cmd>Neoformat<cr>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
 g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
