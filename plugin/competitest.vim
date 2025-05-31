@@ -31,9 +31,11 @@ def Run()
 enddef
 
 def RunNoCompile()
+  ShowUI()
 enddef
 
 def ShowUI()
+
 enddef
 
 # Integration with [competitive-companion](https://github.com/jmerle/competitive-companion)
@@ -51,6 +53,7 @@ def SetupHighlightGroups()
   hi! CompetiTestWrong ctermfg=red guifg=#ff0000
   hi! CompetiTestRunning cterm=bold gui=bold
 enddef
+
 # def ResizeUI()
   # ResizeWigets()
   # # for

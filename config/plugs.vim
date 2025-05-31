@@ -156,7 +156,7 @@ g:gutentags_plus_switch = 1
 #  ]]]
 
 #  asynctasks [[[
-Plug 'skywind3000/asyncrun.vim'
+Plug 'skywind3000/asyncrun.vim', {'on': ['AsyncRun', 'AsyncStop'] }
 Plug 'skywind3000/asynctasks.vim'
 g:asynctasks_term_pos = 'tab' # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况

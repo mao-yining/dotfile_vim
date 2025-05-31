@@ -5,8 +5,7 @@ g:ale_disable_lsp = true
 g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 g:ale_sign_error = '>>'
 g:ale_sign_warning = '--'
-nmap <silent> [x <Plug>(ale_previous_wrap)
-nmap <silent> ]x <Plug>(ale_next_wrap)
+nmap <localleader>x <cmd>ALEDetail<cr>
 Plug 'maximbaz/lightline-ale'
 g:lightline.component_expand = {
       \ 'linter_checking': 'lightline#ale#checking',

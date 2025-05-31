@@ -50,8 +50,16 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
-nnoremap <silent> K :call ShowDocumentation()<CR>
-au FileType vim nmap<buffer> K K
+nnoremap <silent> K :call <sid>show_documentation()<cr>
+function! s:show_documentation()
+  if index(['vim', 'help'], &filetype) >= 0
+    execute 'help ' . expand('<cword>')
+  elseif &filetype ==# 'tex'
+    VimtexDocPackage
+  else
+    call CocAction('doHover')
+  endif
+endfunction
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
@@ -89,7 +97,6 @@ nmap <leader>ac  <Plug>(coc-codeaction-cursor)
 " Remap keys for apply code actions affect whole buffer
 nmap <leader>as  <Plug>(coc-codeaction-source)
 " Apply the most preferred quickfix action to fix diagnostic on the current line
-nmap <leader>x <cmd>CocDiagnostics<cr>
 nmap <leader>.  <Plug>(coc-fix-current)
 nmap <leader>ca  <Plug>(coc-fix-current)
 
@@ -141,6 +148,10 @@ command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.org
 " provide custom statusline: lightline.vim, vim-airline
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+if has('win32')
+  set pythonthreedll=C:\Users\myn\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\python313.dll
+  set pythonthreehome=C:\Users\myn\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\
+endif
 " Use <C-j> for select text for visual placeholder of snippet.
 vmap <C-j> <Plug>(coc-snippets-select)
 
