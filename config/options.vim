@@ -3,6 +3,7 @@ vim9script
 set nocompatible                  # 设置不兼容原始vi模式
 set noerrorbells                  # 关闭错误提示
 set belloff=all
+set ambiwidth=double
 set display=lastline
 set smoothscroll
 set t_Co=256                      # 开启256色支持
@@ -24,7 +25,6 @@ set noshowmode                    # 设置不打开底部insert
 set switchbuf=useopen,usetab
 set hidden                        # 设置允许在未保存切换buffer
 set matchpairs+=<:>               # 设置%匹配<>
-set background=dark               # 设置背景默认黑色
 set autoindent                    # 设置自动缩进
 set cindent                       # 设置使用C/C++语言的自动缩进方式
 autocmd VimEnter * set shellslash # 不知道为什么直接设置会导致vim-plug出bug
@@ -48,7 +48,6 @@ set jumpoptions=stack
 set cursorline                    # 高亮显示当前行
 set number                        # 开启行号显示
 set relativenumber                # 展示相对行号
-set virtualedit=block
 set updatetime=300
 set signcolumn=yes
 set hlsearch                      # 高亮显示搜索结果
@@ -66,7 +65,7 @@ set wildignore=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__
 set completepopup=highlight:Pmenu,border:off
 set diffopt=vertical,internal,filler,closeoff,indent-heuristic,hiddenoff,algorithm:patience
-set diffopt+=inline:word # word / char  patch 9.1.1243
+set diffopt+=inline:word          # word / char  patch 9.1.1243
 set sessionoptions=buffers,curdir,folds,help,resize,tabpages,winsize,slash,terminal,unix
 set viewoptions=cursor,folds,slash,unix
 set clipboard=unnamed
@@ -77,7 +76,7 @@ set undofile
 set nobackup
 set nowritebackup
 set swapfile
-# set tabpagemax=50
+set tabpagemax=50
 set foldopen+=jump
 set autowrite
 set autoread          # 设置自动保存
@@ -93,8 +92,6 @@ scriptencoding utf-8
 
 if has('sodium') && has("patch-9.0.1481")
   set cryptmethod=xchacha20v2
-else
-  set cryptmethod=blowfish2
 endif
 
 if has('win32')
