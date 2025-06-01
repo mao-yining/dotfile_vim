@@ -23,7 +23,6 @@ Plug 'kana/vim-textobj-syntax'
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'sgur/vim-textobj-parameter' # `a,` `i,`
-Plug 'bps/vim-textobj-python', {'for': 'python'}
 Plug 'jceb/vim-textobj-uri'
 Plug 'andymass/vim-matchup'
 Plug 'tpope/vim-repeat'
@@ -148,14 +147,10 @@ g:asynctasks_term_pos = 'tab' # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况
 g:asyncrun_open = 6
 g:asyncrun_save = 1
-noremap <silent><f7> <cmd>AsyncTask file-run<cr>
-noremap <silent><f8> <cmd>AsyncTask file-build<cr>
-noremap <silent><f9> <cmd>AsyncTask project-run<cr>
-noremap <silent><f10> <cmd>AsyncTask project-build<cr>
 inoremap <silent><f7> <esc><cmd>AsyncTask file-run<cr>
 inoremap <silent><f8> <esc><cmd>AsyncTask file-build<cr>
 inoremap <silent><f9> <esc><cmd>AsyncTask project-run<cr>
-inoremap <silent><f9> <esc><cmd>AsyncTask project-build<cr>
+inoremap <silent><f10> <esc><cmd>AsyncTask project-build<cr>
 #  ]]]
 
 Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
@@ -225,7 +220,6 @@ Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
-Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' } # jupyter
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
@@ -238,13 +232,24 @@ Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 Plug 'puremourning/vimspector'
 g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
-g:vimspector_enable_mappings = 'HUMAN'
 nmap <F5> <Plug>VimspectorContinue
+g:vimspector_enable_winbar = 0
+nmap <F3>               <Plug>VimspectorStop
+nmap <F4>               <Plug>VimspectorRestart
+nmap <F5>               <Plug>VimspectorContinue
+nmap <leader><F5>       <Plug>VimspectorLaunch
+nmap <F6>               <Plug>VimspectorStepOver
+nmap <F7>               <Plug>VimspectorStepInto
+nmap <F8>               <Plug>VimspectorStepOut
+nmap <localleader><F5>  <Plug>VimspectorPause
+nmap <leader><F8>       <Plug>VimspectorRunToCursor
+nmap <F9>               <Plug>VimspectorToggleBreakpoint
+nmap <leader><F9>       <Plug>VimspectorToggleConditionalBreakpoint
+nmap <F10>              <Plug>VimspectorAddFunctionBreakpoint
 nmap <LocalLeader><F11> <Plug>VimspectorUpFrame
 nmap <LocalLeader><F12> <Plug>VimspectorDownFrame
 nmap <LocalLeader>B     <Plug>VimspectorBreakpoints
 nmap <LocalLeader>D     <Plug>VimspectorDisassemble
-g:vimspector_enable_winbar = 0
 
 source $v/config/coc.vim
 source $v/config/ale.vim
