@@ -158,7 +158,7 @@ noremap <localleader>f <cmd>Neoformat<cr>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
 g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
-g:neoformat_cpp_clangformat = { 'exe': 'clang-format', 'args': [ expandcmd('-assume-filename=%') ], 'stdin': 1 }
+g:neoformat_cpp_clangformat = { 'exe': 'clang-format', 'args': [ expandcmd('-assume-filename="%"') ], 'stdin': 1, }
 g:neoformat_tex_texfmt = { "exe": "tex-fmt", "args": [ "--stdin" ], "stdin": 1 }
 g:neoformat_enabled_tex = [ "texfmt" ]
 
