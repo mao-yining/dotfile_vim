@@ -1,6 +1,7 @@
 vim9script
 Plug 'dense-analysis/ale'
 
+g:ale_sign_column_always = 1
 g:ale_disable_lsp = true
 g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 g:ale_sign_error = '>>'
@@ -24,11 +25,9 @@ g:lightline.component_type = {
       'linter_errors': 'error',
       'linter_ok': 'right',
 }
-g:lightline.active = {
-      'right': [
-            [ 'lineinfo' ],
-            [ 'percent' ],
-            [ 'fileformat', 'fileencoding', 'filetype'],
-            [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ]
-      ]
-}
+g:lightline.active.right = [
+      [ 'lineinfo' ],
+      [ 'percent' ],
+      [ 'fileformat', 'fileencoding', 'filetype'],
+      [ 'linter_checking', 'linter_errors', 'linter_warnings', 'linter_infos', 'linter_ok' ]
+]

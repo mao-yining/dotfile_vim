@@ -2,17 +2,17 @@ vim9script
 
 noremap j gj
 noremap k gk
-inoremap <up> <c-o>gk
-inoremap <down> <c-o>gj
+inoremap <Up> <C-O>gk
+inoremap <Down> <C-O>gj
 
 # vim-buffer {{{
-nnoremap <silent>H     <cmd>call <sid>ChangeBuffer('p')<cr>
-nnoremap <silent>L     <cmd>call <sid>ChangeBuffer('n')<cr>
-nnoremap <expr><cr> &bt == "" ? "<cmd>w<cr>" : &bt == 'terminal' ? "i\<enter>" : getwininfo(win_getid())[0]["quickfix"] != 0 ? "\<cr>:cclose<cr>" : getwininfo(win_getid())[0]["loclist"] != 0 ? "\<cr>:lclose<cr>" : "\<cr>"
+nnoremap <silent>H     <Cmd>call <sid>ChangeBuffer('p')<CR>
+nnoremap <silent>L     <Cmd>call <sid>ChangeBuffer('n')<CR>
+nnoremap <expr><CR> &bt == "" ? "<Cmd>w<CR>" : &bt == 'terminal' ? "i\<enter>" : getwininfo(win_getid())[0]["quickfix"] != 0 ? "\<CR>:cclose<CR>" : getwininfo(win_getid())[0]["loclist"] != 0 ? "\<CR>:lclose<CR>" : "\<CR>"
 
 # buffer delete {{{
-nnoremap <silent>=b <cmd>enew<cr>
-nnoremap <silent>\b <cmd>call CloseBuf()<cr>
+nnoremap <silent>=b <Cmd>enew<CR>
+nnoremap <silent>\b <Cmd>call CloseBuf()<CR>
 def ChangeBuffer(direct: string)
 	if &bt != '' || &ft == 'netrw'|echoerr "buftype is " ..  &bt .. " cannot be change"|return|endif
 	if direct == 'n'|bn
@@ -45,100 +45,100 @@ enddef
 # }}}
 
 # reload .vimrc
-nnoremap <leader>S <cmd>set nossl<cr><cmd>source $MYVIMRC<cr><cmd>set ssl<cr>
+nnoremap <Leader>S <Cmd>set nossl<CR><Cmd>source $MYVIMRC<CR><Cmd>set ssl<CR>
 
 # 插入移动
-inoremap <c-e> <end>
-inoremap <c-a> <c-o>^
-inoremap <c-d> <del>
-vnoremap <c-d> <del>
-inoremap <c-f> <c-o>w
-inoremap <c-v> <c-o>D
+inoremap <C-e> <end>
+inoremap <C-a> <C-o>^
+inoremap <C-d> <del>
+vnoremap <C-d> <del>
+inoremap <C-f> <C-o>w
+inoremap <C-v> <C-o>D
 
 # vimdiff tool
 cab <expr>Diff "Diff ".expand('%:p:h')."/"
 command! -nargs=1 -bang -complete=file Diff exec ":vert diffsplit ".<q-args>
-command! -nargs=0 Remote <cmd>diffg RE
-command! -nargs=0 Base   <cmd>diffg BA
-command! -nargs=0 Local  <cmd>diffg LO
+command! -nargs=0 Remote <Cmd>diffg RE
+command! -nargs=0 Base   <Cmd>diffg BA
+command! -nargs=0 Local  <Cmd>diffg LO
 
-nnoremap <c-s> <cmd>w<cr>
+nnoremap <C-s> <Cmd>w<CR>
 
 # change window width
-nnoremap <c-up> <c-w>+
-nnoremap <c-down> <c-w>-
-nnoremap <c-left> <c-w><
-nnoremap <c-right> <c-w>>
+nnoremap <C-up> <C-w>+
+nnoremap <C-down> <C-w>-
+nnoremap <C-left> <C-w><
+nnoremap <C-right> <C-w>>
 
 # change window in normal
-nmap <leader>w <c-w>
-nnoremap <c-k> <c-w>k
-nnoremap <c-j> <c-w>j
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
-nnoremap <m-k> <c-w>k
-nnoremap <m-j> <c-w>j
-nnoremap <m-h> <c-w>h
-nnoremap <m-l> <c-w>l
+nmap <Leader>w <C-w>
+nnoremap <C-k> <C-w>k
+nnoremap <C-j> <C-w>j
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <M-k> <C-w>k
+nnoremap <M-j> <C-w>j
+nnoremap <M-h> <C-w>h
+nnoremap <M-l> <C-w>l
 
-nnoremap <silent><nowait>=q <cmd>copen<cr>
-nnoremap <silent><nowait>\q <cmd>cclose<cr>
-nnoremap <silent><nowait>=l <cmd>lopen<cr>
-nnoremap <silent><nowait>\l <cmd>lclose<cr>
+nnoremap <silent><nowait>=q <Cmd>copen<CR>
+nnoremap <silent><nowait>\q <Cmd>cclose<CR>
+nnoremap <silent><nowait>=l <Cmd>lopen<CR>
+nnoremap <silent><nowait>\l <Cmd>lclose<CR>
 # show indent line
-nnoremap <silent><nowait>=i <cmd>set list lcs=tab:¦\<space> <cr>
-nnoremap <silent><nowait>\i <cmd>set nolist<cr>
+nnoremap <silent><nowait>=i <Cmd>set list lcs=tab:¦\<Space> <CR>
+nnoremap <silent><nowait>\i <Cmd>set nolist<CR>
 
 # set spell
-nnoremap <silent><nowait>=s <cmd>setlocal spell<cr>
-nnoremap <silent><nowait>\s <cmd>setlocal nospell<cr>
+nnoremap <silent><nowait>=s <Cmd>setlocal spell<CR>
+nnoremap <silent><nowait>\s <Cmd>setlocal nospell<CR>
 # z= is list of change
 
 # set wrap
-nnoremap <silent><nowait>=r <cmd>setlocal wrap<cr><cmd>noremap<buffer> j gj<cr><cmd>noremap<buffer> k gk<cr>
-nnoremap <silent><nowait>\r <cmd>setlocal nowrap<cr><cmd>unmap<buffer> j<cr><cmd>unmap<buffer> k<cr>
+nnoremap <silent><nowait>=r <Cmd>setlocal wrap<CR><Cmd>noremap<buffer> j gj<CR><Cmd>noremap<buffer> k gk<CR>
+nnoremap <silent><nowait>\r <Cmd>setlocal nowrap<CR><Cmd>unmap<buffer> j<CR><Cmd>unmap<buffer> k<CR>
 
 # set line number
-nnoremap <silent><nowait>=n <cmd>setlocal norelativenumber<cr>
-nnoremap <silent><nowait>\n <cmd>setlocal relativenumber<bar>setlocal number<cr>
+nnoremap <silent><nowait>=n <Cmd>setlocal norelativenumber<CR>
+nnoremap <silent><nowait>\n <Cmd>setlocal relativenumber<Bar>setlocal number<CR>
 
 # close/open number
-nnoremap <silent><nowait>=N <cmd>setlocal norelativenumber<cr><cmd>setlocal nonumber<cr>:set nolist<cr>
-nnoremap <silent><nowait>\N <cmd>setlocal relativenumber<cr><cmd>setlocal number<cr>:set list lcs=tab:¦\<space> <cr>
+nnoremap <silent><nowait>=N <Cmd>setlocal norelativenumber<CR><Cmd>setlocal nonumber<CR>:set nolist<CR>
+nnoremap <silent><nowait>\N <Cmd>setlocal relativenumber<CR><Cmd>setlocal number<CR>:set list lcs=tab:¦\<Space> <CR>
 
 # set fold auto,use zE unset all fold,zf create fold
-nnoremap <silent><nowait>=z <cmd>setlocal fdm=indent<cr><cmd>setlocal fen<cr>
-nnoremap <silent><nowait>\z <cmd>setlocal fdm=manual<cr><cmd>setlocal nofen<cr>
+nnoremap <silent><nowait>=z <Cmd>setlocal fdm=indent<CR><Cmd>setlocal fen<CR>
+nnoremap <silent><nowait>\z <Cmd>setlocal fdm=manual<CR><Cmd>setlocal nofen<CR>
 nnoremap <silent><nowait>=o zO
 nnoremap <silent><nowait>\o zC
 nnoremap <silent><nowait><expr><bs> foldlevel('.')>0?"zc":"\<bs>"
 
 # " tab ctrl
-nnoremap <silent><nowait>=<tab> <cmd>tabnew<cr>
-nnoremap <silent><nowait>\<tab> <cmd>tabc<cr>
-nnoremap <silent><nowait>[<tab> <cmd>tabp<cr>
-nnoremap <silent><nowait>]<tab> <cmd>tabn<cr>
+nnoremap <silent><nowait>=<tab> <Cmd>tabnew<CR>
+nnoremap <silent><nowait>\<tab> <Cmd>tabc<CR>
+nnoremap <silent><nowait>[<tab> <Cmd>tabp<CR>
+nnoremap <silent><nowait>]<tab> <Cmd>tabn<CR>
 
-noremap <silent><m-1> <cmd>tabn 1<cr>
-noremap <silent><m-2> <cmd>tabn 2<cr>
-noremap <silent><m-3> <cmd>tabn 3<cr>
-noremap <silent><m-4> <cmd>tabn 4<cr>
-noremap <silent><m-5> <cmd>tabn 5<cr>
-noremap <silent><m-6> <cmd>tabn 6<cr>
-noremap <silent><m-7> <cmd>tabn 7<cr>
-noremap <silent><m-8> <cmd>tabn 8<cr>
-noremap <silent><m-9> <cmd>tabn 9<cr>
-noremap <silent><m-0> <cmd>tabn 10<cr>
-inoremap <silent><m-1> <ESC><cmd>tabn 1<cr>
-inoremap <silent><m-2> <ESC><cmd>tabn 2<cr>
-inoremap <silent><m-3> <ESC><cmd>tabn 3<cr>
-inoremap <silent><m-4> <ESC><cmd>tabn 4<cr>
-inoremap <silent><m-5> <ESC><cmd>tabn 5<cr>
-inoremap <silent><m-6> <ESC><cmd>tabn 6<cr>
-inoremap <silent><m-7> <ESC><cmd>tabn 7<cr>
-inoremap <silent><m-8> <ESC><cmd>tabn 8<cr>
-inoremap <silent><m-9> <ESC><cmd>tabn 9<cr>
-inoremap <silent><m-0> <ESC><cmd>tabn 10<cr>
+noremap <silent><M-1> <Cmd>tabn 1<CR>
+noremap <silent><M-2> <Cmd>tabn 2<CR>
+noremap <silent><M-3> <Cmd>tabn 3<CR>
+noremap <silent><M-4> <Cmd>tabn 4<CR>
+noremap <silent><M-5> <Cmd>tabn 5<CR>
+noremap <silent><M-6> <Cmd>tabn 6<CR>
+noremap <silent><M-7> <Cmd>tabn 7<CR>
+noremap <silent><M-8> <Cmd>tabn 8<CR>
+noremap <silent><M-9> <Cmd>tabn 9<CR>
+noremap <silent><M-0> <Cmd>tabn 10<CR>
+inoremap <silent><M-1> <ESC><Cmd>tabn 1<CR>
+inoremap <silent><M-2> <ESC><Cmd>tabn 2<CR>
+inoremap <silent><M-3> <ESC><Cmd>tabn 3<CR>
+inoremap <silent><M-4> <ESC><Cmd>tabn 4<CR>
+inoremap <silent><M-5> <ESC><Cmd>tabn 5<CR>
+inoremap <silent><M-6> <ESC><Cmd>tabn 6<CR>
+inoremap <silent><M-7> <ESC><Cmd>tabn 7<CR>
+inoremap <silent><M-8> <ESC><Cmd>tabn 8<CR>
+inoremap <silent><M-9> <ESC><Cmd>tabn 9<CR>
+inoremap <silent><M-0> <ESC><Cmd>tabn 10<CR>
 
 def Tab_MoveLeft()
 	var tabnr = tabpagenr() - 2
@@ -152,46 +152,46 @@ def Tab_MoveRight()
 		exec 'tabmove ' .. tabnr
 	endif
 enddef
-noremap <silent><m-left> <cmd>call Tab_MoveLeft()<cr>
-noremap <silent><m-right> <cmd>call Tab_MoveRight()<cr>
+noremap <silent><M-left> <Cmd>call Tab_MoveLeft()<CR>
+noremap <silent><M-right> <Cmd>call Tab_MoveRight()<CR>
 
 # set search noh
-nnoremap <silent><nowait>\h <cmd>noh<cr>
-nnoremap <silent><nowait>=h <cmd>set hlsearch<cr>
+nnoremap <silent><nowait>\h <Cmd>noh<CR>
+nnoremap <silent><nowait>=h <Cmd>set hlsearch<CR>
 
-# delete <space> in end of line
-nnoremap <silent><nowait>d<space> <cmd>%s/ *$//g<cr>:noh<cr><c-o>
-nnoremap <nowait>g<space> <cmd>syntax match DiffDelete # *$"<cr>
+# delete <Space> in end of line
+nnoremap <silent><nowait>d<Space> <Cmd>%s/ *$//g<CR>:noh<CR><C-o>
+nnoremap <nowait>g<Space> <Cmd>syntax match DiffDelete # *$"<CR>
 
 # delete empty line
-nnoremap <silent><nowait>dl <cmd>g/^\s*$/d<cr>
+nnoremap <silent><nowait>dl <Cmd>g/^\s*$/d<CR>
 
 # select search / substitute
-xmap g/ "sy/\V<c-r>=@s<cr>
-xmap gs y:%s/<c-r>0/
+xmap g/ "sy/\V<C-R>=@s<CR>
+xmap gs y:%s/<C-R>0/
 
 # run macro in visual model
 xnoremap @ :normal @
 
 # repeat for macro
-nnoremap <silent><c-q> @@
+nnoremap <silent><C-Q> @@
 
 # indent buffer
-onoremap <silent>ae :<c-u>normal! ggVG<cr>
-xnoremap <silent>ae :<c-u>normal! ggVG<cr>
+onoremap <silent>ae :<C-U>normal! ggVG<CR>
+xnoremap <silent>ae :<C-U>normal! ggVG<CR>
 
 # object line
-onoremap <silent>il :<c-u>normal! ^v$BE<cr>
-xnoremap <silent>il :<c-u>normal! ^v$<cr><left>
-onoremap <silent>al :<c-u>normal! 0v$<cr>
-xnoremap <silent>al :<c-u>normal! 0v$<cr>
+onoremap <silent>il :<C-U>normal! ^v$BE<CR>
+xnoremap <silent>il :<C-U>normal! ^v$<CR><Left>
+onoremap <silent>al :<C-U>normal! 0v$<CR>
+xnoremap <silent>al :<C-U>normal! 0v$<CR>
 
 # sudo to write file
 cab w!! w !sudo tee % >/dev/null
 
 # quick to change dir
-cab cdn cd <c-r>=expand('%:p:h')<cr>
-cab cdr cd <c-r>=FindRoot()<cr>
+cab cdn cd <C-R>=expand('%:p:h')<CR>
+cab cdr cd <C-R>=FindRoot()<CR>
 def g:FindRoot(): string
 	var gitdir = finddir(".git", getcwd() .. ';')
 	if !empty(gitdir)

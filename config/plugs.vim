@@ -8,7 +8,7 @@ packadd! hlyank
 packadd! helptoc
 packadd! matchit
 nnoremap <LocalLeader>t <Cmd>HelpToc<CR>
-tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
+tnoremap <C-T><C-T> <Cmd>helptoc<CR>
 
 call plug#begin()
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
@@ -16,13 +16,9 @@ Plug 'stillwwater/wincap.vim'
 Plug 'yianwillis/vimcdoc'
 
 # coding [[[
-Plug 'Eliot00/auto-pairs'         # Vim9
+Plug 'eliot00/auto-pairs'         # vim9
 Plug 'kshenoy/vim-signature'      # show marks
-Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-syntax'    # `ay` `iy`
-Plug 'kana/vim-textobj-indent'
-Plug 'sgur/vim-textobj-parameter' # `a,` `i,`
-Plug 'jceb/vim-textobj-uri'
+Plug 'wellle/targets.vim'
 Plug 'andymass/vim-matchup'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
@@ -36,22 +32,27 @@ g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 g:vimbits_highlightonyank = false
-Plug 'AndrewRadev/switch.vim'
+Plug 'andrewradev/switch.vim'
 g:speeddating_no_mappings = 1
-nnoremap <Plug>SpeedDatingFallbackUp <c-a>
-nnoremap <Plug>SpeedDatingFallbackDown <c-x>
-nnoremap <silent><c-a> <cmd>if !switch#Switch() <bar> call speeddating#increment(v:count1) <bar> endif<cr>
-nnoremap <silent><c-x> <cmd>if !switch#Switch({'reverse': 1}) <bar> call speeddating#increment(-v:count1) <bar> endif<cr>
+nnoremap <Plug>SpeedDatingFallbackUp <C-A>
+nnoremap <Plug>SpeedDatingFallbackDown <C-X>
+nnoremap <silent><C-A> <Cmd>if !switch#switch() <Bar> call speeddating#increment(v:count1) <Bar> endif<CR>
+nnoremap <silent><C-X> <Cmd>if !switch#switch({'reverse': 1}) <Bar> call speeddating#increment(-v:count1) <Bar> endif<CR>
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
+Plug 'voldikss/vim-browser-search', { 'on': ['<Plug>SearchNormal', '<Plug>SearchVisual'] }
+g:browser_search_default_engine = "bing"
+nmap <silent> <LocalLeader>s <Plug>SearchNormal
+vmap <silent> <LocalLeader>s <Plug>SearchVisual
 # ]]]
 
 # ui [[[
+Plug 'itchyny/vim-highlighturl'
 Plug 'luochen1990/rainbow' # 彩虹括号
 g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
 g:rainbow_active = 1
 
 Plug 'mhinz/vim-startify'
-autocmd User Startified setlocal cursorline
+autocmd user startified setlocal cursorline
 g:startify_enable_special      = 0
 g:startify_files_number        = 5
 g:startify_relative_path       = 1
@@ -60,46 +61,9 @@ g:startify_update_oldfiles     = 1
 g:startify_session_autoload    = 1
 g:startify_session_persistence = 1
 g:startify_session_dir = $v .. '/sessions'
-g:startify_skiplist = [ "COMMIT_EDITMSG", "/data/repo/neovim/runtime/doc", "/Temp/", "/plugged/.*/doc/" ]
-g:startify_bookmarks = [ { 'c': $VIMRC } ]
-g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
-
-# ]]]
-
-Plug 'skywind3000/vim-terminal-help'
-g:terminal_list = 0
-if has('win32')
-	g:terminal_shell = 'pwsh -NoProfile'
-endif
-tnoremap <c-\> <c-\><c-n>
-tnoremap <m-H> <c-_>h
-tnoremap <m-L> <c-_>l
-tnoremap <m-J> <c-_>j
-tnoremap <m-K> <c-_>k
-
-Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
-nmap <m-w> <Plug>(choosewin)
-imap <m-w> <esc><Plug>(choosewin)
-tnoremap <m-w> <c-\><c-n><Plug>(choosewin)
-
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-nnoremap <silent><nowait> <Leader>      <Cmd>WhichKey '<Space>'<CR>
-nnoremap <silent><nowait> <LocalLeader> <Cmd>WhichKey ';'<CR>
-
-Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
-noremap <localleader>di <cmd>DIstart<cr>
-
-Plug 'habamax/vim-dir', { 'on': 'Dir' }
-nnoremap <silent>- <cmd>Dir<cr>
-
-Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
-noremap =c <cmd>ColorHighlight<cr>
-noremap \c <cmd>ColorClear<cr>
-
-Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
-nnoremap <silent><localleader>v <cmd>Vista!!<cr>
-
-Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
+g:startify_skiplist = [ "commit_editmsg", "/data/repo/neovim/runtime/doc", "/temp/", "/Plugged/.*/doc/" ]
+g:startify_bookmarks = [ { 'c': $vimrc } ]
+g:startify_custom_footer = ["", "   vim is charityware. please read ':help uganda'.", ""]
 
 Plug 'itchyny/lightline.vim'
 g:lightline = {
@@ -110,9 +74,45 @@ g:lightline = {
 			[ "gitbranch", "readonly", "filename", "modified" ] ]
 	},
 	"component_function": {
-		"gitbranch": "FugitiveHead"
+		"gitbranch": "fugitivehead"
 	},
 }
+# ]]]
+
+Plug 'skywind3000/vim-terminal-help'
+g:terminal_list = 0
+if has('win32')
+	g:terminal_shell = 'pwsh -noprofile'
+endif
+tnoremap <C-\> <C-\><C-N>
+tnoremap <M-H> <C-_>h
+tnoremap <M-L> <C-_>l
+tnoremap <M-J> <C-_>j
+tnoremap <M-K> <C-_>k
+
+Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
+nmap <M-w> <Plug>(choosewin)
+imap <M-w> <Esc><Plug>(choosewin)
+tnoremap <M-w> <C-\><C-n><Plug>(choosewin)
+
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+nnoremap <silent><nowait> <Leader>      <Cmd>WhichKey '<Space>'<CR>
+nnoremap <silent><nowait> <LocalLeader> <Cmd>WhichKey ';'<CR>
+
+Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
+noremap <LocalLeader>di <Cmd>DIstart<CR>
+
+Plug 'habamax/vim-dir', { 'on': 'Dir' }
+nnoremap <silent>- <Cmd>Dir<CR>
+
+Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
+noremap =c <Cmd>ColorHighlight<CR>
+noremap \c <Cmd>ColorClear<CR>
+
+Plug 'liuchengxu/vista.vim', { 'on': 'Vista' }
+nnoremap <silent><LocalLeader>v <Cmd>Vista!!<CR>
+
+Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
 
 # gutentags 管理 tags 文件[[[
 Plug 'ludovicchabant/vim-gutentags', { 'on': 'GutentagsToggleEnabled' }
@@ -146,14 +146,18 @@ g:asynctasks_term_pos = 'tab' # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况
 g:asyncrun_open = 6
 g:asyncrun_save = 1
-inoremap <silent><f7> <esc><cmd>AsyncTask file-run<cr>
-inoremap <silent><f8> <esc><cmd>AsyncTask file-build<cr>
-inoremap <silent><f9> <esc><cmd>AsyncTask project-run<cr>
-inoremap <silent><f10> <esc><cmd>AsyncTask project-build<cr>
+noremap <silent><f7> <Esc><Cmd>AsyncTask file-run<CR>
+noremap <silent><f8> <Esc><Cmd>AsyncTask file-build<CR>
+noremap <silent><f9> <Esc><Cmd>AsyncTask project-run<CR>
+noremap <silent><f10> <Esc><Cmd>AsyncTask project-build<CR>
+inoremap <silent><f7> <Esc><Cmd>AsyncTask file-run<CR>
+inoremap <silent><f8> <Esc><Cmd>AsyncTask file-build<CR>
+inoremap <silent><f9> <Esc><Cmd>AsyncTask project-run<CR>
+inoremap <silent><f10> <Esc><Cmd>AsyncTask project-build<CR>
 #  ]]]
 
 Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
-noremap <localleader>f <cmd>Neoformat<cr>
+noremap <LocalLeader>f <Cmd>Neoformat<CR>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
 g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
@@ -162,40 +166,40 @@ g:neoformat_tex_texfmt = { "exe": "tex-fmt", "args": [ "--stdin" ], "stdin": 1 }
 g:neoformat_enabled_tex = [ "texfmt" ]
 
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } # 撤销树
-noremap <leader>u <cmd>UndotreeToggle<cr>
+noremap <Leader>u <Cmd>UndotreeToggle<CR>
 
 Plug 'girishji/devdocs.vim'
-nnoremap <leader>df <Cmd>DevdocsFind<CR>
-nnoremap <leader>di <Cmd>DevdocsInstall<CR>
-nnoremap <leader>du <Cmd>DevdocsUninstall<CR>
+nnoremap <Leader>df <Cmd>DevdocsFind<CR>
+nnoremap <Leader>di <Cmd>DevdocsInstall<CR>
+nnoremap <Leader>du <Cmd>DevdocsUninstall<CR>
 
 #  Git [[[
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
-nnoremap <leader>gg <cmd>Git<cr>
-nnoremap <leader>gl <cmd>GV<cr>
-nnoremap <leader>gcc <cmd>Git commit<cr>
-nnoremap <leader>gca <cmd>Git commit --amend<cr>
-nnoremap <leader>gce <cmd>Git commit --amend --no-edit<cr>
-nnoremap <leader>gs :Git switch<space>
-nnoremap <leader>gS :Git stash<space>
-nnoremap <leader>gco :Git checkout<space>
-nnoremap <leader>gcp :Git cherry-pick<space>
-nnoremap <leader>gm :Git merge<space>
-nnoremap <leader>gcb <cmd>Git branch<cr>
-nnoremap <leader>gp <cmd>Git! pull<cr>
-nnoremap <leader>gP <cmd>Git! push<cr>
-nnoremap <leader>gM <cmd>Git mergetool<cr>
-nnoremap <leader>gd <cmd>Git diff<cr>
-nnoremap <leader>gD <cmd>Git difftool<cr>
-nnoremap <leader>gB <cmd>Git branch<cr>
-nnoremap <leader>gb <cmd>Git blame<cr>
-nnoremap <leader>gr <cmd>Gread<cr>
-nnoremap <leader>gw <cmd>Gwrite<cr>
+nnoremap <Leader>gg <Cmd>Git<CR>
+nnoremap <Leader>gl <Cmd>GV<CR>
+nnoremap <Leader>gcc <Cmd>Git commit<CR>
+nnoremap <Leader>gca <Cmd>Git commit --amend<CR>
+nnoremap <Leader>gce <Cmd>Git commit --amend --no-edit<CR>
+nnoremap <Leader>gs :Git switch<Space>
+nnoremap <Leader>gS :Git stash<Space>
+nnoremap <Leader>gco :Git checkout<Space>
+nnoremap <Leader>gcp :Git cherry-pick<Space>
+nnoremap <Leader>gm :Git merge<Space>
+nnoremap <Leader>gcb <Cmd>Git branch<CR>
+nnoremap <Leader>gp <Cmd>Git! pull<CR>
+nnoremap <Leader>gP <Cmd>Git! push<CR>
+nnoremap <Leader>gM <Cmd>Git mergetool<CR>
+nnoremap <Leader>gd <Cmd>Git diff<CR>
+nnoremap <Leader>gD <Cmd>Git difftool<CR>
+nnoremap <Leader>gB <Cmd>Git branch<CR>
+nnoremap <Leader>gb <Cmd>Git blame<CR>
+nnoremap <Leader>gr <Cmd>Gread<CR>
+nnoremap <Leader>gw <Cmd>Gwrite<CR>
 Plug 'airblade/vim-gitgutter'
-nmap <localleader>hw <Plug>(GitGutterStageHunk)
-nmap <localleader>hr <Plug>(GitGutterUndoHunk)
-nmap <localleader>hp <Plug>(GitGutterPreviewHunk)
+nmap <LocalLeader>hw <Plug>(GitGutterStageHunk)
+nmap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
+nmap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
 omap ih <Plug>(GitGutterTextObjectInnerPending)
 omap ah <Plug>(GitGutterTextObjectOuterPending)
 xmap ih <Plug>(GitGutterTextObjectInnerVisual)
@@ -219,36 +223,51 @@ Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
-Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
-Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': ['VimtexInverseSearch', 'VimtexDocPackage']}
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
-xmap <localleader>a <Plug>(EasyAlign)
-nmap <localleader>a <Plug>(EasyAlign)
+xmap <LocalLeader>a <Plug>(EasyAlign)
+nmap <LocalLeader>a <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
+
+# vimspector [[[
 Plug 'puremourning/vimspector'
 g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
-nmap <F5> <Plug>VimspectorContinue
+nnoremap <F5>          <Plug>VimspectorContinue
+nnoremap <F3>          <Plug>VimspectorToggleBreakpoint
+nnoremap <Leader><F3>  <Plug>VimspectorRunToCursor
+nnoremap <F4>          <Plug>VimspectorAddFunctionBreakpoint
+nnoremap <Leader><F4>  <Plug>VimspectorToggleConditionalBreakpoint
 g:vimspector_enable_winbar = 0
-nmap <F3>               <Plug>VimspectorStop
-nmap <F4>               <Plug>VimspectorRestart
-nmap <F5>               <Plug>VimspectorContinue
-nmap <leader><F5>       <Plug>VimspectorLaunch
-nmap <F6>               <Plug>VimspectorStepOver
-nmap <F7>               <Plug>VimspectorStepInto
-nmap <F8>               <Plug>VimspectorStepOut
-nmap <localleader><F5>  <Plug>VimspectorPause
-nmap <leader><F8>       <Plug>VimspectorRunToCursor
-nmap <F9>               <Plug>VimspectorToggleBreakpoint
-nmap <leader><F9>       <Plug>VimspectorToggleConditionalBreakpoint
-nmap <F10>              <Plug>VimspectorAddFunctionBreakpoint
-nmap <LocalLeader><F11> <Plug>VimspectorUpFrame
-nmap <LocalLeader><F12> <Plug>VimspectorDownFrame
-nmap <LocalLeader>B     <Plug>VimspectorBreakpoints
-nmap <LocalLeader>D     <Plug>VimspectorDisassemble
+autocmd User VimspectorDebugEnded g:UnLoadVimspectorMaps()
+autocmd User VimspectorUICreated g:LoadVimspectorMaps()
+def g:LoadVimspectorMaps()
+	nnoremap <Leader><F5>  <Plug>VimspectorStop
+	nnoremap <F6>          <Plug>VimspectorStepOver
+	nnoremap <F7>          <Plug>VimspectorStepInto
+	nnoremap <F8>          <Plug>VimspectorStepOut
+	nnoremap <F9>          <Plug>VimspectorPause
+	nnoremap <F10>         <Plug>VimspectorRestart
+	nnoremap <Leader><F11> <Plug>VimspectorUpFrame
+	nnoremap <Leader><F12> <Plug>VimspectorDownFrame
+	nnoremap <Leader>B     <Plug>VimspectorBreakpoints
+	nnoremap <Leader>D     <Plug>VimspectorDisassemble
+enddef
+def g:UnLoadVimspectorMaps()
+	if exists('<Leader><F5>')|nunmap <Leader><F5>|endif
+	if exists('<F6>')|nunmap <F6>|endif
+	nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+	nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+	nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+	nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+	if exists('<Leader><F11>')|nunmap <Leader><F11>|endif
+	if exists('<Leader><F12>')|nunmap <Leader><F12>|endif
+	if exists('<Leader>B')|nunmap <Leader>B|endif
+	if exists('<Leader>D')|nunmap <Leader>D|endif
+enddef
+# ]]]
 
 source $v/config/coc.vim
 source $v/config/ale.vim
