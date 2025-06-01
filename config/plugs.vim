@@ -155,7 +155,7 @@ noremap <silent><f10> <cmd>AsyncTask project-build<cr>
 inoremap <silent><f7> <esc><cmd>AsyncTask file-run<cr>
 inoremap <silent><f8> <esc><cmd>AsyncTask file-build<cr>
 inoremap <silent><f9> <esc><cmd>AsyncTask project-run<cr>
-inoremap <silent><f10> <esc><cmd>AsyncTask project-build<cr>
+inoremap <silent><f9> <esc><cmd>AsyncTask project-build<cr>
 #  ]]]
 
 Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
@@ -228,7 +228,6 @@ Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
 Plug 'ubaldot/vim-replica', { 'on': '<Plug>ReplicaConsoleToggle' } # jupyter
 Plug 'chenxuan520/vim-go-highlight', {'for': 'go'}
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
-Plug 'ubaldot/vim-microdebugger', { 'on': 'MicroDebug' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'jceb/vim-orgmode', { 'for': 'org' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': ['VimtexInverseSearch', 'VimtexDocPackage']}
@@ -238,12 +237,14 @@ nmap <localleader>a <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 Plug 'puremourning/vimspector'
-g:vimspector_enable_mappings = 'HUMAN'
 g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+g:vimspector_enable_mappings = 'HUMAN'
+nmap <F5> <Plug>VimspectorContinue
 nmap <LocalLeader><F11> <Plug>VimspectorUpFrame
 nmap <LocalLeader><F12> <Plug>VimspectorDownFrame
 nmap <LocalLeader>B     <Plug>VimspectorBreakpoints
 nmap <LocalLeader>D     <Plug>VimspectorDisassemble
+g:vimspector_enable_winbar = 0
 
 source $v/config/coc.vim
 source $v/config/ale.vim
