@@ -19,9 +19,8 @@ Plug 'yianwillis/vimcdoc'
 Plug 'Eliot00/auto-pairs'         # Vim9
 Plug 'kshenoy/vim-signature'      # show marks
 Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-syntax'
+Plug 'kana/vim-textobj-syntax'    # `ay` `iy`
 Plug 'kana/vim-textobj-indent'
-Plug 'kana/vim-textobj-function', { 'for': ['c', 'cpp', 'vim', 'java'] }
 Plug 'sgur/vim-textobj-parameter' # `a,` `i,`
 Plug 'jceb/vim-textobj-uri'
 Plug 'andymass/vim-matchup'
