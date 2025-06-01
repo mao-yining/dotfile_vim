@@ -6,11 +6,7 @@ elseif has("x11")
 	# Also for GTK 1
 	set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
 elseif has("gui_win32")
-	# set guifont=Inconsolata\ Nerd\ Font\ Mono:h12  # 使用默认字体 (Consolas) 效果挺好。
-	# set guifontwide=霞鹜文楷等宽,等距更纱黑体\ SC
 	set renderoptions=type:directx
-	# 默认：未知，但是这个字体不会有显示上的问题，使用DirectX和使用默认渲染器
-	# 的字体并不一样。默认的双宽字体似乎是宋体横向拉长，也就是直接打印出的样子。
 endif
 
 set t_vb=                   # 关闭视觉铃声
