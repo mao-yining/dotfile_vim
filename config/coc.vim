@@ -16,13 +16,35 @@ endif
 # no select by `"suggest.noselect": true` in your configuration file
 # NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 # other plugin before putting this into your config
-inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#_select_confirm() : coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" : CheckBackspace() ? "\<TAB>" : coc#refresh()
+inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#_select_confirm() : CheckBackspace() ? "\<TAB>" : coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+# Make <CR> to accept selected completion item or notify coc.nvim to format
+# <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 def CheckBackspace(): bool
 	var col = col('.') - 1
-	return !col || getline('.')[col - 1]  =~# '\s'
+	return !col || getline('.')[col - 1] =~# '\s'
 enddef
+
+# Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+# Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+# Use <C-j> for jump to next placeholder, it's default of coc.nvim
+g:coc_snippet_next = '<c-j>'
+
+# Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+g:coc_snippet_prev = '<c-k>'
+
+# Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+# Use <leader>x for convert visual selected code to snippet
+xmap <leader>x  <Plug>(coc-convert-snippet)
 
 # Make <CR> to accept selected completion item or notify coc.nvim to format
 # <C-g>u breaks current undo, please make your own choice
@@ -132,21 +154,6 @@ command! -nargs=0 OR   call CocActionAsync('runCommand', 'editor.action.organize
 # NOTE: Please see `:h coc-status` for integrations with external plugins that
 # provide custom statusline: lightline.vim, vim-airline
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
-
-# Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
-
-# Use <C-j> for jump to next placeholder, it's default of coc.nvim
-g:coc_snippet_next = '<c-j>'
-
-# Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-g:coc_snippet_prev = '<c-k>'
-
-# Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-# Use <leader>x for convert visual selected code to snippet
-xmap <leader>x  <Plug>(coc-convert-snippet)
 
 # Mappings for CoCList
 # Manage extensions
