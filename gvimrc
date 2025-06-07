@@ -7,6 +7,7 @@ elseif has("x11")
 	set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
 elseif has("gui_win32")
 	set renderoptions=type:directx
+	set guifont=Inconsolata\ Nerd\ Font:h12
 endif
 
 set t_vb=                   # 关闭视觉铃声
