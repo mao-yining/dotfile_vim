@@ -230,6 +230,7 @@ xmap <LocalLeader>a <Plug>(EasyAlign)
 nmap <LocalLeader>a <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
+Plug 'editorconfig/editorconfig-vim'
 
 # vimspector [[[
 Plug 'puremourning/vimspector'
