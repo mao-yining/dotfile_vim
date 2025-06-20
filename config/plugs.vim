@@ -46,7 +46,6 @@ vmap <silent> <LocalLeader>s <Plug>SearchVisual
 # ]]]
 
 # ui [[[
-Plug 'itchyny/vim-highlighturl'
 Plug 'luochen1990/rainbow' # 彩虹括号
 g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
 g:rainbow_active = 1
@@ -82,7 +81,7 @@ g:lightline = {
 Plug 'skywind3000/vim-terminal-help'
 g:terminal_list = 0
 if has('win32')
-	g:terminal_shell = 'pwsh -noprofile'
+	g:terminal_shell = 'nu'
 endif
 tnoremap <C-\> <C-\><C-N>
 tnoremap <M-H> <C-_>h
