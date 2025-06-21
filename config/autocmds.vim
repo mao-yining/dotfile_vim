@@ -21,8 +21,8 @@ autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
 # 软换行
 autocmd FileType tex,markdown,text set wrap
 
-# 设置 q 来退出无需编辑的窗口
-autocmd FileType fugitive,qf map <buffer>q <Cmd>q<CR>
+# 设置 q 来退出窗口
+autocmd FileType fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
 
 # 在 git commit 界面自动进入插入模式
 autocmd FileType gitcommit :1 | startinsert
