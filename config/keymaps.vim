@@ -176,8 +176,8 @@ xnoremap @ :normal @
 nnoremap <silent><C-Q> @@
 
 # indent buffer
-onoremap <silent>ae :<C-U>normal! ggVG<CR>
-xnoremap <silent>ae :<C-U>normal! ggVG<CR>
+onoremap <silent>A :<C-U>normal! ggVG<CR>
+xnoremap <silent>A :<C-U>normal! ggVG<CR>
 
 # object line
 onoremap <silent>il :<C-U>normal! ^v$BE<CR>
