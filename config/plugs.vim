@@ -16,7 +16,7 @@ Plug 'stillwwater/wincap.vim'
 Plug 'yianwillis/vimcdoc'
 
 # coding [[[
-Plug 'eliot00/auto-pairs'         # vim9
+Plug 'Eliot00/auto-pairs'         # vim9
 Plug 'kshenoy/vim-signature'      # show marks
 Plug 'wellle/targets.vim'
 Plug 'andymass/vim-matchup'
@@ -32,12 +32,12 @@ g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 g:vimbits_highlightonyank = false
-Plug 'andrewradev/switch.vim'
+Plug 'Andrewradev/switch.vim'
 g:speeddating_no_mappings = 1
 nnoremap <Plug>SpeedDatingFallbackUp <C-A>
 nnoremap <Plug>SpeedDatingFallbackDown <C-X>
-nnoremap <silent><C-A> <Cmd>if !switch#switch() <Bar> call speeddating#increment(v:count1) <Bar> endif<CR>
-nnoremap <silent><C-X> <Cmd>if !switch#switch({'reverse': 1}) <Bar> call speeddating#increment(-v:count1) <Bar> endif<CR>
+nnoremap <silent><C-A> <Cmd>if !switch#Switch() <Bar> call speeddating#increment(v:count1) <Bar> endif<CR>
+nnoremap <silent><C-X> <Cmd>if !switch#Switch({'reverse': 1}) <Bar> call speeddating#increment(-v:count1) <Bar> endif<CR>
 Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
 Plug 'voldikss/vim-browser-search', { 'on': ['<Plug>SearchNormal', '<Plug>SearchVisual'] }
 g:browser_search_default_engine = "bing"
