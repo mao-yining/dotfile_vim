@@ -20,11 +20,11 @@ set guioptions-=b           # 隐藏底部滚动条
 set guioptions-=e           # 隐藏 Tab 栏
 
 # Toggle fullscreen mode by pressing F11
-inoremap <f11> <esc><cmd>ToggleFullscreen<cr>
-noremap <f11> <esc><cmd>ToggleFullscreen<cr>
+inoremap <F11> <Esc><Cmd>ToggleFullscreen<CR>
+noremap <F11> <Esc><Cmd>ToggleFullscreen<CR>
 # Toggle window transparency to 247 or 180 by pressing F12
-inoremap <f12> <esc><cmd>ToggleTransparency<cr>
-noremap <f12> <esc><cmd>ToggleTransparency<cr>
+inoremap <F12> <Esc><Cmd>ToggleTransparency<CR>
+noremap <F12> <Esc><Cmd>ToggleTransparency<CR>
 
 # 粘贴快捷键
 noremap! <C-S-V> <C-R>+
