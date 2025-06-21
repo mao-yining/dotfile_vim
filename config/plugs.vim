@@ -47,7 +47,7 @@ vmap <silent> <LocalLeader>s <Plug>SearchVisual
 
 # ui [[[
 Plug 'luochen1990/rainbow' # 彩虹括号
-g:rainbow_conf = { 'guifgs': ['#da70d6', '#87cefa', ' #ffd700'] }
+g:rainbow_conf = { guifgs: ['#da70d6', '#87cefa', ' #ffd700'] }
 g:rainbow_active = 1
 
 Plug 'mhinz/vim-startify'
@@ -60,9 +60,10 @@ g:startify_update_oldfiles     = 1
 g:startify_session_autoload    = 1
 g:startify_session_persistence = 1
 g:startify_session_dir = $v .. '/sessions'
-g:startify_skiplist = [ "commit_editmsg", "/data/repo/neovim/runtime/doc", "/temp/", "/Plugged/.*/doc/" ]
+g:startify_skiplist = [ "runtime/doc/", "/plugged/.*/doc/", "/.git/" ]
+g:startify_skiplist += [ "/Temp/", "fugitiveblame$" ]
 g:startify_bookmarks = [ { 'c': $vimrc } ]
-g:startify_custom_footer = ["", "   vim is charityware. please read ':help uganda'.", ""]
+g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
 
 Plug 'itchyny/lightline.vim'
 g:lightline = {}
@@ -155,7 +156,7 @@ noremap <LocalLeader>f <Cmd>Neoformat<CR>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
 g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
-g:neoformat_cpp_clangformat = { 'exe': 'clang-format', 'args': [ expandcmd('-assume-filename="%"') ], 'stdin': 1, }
+g:neoformat_cpp_clangformat = { "exe": "clang-format", "args": [ expandcmd('-assume-filename="%"') ], "stdin": 1 }
 g:neoformat_tex_texfmt = { "exe": "tex-fmt", "args": [ "--stdin" ], "stdin": 1 }
 g:neoformat_enabled_tex = [ "texfmt" ]
 
