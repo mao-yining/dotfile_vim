@@ -3,12 +3,6 @@ vim9script
 packadd! comment
 packadd! editexisting
 packadd! editorconfig
-packadd! nohlsearch
-packadd! hlyank
-packadd! helptoc
-packadd! matchit
-nnoremap <LocalLeader>t <Cmd>HelpToc<CR>
-tnoremap <C-T><C-T> <Cmd>helptoc<CR>
 
 call plug#begin()
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
@@ -31,7 +25,6 @@ g:markdown_fenced_languages = ['html', 'python', 'bash', 'c', 'cpp', 'shell=sh',
 g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
-g:vimbits_highlightonyank = false
 Plug 'Andrewradev/switch.vim'
 g:speeddating_no_mappings = 1
 nnoremap <Plug>SpeedDatingFallbackUp <C-A>
@@ -227,7 +220,6 @@ xmap <LocalLeader>a <Plug>(EasyAlign)
 nmap <LocalLeader>a <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
-Plug 'editorconfig/editorconfig-vim'
 Plug 'normen/vim-pio'
 
 # vimspector [[[

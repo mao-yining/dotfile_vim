@@ -207,3 +207,24 @@ enddef
 # enhance gf
 nnoremap gf gF
 vnoremap gf gF
+
+def SlashCb()
+	if g:slash_able
+		set nohlsearch
+		autocmd! slash
+	else
+		set hlsearch
+		g:slash_able = 1
+	endif
+enddef
+def Slash(oper: string): string
+	augroup slash
+		autocmd!
+		autocmd CursorMoved,CursorMovedI * call SlashCb()
+	augroup END
+	g:slash_able = 0
+	return oper .. "zz"
+enddef
+nnoremap <silent><expr>n Slash('n')
+nnoremap <silent><expr>N Slash('N')
+
