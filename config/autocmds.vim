@@ -24,6 +24,9 @@ autocmd FileType tex,markdown,text set wrap
 # 设置 q 来退出窗口
 autocmd FileType fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
 
+# 在 gitcommit 中自动进入插入模式
+autocmd FileType gitcommit :1 | startinsert
+
 # 在某些窗口中关闭 list 模式
 autocmd FileType GV setlocal nolist
 
