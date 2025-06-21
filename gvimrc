@@ -26,6 +26,9 @@ noremap <f11> <esc><cmd>ToggleFullscreen<cr>
 inoremap <f12> <esc><cmd>ToggleTransparency<cr>
 noremap <f12> <esc><cmd>ToggleTransparency<cr>
 
+# 粘贴快捷键
+noremap! <C-S-V> <C-R>+
+
 # au GUIEnter * simalt ~x                   # 默认打开全屏
 if has('multi_byte_ime')
 	hi CursorIM guifg=#2d2c3a guibg=#cba6f7 # 输入法模式光标颜色
