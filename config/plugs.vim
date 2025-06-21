@@ -65,23 +65,18 @@ g:startify_bookmarks = [ { 'c': $vimrc } ]
 g:startify_custom_footer = ["", "   vim is charityware. please read ':help uganda'.", ""]
 
 Plug 'itchyny/lightline.vim'
-g:lightline = {
-	"colorscheme": "catppuccin_mocha",
-	"active": {
-		"left": [
-			[ "mode", "paste" ],
-			[ "gitbranch", "readonly", "filename", "modified" ] ]
-	},
-	"component_function": {
-		"gitbranch": "fugitivehead"
-	},
-}
+g:lightline = {}
+g:lightline.active = {}
+g:lightline.component_function = {}
+g:lightline.colorscheme = "catppuccin_mocha"
+g:lightline.active.left = [ [ "mode", "paste" ], [ "gitbranch", "readonly", "filename", "modified" ] ]
+g:lightline.active.right = [ [ 'lineinfo' ], [ 'percent' ], [ 'fileformat', 'fileencoding', 'filetype'] ]
 # ]]]
 
 Plug 'skywind3000/vim-terminal-help'
 g:terminal_list = 0
 if has('win32')
-	g:terminal_shell = 'nu'
+    g:terminal_shell = 'nu'
 endif
 tnoremap <C-\> <C-\><C-N>
 tnoremap <M-H> <C-_>h
@@ -121,18 +116,18 @@ g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 g:gutentags_ctags_tagfile = '.tags'   # 所生成的数据文件的名称
 g:gutentags_modules = []              # 同时开启 ctags 和 gtags 支持
 if executable('ctags')
-	g:gutentags_modules += ['ctags']
+    g:gutentags_modules += ['ctags']
 endif
 if executable('gtags-cscope') && executable('gtags')
-	g:gutentags_modules += ['gtags_cscope']
+    g:gutentags_modules += ['gtags_cscope']
 endif
 g:gutentags_cache_dir = expandcmd('~/.cache/tags')
 g:gutentags_ctags_extra_args = [
-	'--fields=+niazS',
-	'--extra=+q',                     # ctags 的参数，Exuberant-ctags 不能有 --extra=+q
-	'--c++-kinds=+px',
-	'--c-kinds=+px',
-	'--output-format=e-ctags'         # 若用 universal ctags 需加，Exuberant-ctags 不加
+    '--fields=+niazS',
+    '--extra=+q',                     # ctags 的参数，Exuberant-ctags 不能有 --extra=+q
+    '--c++-kinds=+px',
+    '--c-kinds=+px',
+    '--output-format=e-ctags'         # 若用 universal ctags 需加，Exuberant-ctags 不加
 ]
 g:gutentags_auto_add_gtags_cscope = 0 # 禁用 gutentags 自动加载 gtags 数据库
 g:gutentags_plus_switch = 1
@@ -175,6 +170,7 @@ nnoremap <Leader>du <Cmd>DevdocsUninstall<CR>
 #  Git [[[
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
+g:lightline.component_function.gitbranch = "FugitiveHead"
 nnoremap <Leader>gg <Cmd>Git<CR>
 nnoremap <Leader>gl <Cmd>GV<CR>
 nnoremap <Leader>gcc <Cmd>Git commit<CR>
@@ -245,28 +241,28 @@ g:vimspector_enable_winbar = 0
 autocmd User VimspectorDebugEnded g:UnLoadVimspectorMaps()
 autocmd User VimspectorUICreated g:LoadVimspectorMaps()
 def g:LoadVimspectorMaps()
-	nnoremap <Leader><F5>  <Plug>VimspectorStop
-	nnoremap <F6>          <Plug>VimspectorStepOver
-	nnoremap <F7>          <Plug>VimspectorStepInto
-	nnoremap <F8>          <Plug>VimspectorStepOut
-	nnoremap <F9>          <Plug>VimspectorPause
-	nnoremap <F10>         <Plug>VimspectorRestart
-	nnoremap <Leader><F11> <Plug>VimspectorUpFrame
-	nnoremap <Leader><F12> <Plug>VimspectorDownFrame
-	nnoremap <Leader>B     <Plug>VimspectorBreakpoints
-	nnoremap <Leader>D     <Plug>VimspectorDisassemble
+    nnoremap <Leader><F5>  <Plug>VimspectorStop
+    nnoremap <F6>          <Plug>VimspectorStepOver
+    nnoremap <F7>          <Plug>VimspectorStepInto
+    nnoremap <F8>          <Plug>VimspectorStepOut
+    nnoremap <F9>          <Plug>VimspectorPause
+    nnoremap <F10>         <Plug>VimspectorRestart
+    nnoremap <Leader><F11> <Plug>VimspectorUpFrame
+    nnoremap <Leader><F12> <Plug>VimspectorDownFrame
+    nnoremap <Leader>B     <Plug>VimspectorBreakpoints
+    nnoremap <Leader>D     <Plug>VimspectorDisassemble
 enddef
 def g:UnLoadVimspectorMaps()
-	if exists('<Leader><F5>')|nunmap <Leader><F5>|endif
-	if exists('<F6>')|nunmap <F6>|endif
-	nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-	nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-	nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
-	nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
-	if exists('<Leader><F11>')|nunmap <Leader><F11>|endif
-	if exists('<Leader><F12>')|nunmap <Leader><F12>|endif
-	if exists('<Leader>B')|nunmap <Leader>B|endif
-	if exists('<Leader>D')|nunmap <Leader>D|endif
+    if exists('<Leader><F5>')|nunmap <Leader><F5>|endif
+    if exists('<F6>')|nunmap <F6>|endif
+    nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+    nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+    nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+    nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+    if exists('<Leader><F11>')|nunmap <Leader><F11>|endif
+    if exists('<Leader><F12>')|nunmap <Leader><F12>|endif
+    if exists('<Leader>B')|nunmap <Leader>B|endif
+    if exists('<Leader>D')|nunmap <Leader>D|endif
 enddef
 # ]]]
 
