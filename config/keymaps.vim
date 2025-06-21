@@ -92,7 +92,6 @@ nnoremap <silent><nowait>\i <Cmd>set nolist<CR>
 # set spell
 nnoremap <silent><nowait>=s <Cmd>setlocal spell<CR>
 nnoremap <silent><nowait>\s <Cmd>setlocal nospell<CR>
-# z= is list of change
 
 # set wrap
 nnoremap <silent><nowait>=r <Cmd>setlocal wrap<CR><Cmd>noremap<buffer> j gj<CR><Cmd>noremap<buffer> k gk<CR>
@@ -103,15 +102,15 @@ nnoremap <silent><nowait>=n <Cmd>setlocal norelativenumber<CR>
 nnoremap <silent><nowait>\n <Cmd>setlocal relativenumber<Bar>setlocal number<CR>
 
 # close/open number
-nnoremap <silent><nowait>=N <Cmd>setlocal norelativenumber<CR><Cmd>setlocal nonumber<CR>:set nolist<CR>
-nnoremap <silent><nowait>\N <Cmd>setlocal relativenumber<CR><Cmd>setlocal number<CR>:set list lcs=tab:¦\<Space> <CR>
+nnoremap <silent><nowait>=N <Cmd>setlocal norelativenumber<CR><Cmd>setlocal nonumber<CR>
+nnoremap <silent><nowait>\N <Cmd>setlocal relativenumber<CR><Cmd>setlocal number<CR>
 
 # set fold auto,use zE unset all fold,zf create fold
 nnoremap <silent><nowait>=z <Cmd>setlocal fdm=indent<CR><Cmd>setlocal fen<CR>
 nnoremap <silent><nowait>\z <Cmd>setlocal fdm=manual<CR><Cmd>setlocal nofen<CR>
 nnoremap <silent><nowait>=o zO
 nnoremap <silent><nowait>\o zC
-nnoremap <silent><nowait><expr><bs> foldlevel('.')>0?"zc":"\<bs>"
+nnoremap <silent><nowait><expr><BS> foldlevel('.') > 0 ? "zc" : "\<BS>"
 
 # " tab ctrl
 nnoremap <silent><nowait>=<tab> <Cmd>tabnew<CR>

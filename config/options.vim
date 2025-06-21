@@ -38,7 +38,7 @@ set smartindent                 # 智能的选择对其方式
 set expandtab                   # 设置空格替换tab
 set tabstop=4                   # 设置编辑时制表符占用空格数
 set list
-set listchars=tab:>\ ,trail:-,precedes:<,extends:>,nbsp:+
+set listchars=tab:¦\ ,trail:-,precedes:<,extends:>,nbsp:+
 set smarttab                    # 在行和段开始处使用制表符
 
 set sidescroll=0                # 设置向右滑动距离
