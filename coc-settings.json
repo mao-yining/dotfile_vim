@@ -1,7 +1,4 @@
 {
-    "semanticTokens": {
-        "enable": true
-    },
-    "diagnostic.displayByAle": true,
-    "snippets.ultisnips.pythonPrompt": false
+    "semanticTokens": { "enable": true },
+    "diagnostic.displayByAle": true
 }

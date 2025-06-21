@@ -3,6 +3,7 @@ vim9script
 packadd! comment
 packadd! editexisting
 packadd! editorconfig
+packadd! nohlsearch
 
 call plug#begin()
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
