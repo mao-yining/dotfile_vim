@@ -167,8 +167,8 @@ nnoremap <nowait>g<Space> <Cmd>syntax match DiffDelete # *$"<CR>
 nnoremap <silent><nowait>dl <Cmd>g/^\s*$/d<CR>
 
 # select search / substitute
-xmap g/ "sy/\V<C-R>=@s<CR>
-xmap gs y:%s/<C-R>0/
+xmap g/ "sy/<C-R>s
+xmap gs "sy:%s/<C-R>s/
 
 # run macro in visual model
 xnoremap @ :normal @
