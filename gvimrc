@@ -29,7 +29,21 @@ noremap <F12> <Esc><Cmd>ToggleTransparency<CR>
 # 粘贴快捷键
 noremap! <C-S-V> <C-R>+
 
-# au GUIEnter * simalt ~x                   # 默认打开全屏
+# Vim 的 IME 自动切换有实现上的问题。不过以下的代码也可以有不错的效果。
+# CmdlineLeave 事件会被很多插件误触发，这个实现也勉强可用。
+noremap ? <Cmd>set noimdisable<CR>?
+noremap / <Cmd>set noimdisable<CR>/
+noremap : <Cmd>set noimdisable<CR>:<Del>:
+cnoremap <C-C> <Cmd>set imdisable<CR><CR>
+cnoremap <CR> <Cmd>set imdisable<CR><CR>
+cnoremap <C-[> <Cmd>set imdisable<CR><CR>
+augroup IME
+	au!
+	au GUIEnter * set imdisable
+	au InsertEnter * set noimdisable
+	au InsertLeavePre * set imdisable
+augroup END
+
 if has('multi_byte_ime')
 	hi CursorIM guifg=#2d2c3a guibg=#cba6f7 # 输入法模式光标颜色
 	hi Cursor guifg=#2d2c3a guibg=#f5e0dc   # 普通模式光标颜色
