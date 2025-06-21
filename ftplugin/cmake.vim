@@ -1,6 +1,9 @@
 vim9script
 
-setlocal keywordprg=:CMakeHelpPopup
+import autoload 'cmakehelp.vim'
 
-# Open the online CMake documentation for current word in a browser
-nmap <buffer> <leader>k <plug>(cmake-help-online)
+setlocal ballooneval
+setlocal balloonevalterm
+setlocal balloonexpr=cmakehelp.Balloonexpr()
+
+nmap <buffer> K <plug>(cmake-help-popup)
