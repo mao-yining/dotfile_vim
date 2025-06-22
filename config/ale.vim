@@ -1,12 +1,13 @@
 vim9script
 Plug 'dense-analysis/ale'
 
-g:ale_sign_column_always = 1
+g:ale_sign_column_always = true
 g:ale_disable_lsp = true
 g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+g:ale_virtualtext_prefix = ""
 g:ale_sign_error = '>>'
 g:ale_sign_warning = '--'
-nmap <localleader>x <cmd>ALEDetail<cr>
+nmap <localleader>d <Plug>(ale_detail)
 nmap <silent> [d <Plug>(ale_previous)
 nmap <silent> ]d <Plug>(ale_next)
 

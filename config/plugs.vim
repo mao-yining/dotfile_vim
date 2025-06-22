@@ -87,9 +87,12 @@ tnoremap <M-w> <C-\><C-n><Plug>(choosewin)
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 nnoremap <silent><nowait> <Leader>      <Cmd>WhichKey '<Space>'<CR>
 nnoremap <silent><nowait> <LocalLeader> <Cmd>WhichKey ';'<CR>
+nnoremap <silent><nowait> = <Cmd>WhichKey '='<CR>
+nnoremap <silent><nowait> \ <Cmd>WhichKey '\'<CR>
 
 Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
-noremap <LocalLeader>di <Cmd>DIstart<CR>
+noremap =d <Cmd>DIstart<CR>
+noremap \d <Cmd>DIstop<CR>
 
 Plug 'habamax/vim-dir', { 'on': 'Dir' }
 nnoremap <silent>- <Cmd>Dir<CR>
@@ -156,11 +159,10 @@ g:neoformat_enabled_tex = [ "texfmt" ]
 
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } # 撤销树
 noremap <Leader>u <Cmd>UndotreeToggle<CR>
+g:undotree_SetFocusWhenToggle = true
 
 Plug 'girishji/devdocs.vim'
-nnoremap <Leader>df <Cmd>DevdocsFind<CR>
-nnoremap <Leader>di <Cmd>DevdocsInstall<CR>
-nnoremap <Leader>du <Cmd>DevdocsUninstall<CR>
+nnoremap <Leader>D <Cmd>DevdocsFind<CR>
 
 #  Git [[[
 Plug 'tpope/vim-fugitive'

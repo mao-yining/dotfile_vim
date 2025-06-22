@@ -71,9 +71,7 @@ set smartcase                   # 搜索智能匹配大小写
 
 set shortmess+=c                # 设置补全静默
 set complete+=kspell            # 设置补全单词
-set complete-=i                 # disable scanning included files
-set complete-=t                 # disable searching tags
-set completeopt=menu,popup,preview
+set completeopt=fuzzy,menuone,popup
 set wildmenu
 set wildoptions=pum,fuzzy
 set wildignore=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
