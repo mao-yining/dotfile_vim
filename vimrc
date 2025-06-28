@@ -440,6 +440,7 @@ noremap =c <Cmd>ColorHighlight<CR>
 noremap \c <Cmd>ColorClear<CR>
 
 Plug 'liuchengxu/vista.vim'
+g:vista#renderer#enable_icon = false
 nnoremap <silent><LocalLeader>v <Cmd>Vista!!<CR>
 
 Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
