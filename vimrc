@@ -433,6 +433,7 @@ noremap =d <Cmd>DIstart<CR>
 noremap \d <Cmd>DIstop<CR>
 
 Plug 'habamax/vim-dir', { 'on': 'Dir' }
+g:dir_show_hidden = false
 nnoremap <silent>- <Cmd>Dir<CR>
 
 Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
