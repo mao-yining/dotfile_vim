@@ -607,7 +607,6 @@ enddef
 # }}}
 
 # coc {{{
-# https://raw.githubusercontent.com/neoclide/coc.nvim/master/doc/coc-example-config.vim
 Plug 'tpope/vim-dadbod'
 Plug 'kristijanhusak/vim-dadbod-ui' # Optional
 Plug 'Shougo/neco-vim'
@@ -624,12 +623,16 @@ endif
 # no select by `"suggest.noselect": true` in your configuration file
 # NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 # other plugin before putting this into your config
-inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#_select_confirm() : CheckBackspace() ? "\<TAB>" : coc#refresh()
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 # Make <CR> to accept selected completion item or notify coc.nvim to format
 # <C-g>u breaks current undo, please make your own choice
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \ : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 def CheckBackspace(): bool
 	var col = col('.') - 1
@@ -665,10 +668,6 @@ if has('nvim')
 else
 	inoremap <silent><expr> <c-@> coc#refresh()
 endif
-
-# Use `[d` and `]d` to navigate diagnostics
-# Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
-# Use ALE to Diagnostic
 
 # GoTo code navigation
 nmap <silent> gd <Plug>(coc-definition)
@@ -786,7 +785,7 @@ nnoremap <silent><nowait> <leader>m <cmd>CocList marketplace<CR>
 nnoremap <silent><nowait> <leader>t <cmd>CocList tasks<CR>
 # }}}
 
-# ale {{{
+# ALE {{{
 Plug 'dense-analysis/ale'
 
 g:ale_sign_column_always = true

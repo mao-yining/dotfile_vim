@@ -1,4 +1,5 @@
 vim9script
+g:ale_tex_chktex_executable = '' # 不使用 chktex
 g:vimtex_quickfix_mode = 0
 g:tex_flavor = "latex"
 g:vimtex_compiler_latexmk = {
