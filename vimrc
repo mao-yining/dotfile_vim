@@ -366,7 +366,10 @@ Plug 'tpope/vim-characterize'     # 'ga' improve
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['sensible', 'markdown']
-g:markdown_fenced_languages = ['html', 'python', 'bash', 'c', 'cpp', 'shell=sh', 'tex', 'dosbatch']
+g:markdown_fenced_languages = [ 'c', 'cpp' ]
+g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
+g:markdown_fenced_languages += [ 'html', 'tex' ]
+g:markdown_fenced_languages += [ 'vim', 'python' ]
 g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
