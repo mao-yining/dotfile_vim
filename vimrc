@@ -717,6 +717,10 @@ nmap <silent> <localleader>r  <Plug>(coc-codeaction-refactor-selected)
 # Run the Code Lens action on the current line
 nmap <leader>cl  <Plug>(coc-codelens-action)
 
+nmap [oI  <cmd>CocCommand document.enableInlayHint<cr>
+nmap ]oI  <cmd>CocCommand document.disableInlayHint<cr>
+nmap yoI  <cmd>CocCommand document.toggleInlayHint<cr>
+
 # Map function and class text objects
 # NOTE: Requires 'textDocument.documentSymbol' support from the language server
 xmap if <Plug>(coc-funcobj-i)
@@ -767,8 +771,7 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 nnoremap <silent><nowait> <leader>b <cmd>CocList buffers<CR>
-nnoremap <silent><nowait> <leader>: <cmd>CocList commands<CR>
-# nnoremap <silent> <leader>f <cmd>CocList files<CR>
+nnoremap <silent><nowait> <leader>; <cmd>CocList commands<CR>
 nnoremap <silent><nowait> <leader><space> <cmd>CocList files<CR>
 nnoremap <silent><nowait> <leader>f <cmd>CocList grep<CR>
 nnoremap <silent><nowait> <leader>h <cmd>CocList helptags<CR>
@@ -790,6 +793,8 @@ g:ale_sign_warning = '--'
 nmap <localleader>d <Plug>(ale_detail)
 nmap <silent> [d <Plug>(ale_previous)
 nmap <silent> ]d <Plug>(ale_next)
+g:ale_c_cppcheck_options = '--enable=style --check-level=exhaustive'
+g:ale_cpp_cppcheck_options = '--enable=style --check-level=exhaustive'
 
 # }}}
 
