@@ -91,15 +91,15 @@ set sessionoptions=buffers,curdir,folds,help,resize,tabpages,winsize,slash,termi
 set viewoptions=cursor,folds,slash,unix
 
 if has('win32')
-    autocmd VimEnter * set shellslash
-    set pythonthreedll=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\python313.dll
-    set pythonthreehome=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\
+  autocmd VimEnter * set shellslash
+  set pythonthreedll=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\python313.dll
+  set pythonthreehome=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\
 endif
 
 set clipboard=unnamed
 
 if has('sodium') && has("patch-9.0.1481")
-    set cryptmethod=xchacha20v2
+  set cryptmethod=xchacha20v2
 endif
 
 # }}}
@@ -119,32 +119,32 @@ nnoremap <expr><CR> &bt == "" ? "<Cmd>w<CR>" : &bt == 'terminal' ? "i\<enter>" :
 nnoremap <silent>=b <Cmd>enew<CR>
 nnoremap <silent>\b <Cmd>call CloseBuf()<CR>
 def ChangeBuffer(direct: string)
-    if &bt != '' || &ft == 'netrw'|echoerr "buftype is " ..  &bt .. " cannot be change"|return|endif
+  if &bt != '' || &ft == 'netrw'|echoerr "buftype is " ..  &bt .. " cannot be change"|return|endif
+  if direct == 'n'|bn
+  else|bp|endif
+  while &bt != ''
     if direct == 'n'|bn
     else|bp|endif
-    while &bt != ''
-        if direct == 'n'|bn
-        else|bp|endif
-    endwhile
+  endwhile
 enddef
 def g:CloseBuf()
-    if &bt != '' || &ft == 'netrw'|bd|return|endif
-    var buf_now = bufnr()
-    var buf_jump_list = getjumplist()[0]
-    var buf_jump_now = getjumplist()[1] - 1
-    while buf_jump_now >= 0
-        var last_nr = buf_jump_list[buf_jump_now]["bufnr"]
-        var last_line = buf_jump_list[buf_jump_now]["lnum"]
-        if buf_now != last_nr && bufloaded(last_nr) && getbufvar(last_nr, "&bt") == ''
-            execute ":buffer " .. last_nr
-            execute ":bd " .. buf_now
-            return
-        else
-            buf_jump_now -= 1
-        endif
-    endwhile
-    bp|while &bt != ''|bp|endwhile
-    execute "bd " .. buf_now
+  if &bt != '' || &ft == 'netrw'|bd|return|endif
+  var buf_now = bufnr()
+  var buf_jump_list = getjumplist()[0]
+  var buf_jump_now = getjumplist()[1] - 1
+  while buf_jump_now >= 0
+    var last_nr = buf_jump_list[buf_jump_now]["bufnr"]
+    var last_line = buf_jump_list[buf_jump_now]["lnum"]
+    if buf_now != last_nr && bufloaded(last_nr) && getbufvar(last_nr, "&bt") == ''
+      execute ":buffer " .. last_nr
+      execute ":bd " .. buf_now
+      return
+    else
+      buf_jump_now -= 1
+    endif
+  endwhile
+  bp|while &bt != ''|bp|endwhile
+  execute "bd " .. buf_now
 enddef
 # }}}
 # }}}
@@ -245,16 +245,16 @@ inoremap <silent><M-9> <ESC><Cmd>tabn 9<CR>
 inoremap <silent><M-0> <ESC><Cmd>tabn 10<CR>
 
 def Tab_MoveLeft()
-    var tabnr = tabpagenr() - 2
-    if tabnr >= 0
-        exec 'tabmove ' .. tabnr
-    endif
+  var tabnr = tabpagenr() - 2
+  if tabnr >= 0
+    exec 'tabmove ' .. tabnr
+  endif
 enddef
 def Tab_MoveRight()
-    var tabnr = tabpagenr() + 1
-    if tabnr <= tabpagenr('$')
-        exec 'tabmove ' .. tabnr
-    endif
+  var tabnr = tabpagenr() + 1
+  if tabnr <= tabpagenr('$')
+    exec 'tabmove ' .. tabnr
+  endif
 enddef
 noremap <silent><M-left> <Cmd>call Tab_MoveLeft()<CR>
 noremap <silent><M-right> <Cmd>call Tab_MoveRight()<CR>
@@ -297,16 +297,16 @@ cab w!! w !sudo tee % >/dev/null
 cab cdn cd <C-R>=expand('%:p:h')<CR>
 cab cdr cd <C-R>=FindRoot()<CR>
 def g:FindRoot(): string
-    var gitdir = finddir(".git", getcwd() .. ';')
-    if !empty(gitdir)
-        if gitdir == ".git"
-            gitdir = getcwd()
-        else
-            gitdir = strpart(gitdir, 0, strridx(gitdir, "/"))
-        endif
-        return gitdir
+  var gitdir = finddir(".git", getcwd() .. ';')
+  if !empty(gitdir)
+    if gitdir == ".git"
+      gitdir = getcwd()
+    else
+      gitdir = strpart(gitdir, 0, strridx(gitdir, "/"))
     endif
-    return ""
+    return gitdir
+  endif
+  return ""
 enddef
 
 # enhance gf
@@ -324,14 +324,14 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 
 # vim -b : edit binary using xxd-format!
 augroup Binary
-    au!
-    au BufReadPre  *.bin,*.exe let &bin=1
-    au BufReadPost *.bin,*.exe if &bin | %!xxd
-    au BufReadPost *.bin,*.exe set ft=xxd | endif
-    au BufWritePre *.bin,*.exe if &bin | %!xxd -r
-    au BufWritePre *.bin,*.exe endif
-    au BufWritePost *.bin,*.exe if &bin | %!xxd
-    au BufWritePost *.bin,*.exe set nomod | endif
+  au!
+  au BufReadPre  *.bin,*.exe let &bin=1
+  au BufReadPost *.bin,*.exe if &bin | %!xxd
+  au BufReadPost *.bin,*.exe set ft=xxd | endif
+  au BufWritePre *.bin,*.exe if &bin | %!xxd -r
+  au BufWritePre *.bin,*.exe endif
+  au BufWritePost *.bin,*.exe if &bin | %!xxd
+  au BufWritePost *.bin,*.exe set nomod | endif
 augroup END
 
 # 自动去除尾随空格
@@ -419,7 +419,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'skywind3000/vim-terminal-help'
 g:terminal_list = 0
 if has('win32')
-    g:terminal_shell = 'nu'
+  g:terminal_shell = 'nu'
 endif
 tnoremap <C-\> <C-\><C-N>
 tnoremap <M-H> <C-_>h
@@ -465,18 +465,18 @@ g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 g:gutentags_ctags_tagfile = '.tags'   # 所生成的数据文件的名称
 g:gutentags_modules = []              # 同时开启 ctags 和 gtags 支持
 if executable('ctags')
-    g:gutentags_modules += ['ctags']
+  g:gutentags_modules += ['ctags']
 endif
 if executable('gtags-cscope') && executable('gtags')
-    g:gutentags_modules += ['gtags_cscope']
+  g:gutentags_modules += ['gtags_cscope']
 endif
 g:gutentags_cache_dir = expandcmd('~/.cache/tags')
 g:gutentags_ctags_extra_args = [
-    '--fields=+niazS',
-    '--extra=+q',                     # ctags 的参数，Exuberant-ctags 不能有 --extra=+q
-    '--c++-kinds=+px',
-    '--c-kinds=+px',
-    '--output-format=e-ctags'         # 若用 universal ctags 需加，Exuberant-ctags 不加
+  '--fields=+niazS',
+  '--extra=+q',                     # ctags 的参数，Exuberant-ctags 不能有 --extra=+q
+  '--c++-kinds=+px',
+  '--c-kinds=+px',
+  '--output-format=e-ctags'         # 若用 universal ctags 需加，Exuberant-ctags 不加
 ]
 g:gutentags_auto_add_gtags_cscope = 0 # 禁用 gutentags 自动加载 gtags 数据库
 g:gutentags_plus_switch = 1
@@ -587,28 +587,28 @@ g:vimspector_enable_winbar = 0
 autocmd User VimspectorDebugEnded g:UnLoadVimspectorMaps()
 autocmd User VimspectorUICreated g:LoadVimspectorMaps()
 def g:LoadVimspectorMaps()
-    nnoremap <Leader><F5>  <Plug>VimspectorStop
-    nnoremap <F6>          <Plug>VimspectorStepOver
-    nnoremap <F7>          <Plug>VimspectorStepInto
-    nnoremap <F8>          <Plug>VimspectorStepOut
-    nnoremap <F9>          <Plug>VimspectorPause
-    nnoremap <F10>         <Plug>VimspectorRestart
-    nnoremap <Leader><F11> <Plug>VimspectorUpFrame
-    nnoremap <Leader><F12> <Plug>VimspectorDownFrame
-    nnoremap <Leader>B     <Plug>VimspectorBreakpoints
-    nnoremap <Leader>D     <Plug>VimspectorDisassemble
+  nnoremap <Leader><F5>  <Plug>VimspectorStop
+  nnoremap <F6>          <Plug>VimspectorStepOver
+  nnoremap <F7>          <Plug>VimspectorStepInto
+  nnoremap <F8>          <Plug>VimspectorStepOut
+  nnoremap <F9>          <Plug>VimspectorPause
+  nnoremap <F10>         <Plug>VimspectorRestart
+  nnoremap <Leader><F11> <Plug>VimspectorUpFrame
+  nnoremap <Leader><F12> <Plug>VimspectorDownFrame
+  nnoremap <Leader>B     <Plug>VimspectorBreakpoints
+  nnoremap <Leader>D     <Plug>VimspectorDisassemble
 enddef
 def g:UnLoadVimspectorMaps()
-    if exists('<Leader><F5>')|nunmap <Leader><F5>|endif
-    if exists('<F6>')|nunmap <F6>|endif
-    nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-    nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-    nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
-    nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
-    if exists('<Leader><F11>')|nunmap <Leader><F11>|endif
-    if exists('<Leader><F12>')|nunmap <Leader><F12>|endif
-    if exists('<Leader>B')|nunmap <Leader>B|endif
-    if exists('<Leader>D')|nunmap <Leader>D|endif
+  if exists('<Leader><F5>')|nunmap <Leader><F5>|endif
+  if exists('<F6>')|nunmap <F6>|endif
+  nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+  nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+  nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+  nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+  if exists('<Leader><F11>')|nunmap <Leader><F11>|endif
+  if exists('<Leader><F12>')|nunmap <Leader><F12>|endif
+  if exists('<Leader>B')|nunmap <Leader>B|endif
+  if exists('<Leader>D')|nunmap <Leader>D|endif
 enddef
 # }}}
 
@@ -626,19 +626,19 @@ Plug 'honza/vim-snippets'
 # NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 # other plugin before putting this into your config
 inoremap <silent><expr> <TAB>
-            \ coc#pum#visible() ? coc#pum#next(1) :
-            \ CheckBackspace() ? "\<Tab>" :
-            \ coc#refresh()
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 # Make <CR> to accept selected completion item or notify coc.nvim to format
 # <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-            \ : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+      \ : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 def CheckBackspace(): bool
-    var col = col('.') - 1
-    return !col || getline('.')[col - 1] =~# '\s'
+  var col = col('.') - 1
+  return !col || getline('.')[col - 1] =~# '\s'
 enddef
 
 # Use <C-l> for trigger snippet expand.
@@ -666,9 +666,9 @@ xmap <leader>x  <Plug>(coc-convert-snippet)
 
 # Use <c-space> to trigger completion
 if has('nvim')
-    inoremap <silent><expr> <c-space> coc#refresh()
+  inoremap <silent><expr> <c-space> coc#refresh()
 else
-    inoremap <silent><expr> <c-@> coc#refresh()
+  inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 # GoTo code navigation
@@ -681,13 +681,13 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K <cmd>call ShowDocumentation()<cr>
 command! -nargs=0 Hover call CocAction('doHover')
 def g:ShowDocumentation()
-    if index(['vim', 'help'], &filetype) >= 0
-        execute 'help ' .. expand('<cword>')
-    elseif &filetype ==# 'tex'
-        VimtexDocPackage
-    else
-        Hover
-    endif
+  if index(['vim', 'help'], &filetype) >= 0
+    execute 'help ' .. expand('<cword>')
+  elseif &filetype ==# 'tex'
+    VimtexDocPackage
+  else
+    Hover
+  endif
 enddef
 
 # Highlight the symbol and its references when holding the cursor
@@ -697,11 +697,11 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <f2> <Plug>(coc-rename)
 
 augroup mygroup
-    autocmd!
-    # Setup formatexpr specified filetype(s)
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    # Update signature help on jump placeholder
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+  autocmd!
+  # Setup formatexpr specified filetype(s)
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  # Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 # Applying code actions to the selected code block
@@ -741,12 +741,12 @@ omap ac <Plug>(coc-classobj-a)
 
 # Remap <C-f> and <C-b> to scroll float windows/popups
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-    nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-    vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
 # Use CTRL-S for selections ranges

@@ -1,12 +1,12 @@
 vim9script
 
 if has("gui_gtk2")
-	set guifont=Luxi\ Mono\ 12
+  set guifont=Luxi\ Mono\ 12
 elseif has("x11")
-	# Also for GTK 1
-	set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
+  # Also for GTK 1
+  set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
 elseif has("gui_win32")
-	set renderoptions=type:directx
+  set renderoptions=type:directx
 endif
 
 set t_vb=                   # 关闭视觉铃声
@@ -38,14 +38,14 @@ cnoremap <C-C> <Cmd>set imdisable<CR><CR>
 cnoremap <CR> <Cmd>set imdisable<CR><CR>
 cnoremap <C-[> <Cmd>set imdisable<CR><CR>
 augroup IME
-	au!
-	au GUIEnter * set imdisable
-	au InsertEnter * set noimdisable
-	au InsertLeavePre * set imdisable
+  au!
+  au GUIEnter * set imdisable
+  au InsertEnter * set noimdisable
+  au InsertLeavePre * set imdisable
 augroup END
 
 if has('multi_byte_ime')
-	hi CursorIM guifg=#2d2c3a guibg=#cba6f7 # 输入法模式光标颜色
-	hi Cursor guifg=#2d2c3a guibg=#f5e0dc   # 普通模式光标颜色
-	hi lCursor guifg=#2d2c3a guibg=#f38ba8  # loadkeymap 模式光标颜色
+  hi CursorIM guifg=#2d2c3a guibg=#cba6f7 # 输入法模式光标颜色
+  hi Cursor guifg=#2d2c3a guibg=#f5e0dc   # 普通模式光标颜色
+  hi lCursor guifg=#2d2c3a guibg=#f38ba8  # loadkeymap 模式光标颜色
 endif
