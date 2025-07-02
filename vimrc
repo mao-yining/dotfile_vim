@@ -89,14 +89,17 @@ set diffopt=vertical,internal,filler,closeoff,indent-heuristic,hiddenoff,algorit
 set diffopt+=inline:word        # word / char  patch 9.1.1243
 set sessionoptions=buffers,curdir,folds,help,resize,tabpages,winsize,slash,terminal,unix
 set viewoptions=cursor,folds,slash,unix
+
 if has('win32')
-  autocmd VimEnter * set shellslash
+    autocmd VimEnter * set shellslash
+    set pythonthreedll=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\python313.dll
+    set pythonthreehome=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\
 endif
 
 set clipboard=unnamed
 
 if has('sodium') && has("patch-9.0.1481")
-  set cryptmethod=xchacha20v2
+    set cryptmethod=xchacha20v2
 endif
 
 # }}}
@@ -309,6 +312,10 @@ enddef
 # enhance gf
 nnoremap gf gF
 vnoremap gf gF
+
+noremap U <C-R>
+noremap == ==
+noremap =G =G
 # }}}
 
 # autocmds {{{
@@ -317,14 +324,14 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 
 # vim -b : edit binary using xxd-format!
 augroup Binary
-  au!
-  au BufReadPre  *.bin,*.exe let &bin=1
-  au BufReadPost *.bin,*.exe if &bin | %!xxd
-  au BufReadPost *.bin,*.exe set ft=xxd | endif
-  au BufWritePre *.bin,*.exe if &bin | %!xxd -r
-  au BufWritePre *.bin,*.exe endif
-  au BufWritePost *.bin,*.exe if &bin | %!xxd
-  au BufWritePost *.bin,*.exe set nomod | endif
+    au!
+    au BufReadPre  *.bin,*.exe let &bin=1
+    au BufReadPost *.bin,*.exe if &bin | %!xxd
+    au BufReadPost *.bin,*.exe set ft=xxd | endif
+    au BufWritePre *.bin,*.exe if &bin | %!xxd -r
+    au BufWritePre *.bin,*.exe endif
+    au BufWritePost *.bin,*.exe if &bin | %!xxd
+    au BufWritePost *.bin,*.exe set nomod | endif
 augroup END
 
 # 自动去除尾随空格
@@ -453,6 +460,7 @@ Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
 Plug 'ludovicchabant/vim-gutentags', { 'on': 'GutentagsToggleEnabled' }
 Plug 'skywind3000/gutentags_plus', { 'on': 'GscopeFind' }
 # gutentags 搜索工程目录的标志当前文件路径向上递归直到碰到这些文件/目录名
+g:gutentags_define_advanced_commands = true
 g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
 g:gutentags_ctags_tagfile = '.tags'   # 所生成的数据文件的名称
 g:gutentags_modules = []              # 同时开启 ctags 和 gtags 支持
@@ -612,25 +620,21 @@ Plug 'neoclide/coc-neco'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets'
 
-if has('win32')
-    set pythonthreedll=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\python313.dll
-    set pythonthreehome=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\
-endif
 # Use tab for trigger completion with characters ahead and navigate
 # NOTE: There's always complete item selected by default, you may want to enable
 # no select by `"suggest.noselect": true` in your configuration file
 # NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 # other plugin before putting this into your config
 inoremap <silent><expr> <TAB>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+            \ coc#pum#visible() ? coc#pum#next(1) :
+            \ CheckBackspace() ? "\<Tab>" :
+            \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 # Make <CR> to accept selected completion item or notify coc.nvim to format
 # <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-                              \ : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+            \ : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 def CheckBackspace(): bool
     var col = col('.') - 1
