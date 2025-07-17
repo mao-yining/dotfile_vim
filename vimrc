@@ -377,6 +377,7 @@ g:markdown_fenced_languages = [ 'c', 'cpp' ]
 g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
 g:markdown_fenced_languages += [ 'html', 'tex' ]
 g:markdown_fenced_languages += [ 'vim', 'python' ]
+g:markdown_fenced_languages += [ 'beancount' ]
 g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
@@ -411,6 +412,7 @@ g:startify_session_dir = $v .. '/sessions'
 g:startify_skiplist = [ "runtime/doc/", "/plugged/.*/doc/", "/.git/" ]
 g:startify_skiplist += [ "/Temp/", "fugitiveblame$" ]
 g:startify_bookmarks = [ { 'c': $vimrc } ]
+g:startify_bookmarks += [ { 'b': '~/Documents/vault/projects/account books/ledger.bean' } ]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
 
 Plug 'vim-airline/vim-airline'
