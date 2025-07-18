@@ -365,6 +365,14 @@ packadd! editexisting
 packadd! editorconfig
 packadd! nohlsearch
 
+const vimplug = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+if has('unix') && empty(glob('~/.vim/autoload/plug.vim'))
+    execute 'silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' .. vimplug
+elseif (has('win32') || has('win64')) && empty(glob('$HOME/vimfiles/autoload/plug.vim'))
+    execute 'silent !powershell -command "iwr -useb ' .. vimplug
+        .. ' | ni $HOME/vimfiles/autoload/plug.vim -Force"'
+endif
+
 call plug#begin()
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'stillwwater/wincap.vim'
