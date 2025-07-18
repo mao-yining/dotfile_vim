@@ -195,34 +195,8 @@ nnoremap <silent><nowait>=q <Cmd>copen<CR>
 nnoremap <silent><nowait>\q <Cmd>cclose<CR>
 nnoremap <silent><nowait>=l <Cmd>lopen<CR>
 nnoremap <silent><nowait>\l <Cmd>lclose<CR>
-# show indent line
-nnoremap <silent><nowait>=i <Cmd>set list lcs=tab:¦\<Space> <CR>
-nnoremap <silent><nowait>\i <Cmd>set nolist<CR>
 
-# set spell
-nnoremap <silent><nowait>=s <Cmd>setlocal spell<CR>
-nnoremap <silent><nowait>\s <Cmd>setlocal nospell<CR>
-
-# set wrap
-nnoremap <silent><nowait>=r <Cmd>setlocal wrap<CR><Cmd>noremap<buffer> j gj<CR><Cmd>noremap<buffer> k gk<CR>
-nnoremap <silent><nowait>\r <Cmd>setlocal nowrap<CR><Cmd>unmap<buffer> j<CR><Cmd>unmap<buffer> k<CR>
-
-# set line number
-nnoremap <silent><nowait>=n <Cmd>setlocal norelativenumber<CR>
-nnoremap <silent><nowait>\n <Cmd>setlocal relativenumber<Bar>setlocal number<CR>
-
-# close/open number
-nnoremap <silent><nowait>=N <Cmd>setlocal norelativenumber<CR><Cmd>setlocal nonumber<CR>
-nnoremap <silent><nowait>\N <Cmd>setlocal relativenumber<CR><Cmd>setlocal number<CR>
-
-# set fold auto,use zE unset all fold,zf create fold
-nnoremap <silent><nowait>=z <Cmd>setlocal fdm=indent<CR><Cmd>setlocal fen<CR>
-nnoremap <silent><nowait>\z <Cmd>setlocal fdm=manual<CR><Cmd>setlocal nofen<CR>
-nnoremap <silent><nowait>=o zO
-nnoremap <silent><nowait>\o zC
-nnoremap <silent><nowait><expr><BS> foldlevel('.') > 0 ? "zc" : "\<BS>"
-
-# " tab ctrl
+# tab ctrl
 nnoremap <silent><nowait>=<tab> <Cmd>tabnew<CR>
 nnoremap <silent><nowait>\<tab> <Cmd>tabc<CR>
 nnoremap <silent><nowait>[<tab> <Cmd>tabp<CR>
@@ -264,17 +238,6 @@ enddef
 noremap <silent><M-left> <Cmd>call Tab_MoveLeft()<CR>
 noremap <silent><M-right> <Cmd>call Tab_MoveRight()<CR>
 
-# set search noh
-nnoremap <silent><nowait>\h <Cmd>noh<CR>
-nnoremap <silent><nowait>=h <Cmd>set hlsearch<CR>
-
-# delete <Space> in end of line
-nnoremap <silent><nowait>d<Space> <Cmd>%s/ *$//g<CR>:noh<CR><C-o>
-nnoremap <nowait>g<Space> <Cmd>syntax match DiffDelete # *$"<CR>
-
-# delete empty line
-nnoremap <silent><nowait>dl <Cmd>g/^\s*$/d<CR>
-
 # select search / substitute
 xmap g/ "sy/<C-R>s
 xmap gs "sy:%s/<C-R>s/
@@ -285,15 +248,9 @@ xnoremap @ :normal @
 # repeat for macro
 nnoremap <silent><C-Q> @@
 
-# indent buffer
+# 全选
 onoremap <silent>A :<C-U>normal! ggVG<CR>
 xnoremap <silent>A :<C-U>normal! ggVG<CR>
-
-# object line
-onoremap <silent>il :<C-U>normal! ^v$BE<CR>
-xnoremap <silent>il :<C-U>normal! ^v$<CR><Left>
-onoremap <silent>al :<C-U>normal! 0v$<CR>
-xnoremap <silent>al :<C-U>normal! 0v$<CR>
 
 # sudo to write file
 cab w!! w !sudo tee % >/dev/null
@@ -409,6 +366,7 @@ Plug 'voldikss/vim-browser-search', { 'on': ['<Plug>SearchNormal', '<Plug>Search
 g:browser_search_default_engine = "bing"
 nmap <silent> <LocalLeader>s <Plug>SearchNormal
 vmap <silent> <LocalLeader>s <Plug>SearchVisual
+Plug 'dhruvasagar/vim-table-mode'
 # }}}
 
 # ui {{{
@@ -687,7 +645,7 @@ enddef
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 # Symbol renaming
-nmap <f2> <Plug>(coc-rename)
+nmap <F2> <Plug>(coc-rename)
 
 augroup mygroup
   autocmd!
