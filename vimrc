@@ -24,6 +24,8 @@ set encoding=utf-8
 
 set display=lastline
 set smoothscroll
+set breakindent
+set colorcolumn=81
 set conceallevel=2
 
 set formatoptions+=mM1          # 强制自动换行，应对中文无空格
@@ -45,8 +47,10 @@ set smartindent                 # 智能的选择对其方式
 set expandtab                   # 设置空格替换tab
 set tabstop=4                   # 设置编辑时制表符占用空格数
 set list
-set listchars=tab:¦\ ,trail:-,precedes:<,extends:>,nbsp:+
+set listchars=tab:¦\ ,trail:~,precedes:<,extends:>,nbsp:␣
 set smarttab                    # 在行和段开始处使用制表符
+set splitbelow
+set splitright
 
 set sidescroll=0                # 设置向右滑动距离
 set sidescrolloff=0             # 设置右部距离
@@ -67,7 +71,7 @@ set undodir=~/.cache/undofiles/ # 需是一个已经存在的文件夹
 set undofile
 set nobackup
 set nowritebackup
-set swapfile
+set noswapfile
 set autowrite
 set autoread                    # 设置自动保存
 
@@ -77,12 +81,13 @@ set ignorecase                  # 搜索时大小写不敏感
 set smartcase                   # 搜索智能匹配大小写
 
 set shortmess+=c                # 设置补全静默
-set complete+=kspell            # 设置补全单词
 set completeopt=fuzzy,menuone,popup
 set wildmenu
 set wildoptions=pum,fuzzy
-set wildignore=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
+set wildcharm=<Tab>
+set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__
+set wildignorecase
 set completepopup=highlight:Pmenu,border:off
 
 set diffopt=vertical,internal,filler,closeoff,indent-heuristic,hiddenoff,algorithm:patience
@@ -316,6 +321,10 @@ vnoremap gf gF
 noremap U <C-R>
 noremap == ==
 noremap =G =G
+cnoremap <M-i> <Tab>
+cnoremap <M-u> <S-Tab>
+nnoremap <M-i> :b<Space><Tab>
+nnoremap <M-u> :b<Space><Tab><S-Tab><S-Tab>
 # }}}
 
 # autocmds {{{
