@@ -475,32 +475,6 @@ nnoremap <silent><LocalLeader>v <Cmd>Vista!!<CR>
 
 Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
 
-# gutentags 管理 tags 文件 {{{
-Plug 'ludovicchabant/vim-gutentags', { 'on': 'GutentagsToggleEnabled' }
-Plug 'skywind3000/gutentags_plus', { 'on': 'GscopeFind' }
-# gutentags 搜索工程目录的标志当前文件路径向上递归直到碰到这些文件/目录名
-g:gutentags_define_advanced_commands = true
-g:gutentags_project_root = ['.root', '.svn', '.git', '.hg', '.project']
-g:gutentags_ctags_tagfile = '.tags'   # 所生成的数据文件的名称
-g:gutentags_modules = []              # 同时开启 ctags 和 gtags 支持
-if executable('ctags')
-  g:gutentags_modules += ['ctags']
-endif
-if executable('gtags-cscope') && executable('gtags')
-  g:gutentags_modules += ['gtags_cscope']
-endif
-g:gutentags_cache_dir = expandcmd('~/.cache/tags')
-g:gutentags_ctags_extra_args = [
-  '--fields=+niazS',
-  '--extra=+q',                     # ctags 的参数，Exuberant-ctags 不能有 --extra=+q
-  '--c++-kinds=+px',
-  '--c-kinds=+px',
-  '--output-format=e-ctags'         # 若用 universal ctags 需加，Exuberant-ctags 不加
-]
-g:gutentags_auto_add_gtags_cscope = 0 # 禁用 gutentags 自动加载 gtags 数据库
-g:gutentags_plus_switch = 1
-# }}}
-
 #  asynctasks {{{
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asynctasks.vim'
