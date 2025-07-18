@@ -7,7 +7,7 @@ g:mapleader = ' '            # 定义<leader>键
 g:maplocalleader = ';'       # 定义<loaclleader>键
 
 # options {{{
-set nocompatible                # 设置不兼容原始vi模式
+source $VIMRUNTIME/defaults.vim
 
 set t_Co=256                    # 开启256色支持
 set termguicolors               # 在终端上使用与 GUI 一致的颜色
@@ -22,7 +22,6 @@ set helplang=cn
 set termencoding=utf-8
 set encoding=utf-8
 
-set display=lastline
 set smoothscroll
 set breakindent
 set colorcolumn=81
@@ -30,13 +29,9 @@ set conceallevel=2
 
 set formatoptions+=mM1          # 强制自动换行，应对中文无空格
 set formatoptions+=j            # 按 J 时自动删除注释符号
-set showcmd                     # select模式下显示选中的行数
-set mouse=a
-set ruler                       # 总是显示光标位置
 set nowrap                      # 禁止折行
 set laststatus=2                # 总是显示状态栏
 set history=200                 # keep 200 lines of command line history
-set timeoutlen=500              # 设置<ESC>键响应时间
 set virtualedit=block
 set noshowmode                  # 设置不打开底部insert
 set switchbuf=useopen,usetab
@@ -51,10 +46,6 @@ set listchars=tab:¦\ ,trail:~,precedes:<,extends:>,nbsp:␣
 set smarttab                    # 在行和段开始处使用制表符
 set splitbelow
 set splitright
-
-set sidescroll=0                # 设置向右滑动距离
-set sidescrolloff=0             # 设置右部距离
-set scrolloff=5                 # 设置底部距离
 
 set foldmethod=marker
 set foldopen+=jump
@@ -76,7 +67,6 @@ set autowrite
 set autoread                    # 设置自动保存
 
 set hlsearch                    # 高亮显示搜索结果
-set incsearch                   # 开启实时搜索功能
 set ignorecase                  # 搜索时大小写不敏感
 set smartcase                   # 搜索智能匹配大小写
 
@@ -296,9 +286,6 @@ nnoremap <silent>N <ScriptCmd>Slash('N')<CR>N
 # }}}
 
 # autocmds {{{
-# 回到上次编辑的位置
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
 # vim -b : edit binary using xxd-format!
 augroup Binary
   au!
@@ -360,10 +347,12 @@ Plug 'tpope/vim-characterize'     # 'ga' improve
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['sensible', 'markdown']
-g:markdown_fenced_languages = [ 'c', 'cpp' ]
+g:markdown_fenced_languages = [ 'c', 'cpp', 'c++=cpp', 'rust' ]
 g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
-g:markdown_fenced_languages += [ 'html', 'tex' ]
-g:markdown_fenced_languages += [ 'vim', 'python' ]
+g:markdown_fenced_languages += [ 'html', 'tex', 'css' ]
+g:markdown_fenced_languages += [ 'vim', 'python', 'lua', 'perl' ]
+g:markdown_fenced_languages += [ 'javascript', 'typescript' ]
+g:markdown_fenced_languages += [ 'json', 'toml', 'yaml' ]
 g:markdown_fenced_languages += [ 'beancount' ]
 g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
