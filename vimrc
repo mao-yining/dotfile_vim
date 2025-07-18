@@ -273,6 +273,26 @@ cnoremap <M-i> <Tab>
 cnoremap <M-u> <S-Tab>
 nnoremap <M-i> :b<Space><Tab>
 nnoremap <M-u> :b<Space><Tab><S-Tab><S-Tab>
+
+def SlashCb()
+  if g:slash_able
+    set nohlsearch
+    autocmd! slash
+  else
+    set hlsearch
+    g:slash_able = 1
+  endif
+enddef
+def Slash(oper: string): string
+  augroup slash
+    autocmd!
+    autocmd CursorMoved,CursorMovedI * call SlashCb()
+  augroup END
+  g:slash_able = 0
+  return oper .. "zz"
+enddef
+nnoremap <silent>n <ScriptCmd>Slash('n')<CR>n
+nnoremap <silent>N <ScriptCmd>Slash('N')<CR>N
 # }}}
 
 # autocmds {{{
@@ -311,7 +331,6 @@ autocmd FileType GV setlocal nolist
 packadd! comment
 packadd! editexisting
 packadd! editorconfig
-packadd! nohlsearch
 
 const vimplug = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 if has('unix') && empty(glob('~/.vim/autoload/plug.vim'))
