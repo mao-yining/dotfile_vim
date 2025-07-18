@@ -165,15 +165,6 @@ vnoremap <C-d> <del>
 inoremap <C-f> <C-o>w
 inoremap <C-v> <C-o>D
 
-# vimdiff tool
-cab <expr>Diff "Diff ".expand('%:p:h')."/"
-command! -nargs=1 -bang -complete=file Diff exec ":vert diffsplit ".<q-args>
-command! -nargs=0 Remote <Cmd>diffg RE
-command! -nargs=0 Base   <Cmd>diffg BA
-command! -nargs=0 Local  <Cmd>diffg LO
-
-nnoremap <C-s> <Cmd>w<CR>
-
 # change window width
 nnoremap <C-up> <C-w>+
 nnoremap <C-down> <C-w>-
@@ -366,7 +357,6 @@ Plug 'voldikss/vim-browser-search', { 'on': ['<Plug>SearchNormal', '<Plug>Search
 g:browser_search_default_engine = "bing"
 nmap <silent> <LocalLeader>s <Plug>SearchNormal
 vmap <silent> <LocalLeader>s <Plug>SearchVisual
-Plug 'dhruvasagar/vim-table-mode'
 # }}}
 
 # ui {{{
