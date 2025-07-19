@@ -373,6 +373,11 @@ g:startify_bookmarks += [ { 'b': '~/Documents/vault/projects/account books/ledge
 g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
 
 Plug 'vim-airline/vim-airline'
+Plug 'nathanaelkane/vim-indent-guides'
+autocmd VimEnter * unmap <Leader>ig
+autocmd VimEnter * map yoi <Cmd>IndentGuidesToggle<CR>
+autocmd VimEnter * map [oi <Cmd>IndentGuidesEnable<CR>
+autocmd VimEnter * map ]oi <Cmd>IndentGuidesDisable<CR>
 # }}}
 
 Plug 'skywind3000/vim-terminal-help'
@@ -737,25 +742,23 @@ nmap <silent> [d <Plug>(ale_previous)
 nmap <silent> ]d <Plug>(ale_next)
 g:ale_c_cppcheck_options = '--enable=style --check-level=exhaustive'
 g:ale_cpp_cppcheck_options = '--enable=style --check-level=exhaustive'
+autocmd VimEnter * hi clear SpellBad
+autocmd VimEnter * hi clear SpellCap
+autocmd VimEnter * hi clear SpellLocal
+autocmd VimEnter * hi clear SpellRare
+autocmd VimEnter * hi SpellBad gui=undercurl guisp=LightRed term=undercurl
+autocmd VimEnter * hi SpellCap gui=undercurl guisp=LightYellow term=undercurl
+autocmd VimEnter * hi SpellLocal gui=undercurl guisp=LightBlue term=undercurl
+autocmd VimEnter * hi SpellRare gui=undercurl guisp=LightGreen term=undercurl
+autocmd VimEnter,Colorscheme * hi ALEVirtualTextError   ctermfg=12 ctermbg=16 guifg=#ff0000 guibg=#1E1E2E
+autocmd VimEnter,Colorscheme * hi ALEVirtualTextWarning ctermfg=6  ctermbg=16 guifg=#ff922b guibg=#1E1E2E
+autocmd VimEnter,Colorscheme * hi ALEVirtualTextInfo    ctermfg=14 ctermbg=16 guifg=#fab005 guibg=#1E1E2E
 
 # }}}
 
 call plug#end()
 # }}}
 
-# colors{{{
 silent! colorscheme catppuccin_mocha # 颜色主题
-hi! clear SpellBad
-hi! clear SpellCap
-hi! clear SpellLocal
-hi! clear SpellRare
-hi! SpellBad gui=undercurl guisp=LightRed term=undercurl
-hi! SpellCap gui=undercurl guisp=LightYellow term=undercurl
-hi! SpellLocal gui=undercurl guisp=LightBlue term=undercurl
-hi! SpellRare gui=undercurl guisp=LightGreen term=undercurl
-hi! ALEVirtualTextError   ctermfg=12 ctermbg=16 guifg=#ff0000 guibg=#1E1E2E
-hi! ALEVirtualTextWarning ctermfg=6  ctermbg=16 guifg=#ff922b guibg=#1E1E2E
-hi! ALEVirtualTextInfo    ctermfg=14 ctermbg=16 guifg=#fab005 guibg=#1E1E2E
-# }}}
 
 # vim:fdm=marker:ft=vim
