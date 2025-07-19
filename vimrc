@@ -3,8 +3,8 @@ vim9script
 $v = $HOME .. (has('win32') ? '/vimfiles' : '/.vim')
 $VIMRC = $v .. '/vimrc'
 
-g:mapleader = ' '            # 定义<leader>键
-g:maplocalleader = ';'       # 定义<loaclleader>键
+g:mapleader = ' '               # 定义<leader>键
+g:maplocalleader = ';'          # 定义<loaclleader>键
 
 # options {{{
 source $VIMRUNTIME/defaults.vim
