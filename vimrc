@@ -452,7 +452,8 @@ nnoremap <Leader>D <Cmd>DevdocsFind<CR>
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
 nnoremap <Leader>gg <Cmd>Git<CR>
-nnoremap <Leader>gl <Cmd>GV<CR>
+nnoremap <Leader>gl <Cmd>GV!<CR>
+nnoremap <Leader>gL <Cmd>GV<CR>
 nnoremap <Leader>gcc <Cmd>Git commit<CR>
 nnoremap <Leader>gca <Cmd>Git commit --amend<CR>
 nnoremap <Leader>gce <Cmd>Git commit --amend --no-edit<CR>
@@ -472,18 +473,19 @@ nnoremap <Leader>gb <Cmd>Git blame<CR>
 nnoremap <Leader>gr <Cmd>Gread<CR>
 nnoremap <Leader>gw <Cmd>Gwrite<CR>
 Plug 'airblade/vim-gitgutter'
-nmap <LocalLeader>hw <Plug>(GitGutterStageHunk)
-nmap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
-nmap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
-omap ih <Plug>(GitGutterTextObjectInnerPending)
-omap ah <Plug>(GitGutterTextObjectOuterPending)
-xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-nmap ]h <Plug>(GitGutterNextHunk)
-nmap [h <Plug>(GitGutterPrevHunk)
+nnoremap <LocalLeader>hw <Plug>(GitGutterStageHunk)
+nnoremap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
+nnoremap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
+onoremap ih <Plug>(GitGutterTextObjectInnerPending)
+onoremap ah <Plug>(GitGutterTextObjectOuterPending)
+xnoremap ih <Plug>(GitGutterTextObjectInnerVisual)
+xnoremap ah <Plug>(GitGutterTextObjectOuterVisual)
+nnoremap ]h <Plug>(GitGutterNextHunk)
+nnoremap [h <Plug>(GitGutterPrevHunk)
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
 Plug 'Eliot00/git-lens.vim'
+nnoremap <LocalLeader>hb <Cmd>call ToggleGitLens()<CR>
 Plug 'rhysd/conflict-marker.vim'
 Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
 g:signify_sign_add               = '+'
