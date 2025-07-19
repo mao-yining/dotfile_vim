@@ -298,7 +298,6 @@ autocmd FileType GV setlocal nolist
 packadd! comment
 packadd! editexisting
 packadd! editorconfig
-packadd! nohlsearch
 
 const vimplug = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 if has('unix') && empty(glob('~/.vim/autoload/plug.vim'))
@@ -378,6 +377,14 @@ autocmd VimEnter * unmap <Leader>ig
 autocmd VimEnter * map yoi <Cmd>IndentGuidesToggle<CR>
 autocmd VimEnter * map [oi <Cmd>IndentGuidesEnable<CR>
 autocmd VimEnter * map ]oi <Cmd>IndentGuidesDisable<CR>
+Plug 'haya14busa/incsearch.vim'
+g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
 # }}}
 
 Plug 'skywind3000/vim-terminal-help'
