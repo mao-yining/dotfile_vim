@@ -326,16 +326,6 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-characterize'     # 'ga' improve
 Plug 'tpope/vim-surround'
-Plug 'sheerun/vim-polyglot'
-g:polyglot_disabled = ['sensible', 'markdown']
-g:markdown_fenced_languages = [ 'c', 'cpp', 'c++=cpp', 'rust' ]
-g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
-g:markdown_fenced_languages += [ 'html', 'tex', 'css' ]
-g:markdown_fenced_languages += [ 'vim', 'python', 'lua', 'perl' ]
-g:markdown_fenced_languages += [ 'javascript', 'typescript' ]
-g:markdown_fenced_languages += [ 'json', 'toml', 'yaml' ]
-g:markdown_fenced_languages += [ 'beancount' ]
-g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 Plug 'Andrewradev/switch.vim'
@@ -437,7 +427,7 @@ inoremap <silent><f9> <Esc><Cmd>AsyncTask project-run<CR>
 inoremap <silent><f10> <Esc><Cmd>AsyncTask project-build<CR>
 #  }}}
 
-Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
+Plug 'sbdchd/neoformat'
 noremap <LocalLeader>f <Cmd>Neoformat<CR>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
@@ -500,6 +490,7 @@ g:signify_sign_change            = '~'
 g:signify_sign_changedelete      = g:signify_sign_change
 #  }}}
 
+# ftplugins {{{
 Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
 Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
@@ -515,11 +506,23 @@ Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 Plug 'normen/vim-pio'
 Plug 'tpope/vim-scriptease'
-Plug 'junegunn/vader.vim'
-autocmd FileType vader nnoremap <buffer><silent> K K
 Plug 'mhinz/vim-lookup'
 autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<CR>
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
+Plug 'sheerun/vim-polyglot'
+g:polyglot_disabled = ['sensible', 'markdown']
+g:markdown_fenced_languages = [ 'c', 'cpp', 'c++=cpp', 'rust' ]
+g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
+g:markdown_fenced_languages += [ 'html', 'tex', 'css' ]
+g:markdown_fenced_languages += [ 'vim', 'python', 'lua', 'perl' ]
+g:markdown_fenced_languages += [ 'js=javascript' ]
+g:markdown_fenced_languages += [ 'javascript', 'typescript' ]
+g:markdown_fenced_languages += [ 'json', 'toml', 'yaml' ]
+g:markdown_fenced_languages += [ 'beancount' ]
+g:markdown_minlines = 500
+g:markdown_math = 1
+au FileType markdown setlocal conceallevel=2
+# }}}
 
 # vimspector {{{
 Plug 'puremourning/vimspector'
@@ -711,26 +714,26 @@ command! -nargs=0 OR   call CocActionAsync('runCommand', 'editor.action.organize
 
 # Mappings for CoCList
 # Manage extensions
-nnoremap <silent><nowait> <Space>e  :<C-u>CocList extensions<CR>
+nnoremap <Space>e  <Cmd>CocList extensions<CR>
 # Find symbol of current document
-nnoremap <silent><nowait> <Space>o  :<C-u>CocList outline<CR>
+nnoremap <Space>o  <Cmd>CocList outline<CR>
 # Search workspace symbols
-nnoremap <silent><nowait> <Space>s  :<C-u>CocList -I symbols<CR>
+nnoremap <Space>s  <Cmd>CocList -I symbols<CR>
 # Do default action for next item
-nnoremap <silent><nowait> <Space>j  :<C-u>CocNext<CR>
+nnoremap <Space>j  <Cmd>CocNext<CR>
 # Do default action for previous item
-nnoremap <silent><nowait> <Space>k  :<C-u>CocPrev<CR>
+nnoremap <Space>k  <Cmd>CocPrev<CR>
 # Resume latest coc list
-nnoremap <silent><nowait> <Space>p  :<C-u>CocListResume<CR>
+nnoremap <Space>p  <Cmd>CocListResume<CR>
 
-nnoremap <silent><nowait> <Leader>b <Cmd>CocList buffers<CR>
-nnoremap <silent><nowait> <Leader>; <Cmd>CocList commands<CR>
-nnoremap <silent><nowait> <Leader><Space> <Cmd>CocList files<CR>
-nnoremap <silent><nowait> <Leader>f <Cmd>CocList grep<CR>
-nnoremap <silent><nowait> <Leader>h <Cmd>CocList helptags<CR>
-nnoremap <silent><nowait> <Leader>r <Cmd>CocList mru<CR>
-nnoremap <silent><nowait> <Leader>m <Cmd>CocList marketplace<CR>
-nnoremap <silent><nowait> <LocalLeader>t <Cmd>CocList tasks<CR>
+nnoremap <Leader>b <Cmd>CocList buffers<CR>
+nnoremap <Leader>; <Cmd>CocList commands<CR>
+nnoremap <Leader><Space> <Cmd>CocList files<CR>
+nnoremap <Leader>f <Cmd>CocList grep<CR>
+nnoremap <Leader>h <Cmd>CocList helptags<CR>
+nnoremap <Leader>r <Cmd>CocList mru<CR>
+nnoremap <Leader>m <Cmd>CocList marketplace<CR>
+nnoremap <LocalLeader>t <Cmd>CocList tasks<CR>
 # }}}
 
 # ALE {{{
@@ -770,6 +773,8 @@ nmap <silent> <Leader>ts <Cmd>TestSuite<CR>
 nmap <silent> <Leader>tl <Cmd>TestLast<CR>
 nmap <silent> <Leader>tv <Cmd>TestVisit<CR>
 g:test#strategy = 'vimterminal'
+Plug 'junegunn/vader.vim'
+autocmd FileType vader nnoremap <buffer><silent> K K
 # }}
 
 call plug#end()
