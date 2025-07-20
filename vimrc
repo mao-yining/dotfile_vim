@@ -3,8 +3,8 @@ vim9script
 $v = $HOME .. (has('win32') ? '/vimfiles' : '/.vim')
 $VIMRC = $v .. '/vimrc'
 
-g:mapleader = ' '               # 定义<leader>键
-g:maplocalleader = ';'          # 定义<loaclleader>键
+g:mapleader = ' '               # 定义<Leader>键
+g:maplocalleader = ';'          # 定义<LocalLeader>键
 
 # options {{{
 source $VIMRUNTIME/defaults.vim
@@ -73,7 +73,7 @@ set smartcase                   # 搜索智能匹配大小写
 set shortmess+=c                # 设置补全静默
 set completeopt=fuzzy,menuone,popup
 set wildmenu
-set wildoptions=pum,fuzzy
+set wildoptions=pum
 set wildcharm=<Tab>
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__
@@ -178,10 +178,10 @@ nnoremap <silent><nowait>=l <Cmd>lopen<CR>
 nnoremap <silent><nowait>\l <Cmd>lclose<CR>
 
 # tab ctrl
-nnoremap <silent><nowait>=<tab> <Cmd>tabnew<CR>
-nnoremap <silent><nowait>\<tab> <Cmd>tabc<CR>
-nnoremap <silent><nowait>[<tab> <Cmd>tabp<CR>
-nnoremap <silent><nowait>]<tab> <Cmd>tabn<CR>
+nnoremap <silent><nowait>=<Tab> <Cmd>tabnew<CR>
+nnoremap <silent><nowait>\<Tab> <Cmd>tabc<CR>
+nnoremap <silent><nowait>[<Tab> <Cmd>tabp<CR>
+nnoremap <silent><nowait>]<Tab> <Cmd>tabn<CR>
 
 noremap <silent><M-1> <Cmd>tabn 1<CR>
 noremap <silent><M-2> <Cmd>tabn 2<CR>
@@ -514,6 +514,12 @@ nmap <LocalLeader>a <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 Plug 'normen/vim-pio'
+Plug 'tpope/vim-scriptease'
+Plug 'junegunn/vader.vim'
+autocmd FileType vader nnoremap <buffer><silent> K K
+Plug 'mhinz/vim-lookup'
+autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<CR>
+autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 
 # vimspector {{{
 Plug 'puremourning/vimspector'
@@ -563,18 +569,18 @@ Plug 'honza/vim-snippets'
 # Use tab for trigger completion with characters ahead and navigate
 # NOTE: There's always complete item selected by default, you may want to enable
 # no select by `"suggest.noselect": true` in your configuration file
-# NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+# NOTE: Use command ':verbose imap <Tab>' to make sure tab is not mapped by
 # other plugin before putting this into your config
-inoremap <silent><expr> <TAB>
+inoremap <silent><expr> <Tab>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 # Make <CR> to accept selected completion item or notify coc.nvim to format
 # <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-      \ : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+      \ : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
 
 def CheckBackspace(): bool
   var col = col('.') - 1
@@ -588,27 +594,27 @@ imap <C-l> <Plug>(coc-snippets-expand)
 vmap <C-j> <Plug>(coc-snippets-select)
 
 # Use <C-j> for jump to next placeholder, it's default of coc.nvim
-g:coc_snippet_next = '<c-j>'
+g:coc_snippet_next = '<C-j>'
 
 # Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-g:coc_snippet_prev = '<c-k>'
+g:coc_snippet_prev = '<C-k>'
 
 # Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-# Use <leader>x for convert visual selected code to snippet
-xmap <leader>x  <Plug>(coc-convert-snippet)
+# Use <Leader>x for convert visual selected code to snippet
+xmap <Leader>x  <Plug>(coc-convert-snippet)
 
 # Make <CR> to accept selected completion item or notify coc.nvim to format
 # <C-g>u breaks current undo, please make your own choice
 # inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-# \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+# \: "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
 
-# Use <c-space> to trigger completion
+# Use <C-space> to trigger completion
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+  inoremap <silent><expr> <C-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+  inoremap <silent><expr> <C-@> coc#refresh()
 endif
 
 # GoTo code navigation
@@ -618,7 +624,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 # Use K to show documentation in preview window
-nnoremap <silent> K <cmd>call ShowDocumentation()<cr>
+nnoremap <silent> K <Cmd>call ShowDocumentation()<CR>
 command! -nargs=0 Hover call CocAction('doHover')
 def g:ShowDocumentation()
   if index(['vim', 'help'], &filetype) >= 0
@@ -645,28 +651,28 @@ augroup mygroup
 augroup end
 
 # Applying code actions to the selected code block
-# Example: `<leader>aap` for current paragraph
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
+# Example: `<Leader>aap` for current paragraph
+xmap <Leader>a  <Plug>(coc-codeaction-selected)
+nmap <Leader>a  <Plug>(coc-codeaction-selected)
 
 # Remap keys for applying code actions at the cursor position
-nmap <leader>cc  <Plug>(coc-codeaction-cursor)
+nmap <Leader>cc  <Plug>(coc-codeaction-cursor)
 # Remap keys for apply code actions affect whole buffer
-nmap <leader>cs  <Plug>(coc-codeaction-source)
+nmap <Leader>cs  <Plug>(coc-codeaction-source)
 # Apply the most preferred quickfix action to fix diagnostic on the current line
-nmap <leader>.  <Plug>(coc-fix-current)
-nmap <leader>ca  <Plug>(coc-fix-current)
+nmap <Leader>.  <Plug>(coc-fix-current)
+nmap <Leader>ca  <Plug>(coc-fix-current)
 
 # Remap keys for applying refactor code actions
-xmap <silent> <localleader>r  <Plug>(coc-codeaction-refactor-selected)
-nmap <silent> <localleader>r  <Plug>(coc-codeaction-refactor-selected)
+xmap <silent> <LocalLeader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <LocalLeader>r  <Plug>(coc-codeaction-refactor-selected)
 
 # Run the Code Lens action on the current line
-nmap <leader>cl  <Plug>(coc-codelens-action)
+nmap <Leader>cl  <Plug>(coc-codelens-action)
 
-nmap [oI  <cmd>CocCommand document.enableInlayHint<cr>
-nmap ]oI  <cmd>CocCommand document.disableInlayHint<cr>
-nmap yoI  <cmd>CocCommand document.toggleInlayHint<cr>
+nmap [oI  <Cmd>CocCommand document.enableInlayHint<CR>
+nmap ]oI  <Cmd>CocCommand document.disableInlayHint<CR>
+nmap yoI  <Cmd>CocCommand document.toggleInlayHint<CR>
 
 # Map function and class text objects
 # NOTE: Requires 'textDocument.documentSymbol' support from the language server
@@ -683,8 +689,8 @@ omap ac <Plug>(coc-classobj-a)
 if has('nvim-0.4.0') || has('patch-8.2.0750')
   nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
   nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
   vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
   vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
@@ -705,26 +711,26 @@ command! -nargs=0 OR   call CocActionAsync('runCommand', 'editor.action.organize
 
 # Mappings for CoCList
 # Manage extensions
-nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+nnoremap <silent><nowait> <Space>e  :<C-u>CocList extensions<CR>
 # Find symbol of current document
-nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+nnoremap <silent><nowait> <Space>o  :<C-u>CocList outline<CR>
 # Search workspace symbols
-nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+nnoremap <silent><nowait> <Space>s  :<C-u>CocList -I symbols<CR>
 # Do default action for next item
-nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+nnoremap <silent><nowait> <Space>j  :<C-u>CocNext<CR>
 # Do default action for previous item
-nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+nnoremap <silent><nowait> <Space>k  :<C-u>CocPrev<CR>
 # Resume latest coc list
-nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+nnoremap <silent><nowait> <Space>p  :<C-u>CocListResume<CR>
 
-nnoremap <silent><nowait> <leader>b <cmd>CocList buffers<CR>
-nnoremap <silent><nowait> <leader>; <cmd>CocList commands<CR>
-nnoremap <silent><nowait> <leader><space> <cmd>CocList files<CR>
-nnoremap <silent><nowait> <leader>f <cmd>CocList grep<CR>
-nnoremap <silent><nowait> <leader>h <cmd>CocList helptags<CR>
-nnoremap <silent><nowait> <leader>r <cmd>CocList mru<CR>
-nnoremap <silent><nowait> <leader>m <cmd>CocList marketplace<CR>
-nnoremap <silent><nowait> <leader>t <cmd>CocList tasks<CR>
+nnoremap <silent><nowait> <Leader>b <Cmd>CocList buffers<CR>
+nnoremap <silent><nowait> <Leader>; <Cmd>CocList commands<CR>
+nnoremap <silent><nowait> <Leader><Space> <Cmd>CocList files<CR>
+nnoremap <silent><nowait> <Leader>f <Cmd>CocList grep<CR>
+nnoremap <silent><nowait> <Leader>h <Cmd>CocList helptags<CR>
+nnoremap <silent><nowait> <Leader>r <Cmd>CocList mru<CR>
+nnoremap <silent><nowait> <Leader>m <Cmd>CocList marketplace<CR>
+nnoremap <silent><nowait> <LocalLeader>t <Cmd>CocList tasks<CR>
 # }}}
 
 # ALE {{{
@@ -737,7 +743,7 @@ g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 g:ale_virtualtext_prefix = ""
 g:ale_sign_error = '>>'
 g:ale_sign_warning = '--'
-nmap <localleader>d <Plug>(ale_detail)
+nmap <LocalLeader>d <Plug>(ale_detail)
 nmap <silent> [d <Plug>(ale_previous)
 nmap <silent> ]d <Plug>(ale_next)
 g:ale_c_cppcheck_options = '--enable=style --check-level=exhaustive'
@@ -755,6 +761,16 @@ autocmd VimEnter,Colorscheme * hi ALEVirtualTextWarning ctermfg=6  ctermbg=16 gu
 autocmd VimEnter,Colorscheme * hi ALEVirtualTextInfo    ctermfg=14 ctermbg=16 guifg=#fab005 guibg=#1E1E2E
 
 # }}}
+
+# test {{
+Plug 'vim-test/vim-test'
+nmap <silent> <Leader>tt <Cmd>TestNearest<CR>
+nmap <silent> <Leader>tf <Cmd>TestFile<CR>
+nmap <silent> <Leader>ts <Cmd>TestSuite<CR>
+nmap <silent> <Leader>tl <Cmd>TestLast<CR>
+nmap <silent> <Leader>tv <Cmd>TestVisit<CR>
+g:test#strategy = 'vimterminal'
+# }}
 
 call plug#end()
 # }}}
