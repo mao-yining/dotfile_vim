@@ -326,8 +326,15 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-characterize'     # 'ga' improve
 Plug 'tpope/vim-surround'
 Plug 'sheerun/vim-polyglot'
-g:polyglot_disabled = [ 'sensible' ]
-g:vim_markdown_math = 1
+g:polyglot_disabled = ['sensible', 'markdown']
+g:markdown_fenced_languages = [ 'c', 'cpp', 'c++=cpp', 'rust' ]
+g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
+g:markdown_fenced_languages += [ 'html', 'tex', 'css' ]
+g:markdown_fenced_languages += [ 'vim', 'python', 'lua', 'perl' ]
+g:markdown_fenced_languages += [ 'javascript', 'typescript' ]
+g:markdown_fenced_languages += [ 'json', 'toml', 'yaml' ]
+g:markdown_fenced_languages += [ 'beancount' ]
+g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 Plug 'Andrewradev/switch.vim'
