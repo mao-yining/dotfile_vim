@@ -326,6 +326,16 @@ Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-characterize'     # 'ga' improve
 Plug 'tpope/vim-surround'
+Plug 'sheerun/vim-polyglot'
+g:polyglot_disabled = ['sensible', 'markdown']
+g:markdown_fenced_languages = [ 'c', 'cpp', 'c++=cpp', 'rust' ]
+g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
+g:markdown_fenced_languages += [ 'html', 'tex', 'css' ]
+g:markdown_fenced_languages += [ 'vim', 'python', 'lua', 'perl' ]
+g:markdown_fenced_languages += [ 'javascript', 'typescript' ]
+g:markdown_fenced_languages += [ 'json', 'toml', 'yaml' ]
+g:markdown_fenced_languages += [ 'beancount' ]
+g:markdown_minlines = 500
 Plug 'tpope/vim-eunuch'
 Plug 'girishji/vimbits'
 Plug 'Andrewradev/switch.vim'
@@ -363,6 +373,11 @@ g:startify_bookmarks += [ { 'b': '~/Documents/vault/projects/account books/ledge
 g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
 
 Plug 'vim-airline/vim-airline'
+Plug 'nathanaelkane/vim-indent-guides'
+autocmd VimEnter * unmap <Leader>ig
+autocmd VimEnter * map yoi <Cmd>IndentGuidesToggle<CR>
+autocmd VimEnter * map [oi <Cmd>IndentGuidesEnable<CR>
+autocmd VimEnter * map ]oi <Cmd>IndentGuidesDisable<CR>
 # }}}
 
 Plug 'skywind3000/vim-terminal-help'
@@ -485,7 +500,6 @@ g:signify_sign_change            = '~'
 g:signify_sign_changedelete      = g:signify_sign_change
 #  }}}
 
-# ftplugins {{{
 Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
 Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
@@ -506,17 +520,6 @@ autocmd FileType vader nnoremap <buffer><silent> K K
 Plug 'mhinz/vim-lookup'
 autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<CR>
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
-Plug 'sheerun/vim-polyglot'
-g:polyglot_disabled = ['sensible', 'markdown']
-g:markdown_fenced_languages = [ 'c', 'cpp', 'c++=cpp', 'rust' ]
-g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
-g:markdown_fenced_languages += [ 'html', 'tex', 'css' ]
-g:markdown_fenced_languages += [ 'vim', 'python', 'lua', 'perl' ]
-g:markdown_fenced_languages += [ 'javascript', 'typescript' ]
-g:markdown_fenced_languages += [ 'json', 'toml', 'yaml' ]
-g:markdown_fenced_languages += [ 'beancount' ]
-g:markdown_minlines = 500
-# }}}
 
 # vimspector {{{
 Plug 'puremourning/vimspector'
