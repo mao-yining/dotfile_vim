@@ -375,9 +375,9 @@ g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help ugand
 Plug 'vim-airline/vim-airline'
 Plug 'nathanaelkane/vim-indent-guides'
 autocmd VimEnter * unmap <Leader>ig
-autocmd VimEnter * map yoi <Cmd>IndentGuidesToggle<CR>
-autocmd VimEnter * map [oi <Cmd>IndentGuidesEnable<CR>
-autocmd VimEnter * map ]oi <Cmd>IndentGuidesDisable<CR>
+autocmd VimEnter * nnoremap <silent><nowait> yoi <Cmd>IndentGuidesToggle<CR>
+autocmd VimEnter * nnoremap <silent><nowait> [oi <Cmd>IndentGuidesEnable<CR>
+autocmd VimEnter * nnoremap <silent><nowait> ]oi <Cmd>IndentGuidesDisable<CR>
 # }}}
 
 Plug 'skywind3000/vim-terminal-help'
