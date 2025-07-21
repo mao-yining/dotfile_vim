@@ -9,6 +9,7 @@ elseif has("gui_win32")
   set renderoptions=type:directx
 endif
 
+set columns=86
 set t_vb=                   # 关闭视觉铃声
 set guioptions+=c           # 使用控制台对话框而不是弹出式对话框
 set guioptions+=!           # 在内部终端窗口执行外部命令

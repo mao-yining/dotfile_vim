@@ -340,12 +340,22 @@ g:rainbow_active = 1
 Plug 'mhinz/vim-startify'
 autocmd user startified setlocal cursorline
 g:startify_enable_special      = 0
-g:startify_files_number        = 5
 g:startify_relative_path       = 1
 g:startify_change_to_dir       = 1
 g:startify_update_oldfiles     = 1
+g:startify_fortune_use_unicode = 1
+g:startify_files_number        = 3
+g:startify_lists = [
+  { 'type': 'sessions',  'header': ['   Sessions']  },
+  { 'type': 'files',     'header': ['   MRU']       },
+  { 'type': 'bookmarks', 'header': ['   Bookmarks'] },
+  { 'type': 'commands',  'header': ['   Commands']  },
+]
+g:startify_session_sort = 1
+g:startify_custom_header = 'startify#pad(startify#fortune#boxed())'
 g:startify_session_autoload    = 1
 g:startify_session_persistence = 1
+g:startify_change_to_vcs_root = 1
 g:startify_session_dir = $v .. '/sessions'
 g:startify_skiplist = [ "runtime/doc/", "/plugged/.*/doc/", "/.git/" ]
 g:startify_skiplist += [ "/Temp/", "fugitiveblame$" ]
