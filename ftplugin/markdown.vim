@@ -1,4 +1,4 @@
-vim9script
+vim9script noclear
 
 # TODO print messages when on visual mode. I only see VISUAL, not the messages.
 
@@ -755,6 +755,7 @@ command! -buffer -range=% HeaderDecrease call HeaderDecrease(<line1>, <line2>)
 command! -buffer -range=% HeaderIncrease call HeaderDecrease(<line1>, <line2>, true)
 command! -buffer -range=% SetexToAtx call SetexToAtx(<line1>, <line2>)
 command! -buffer -range TableFormat call TableFormat()
+command! -buffer Title execute "normal! i# " .. expand('%:t:r') .. "\<Esc>"
 command! -buffer Toc call Toc()
 command! -buffer Toch call Toc('horizontal')
 command! -buffer Tocv call Toc('vertical')

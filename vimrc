@@ -39,10 +39,9 @@ set hidden                      # 设置允许在未保存切换buffer
 set matchpairs+=<:>             # 设置%匹配<>
 
 set smartindent                 # 智能的选择对其方式
-set expandtab                   # 设置空格替换tab
-set tabstop=4                   # 设置编辑时制表符占用空格数
+set shiftwidth=4
 set list
-set listchars=tab:¦\ ,trail:~,precedes:<,extends:>,nbsp:␣
+set listchars=tab:>\ ,trail:~,precedes:<,extends:>,nbsp:␣
 set smarttab                    # 在行和段开始处使用制表符
 set splitbelow
 set splitright
@@ -146,14 +145,6 @@ enddef
 
 # reload .vimrc
 nnoremap <Leader>S <Cmd>set nossl<CR><Cmd>source $MYVIMRC<CR><Cmd>set ssl<CR>
-
-# 插入移动
-inoremap <C-e> <end>
-inoremap <C-a> <C-o>^
-inoremap <C-d> <del>
-vnoremap <C-d> <del>
-inoremap <C-f> <C-o>w
-inoremap <C-v> <C-o>D
 
 # change window width
 nnoremap <C-up> <C-w>+
