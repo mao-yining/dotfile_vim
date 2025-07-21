@@ -1,6 +1,5 @@
 " Vim syntax file
 " Language:     Markdown
-" Maintainer:   Tim Pope <https://github.com/tpope/vim-markdown>
 " Filenames:    *.markdown
 " Last Change:  2022 Oct 13
 

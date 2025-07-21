@@ -1,6 +1,6 @@
 if !has('patch-7.4.480')
-    " Before this patch, vim used modula2 for .md.
-    au! filetypedetect BufRead,BufNewFile *.md
+  " Before this patch, vim used modula2 for .md.
+  au! filetypedetect BufRead,BufNewFile *.md
 endif
 
 " vint: -ProhibitAutocmdWithNoGroup

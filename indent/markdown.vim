@@ -1,75 +1,76 @@
+vim9script noclear
 if exists('b:did_indent') | finish | endif
-let b:did_indent = 1
+b:did_indent = 1
 
 setlocal indentexpr=GetMarkdownIndent()
 setlocal nolisp
 setlocal autoindent
 
-" Automatically continue blockquote on line break
+# Automatically continue blockquote on line break
 setlocal formatoptions+=r
 setlocal comments=b:>
 if get(g:, 'vim_markdown_auto_insert_bullets', 1)
-    " Do not automatically insert bullets when auto-wrapping with text-width
-    setlocal formatoptions-=c
-    " Accept various markers as bullets
-    setlocal comments+=b:*,b:+,b:-
+  # Do not automatically insert bullets when auto-wrapping with text-width
+  setlocal formatoptions-=c
+  # Accept various markers as bullets
+  setlocal comments+=b:*,b:+,b:-
 endif
 
-" Only define the function once
+# Only define the function once
 if exists('*GetMarkdownIndent') | finish | endif
 
-function! s:IsMkdCode(lnum)
-    let name = synIDattr(synID(a:lnum, 1, 0), 'name')
-    return (name =~# '^mkd\%(Code$\|Snippet\)' || name !=# '' && name !~? '^\%(mkd\|html\)')
-endfunction
+def IsMkdCode(lnum: number): bool
+  var name = synIDattr(synID(lnum, 1, 0), 'name')
+  return name =~# '^mkd\%(Code$\|Snippet\)' || name != '' && name !~? '^\%(mkd\|html\)'
+enddef
 
-function! s:IsLiStart(line)
-    return a:line !~# '^ *\([*-]\)\%( *\1\)\{2}\%( \|\1\)*$' &&
-      \    a:line =~# '^\s*[*+-] \+'
-endfunction
+def IsLiStart(line: string): bool
+  return line !~# '^ *\([*-]\)\%( *\1\)\{2}\%( \|\1\)*$' &&
+    line =~# '^\s*[*+-] \+'
+enddef
 
-function! s:IsHeaderLine(line)
-    return a:line =~# '^\s*#'
-endfunction
+def IsHeaderLine(line: string): bool
+  return line =~# '^\s*#'
+enddef
 
-function! s:IsBlankLine(line)
-    return a:line =~# '^$'
-endfunction
+def IsBlankLine(line: string): bool
+  return line =~# '^$'
+enddef
 
-function! s:PrevNonBlank(lnum)
-    let i = a:lnum
-    while i > 1 && s:IsBlankLine(getline(i))
-        let i -= 1
-    endwhile
-    return i
-endfunction
+def PrevNonBlank(lnum: number): number
+  var i = lnum
+  while i > 1 && IsBlankLine(getline(i))
+    i -= 1
+  endwhile
+  return i
+enddef
 
-function GetMarkdownIndent()
-    if v:lnum > 2 && s:IsBlankLine(getline(v:lnum - 1)) && s:IsBlankLine(getline(v:lnum - 2))
-        return 0
-    endif
-    let list_ind = get(g:, 'vim_markdown_new_list_item_indent', 4)
-    " Find a non-blank line above the current line.
-    let lnum = s:PrevNonBlank(v:lnum - 1)
-    " At the start of the file use zero indent.
-    if lnum == 0 | return 0 | endif
-    let ind = indent(lnum)
-    let line = getline(lnum)    " Last line
-    let cline = getline(v:lnum) " Current line
-    if s:IsLiStart(cline)
-        " Current line is the first line of a list item, do not change indent
-        return indent(v:lnum)
-    elseif s:IsHeaderLine(cline) && !s:IsMkdCode(v:lnum)
-        " Current line is the header, do not indent
-        return 0
-    elseif s:IsLiStart(line)
-        if s:IsMkdCode(lnum)
-            return ind
-        else
-            " Last line is the first line of a list item, increase indent
-            return ind + list_ind
-        end
+def GetMarkdownIndent(): number
+  if v:lnum > 2 && IsBlankLine(getline(v:lnum - 1)) && IsBlankLine(getline(v:lnum - 2))
+    return 0
+  endif
+  var list_ind = get(g:, 'vim_markdown_new_list_item_indent', 4)
+  # Find a non-blank line above the current line.
+  var lnum = PrevNonBlank(v:lnum - 1)
+  # At the start of the file use zero indent.
+  if lnum == 0 | return 0 | endif
+  var ind = indent(lnum)
+  var line = getline(lnum)    # Last line
+  var cline = getline(v:lnum) # Current line
+  if IsLiStart(cline)
+    # Current line is the first line of a list item, do not change indent
+    return indent(v:lnum)
+  elseif IsHeaderLine(cline) && !IsMkdCode(v:lnum)
+    # Current line is the header, do not indent
+    return 0
+  elseif IsLiStart(line)
+    if IsMkdCode(lnum)
+      return ind
     else
-        return ind
+      # Last line is the first line of a list item, increase indent
+      return ind + list_ind
     endif
-endfunction
+  else
+    return ind
+  endif
+enddef
