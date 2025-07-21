@@ -427,7 +427,7 @@ inoremap <silent><f9> <Esc><Cmd>AsyncTask project-run<CR>
 inoremap <silent><f10> <Esc><Cmd>AsyncTask project-build<CR>
 #  }}}
 
-Plug 'sbdchd/neoformat'
+Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
 noremap <LocalLeader>f <Cmd>Neoformat<CR>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
@@ -511,14 +511,6 @@ autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['sensible', 'markdown']
-g:markdown_fenced_languages = [ 'c', 'cpp', 'c++=cpp', 'rust' ]
-g:markdown_fenced_languages += [ 'bash', 'shell=sh', 'dosbatch' ]
-g:markdown_fenced_languages += [ 'html', 'tex', 'css' ]
-g:markdown_fenced_languages += [ 'vim', 'python', 'lua', 'perl' ]
-g:markdown_fenced_languages += [ 'js=javascript' ]
-g:markdown_fenced_languages += [ 'javascript', 'typescript' ]
-g:markdown_fenced_languages += [ 'json', 'toml', 'yaml' ]
-g:markdown_fenced_languages += [ 'beancount' ]
 g:markdown_minlines = 500
 g:markdown_math = 1
 au FileType markdown setlocal conceallevel=2
