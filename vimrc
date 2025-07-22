@@ -7,8 +7,6 @@ g:mapleader = ' '               # 定义<Leader>键
 g:maplocalleader = ';'          # 定义<LocalLeader>键
 
 # options {{{
-source $VIMRUNTIME/defaults.vim
-
 set t_Co=256                    # 开启256色支持
 set termguicolors               # 在终端上使用与 GUI 一致的颜色
 
@@ -42,6 +40,7 @@ set smartindent                 # 智能的选择对其方式
 set shiftwidth=4
 set list
 set listchars=tab:>\ ,trail:~,precedes:<,extends:>,nbsp:␣
+set fillchars+=eob:\            # 去掉buffer后的‘~’符号
 set smarttab                    # 在行和段开始处使用制表符
 set splitbelow
 set splitright
@@ -448,8 +447,8 @@ nnoremap <Leader>D <Cmd>DevdocsFind<CR>
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
 nnoremap <Leader>gg <Cmd>Git<CR>
-nnoremap <Leader>gl <Cmd>GV!<CR>
-nnoremap <Leader>gL <Cmd>GV<CR>
+nnoremap <Leader>gl <Cmd>GV<CR>
+nnoremap <Leader>gL <Cmd>GV!<CR>
 nnoremap <Leader>gcc <Cmd>Git commit<CR>
 nnoremap <Leader>gca <Cmd>Git commit --amend<CR>
 nnoremap <Leader>gce <Cmd>Git commit --amend --no-edit<CR>
@@ -511,7 +510,7 @@ Plug 'mhinz/vim-lookup'
 autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<CR>
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 Plug 'sheerun/vim-polyglot'
-g:polyglot_disabled = ['sensible', 'markdown']
+g:polyglot_disabled = ['markdown']
 g:markdown_minlines = 500
 g:markdown_math = 1
 au FileType markdown setlocal conceallevel=2
