@@ -85,8 +85,7 @@ set viewoptions=cursor,folds,slash,unix
 
 if has('win32')
   autocmd VimEnter * set shellslash
-  set pythonthreedll=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\python313.dll
-  set pythonthreehome=$HOME\AppData\Roaming\uv\python\cpython-3.13.3-windows-x86_64-none\
+  set pythonthreedll=D:/msys64/ucrt64/bin/libpython3.dll
 endif
 
 set clipboard=unnamed
@@ -359,7 +358,7 @@ g:startify_session_dir = $v .. '/sessions'
 g:startify_skiplist = [ "runtime/doc/", "/plugged/.*/doc/", "/.git/" ]
 g:startify_skiplist += [ "/Temp/", "fugitiveblame$" ]
 g:startify_bookmarks = [ { 'c': $vimrc } ]
-g:startify_bookmarks += [ { 'b': '~/Documents/vault/projects/account books/ledger.bean' } ]
+g:startify_bookmarks += [ { 'b': '~/Documents/vault/projects/accounts/main.bean' } ]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
 
 Plug 'vim-airline/vim-airline'
@@ -506,7 +505,7 @@ Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 Plug 'normen/vim-pio'
 Plug 'tpope/vim-scriptease'
-Plug 'mhinz/vim-lookup'
+Plug 'mhinz/vim-lookup', {'for': 'vim'}
 autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<CR>
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 Plug 'sheerun/vim-polyglot'
