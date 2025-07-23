@@ -255,6 +255,9 @@ nnoremap <M-u> :b<Space><Tab><S-Tab><S-Tab>
 # }}}
 
 # autocmds {{{
+# 回到上次编辑的位置
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
 # vim -b : edit binary using xxd-format!
 augroup Binary
   au!
@@ -772,5 +775,3 @@ call plug#end()
 # }}}
 
 silent! colorscheme catppuccin_mocha # 颜色主题
-
-# vim:fdm=marker:ft=vim
