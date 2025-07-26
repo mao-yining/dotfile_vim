@@ -6,29 +6,29 @@ vim9script noclear
 # Last Modified: 2025-07-02
 
 if !has('gui_running') || (!has('win32') && !has('win64'))
-  finish
+	finish
 endif
 
 if &cp || (exists('g:loaded_fullscreen_dll') && g:loaded_fullscreen_dll)
-  finish
+	finish
 endif
 
 g:loaded_fullscreen_dll = 1
 
 var dll = get(g:, 'fullscreen_dll_path', '')
 if empty(dll)
-  dll = get(split(globpath(&rtp, has('win64') ? 'gvim_fullscreen.dll' : '32.dll'), '\n'), 0, '')
-  if empty(dll)
-    finish
-  endif
+	dll = get(split(globpath(&rtp, has('win64') ? 'gvim_fullscreen.dll' : '32.dll'), '\n'), 0, '')
+	if empty(dll)
+		finish
+	endif
 endif
 
 def ToggleFullscreen()
-  libcallnr(dll, 'ToggleFullscreen', 0)
+	libcallnr(dll, 'ToggleFullscreen', 0)
 enddef
 
 def ToggleTransparency()
-  libcallnr(dll, 'ToggleTransparency', "200,255")
+	libcallnr(dll, 'ToggleTransparency', "200,255")
 enddef
 
 command -nargs=0 ToggleFullscreen call <SID>ToggleFullscreen()

@@ -84,13 +84,13 @@ set sessionoptions=buffers,curdir,folds,help,resize,tabpages,winsize,slash,termi
 set viewoptions=cursor,folds,slash,unix
 
 if has('win32')
-    autocmd VimEnter * set shellslash
+	autocmd VimEnter * set shellslash
 endif
 
 set clipboard=unnamed
 
 if has('sodium') && has("patch-9.0.1481")
-    set cryptmethod=xchacha20v2
+	set cryptmethod=xchacha20v2
 endif
 
 # }}}
@@ -110,32 +110,32 @@ nnoremap <expr><CR> &bt == "" ? "<Cmd>w<CR>" : &bt == 'terminal' ? "i\<enter>" :
 nnoremap <silent>=b <Cmd>enew<CR>
 nnoremap <silent>\b <Cmd>call CloseBuf()<CR>
 def ChangeBuffer(direct: string)
-    if &bt != '' || &ft == 'netrw'|echoerr "buftype is " ..  &bt .. " cannot be change"|return|endif
-    if direct == 'n'|bn
-    else|bp|endif
-    while &bt != ''
-        if direct == 'n'|bn
-        else|bp|endif
-    endwhile
+	if &bt != '' || &ft == 'netrw'|echoerr "buftype is " ..  &bt .. " cannot be change"|return|endif
+	if direct == 'n'|bn
+	else|bp|endif
+	while &bt != ''
+		if direct == 'n'|bn
+		else|bp|endif
+	endwhile
 enddef
 def g:CloseBuf()
-    if &bt != '' || &ft == 'netrw'|bd|return|endif
-    var buf_now = bufnr()
-    var buf_jump_list = getjumplist()[0]
-    var buf_jump_now = getjumplist()[1] - 1
-    while buf_jump_now >= 0
-        var last_nr = buf_jump_list[buf_jump_now]["bufnr"]
-        var last_line = buf_jump_list[buf_jump_now]["lnum"]
-        if buf_now != last_nr && bufloaded(last_nr) && getbufvar(last_nr, "&bt") == ''
-            execute ":buffer " .. last_nr
-            execute ":bd " .. buf_now
-            return
-        else
-            buf_jump_now -= 1
-        endif
-    endwhile
-    bp|while &bt != ''|bp|endwhile
-    execute "bd " .. buf_now
+	if &bt != '' || &ft == 'netrw'|bd|return|endif
+	var buf_now = bufnr()
+	var buf_jump_list = getjumplist()[0]
+	var buf_jump_now = getjumplist()[1] - 1
+	while buf_jump_now >= 0
+		var last_nr = buf_jump_list[buf_jump_now]["bufnr"]
+		var last_line = buf_jump_list[buf_jump_now]["lnum"]
+		if buf_now != last_nr && bufloaded(last_nr) && getbufvar(last_nr, "&bt") == ''
+			execute ":buffer " .. last_nr
+			execute ":bd " .. buf_now
+			return
+		else
+			buf_jump_now -= 1
+		endif
+	endwhile
+	bp|while &bt != ''|bp|endwhile
+	execute "bd " .. buf_now
 enddef
 # }}}
 # }}}
@@ -193,16 +193,16 @@ inoremap <silent><M-9> <ESC><Cmd>tabn 9<CR>
 inoremap <silent><M-0> <ESC><Cmd>tabn 10<CR>
 
 def Tab_MoveLeft()
-    var tabnr = tabpagenr() - 2
-    if tabnr >= 0
-        exec 'tabmove ' .. tabnr
-    endif
+	var tabnr = tabpagenr() - 2
+	if tabnr >= 0
+		exec 'tabmove ' .. tabnr
+	endif
 enddef
 def Tab_MoveRight()
-    var tabnr = tabpagenr() + 1
-    if tabnr <= tabpagenr('$')
-        exec 'tabmove ' .. tabnr
-    endif
+	var tabnr = tabpagenr() + 1
+	if tabnr <= tabpagenr('$')
+		exec 'tabmove ' .. tabnr
+	endif
 enddef
 noremap <silent><M-left> <Cmd>call Tab_MoveLeft()<CR>
 noremap <silent><M-right> <Cmd>call Tab_MoveRight()<CR>
@@ -228,16 +228,16 @@ cab w!! w !sudo tee % >/dev/null
 cab cdn cd <C-R>=expand('%:p:h')<CR>
 cab cdr cd <C-R>=FindRoot()<CR>
 def g:FindRoot(): string
-    var gitdir = finddir(".git", getcwd() .. ';')
-    if !empty(gitdir)
-        if gitdir == ".git"
-            gitdir = getcwd()
-        else
-            gitdir = strpart(gitdir, 0, strridx(gitdir, "/"))
-        endif
-        return gitdir
-    endif
-    return ""
+	var gitdir = finddir(".git", getcwd() .. ';')
+	if !empty(gitdir)
+		if gitdir == ".git"
+			gitdir = getcwd()
+		else
+			gitdir = strpart(gitdir, 0, strridx(gitdir, "/"))
+		endif
+		return gitdir
+	endif
+	return ""
 enddef
 
 # enhance gf
@@ -259,14 +259,14 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 
 # vim -b : edit binary using xxd-format!
 augroup Binary
-    au!
-    au BufReadPre  *.bin,*.exe let &bin=1
-    au BufReadPost *.bin,*.exe if &bin | %!xxd
-    au BufReadPost *.bin,*.exe set ft=xxd | endif
-    au BufWritePre *.bin,*.exe if &bin | %!xxd -r
-    au BufWritePre *.bin,*.exe endif
-    au BufWritePost *.bin,*.exe if &bin | %!xxd
-    au BufWritePost *.bin,*.exe set nomod | endif
+	au!
+	au BufReadPre  *.bin,*.exe let &bin=1
+	au BufReadPost *.bin,*.exe if &bin | %!xxd
+	au BufReadPost *.bin,*.exe set ft=xxd | endif
+	au BufWritePre *.bin,*.exe if &bin | %!xxd -r
+	au BufWritePre *.bin,*.exe endif
+	au BufWritePost *.bin,*.exe if &bin | %!xxd
+	au BufWritePost *.bin,*.exe set nomod | endif
 augroup END
 
 # 自动去除尾随空格
@@ -293,10 +293,10 @@ packadd! nohlsearch
 
 const vimplug = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 if has('unix') && empty(glob('~/.vim/autoload/plug.vim'))
-    execute 'silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' .. vimplug
+	execute 'silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' .. vimplug
 elseif (has('win32') || has('win64')) && empty(glob('$HOME/vimfiles/autoload/plug.vim'))
-    execute 'silent !powershell -command "iwr -useb ' .. vimplug
-        .. ' | ni $HOME/vimfiles/autoload/plug.vim -Force"'
+	execute 'silent !powershell -command "iwr -useb ' .. vimplug
+		.. ' | ni $HOME/vimfiles/autoload/plug.vim -Force"'
 endif
 
 call plug#begin()
@@ -304,7 +304,7 @@ Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'yianwillis/vimcdoc'
 
 if has('gui_running') && has('win32')
-    Plug 'stillwwater/wincap.vim' # 根据背景颜色修改标题栏
+	Plug 'stillwwater/wincap.vim' # 根据背景颜色修改标题栏
 endif
 
 # coding {{{
@@ -346,10 +346,10 @@ g:startify_update_oldfiles     = 1
 g:startify_fortune_use_unicode = 1
 g:startify_files_number        = 3
 g:startify_lists = [
-    { 'type': 'sessions',  'header': ['   Sessions']  },
-    { 'type': 'files',     'header': ['   MRU']       },
-    { 'type': 'bookmarks', 'header': ['   Bookmarks'] },
-    { 'type': 'commands',  'header': ['   Commands']  },
+	{ 'type': 'sessions',  'header': ['   Sessions']  },
+	{ 'type': 'files',     'header': ['   MRU']       },
+	{ 'type': 'bookmarks', 'header': ['   Bookmarks'] },
+	{ 'type': 'commands',  'header': ['   Commands']  },
 ]
 g:startify_session_sort = 1
 g:startify_custom_header = 'startify#pad(startify#fortune#boxed())'
@@ -374,7 +374,7 @@ autocmd VimEnter * nnoremap <silent><nowait> ]oi <Cmd>IndentGuidesDisable<CR>
 Plug 'skywind3000/vim-terminal-help'
 g:terminal_list = 0
 if has('win32')
-    g:terminal_shell = 'nu'
+	g:terminal_shell = 'nu'
 endif
 tnoremap <C-\> <C-\><C-N>
 tnoremap <M-H> <C-_>h
@@ -414,7 +414,7 @@ Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
 #  asynctasks {{{
 Plug 'skywind3000/asyncrun.vim'
 Plug 'skywind3000/asynctasks.vim'
-g:asynctasks_term_pos = 'tab' # quickfix | vim | tab | bottom | external
+g:asynctasks_term_pos = 'external' # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况
 g:asyncrun_open = 6
 g:asyncrun_save = 1
@@ -529,28 +529,28 @@ g:vimspector_enable_winbar = 0
 autocmd User VimspectorDebugEnded g:UnLoadVimspectorMaps()
 autocmd User VimspectorUICreated g:LoadVimspectorMaps()
 def g:LoadVimspectorMaps()
-    nnoremap <Leader><F5>  <Plug>VimspectorStop
-    nnoremap <F6>          <Plug>VimspectorStepOver
-    nnoremap <F7>          <Plug>VimspectorStepInto
-    nnoremap <F8>          <Plug>VimspectorStepOut
-    nnoremap <F9>          <Plug>VimspectorPause
-    nnoremap <F10>         <Plug>VimspectorRestart
-    nnoremap <Leader><F11> <Plug>VimspectorUpFrame
-    nnoremap <Leader><F12> <Plug>VimspectorDownFrame
-    nnoremap <Leader>B     <Plug>VimspectorBreakpoints
-    nnoremap <Leader>D     <Plug>VimspectorDisassemble
+	nnoremap <Leader><F5>  <Plug>VimspectorStop
+	nnoremap <F6>          <Plug>VimspectorStepOver
+	nnoremap <F7>          <Plug>VimspectorStepInto
+	nnoremap <F8>          <Plug>VimspectorStepOut
+	nnoremap <F9>          <Plug>VimspectorPause
+	nnoremap <F10>         <Plug>VimspectorRestart
+	nnoremap <Leader><F11> <Plug>VimspectorUpFrame
+	nnoremap <Leader><F12> <Plug>VimspectorDownFrame
+	nnoremap <Leader>B     <Plug>VimspectorBreakpoints
+	nnoremap <Leader>D     <Plug>VimspectorDisassemble
 enddef
 def g:UnLoadVimspectorMaps()
-    if exists('<Leader><F5>')|nunmap <Leader><F5>|endif
-    if exists('<F6>')|nunmap <F6>|endif
-    nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-    nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-    nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
-    nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
-    if exists('<Leader><F11>')|nunmap <Leader><F11>|endif
-    if exists('<Leader><F12>')|nunmap <Leader><F12>|endif
-    if exists('<Leader>B')|nunmap <Leader>B|endif
-    if exists('<Leader>D')|nunmap <Leader>D|endif
+	if exists('<Leader><F5>')|nunmap <Leader><F5>|endif
+	if exists('<F6>')|nunmap <F6>|endif
+	nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+	nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+	nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+	nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+	if exists('<Leader><F11>')|nunmap <Leader><F11>|endif
+	if exists('<Leader><F12>')|nunmap <Leader><F12>|endif
+	if exists('<Leader>B')|nunmap <Leader>B|endif
+	if exists('<Leader>D')|nunmap <Leader>D|endif
 enddef
 # }}}
 
@@ -568,19 +568,19 @@ Plug 'honza/vim-snippets'
 # NOTE: Use command ':verbose imap <Tab>' to make sure tab is not mapped by
 # other plugin before putting this into your config
 inoremap <silent><expr> <Tab>
-            \ coc#pum#visible() ? coc#pum#next(1) :
-            \ CheckBackspace() ? "\<Tab>" :
-            \ coc#refresh()
+			\ coc#pum#visible() ? coc#pum#next(1) :
+			\ CheckBackspace() ? "\<Tab>" :
+			\ coc#refresh()
 inoremap <expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 # Make <CR> to accept selected completion item or notify coc.nvim to format
 # <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-            \ : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+			\ : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
 
 def CheckBackspace(): bool
-    var col = col('.') - 1
-    return !col || getline('.')[col - 1] =~# '\s'
+	var col = col('.') - 1
+	return !col || getline('.')[col - 1] =~# '\s'
 enddef
 
 # Use <C-l> for trigger snippet expand.
@@ -608,9 +608,9 @@ xmap <Leader>x  <Plug>(coc-convert-snippet)
 
 # Use <C-space> to trigger completion
 if has('nvim')
-    inoremap <silent><expr> <C-space> coc#refresh()
+	inoremap <silent><expr> <C-space> coc#refresh()
 else
-    inoremap <silent><expr> <C-@> coc#refresh()
+	inoremap <silent><expr> <C-@> coc#refresh()
 endif
 
 # GoTo code navigation
@@ -623,13 +623,13 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K <Cmd>call ShowDocumentation()<CR>
 command! -nargs=0 Hover call CocAction('doHover')
 def g:ShowDocumentation()
-    if index(['vim', 'help'], &filetype) >= 0
-        execute 'help ' .. expand('<cword>')
-    elseif &filetype ==# 'tex'
-        VimtexDocPackage
-    else
-        Hover
-    endif
+	if index(['vim', 'help'], &filetype) >= 0
+		execute 'help ' .. expand('<cword>')
+	elseif &filetype ==# 'tex'
+		VimtexDocPackage
+	else
+		Hover
+	endif
 enddef
 
 # Highlight the symbol and its references when holding the cursor
@@ -639,11 +639,11 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <F2> <Plug>(coc-rename)
 
 augroup mygroup
-    autocmd!
-    # Setup formatexpr specified filetype(s)
-    autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
-    # Update signature help on jump placeholder
-    autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+	autocmd!
+	# Setup formatexpr specified filetype(s)
+	autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+	# Update signature help on jump placeholder
+	autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
 
 # Applying code actions to the selected code block
@@ -683,12 +683,12 @@ omap ac <Plug>(coc-classobj-a)
 
 # Remap <C-f> and <C-b> to scroll float windows/popups
 if has('nvim-0.4.0') || has('patch-8.2.0750')
-    nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-    inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
-    inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
-    vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-    vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+	nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+	nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+	inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
+	inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
+	vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+	vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
 endif
 
 # Use CTRL-S for selections ranges
@@ -766,9 +766,68 @@ nmap <silent> <Leader>ts <Cmd>TestSuite<CR>
 nmap <silent> <Leader>tl <Cmd>TestLast<CR>
 nmap <silent> <Leader>tv <Cmd>TestVisit<CR>
 g:test#strategy = 'vimterminal'
-Plug 'junegunn/vader.vim'
+Plug 'junegunn/vader.vim', { 'for': 'vader' }
 autocmd FileType vader nnoremap <buffer><silent> K K
 # }}
+
+# competitest {{{
+Plug 'mao-yining/competitest.vim', { 'on': 'CompetiTest'}
+g:competitest_configs = {
+	multiple_testing: -1,
+	output_compare_method: (output: string, expout: string) => {
+		def SquishString(str: string): string
+			var res = str
+			res = substitute(res, '\s*\n', '\n', 'g') # 去除行尾空格
+			res = substitute(res, '^\s*', '', '')     # 删除开头的所有空白字符
+			res = substitute(res, '\s*$', '', '')     # 删除结尾的所有空白字符
+			return res
+		enddef
+		var _output = SquishString(output)
+		var _expout = SquishString(expout)
+		return _output == _expout
+	},
+	testcases_input_file_format: "$(FNOEXT)$(TCNUM).in",
+	testcases_output_file_format: "$(FNOEXT)$(TCNUM).ans",
+	template_file: "D:/Competitive-Programming/template/template.$(FEXT)",
+	evaluate_template_modifiers: true,
+	received_problems_path: (task, file_extension): string => {
+		var hyphen = stridx(task.group, " - ")
+		var judge: string
+		var contest: string
+		if hyphen == -1
+			judge = task.group
+			contest = "problems"
+		else
+			judge = strpart(task.group, 0, hyphen)
+			contest = strpart(task.group, hyphen + 3)
+		endif
+
+		var safe_contest = substitute(substitute(contest, '[<>:"/\\|?*]', '_', 'g'), '#', '', 'g')
+		var safe_name = substitute(substitute(task.name, '[<>:"/\\|?*]', '_', 'g'), '#', '', 'g')
+
+		return printf(
+			"D:/Competitive-Programming/%s/%s/%s/_.%s",
+			judge,
+			safe_contest,
+			safe_name,
+			file_extension
+		)
+	},
+	received_contests_directory: "D:/Competitive-Programming/$(JUDGE)/$(CONTEST)",
+	received_contests_problems_path: "$(PROBLEM)/_.$(FEXT)",
+}
+
+if !exists("g:airline_filetype_overrides") # airline plugins
+	g:airline_filetype_overrides = {}
+endif
+g:airline_filetype_overrides.competitest_in = [ 'Input', '' ]
+g:airline_filetype_overrides.competitest_out = [ 'Output', '' ]
+g:airline_filetype_overrides.competitest_ans = [ 'Answer', '' ]
+g:airline_filetype_overrides.competitest_err = [ 'Errors', '' ]
+g:airline_filetype_overrides.competitest_testcases = [ 'Testcases', '' ]
+
+# }}}
+
 call plug#end()
 # }}}
 
