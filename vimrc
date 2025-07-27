@@ -276,7 +276,7 @@ autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
 autocmd FileType tex,markdown,text set wrap
 
 # 设置 q 来退出窗口
-autocmd FileType fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
+autocmd FileType startuptime,fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
 
 # 在 gitcommit 中自动进入插入模式
 autocmd FileType gitcommit :1 | startinsert
@@ -299,7 +299,7 @@ elseif (has('win32') || has('win64')) && empty(glob('$HOME/vimfiles/autoload/plu
 		.. ' | ni $HOME/vimfiles/autoload/plug.vim -Force"'
 endif
 
-call plug#begin()
+plug#begin()
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'yianwillis/vimcdoc'
 
@@ -364,6 +364,8 @@ g:startify_bookmarks += [ { 'b': '~/Documents/vault/projects/accounts/main.bean'
 g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
 
 Plug 'vim-airline/vim-airline'
+g:airline#extensions#disable_rtp_load = 1
+g:airline_extensions = ['branch', 'vimtex', 'vista', 'whitespace',  'wordcount', 'coc', 'csv', 'searchcount' ]
 Plug 'nathanaelkane/vim-indent-guides'
 autocmd VimEnter * unmap <Leader>ig
 autocmd VimEnter * nnoremap <silent><nowait> yoi <Cmd>IndentGuidesToggle<CR>
@@ -497,9 +499,37 @@ Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
+autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': ['VimtexInverseSearch', 'VimtexDocPackage']}
+g:ale_tex_chktex_executable = '' # 不使用 chktex
+g:vimtex_quickfix_autoclose_after_keystrokes = 2
+g:vimtex_quickfix_open_on_warning = 0
+g:vimtex_format_enabled = 1
+g:vimtex_fold_enabled = 1
+g:vimtex_fold_manual = 1
+g:tex_comment_nospell = 1
+g:matchup_override_vimtex = 1
+g:vimtex_view_skim_reading_bar = 1
+g:vimtex_complete_enabled = 1
+g:vimtex_quickfix_mode = 0
+g:tex_flavor = "latex"
+g:vimtex_compiler_latexmk = {
+	"aux_dir": "",
+	"out_dir": "",
+	"callback": 1,
+	"continuous": 1,
+	"executable": "latexmk",
+	"hooks": [],
+	"options": [
+		"-verbose",
+		"-file-line-error",
+		"-shell-escape",
+		"-synctex=1",
+		"-interaction=nonstopmode",
+	],
+}
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
 xmap <LocalLeader>a <Plug>(EasyAlign)
 nmap <LocalLeader>a <Plug>(EasyAlign)
@@ -507,7 +537,8 @@ Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 Plug 'normen/vim-pio'
 Plug 'tpope/vim-scriptease'
-Plug 'mhinz/vim-lookup', {'for': 'vim'}
+Plug 'mhinz/vim-lookup', { 'for': 'vim' }
+Plug 'chrisbra/csv.vim'
 autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<CR>
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 Plug 'sheerun/vim-polyglot'
@@ -729,11 +760,24 @@ nnoremap <Leader>m <Cmd>CocList marketplace<CR>
 nnoremap <LocalLeader>t <Cmd>CocList tasks<CR>
 # }}}
 
+Plug 'girishji/scope.vim', { 'on': 'Scope' }
+# :Scope <Autocmd|BufSearch|Buffer|CmdHistory|Colorscheme
+# |Command|File|Filetype|GitFile|Grep|Help|
+# HelpfilesGrep|Highlight|Jumplist|Keymap|
+# LspDocumentSymbol|Loclist|LoclistHistory|
+# MRU|Mark|Option|Quickfix|QuickfixHistory|Register|Tag|Window>
+nnoremap <Leader>b <Cmd>Scope Buffer<CR>
+# nnoremap <Leader>; <Cmd>Scope commands<CR>
+nnoremap <Leader><Space> <Cmd>Scope File<CR>
+nnoremap <Leader>f <Cmd>Scope Grep<CR>
+nnoremap <Leader>h <Cmd>Scope Help<CR>
+nnoremap <Leader>r <Cmd>Scope MRU<CR>
+# nnoremap <Leader>m <Cmd>Scope marketplace<CR>
+# nnoremap <LocalLeader>t <Cmd>Scope tasks<CR>
 # ALE {{{
 Plug 'dense-analysis/ale'
 
 g:ale_sign_column_always = true
-g:airline#extensions#ale#enabled = 1
 g:ale_disable_lsp = true
 g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 g:ale_virtualtext_prefix = ""
@@ -758,8 +802,8 @@ autocmd VimEnter,Colorscheme * hi ALEVirtualTextInfo    ctermfg=14 ctermbg=16 gu
 
 # }}}
 
-# test {{
-Plug 'vim-test/vim-test'
+# test {{{
+Plug 'vim-test/vim-test', { 'on': [ "TestNearest", "TestFile", "TestSuite" ] }
 nmap <silent> <Leader>tt <Cmd>TestNearest<CR>
 nmap <silent> <Leader>tf <Cmd>TestFile<CR>
 nmap <silent> <Leader>ts <Cmd>TestSuite<CR>
@@ -768,7 +812,7 @@ nmap <silent> <Leader>tv <Cmd>TestVisit<CR>
 g:test#strategy = 'vimterminal'
 Plug 'junegunn/vader.vim', { 'for': 'vader' }
 autocmd FileType vader nnoremap <buffer><silent> K K
-# }}
+# }}}
 
 # competitest {{{
 Plug 'mao-yining/competitest.vim', { 'on': 'CompetiTest'}
@@ -827,8 +871,8 @@ g:airline_filetype_overrides.competitest_err = [ 'Errors', '' ]
 g:airline_filetype_overrides.competitest_testcases = [ 'Testcases', '' ]
 
 # }}}
+plug#end()
 
-call plug#end()
 # }}}
 
 silent! colorscheme catppuccin_mocha # 颜色主题
