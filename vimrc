@@ -98,23 +98,23 @@ if has('sodium') && has("patch-9.0.1481")
 endif
 
 if !empty($SUDO_USER) && $USER !=# $SUDO_USER
-  setglobal viminfo=
-  setglobal directory-=~/tmp
-  setglobal backupdir-=~/tmp
+	setglobal viminfo=
+	setglobal directory-=~/tmp
+	setglobal backupdir-=~/tmp
 elseif exists('+undodir') && !has('nvim-0.5')
-  if !empty($XDG_DATA_HOME)
-    $DATA_HOME = substitute($XDG_DATA_HOME, '/$', '', '') . '/vim/'
-  elseif has('win32')
-    $DATA_HOME = expand('~/AppData/Local/vim/')
-  else
-    $DATA_HOME = expand('~/.local/share/vim/')
-  endif
-  &undodir = $DATA_HOME .. 'undo//'
-  &directory = $DATA_HOME .. 'swap//'
-  &backupdir = $DATA_HOME .. 'backup//'
-  if !isdirectory(&undodir) | mkdir(&undodir, 'p') | endif
-  if !isdirectory(&directory) | mkdir(&directory, 'p') | endif
-  if !isdirectory(&backupdir) | mkdir(&backupdir, 'p') | endif
+	if !empty($XDG_DATA_HOME)
+		$DATA_HOME = substitute($XDG_DATA_HOME, '/$', '', '') . '/vim/'
+	elseif has('win32')
+		$DATA_HOME = expand('~/AppData/Local/vim/')
+	else
+		$DATA_HOME = expand('~/.local/share/vim/')
+	endif
+	&undodir = $DATA_HOME .. 'undo//'
+	&directory = $DATA_HOME .. 'swap//'
+	&backupdir = $DATA_HOME .. 'backup//'
+	if !isdirectory(&undodir) | mkdir(&undodir, 'p') | endif
+	if !isdirectory(&directory) | mkdir(&directory, 'p') | endif
+	if !isdirectory(&backupdir) | mkdir(&backupdir, 'p') | endif
 endif
 # }}}
 
@@ -288,19 +288,19 @@ augroup CustomAutocmds | autocmd!
 		au BufWritePost *.bin,*.exe set nomod | endif
 	augroup END
 
-# 自动去除尾随空格
+	# 自动去除尾随空格
 	autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
 
-# 软换行
+	# 软换行
 	autocmd FileType tex,markdown,text set wrap
 
-# 设置 q 来退出窗口
+	# 设置 q 来退出窗口
 	autocmd FileType startuptime,fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
 
-# 在 gitcommit 中自动进入插入模式
+	# 在 gitcommit 中自动进入插入模式
 	autocmd FileType gitcommit :1 | startinsert
 
-# 在某些窗口中关闭 list 模式
+	# 在某些窗口中关闭 list 模式
 	autocmd FileType GV setlocal nolist
 augroup END
 # }}}
@@ -398,12 +398,6 @@ tnoremap <M-H> <C-_>h
 tnoremap <M-L> <C-_>l
 tnoremap <M-J> <C-_>j
 tnoremap <M-K> <C-_>k
-
-Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
-nnoremap <silent><nowait> <Leader>      <Cmd>WhichKey '<Space>'<CR>
-nnoremap <silent><nowait> <LocalLeader> <Cmd>WhichKey ';'<CR>
-nnoremap <silent><nowait> = <Cmd>WhichKey '='<CR>
-nnoremap <silent><nowait> \ <Cmd>WhichKey '\'<CR>
 
 Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
 noremap =d <Cmd>DIstart<CR>
