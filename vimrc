@@ -7,6 +7,10 @@ g:mapleader = ' '               # 定义<Leader>键
 g:maplocalleader = ';'          # 定义<LocalLeader>键
 
 # options {{{
+# Defaults
+source $VIMRUNTIME/defaults.vim
+# disable message from 'defaults.vim' when entering cmdwin
+autocmd! vimHints
 set t_Co=256                    # 开启256色支持
 set termguicolors               # 在终端上使用与 GUI 一致的颜色
 
@@ -34,7 +38,9 @@ set virtualedit=block
 set noshowmode                  # 设置不打开底部insert
 set switchbuf=useopen,usetab
 set hidden                      # 设置允许在未保存切换buffer
+set nojoinspaces  # suppress inserting two spaces between sentences
 set matchpairs+=<:>             # 设置%匹配<>
+set showmatch
 
 set smartindent                 # 智能的选择对其方式
 set shiftwidth=4
@@ -56,11 +62,9 @@ set relativenumber              # 展示相对行号
 set updatetime=300
 set tabpagemax=50
 
-set undodir=~/.cache/undofiles/ # 需是一个已经存在的文件夹
 set undofile
 set nobackup
 set nowritebackup
-set noswapfile
 set autowrite
 set autoread                    # 设置自动保存
 
@@ -93,6 +97,25 @@ if has('sodium') && has("patch-9.0.1481")
 	set cryptmethod=xchacha20v2
 endif
 
+if !empty($SUDO_USER) && $USER !=# $SUDO_USER
+  setglobal viminfo=
+  setglobal directory-=~/tmp
+  setglobal backupdir-=~/tmp
+elseif exists('+undodir') && !has('nvim-0.5')
+  if !empty($XDG_DATA_HOME)
+    $DATA_HOME = substitute($XDG_DATA_HOME, '/$', '', '') . '/vim/'
+  elseif has('win32')
+    $DATA_HOME = expand('~/AppData/Local/vim/')
+  else
+    $DATA_HOME = expand('~/.local/share/vim/')
+  endif
+  &undodir = $DATA_HOME .. 'undo//'
+  &directory = $DATA_HOME .. 'swap//'
+  &backupdir = $DATA_HOME .. 'backup//'
+  if !isdirectory(&undodir) | mkdir(&undodir, 'p') | endif
+  if !isdirectory(&directory) | mkdir(&directory, 'p') | endif
+  if !isdirectory(&backupdir) | mkdir(&backupdir, 'p') | endif
+endif
 # }}}
 
 # keymaps {{{
@@ -100,11 +123,11 @@ noremap j gj
 noremap k gk
 inoremap <Up> <C-O>gk
 inoremap <Down> <C-O>gj
+nnoremap <script><silent><expr> <CR> &buftype ==# 'quickfix' ? "\r" : ":\025confirm " .. (&buftype !=# 'terminal' ? (v:count ? 'write' : 'update') : &modified <Bar><Bar> exists('*jobwait') && jobwait([&channel], 0)[0] == -1 ? 'normal! i' : 'bdelete!') .. "\r"
 
 # vim-buffer {{{
 nnoremap <silent>H     <Cmd>call <sid>ChangeBuffer('p')<CR>
 nnoremap <silent>L     <Cmd>call <sid>ChangeBuffer('n')<CR>
-nnoremap <expr><CR> &bt == "" ? "<Cmd>w<CR>" : &bt == 'terminal' ? "i\<enter>" : getwininfo(win_getid())[0]["quickfix"] != 0 ? "\<CR>:cclose<CR>" : getwininfo(win_getid())[0]["loclist"] != 0 ? "\<CR>:lclose<CR>" : "\<CR>"
 
 # buffer delete {{{
 nnoremap <silent>=b <Cmd>enew<CR>
@@ -245,50 +268,48 @@ nnoremap gf gF
 vnoremap gf gF
 
 noremap U <C-R>
-noremap == ==
-noremap =G =G
-cnoremap <M-i> <Tab>
-cnoremap <M-u> <S-Tab>
-nnoremap <M-i> :b<Space><Tab>
-nnoremap <M-u> :b<Space><Tab><S-Tab><S-Tab>
+noremap Y y$
 # }}}
 
 # autocmds {{{
-# 回到上次编辑的位置
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+augroup CustomAutocmds | autocmd!
+	# 回到上次编辑的位置
+	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-# vim -b : edit binary using xxd-format!
-augroup Binary
-	au!
-	au BufReadPre  *.bin,*.exe let &bin=1
-	au BufReadPost *.bin,*.exe if &bin | %!xxd
-	au BufReadPost *.bin,*.exe set ft=xxd | endif
-	au BufWritePre *.bin,*.exe if &bin | %!xxd -r
-	au BufWritePre *.bin,*.exe endif
-	au BufWritePost *.bin,*.exe if &bin | %!xxd
-	au BufWritePost *.bin,*.exe set nomod | endif
-augroup END
+	# vim -b : edit binary using xxd-format!
+	augroup Binary
+		au!
+		au BufReadPre  *.bin,*.exe let &bin=1
+		au BufReadPost *.bin,*.exe if &bin | %!xxd
+		au BufReadPost *.bin,*.exe set ft=xxd | endif
+		au BufWritePre *.bin,*.exe if &bin | %!xxd -r
+		au BufWritePre *.bin,*.exe endif
+		au BufWritePost *.bin,*.exe if &bin | %!xxd
+		au BufWritePost *.bin,*.exe set nomod | endif
+	augroup END
 
 # 自动去除尾随空格
-autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
+	autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
 
 # 软换行
-autocmd FileType tex,markdown,text set wrap
+	autocmd FileType tex,markdown,text set wrap
 
 # 设置 q 来退出窗口
-autocmd FileType startuptime,fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
+	autocmd FileType startuptime,fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
 
 # 在 gitcommit 中自动进入插入模式
-autocmd FileType gitcommit :1 | startinsert
+	autocmd FileType gitcommit :1 | startinsert
 
 # 在某些窗口中关闭 list 模式
-autocmd FileType GV setlocal nolist
+	autocmd FileType GV setlocal nolist
+augroup END
 # }}}
 
 # plugs {{{
 packadd! comment
 packadd! editexisting
 packadd! editorconfig
+packadd! hlyank
 packadd! nohlsearch
 
 const vimplug = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -308,10 +329,8 @@ if has('gui_running') && has('win32')
 endif
 
 # coding {{{
-Plug 'Eliot00/auto-pairs'         # vim9
 Plug 'kshenoy/vim-signature'      # show marks
-Plug 'wellle/targets.vim'
-Plug 'andymass/vim-matchup'
+Plug 'wellle/targets.vim' # text-object
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
@@ -333,10 +352,6 @@ vmap <silent> <LocalLeader>s <Plug>SearchVisual
 # }}}
 
 # ui {{{
-Plug 'luochen1990/rainbow' # 彩虹括号
-g:rainbow_conf = { guifgs: ['#da70d6', '#87cefa', ' #ffd700'] }
-g:rainbow_active = 1
-
 Plug 'mhinz/vim-startify'
 autocmd user startified setlocal cursorline
 g:startify_enable_special      = 0
@@ -384,11 +399,6 @@ tnoremap <M-L> <C-_>l
 tnoremap <M-J> <C-_>j
 tnoremap <M-K> <C-_>k
 
-Plug 't9md/vim-choosewin', { 'on': '<Plug>(choosewin)' }
-nmap <M-w> <Plug>(choosewin)
-imap <M-w> <Esc><Plug>(choosewin)
-tnoremap <M-w> <C-\><C-n><Plug>(choosewin)
-
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 nnoremap <silent><nowait> <Leader>      <Cmd>WhichKey '<Space>'<CR>
 nnoremap <silent><nowait> <LocalLeader> <Cmd>WhichKey ';'<CR>
@@ -399,9 +409,7 @@ Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
 noremap =d <Cmd>DIstart<CR>
 noremap \d <Cmd>DIstop<CR>
 
-Plug 'habamax/vim-dir', { 'on': 'Dir' }
-g:dir_show_hidden = false
-nnoremap <silent>- <Cmd>Dir<CR>
+Plug 'tpope/vim-vinegar'
 
 Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
 noremap =c <Cmd>ColorHighlight<CR>
@@ -482,8 +490,6 @@ nnoremap ]h <Plug>(GitGutterNextHunk)
 nnoremap [h <Plug>(GitGutterPrevHunk)
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
-Plug 'Eliot00/git-lens.vim'
-nnoremap <LocalLeader>hb <Cmd>call ToggleGitLens()<CR>
 Plug 'rhysd/conflict-marker.vim'
 Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
 g:signify_sign_add               = '+'
@@ -503,7 +509,6 @@ autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'lervag/vimtex', { 'for': 'tex', 'on': ['VimtexInverseSearch', 'VimtexDocPackage']}
-g:ale_tex_chktex_executable = '' # 不使用 chktex
 g:vimtex_quickfix_autoclose_after_keystrokes = 2
 g:vimtex_quickfix_open_on_warning = 0
 g:vimtex_format_enabled = 1
@@ -543,9 +548,6 @@ autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['markdown']
-g:markdown_minlines = 500
-g:markdown_math = 1
-au FileType markdown setlocal conceallevel=2
 # }}}
 
 # vimspector {{{
