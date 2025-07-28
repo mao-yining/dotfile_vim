@@ -786,14 +786,15 @@ autocmd VimEnter,Colorscheme * hi ALEVirtualTextInfo    ctermfg=14 ctermbg=16 gu
 
 # test {{{
 Plug 'vim-test/vim-test', { 'on': [ "TestNearest", "TestFile", "TestSuite" ] }
-nmap <silent> <Leader>tt <Cmd>TestNearest<CR>
-nmap <silent> <Leader>tf <Cmd>TestFile<CR>
-nmap <silent> <Leader>ts <Cmd>TestSuite<CR>
-nmap <silent> <Leader>tl <Cmd>TestLast<CR>
-nmap <silent> <Leader>tv <Cmd>TestVisit<CR>
+nmap <silent> <LocalLeader>tt <Cmd>TestNearest<CR>
+nmap <silent> <LocalLeader>tf <Cmd>TestFile<CR>
+nmap <silent> <LocalLeader>ts <Cmd>TestSuite<CR>
+nmap <silent> <LocalLeader>tl <Cmd>TestLast<CR>
+nmap <silent> <LocalLeader>tv <Cmd>TestVisit<CR>
 g:test#strategy = 'vimterminal'
-Plug 'junegunn/vader.vim', { 'for': 'vader' }
+Plug 'junegunn/vader.vim', { 'for': 'vader', 'on': 'Vader' }
 autocmd FileType vader nnoremap <buffer><silent> K K
+autocmd BufRead,BufNewFile *.vader setfiletype vader
 # }}}
 
 # competitest {{{
