@@ -753,23 +753,9 @@ nnoremap <Leader>f <Cmd>CocList grep<CR>
 nnoremap <Leader>h <Cmd>CocList helptags<CR>
 nnoremap <Leader>r <Cmd>CocList mru<CR>
 nnoremap <Leader>m <Cmd>CocList marketplace<CR>
-nnoremap <LocalLeader>t <Cmd>CocList tasks<CR>
+nnoremap <Leader>t <Cmd>CocList tasks<CR>
 # }}}
 
-Plug 'girishji/scope.vim', { 'on': 'Scope' }
-# :Scope <Autocmd|BufSearch|Buffer|CmdHistory|Colorscheme
-# |Command|File|Filetype|GitFile|Grep|Help|
-# HelpfilesGrep|Highlight|Jumplist|Keymap|
-# LspDocumentSymbol|Loclist|LoclistHistory|
-# MRU|Mark|Option|Quickfix|QuickfixHistory|Register|Tag|Window>
-nnoremap <Leader>b <Cmd>Scope Buffer<CR>
-# nnoremap <Leader>; <Cmd>Scope commands<CR>
-nnoremap <Leader><Space> <Cmd>Scope File<CR>
-nnoremap <Leader>f <Cmd>Scope Grep<CR>
-nnoremap <Leader>h <Cmd>Scope Help<CR>
-nnoremap <Leader>r <Cmd>Scope MRU<CR>
-# nnoremap <Leader>m <Cmd>Scope marketplace<CR>
-# nnoremap <LocalLeader>t <Cmd>Scope tasks<CR>
 # ALE {{{
 Plug 'dense-analysis/ale'
 
