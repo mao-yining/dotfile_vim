@@ -534,6 +534,9 @@ xmap <LocalLeader>a <Plug>(EasyAlign)
 nmap <LocalLeader>a <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
+autocmd FileType beancount nmap <buffer> <LocalLeader>f <Cmd>%AlignCommodity<CR>
+autocmd FileType beancount imap <buffer> . .<C-O>:AlignCommodity<CR>
+autocmd FileType beancount imap <buffer> <Tab> <C-X><C-O>
 Plug 'normen/vim-pio'
 Plug 'tpope/vim-scriptease'
 Plug 'mhinz/vim-lookup', { 'for': 'vim' }
