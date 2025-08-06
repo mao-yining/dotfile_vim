@@ -36,7 +36,7 @@ noremap / <Cmd>set noimdisable<CR>/
 noremap : <Cmd>set noimdisable<CR>:<Del>:
 cnoremap <C-C> <Cmd>set imdisable<CR><C-C>
 cnoremap <CR> <Cmd>set imdisable<CR><CR>
-cnoremap <C-[> <Cmd>set imdisable<CR><C-[>
+cnoremap <C-[> <Cmd>set imdisable<CR><C-C>
 augroup IME
 	au!
 	au GUIEnter * set imdisable
