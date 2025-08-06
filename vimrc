@@ -29,8 +29,10 @@ set breakindent
 set colorcolumn=81
 set conceallevel=2
 
-set formatoptions+=mM1          # 强制自动换行，应对中文无空格
+set formatoptions+=mM          # 强制自动换行，应对中文无空格
 set formatoptions+=j            # 按 J 时自动删除注释符号
+set formatoptions+=n            # 识别编号的列表
+au FileType text,markdown,tex set textwidth=74
 set nowrap                      # 禁止折行
 set laststatus=2                # 总是显示状态栏
 set history=200                 # keep 200 lines of command line history
@@ -442,7 +444,7 @@ g:neoformat_tex_texfmt = { "exe": "tex-fmt", "args": [ "--stdin" ], "stdin": 1 }
 g:neoformat_enabled_tex = [ "texfmt" ]
 
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } # 撤销树
-noremap <Leader>u <Cmd>UndotreeToggle<CR>
+nnoremap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
 
 Plug 'girishji/devdocs.vim'
@@ -545,6 +547,9 @@ autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['markdown']
+Plug 'tpope/vim-dadbod', { 'on': 'DB'}
+Plug 'kristijanhusak/vim-dadbod-ui' # Optional
+
 # }}}
 
 # vimspector {{{
@@ -585,8 +590,6 @@ enddef
 # }}}
 
 # coc {{{
-Plug 'tpope/vim-dadbod'
-Plug 'kristijanhusak/vim-dadbod-ui' # Optional
 Plug 'Shougo/neco-vim'
 Plug 'neoclide/coc-neco'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -857,8 +860,145 @@ g:airline_filetype_overrides.competitest_err = [ 'Errors', '' ]
 g:airline_filetype_overrides.competitest_testcases = [ 'Testcases', '' ]
 
 # }}}
-plug#end()
-
 # }}}
 
-silent! colorscheme catppuccin_mocha # 颜色主题
+# # vim9lsp {{{
+# Plug 'yegappan/lsp'
+# var lspOpts = { # {{{
+# 	aleSupport: true,
+# 	autoComplete: true,
+# 	autoHighlight: false,
+# 	autoHighlightDiags: true,
+# 	autoPopulateDiags: false,
+# 	completionMatcher: 'case',
+# 	completionMatcherValue: 1,
+# 	diagSignErrorText: 'E>',
+# 	diagSignHintText: 'H>',
+# 	diagSignInfoText: 'I>',
+# 	diagSignWarningText: 'W>',
+# 	echoSignature: false,
+# 	hideDisabledCodeActions: false,
+# 	highlightDiagInline: true,
+# 	hoverInPreview: false,
+# 	ignoreMissingServer: false,
+# 	keepFocusInDiags: true,
+# 	keepFocusInReferences: true,
+# 	completionTextEdit: true,
+# 	diagVirtualTextAlign: 'above',
+# 	diagVirtualTextWrap: 'default',
+# 	noNewlineInCompletion: false,
+# 	omniComplete: null,
+# 	outlineOnRight: false,
+# 	outlineWinSize: 20,
+# 	popupBorder: true,
+# 	popupBorderHighlight: 'Title',
+# 	popupBorderHighlightPeek: 'Special',
+# 	popupBorderSignatureHelp: false,
+# 	popupHighlightSignatureHelp: 'Pmenu',
+# 	popupHighlight: 'Normal',
+# 	semanticHighlight: true,
+# 	showDiagInBalloon: true,
+# 	showDiagInPopup: true,
+# 	showDiagOnStatusLine: false,
+# 	showDiagWithSign: true,
+# 	showDiagWithVirtualText: false,
+# 	showInlayHints: true,
+# 	showSignature: true,
+# 	snippetSupport: false,
+# 	ultisnipsSupport: false,
+# 	useBufferCompletion: false,
+# 	usePopupInCodeAction: false,
+# 	useQuickfixForLocations: false,
+# 	vsnipSupport: true,
+# 	bufferCompletionTimeout: 100,
+# 	customCompletionKinds: false,
+# 	completionKinds: {},
+# 	filterCompletionDuplicates: false,
+# 	condensedCompletionMenu: false,
+# }
+# autocmd User LspSetup call LspOptionsSet(lspOpts) # }}}
+
+# var lspServers = [
+# 	{ filetype: ['c', 'cpp'], path: 'clangd', args: ['--background-index'] },
+# 	{ filetype: 'python', path: 'pyright-langserver.cmd', args: ['--stdio'], workspaceConfig: { python: { pythonPath: 'python' } } },
+# 	{ filetype: 'rust', path: 'rust-analyzer' },
+# 	{ filetype: ['tex', 'bib'], path: 'texlab'},
+# 	{ filetype: 'vim', path: 'vim-language-server.cmd', args: ['--stdio'] },
+# 	{ filetype: 'rust', path: 'rust-analyzer', syncInit: true },
+# 	{ filetype: 'markdown', path: 'marksman', args: ['server'], syncInit: true}
+# ]
+# autocmd User LspSetup call LspAddServer(lspServers)
+# map <silent> gd <Cmd>LspGotoDefinition<CR>
+# map <silent> gy <Cmd>LspGotoTypeDef<CR>
+# map <silent> gi <Cmd>LspGotoImpl<CR>
+# map <silent> gr <Cmd>LspPeekReferences<CR>
+
+# # Use K to show documentation in preview window
+# nnoremap <silent> K <Cmd>call ShowDocumentation()<CR>
+# command! -nargs=0 Hover call CocAction('doHover')
+# def g:ShowDocumentation()
+# 	if index(['vim', 'help'], &filetype) >= 0
+# 		execute 'help ' .. expand('<cword>')
+# 	elseif &filetype ==# 'tex'
+# 		VimtexDocPackage
+# 	else
+# 		LspHover
+# 	endif
+# enddef
+# Plug 'hrsh7th/vim-vsnip'
+# Plug 'hrsh7th/vim-vsnip-integ'
+# Plug 'rafamadriz/friendly-snippets'
+# imap <expr> <C-l>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+# smap <expr> <C-l>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+# imap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+# smap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+# imap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+# smap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+# imap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+# smap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+# nmap        <C-S>   <Plug>(vsnip-select-text)
+# xmap        <C-S>   <Plug>(vsnip-select-text)
+# nmap        <C-S-S> <Plug>(vsnip-cut-text)
+# xmap        <C-S-S> <Plug>(vsnip-cut-text)
+
+# Plug 'girishji/vimcomplete'
+# var options = {
+# 	completor: { shuffleEqualPriority: true, postfixHighlight: true },
+# 	buffer: { enable: true, priority: 10, urlComplete: true, envComplete: true },
+# 	abbrev: { enable: true, priority: 10 },
+# 	lsp: { enable: true, priority: 10, maxCount: 5 },
+# 	omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
+# 	vsnip: { enable: true, priority: 11 },
+# 	vimscript: { enable: true, priority: 11 },
+# 	ngram: {
+# 		enable: true,
+# 		priority: 10,
+# 		bigram: false,
+# 		filetypes: ['text', 'help', 'markdown'],
+# 		filetypesComments: ['c', 'cpp', 'python', 'java'],
+# 	},
+# }
+# autocmd VimEnter * g:VimCompleteOptionsSet(options)
+
+# Plug 'girishji/scope.vim', { 'on': 'Scope' } # {{{
+# # :Scope <Autocmd|BufSearch|Buffer|CmdHistory|Colorscheme
+# # |Command|File|Filetype|GitFile|Grep|Help|
+# # HelpfilesGrep|Highlight|Jumplist|Keymap|
+# # LspDocumentSymbol|Loclist|LoclistHistory|
+# # MRU|Mark|Option|Quickfix|QuickfixHistory|Register|Tag|Window>
+# nnoremap <Leader>b <Cmd>Scope Buffer<CR>
+# # nnoremap <Leader>; <Cmd>Scope commands<CR>
+# nnoremap <Leader><Space> <Cmd>Scope File<CR>
+# nnoremap <Leader>f <Cmd>Scope Grep<CR>
+# nnoremap <Leader>h <Cmd>Scope Help<CR>
+# nnoremap <Leader>r <Cmd>Scope MRU<CR>
+# # }}}
+# # }}}
+
+plug#end()
+
+if &background == 'dark'
+	silent! colorscheme catppuccin_mocha
+else
+	silent! colorscheme catppuccin_latte
+endif
