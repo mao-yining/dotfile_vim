@@ -549,7 +549,9 @@ Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['markdown']
 Plug 'tpope/vim-dadbod', { 'on': 'DB'}
 Plug 'kristijanhusak/vim-dadbod-ui' # Optional
-
+Plug 'hotoo/pangu.vim', { 'for': [ 'vimwiki', 'text', 'markdown', 'tex' ] }
+g:pangu_rule_fullwidth_punctuation = 0
+autocmd FileType markdown,text,vimwiki,tex au BufWritePre <buffer> PanguAll
 # }}}
 
 # vimspector {{{
