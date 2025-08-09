@@ -32,7 +32,6 @@ set conceallevel=2
 set formatoptions+=mM          # 强制自动换行，应对中文无空格
 set formatoptions+=j            # 按 J 时自动删除注释符号
 set formatoptions+=n            # 识别编号的列表
-au FileType text,markdown,tex set textwidth=74
 set nowrap                      # 禁止折行
 set laststatus=2                # 总是显示状态栏
 set history=200                 # keep 200 lines of command line history
@@ -439,8 +438,8 @@ noremap <LocalLeader>f <Cmd>Neoformat<CR>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
 g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
-g:neoformat_cpp_clangformat = { "exe": "clang-format", "args": [ expandcmd('-assume-filename="%"') ], "stdin": 1 }
-g:neoformat_tex_texfmt = { "exe": "tex-fmt", "args": [ "--stdin" ], "stdin": 1 }
+g:neoformat_cpp_clangformat = { exe: "clang-format", args: [ expandcmd('-assume-filename="%"') ], stdin: 1 }
+g:neoformat_tex_texfmt = { exe: "tex-fmt", args: [ "--stdin" ], stdin: 1 }
 g:neoformat_enabled_tex = [ "texfmt" ]
 
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } # 撤销树
@@ -536,8 +535,6 @@ xmap <LocalLeader>a <Plug>(EasyAlign)
 nmap <LocalLeader>a <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
-autocmd FileType beancount nmap <buffer> <LocalLeader>f <Cmd>%AlignCommodity<CR>
-autocmd FileType beancount imap <buffer> . .<C-O>:AlignCommodity<CR>
 autocmd FileType beancount imap <buffer> <Tab> <C-X><C-O>
 Plug 'normen/vim-pio'
 Plug 'tpope/vim-scriptease'
