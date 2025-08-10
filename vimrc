@@ -744,7 +744,7 @@ nnoremap <Space>e  <Cmd>CocList extensions<CR>
 # Find symbol of current document
 nnoremap <Space>o  <Cmd>CocList outline<CR>
 # Search workspace symbols
-nnoremap <Space>s  <Cmd>CocList tags<CR>
+nnoremap <Space>s  <Cmd>CocList symbols<CR>
 # Do default action for next item
 nnoremap <Space>j  <Cmd>CocNext<CR>
 # Do default action for previous item
