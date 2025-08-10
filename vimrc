@@ -297,7 +297,7 @@ augroup CustomAutocmds | autocmd!
 	autocmd FileType tex,markdown,text set wrap
 
 	# 设置 q 来退出窗口
-	autocmd FileType startuptime,fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
+	autocmd BufWinEnter * if !&modifiable | nnoremap <buffer> q <Cmd>q<CR> | endif
 
 	# 在 gitcommit 中自动进入插入模式
 	autocmd FileType gitcommit :1 | startinsert
