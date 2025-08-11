@@ -138,7 +138,7 @@ def ChangeBuffer(direct: string)
 	if &bt != '' || &ft == 'netrw'|echoerr "buftype is " ..  &bt .. " cannot be change"|return|endif
 	if direct == 'n'|bn
 	else|bp|endif
-	while &bt != ''
+	while &bt != '' || &ft == 'netrw'
 		if direct == 'n'|bn
 		else|bp|endif
 	endwhile
@@ -739,22 +739,15 @@ command! -nargs=? Fold call CocAction('fold', <f-args>)
 command! -nargs=0 OR   call CocActionAsync('runCommand', 'editor.action.organizeImport')
 
 # Mappings for CoCList
-# Manage extensions
-nnoremap <Space>e  <Cmd>CocList extensions<CR>
-# Find symbol of current document
-nnoremap <Space>o  <Cmd>CocList outline<CR>
-# Search workspace symbols
-nnoremap <Space>s  <Cmd>CocList symbols<CR>
-# Do default action for next item
-nnoremap <Space>j  <Cmd>CocNext<CR>
-# Do default action for previous item
-nnoremap <Space>k  <Cmd>CocPrev<CR>
-# Resume latest coc list
-nnoremap <Space>p  <Cmd>CocListResume<CR>
-
+nnoremap <Leader><Space> <Cmd>CocList files<CR>
+nnoremap <Leader>e  <Cmd>CocList extensions<CR>
+nnoremap <Leader>o  <Cmd>CocList outline<CR>
+nnoremap <Leader>s  <Cmd>CocList symbols<CR>
+nnoremap <Leader>j  <Cmd>CocNext<CR>
+nnoremap <Leader>k  <Cmd>CocPrev<CR>
+nnoremap <Leader>p  <Cmd>CocListResume<CR>
 nnoremap <Leader>b <Cmd>CocList buffers<CR>
 nnoremap <Leader>; <Cmd>CocList commands<CR>
-nnoremap <Leader><Space> <Cmd>CocList files<CR>
 nnoremap <Leader>f <Cmd>CocList grep<CR>
 nnoremap <Leader>h <Cmd>CocList helptags<CR>
 nnoremap <Leader>r <Cmd>CocList mru<CR>
