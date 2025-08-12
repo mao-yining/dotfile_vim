@@ -339,7 +339,15 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-characterize'     # 'ga' improve
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-eunuch'
-Plug 'girishji/vimbits'
+Plug 'svermeulen/vim-yoink'
+nmap <c-n> <plug>(YoinkPostPasteSwapBack)
+nmap <c-p> <plug>(YoinkPostPasteSwapForward)
+nmap p <plug>(YoinkPaste_p)
+nmap P <plug>(YoinkPaste_P)
+Plug 'svermeulen/vim-subversive'
+nmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
 Plug 'Andrewradev/switch.vim'
 g:speeddating_no_mappings = 1
 nnoremap <Plug>SpeedDatingFallbackUp <C-A>
@@ -504,12 +512,11 @@ Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
 autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
-Plug 'lervag/vimtex', { 'for': 'tex', 'on': ['VimtexInverseSearch', 'VimtexDocPackage']}
+Plug 'lervag/vimtex', { 'for': ['tex', 'context'], 'on': ['VimtexInverseSearch', 'VimtexDocPackage']}
 g:vimtex_quickfix_autoclose_after_keystrokes = 2
 g:vimtex_quickfix_open_on_warning = 0
 g:vimtex_format_enabled = 1
 g:vimtex_fold_enabled = 1
-g:vimtex_fold_manual = 1
 g:tex_comment_nospell = 1
 g:matchup_override_vimtex = 1
 g:vimtex_view_skim_reading_bar = 1
@@ -766,6 +773,7 @@ nmap <silent> [d <Plug>(ale_previous)
 nmap <silent> ]d <Plug>(ale_next)
 g:ale_c_cppcheck_options = '--enable=style --check-level=exhaustive'
 g:ale_cpp_cppcheck_options = '--enable=style --check-level=exhaustive'
+g:ale_linters = {  tex: ['chktex'] }
 autocmd VimEnter * hi clear SpellBad
 autocmd VimEnter * hi clear SpellCap
 autocmd VimEnter * hi clear SpellLocal
