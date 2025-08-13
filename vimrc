@@ -536,6 +536,7 @@ g:vimtex_quickfix_autoclose_after_keystrokes = 2
 g:vimtex_quickfix_open_on_warning = 0
 g:vimtex_format_enabled = 1
 g:vimtex_fold_enabled = 1
+g:vimtex_fold_manual = 1
 g:tex_comment_nospell = 1
 g:matchup_override_vimtex = 1
 g:vimtex_view_skim_reading_bar = 1
@@ -543,13 +544,13 @@ g:vimtex_complete_enabled = 1
 g:vimtex_quickfix_mode = 0
 g:tex_flavor = "latex"
 g:vimtex_compiler_latexmk = {
-	"aux_dir": "",
-	"out_dir": "",
-	"callback": 1,
-	"continuous": 1,
-	"executable": "latexmk",
-	"hooks": [],
-	"options": [
+	aux_dir: "",
+	out_dir: "",
+	callback: 1,
+	continuous: 1,
+	executable: "latexmk",
+	hooks: [],
+	options: [
 		"-verbose",
 		"-file-line-error",
 		"-shell-escape",
@@ -558,8 +559,8 @@ g:vimtex_compiler_latexmk = {
 	],
 }
 Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
-xmap <LocalLeader>a <Plug>(EasyAlign)
-nmap <LocalLeader>a <Plug>(EasyAlign)
+xmap <LocalLeader><tab> <Plug>(EasyAlign)
+nmap <LocalLeader><tab> <Plug>(EasyAlign)
 Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
 Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
 autocmd FileType beancount imap <buffer> <Tab> <C-X><C-O>
