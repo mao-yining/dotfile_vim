@@ -430,7 +430,8 @@ Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
 noremap =d <Cmd>DIstart<CR>
 noremap \d <Cmd>DIstop<CR>
 
-Plug 'tpope/vim-vinegar'
+Plug 'habamax/vim-dir', { 'on': 'Dir' }
+nnoremap - <Cmd>Dir<CR>
 
 Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
 noremap =c <Cmd>ColorHighlight<CR>
