@@ -1,11 +1,6 @@
 vim9script
 
-if has("gui_gtk2")
-	set guifont=Luxi\ Mono\ 12
-elseif has("x11")
-	# Also for GTK 1
-	set guifont=*-lucidatypewriter-medium-r-normal-*-*-180-*-*-m-*-*
-elseif has("gui_win32")
+if has("gui_win32")
 	set renderoptions=type:directx
 endif
 
@@ -30,38 +25,13 @@ noremap <F12> <Cmd>ToggleTransparency<CR>
 # 粘贴快捷键
 noremap! <C-S-V> <C-R>+
 
-# Vim 的 IME 自动切换有实现上的问题。不过以下的代码也可以有不错的效果。
-# CmdlineLeave 事件会被很多插件误触发，这个实现也勉强可用。
-noremap ? <Cmd>set noimdisable<CR>?
-noremap / <Cmd>set noimdisable<CR>/
-noremap : <Cmd>set noimdisable<CR>:<Del>:
-cnoremap <C-C> <Cmd>set imdisable<CR><C-C>
-cnoremap <CR> <Cmd>set imdisable<CR><CR>
-cnoremap <C-[> <Cmd>set imdisable<CR><C-C>
-augroup IME
-	au!
-	au GUIEnter * set imdisable
-	au InsertEnter * set noimdisable
-	au InsertLeavePre * set imdisable
-augroup END
-
 if has('multi_byte_ime')
+	# Vim 的 IME 初始化有问题，临时解决方案。
+	augroup IME
+		autocmd!
+		autocmd VimEnter * set imdisable | set noimdisable
+	augroup END
 	hi CursorIM guifg=#2d2c3a guibg=#cba6f7 # 输入法模式光标颜色
 	hi Cursor guifg=#2d2c3a guibg=#f5e0dc   # 普通模式光标颜色
 	hi lCursor guifg=#2d2c3a guibg=#f38ba8  # loadkeymap 模式光标颜色
 endif
-
-nnoremap <Leader><Space> <Cmd>set noimdisable<CR>:CocList files<CR>
-nnoremap <Leader>o  <Cmd>set noimdisable<CR>:CocList outline<CR>
-nnoremap <Leader>s  <Cmd>set noimdisable<CR>:CocList symbols<CR>
-nnoremap <Leader>j  <Cmd>set noimdisable<CR>:CocNext<CR>
-nnoremap <Leader>k  <Cmd>set noimdisable<CR>:CocPrev<CR>
-nnoremap <Leader>p  <Cmd>set noimdisable<CR>:CocListResume<CR>
-nnoremap <Leader>b <Cmd>set noimdisable<CR>:CocList buffers<CR>
-nnoremap <Leader>; <Cmd>set noimdisable<CR>:CocList commands<CR>
-nnoremap <Leader>f <Cmd>set noimdisable<CR>:CocList grep<CR>
-nnoremap <Leader>h <Cmd>set noimdisable<CR>:CocList helptags<CR>
-nnoremap <Leader>r <Cmd>set noimdisable<CR>:CocList mru<CR>
-nnoremap <Leader>m <Cmd>set noimdisable<CR>:CocList marketplace<CR>
-nnoremap <Leader>t <Cmd>set noimdisable<CR>:CocList tasks<CR>
-nnoremap <Leader>n <Cmd>Message<CR>
