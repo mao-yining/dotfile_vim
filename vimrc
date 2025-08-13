@@ -278,17 +278,30 @@ augroup CustomAutocmds | autocmd!
 	# 回到上次编辑的位置
 	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-	# vim -b : edit binary using xxd-format!
-	augroup Binary
-		au!
-		au BufReadPre  *.bin,*.exe let &bin=1
-		au BufReadPost *.bin,*.exe if &bin | %!xxd
-		au BufReadPost *.bin,*.exe set ft=xxd | endif
-		au BufWritePre *.bin,*.exe if &bin | %!xxd -r
-		au BufWritePre *.bin,*.exe endif
-		au BufWritePost *.bin,*.exe if &bin | %!xxd
-		au BufWritePost *.bin,*.exe set nomod | endif
-	augroup END
+	# vim -b : 用 xxd-格式编辑二进制文件！
+	autocmd BufReadPre  *.bin,*.exe,*.dll set binary
+	autocmd BufReadPost *bin,*exe,*dll {
+		if &binary
+			silent :%!xxd -c 32
+			set filetype=xxd
+			redraw
+		endif
+	}
+	autocmd BufWritePre *bin,*exe,*dll {
+		if &binary
+			b:view = winsaveview()
+			silent :%!xxd -r -c 32
+		endif
+	}
+	autocmd BufWritePost *bin,*exe,*dll {
+		if &binary
+			undojoin
+			silent :%!xxd -c 32
+			set nomodified
+			winrestview(b:view)
+			redraw
+		endif
+	}
 
 	# 自动去除尾随空格
 	autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
