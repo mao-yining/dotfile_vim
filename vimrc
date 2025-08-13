@@ -32,7 +32,8 @@ set conceallevel=2
 set formatoptions+=mM          # 强制自动换行，应对中文无空格
 set formatoptions+=j            # 按 J 时自动删除注释符号
 set formatoptions+=n            # 识别编号的列表
-set nowrap                      # 禁止折行
+set linebreak
+au FileType markdown,text set nolinebreak
 set laststatus=2                # 总是显示状态栏
 set history=200                 # keep 200 lines of command line history
 set virtualedit=block
@@ -404,9 +405,34 @@ g:startify_bookmarks = [ { 'c': $vimrc } ]
 g:startify_bookmarks += [ { 'b': '~/Documents/vault/projects/accounts/main.bean' } ]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
 
+Plug 'Bakudankun/qline.vim'
 Plug 'vim-airline/vim-airline'
-g:airline#extensions#disable_rtp_load = 1
-g:airline_extensions = ['branch', 'vimtex', 'vista', 'whitespace',  'wordcount', 'coc', 'csv', 'searchcount' ]
+g:loaded_airline = 1
+g:qline_config = {
+	active: {
+		left: [
+			['mode', 'paste'],
+			['filename', 'gitbranch', 'gitgutter'],
+		],
+	},
+	inactive: {
+		left: [['filename', 'gitbranch', 'gitgutter'], ['bufstate']],
+		right: [['filetype'], ['fileinfo']],
+		separator: {left: '', right: '', margin: ' '},
+		subseparator: {left: '|', right: '|', margin: ' '},
+	},
+	component: {
+		gitbranch: () => fugitive#statusline()->matchstr('(\zs[^)]*\ze)'),
+		gitgutter: {
+		content: () =>
+			g:GitGutterGetHunkSummary()
+			->mapnew((idx, val) => !val ? '' : ['+', '~', '-'][idx] .. val)
+			->filter((_, val) => !!val)
+			->join(),
+			visible_condition: () => g:GitGutterGetHunks(),
+		},
+	},
+}
 Plug 'nathanaelkane/vim-indent-guides'
 autocmd VimEnter * unmap <Leader>ig
 autocmd VimEnter * nnoremap <silent><nowait> yoi <Cmd>IndentGuidesToggle<CR>
@@ -868,22 +894,14 @@ g:competitest_configs = {
 	received_contests_directory: "D:/Competitive-Programming/$(JUDGE)/$(CONTEST)",
 	received_contests_problems_path: "$(PROBLEM)/_.$(FEXT)",
 }
-
-if !exists("g:airline_filetype_overrides") # airline plugins
-	g:airline_filetype_overrides = {}
-endif
-g:airline_filetype_overrides.competitest_in = [ 'Input', '' ]
-g:airline_filetype_overrides.competitest_out = [ 'Output', '' ]
-g:airline_filetype_overrides.competitest_ans = [ 'Answer', '' ]
-g:airline_filetype_overrides.competitest_err = [ 'Errors', '' ]
-g:airline_filetype_overrides.competitest_testcases = [ 'Testcases', '' ]
-
 # }}}
 
 plug#end() # }}}
 
 if &background == 'dark'
 	silent! colorscheme catppuccin_mocha
+	g:qline_config.colorscheme = 'airline:catppuccin_mocha'
 else
 	silent! colorscheme catppuccin_latte
+	g:qline_config.colorscheme = 'airline:catppuccin_latte'
 endif
