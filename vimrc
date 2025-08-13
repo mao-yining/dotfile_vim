@@ -121,8 +121,10 @@ endif
 # }}}
 
 # keymaps {{{
-noremap j gj
-noremap k gk
+noremap <expr> k v:count == 0 ? 'gk' : 'k'
+noremap <expr> j v:count == 0 ? 'gj' : 'j'
+noremap <expr> <Up> v:count == 0 ? 'gk' : 'k'
+noremap <expr> <Down> v:count == 0 ? 'gj' : 'j'
 inoremap <Up> <C-O>gk
 inoremap <Down> <C-O>gj
 nnoremap <script><silent><expr> <CR> &buftype ==# 'quickfix' ? "\r" : ":\025confirm " .. (&buftype !=# 'terminal' ? (v:count ? 'write' : 'update') : &modified <Bar><Bar> exists('*jobwait') && jobwait([&channel], 0)[0] == -1 ? 'normal! i' : 'bdelete!') .. "\r"
@@ -345,7 +347,7 @@ endif
 
 # coding {{{
 Plug 'kshenoy/vim-signature'      # show marks
-Plug 'wellle/targets.vim' # text-object
+Plug 'wellle/targets.vim'         # text-object
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-speeddating'
 Plug 'tpope/vim-unimpaired'
@@ -361,6 +363,7 @@ Plug 'svermeulen/vim-subversive'
 nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
+xmap s <plug>(SubversiveSubstitute)
 Plug 'Andrewradev/switch.vim'
 g:speeddating_no_mappings = 1
 nnoremap <Plug>SpeedDatingFallbackUp <C-A>
