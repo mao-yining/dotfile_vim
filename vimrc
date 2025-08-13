@@ -414,6 +414,7 @@ autocmd VimEnter * nnoremap <silent><nowait> [oi <Cmd>IndentGuidesEnable<CR>
 autocmd VimEnter * nnoremap <silent><nowait> ]oi <Cmd>IndentGuidesDisable<CR>
 # }}}
 
+Plug 'lacygoill/vim9asm', { 'on': 'Disassemble' } # vim9 asm plugin
 Plug 'skywind3000/vim-terminal-help'
 g:terminal_list = 0
 if has('win32')
