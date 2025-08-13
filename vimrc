@@ -762,9 +762,10 @@ command! -nargs=? Fold call CocAction('fold', <f-args>)
 # Add `:OR` command for organize imports of the current buffer
 command! -nargs=0 OR   call CocActionAsync('runCommand', 'editor.action.organizeImport')
 
+nnoremap <Leader>e  <Cmd>CocCommand explorer<CR>
+
 # Mappings for CoCList
 nnoremap <Leader><Space> <Cmd>CocList files<CR>
-nnoremap <Leader>e  <Cmd>CocList extensions<CR>
 nnoremap <Leader>o  <Cmd>CocList outline<CR>
 nnoremap <Leader>s  <Cmd>CocList symbols<CR>
 nnoremap <Leader>j  <Cmd>CocNext<CR>

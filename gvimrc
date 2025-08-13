@@ -50,3 +50,18 @@ if has('multi_byte_ime')
 	hi Cursor guifg=#2d2c3a guibg=#f5e0dc   # 普通模式光标颜色
 	hi lCursor guifg=#2d2c3a guibg=#f38ba8  # loadkeymap 模式光标颜色
 endif
+
+nnoremap <Leader><Space> <Cmd>set noimdisable<CR>:CocList files<CR>
+nnoremap <Leader>o  <Cmd>set noimdisable<CR>:CocList outline<CR>
+nnoremap <Leader>s  <Cmd>set noimdisable<CR>:CocList symbols<CR>
+nnoremap <Leader>j  <Cmd>set noimdisable<CR>:CocNext<CR>
+nnoremap <Leader>k  <Cmd>set noimdisable<CR>:CocPrev<CR>
+nnoremap <Leader>p  <Cmd>set noimdisable<CR>:CocListResume<CR>
+nnoremap <Leader>b <Cmd>set noimdisable<CR>:CocList buffers<CR>
+nnoremap <Leader>; <Cmd>set noimdisable<CR>:CocList commands<CR>
+nnoremap <Leader>f <Cmd>set noimdisable<CR>:CocList grep<CR>
+nnoremap <Leader>h <Cmd>set noimdisable<CR>:CocList helptags<CR>
+nnoremap <Leader>r <Cmd>set noimdisable<CR>:CocList mru<CR>
+nnoremap <Leader>m <Cmd>set noimdisable<CR>:CocList marketplace<CR>
+nnoremap <Leader>t <Cmd>set noimdisable<CR>:CocList tasks<CR>
+nnoremap <Leader>n <Cmd>Message<CR>
