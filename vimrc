@@ -7,15 +7,12 @@ g:mapleader = ' '               # 定义<Leader>键
 g:maplocalleader = ';'          # 定义<LocalLeader>键
 
 # options {{{
-# Defaults
-source $VIMRUNTIME/defaults.vim
-# disable message from 'defaults.vim' when entering cmdwin
-autocmd! vimHints
+set nocompatible
 set t_Co=256                    # 开启256色支持
 set termguicolors               # 在终端上使用与 GUI 一致的颜色
 
 set noerrorbells                # 关闭错误提示
-set belloff=all
+set nolangremap
 set vb t_vb=
 
 set spelllang=en,cjk
@@ -36,7 +33,7 @@ set linebreak
 au FileType markdown,text set nolinebreak
 set laststatus=2                # 总是显示状态栏
 set history=200                 # keep 200 lines of command line history
-set virtualedit=block
+set virtualedit=block,onemore
 set noshowmode                  # 设置不打开底部insert
 set switchbuf=useopen,usetab
 set hidden                      # 设置允许在未保存切换buffer
@@ -138,10 +135,10 @@ nnoremap <silent>L     <Cmd>call <sid>ChangeBuffer('n')<CR>
 nnoremap <silent>=b <Cmd>enew<CR>
 nnoremap <silent>\b <Cmd>call CloseBuf()<CR>
 def ChangeBuffer(direct: string)
-	if &bt != '' || &ft == 'netrw'|echoerr "buftype is " ..  &bt .. " cannot be change"|return|endif
+	if &bt != '' || &ft == 'netrw'|echo "buftype is " ..  &bt .. " cannot be change"|return|endif
 	if direct == 'n'|bn
 	else|bp|endif
-	while &bt != '' || &ft == 'netrw'
+	while &bt != ''
 		if direct == 'n'|bn
 		else|bp|endif
 	endwhile
@@ -313,7 +310,7 @@ augroup CustomAutocmds | autocmd!
 	autocmd FileType tex,markdown,text set wrap
 
 	# 设置 q 来退出窗口
-	autocmd BufWinEnter * if !&modifiable | nnoremap <buffer> q <Cmd>q<CR> | endif
+	autocmd BufWinEnter * if !&modifiable|nnoremap <buffer> q <Cmd>q<CR>|endif
 
 	# 在 gitcommit 中自动进入插入模式
 	autocmd FileType gitcommit :1 | startinsert
@@ -412,7 +409,8 @@ g:qline_config = {
 	active: {
 		left: [
 			['mode', 'paste'],
-			['filename', 'gitbranch', 'gitgutter'],
+			['gitbranch', 'gitgutter'],
+			['filename'],
 		],
 	},
 	inactive: {
@@ -476,14 +474,14 @@ g:asynctasks_term_pos = 'external' # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况
 g:asyncrun_open = 6
 g:asyncrun_save = 1
-noremap <silent><f7> <Esc><Cmd>AsyncTask file-run<CR>
-noremap <silent><f8> <Esc><Cmd>AsyncTask file-build<CR>
-noremap <silent><f9> <Esc><Cmd>AsyncTask project-run<CR>
-noremap <silent><f10> <Esc><Cmd>AsyncTask project-build<CR>
-inoremap <silent><f7> <Esc><Cmd>AsyncTask file-run<CR>
-inoremap <silent><f8> <Esc><Cmd>AsyncTask file-build<CR>
-inoremap <silent><f9> <Esc><Cmd>AsyncTask project-run<CR>
-inoremap <silent><f10> <Esc><Cmd>AsyncTask project-build<CR>
+noremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+noremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+noremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+noremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+inoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+inoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+inoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+inoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 #  }}}
 
 Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
@@ -598,6 +596,7 @@ autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['markdown']
+g:markdown_minlines = 500
 Plug 'tpope/vim-dadbod', { 'on': 'DB'}
 Plug 'kristijanhusak/vim-dadbod-ui' # Optional
 # }}}
@@ -677,9 +676,6 @@ g:coc_snippet_next = '<C-j>'
 
 # Use <C-k> for jump to previous placeholder, it's default of coc.nvim
 g:coc_snippet_prev = '<C-k>'
-
-# Use <C-j> for both expand and jump (make expand higher priority.)
-imap <C-j> <Plug>(coc-snippets-expand-jump)
 
 # Use <Leader>x for convert visual selected code to snippet
 xmap <Leader>x  <Plug>(coc-convert-snippet)
@@ -820,7 +816,11 @@ nmap <silent> [d <Plug>(ale_previous)
 nmap <silent> ]d <Plug>(ale_next)
 g:ale_c_cppcheck_options = '--enable=style --check-level=exhaustive'
 g:ale_cpp_cppcheck_options = '--enable=style --check-level=exhaustive'
-g:ale_linters = {  tex: ['chktex'] }
+g:ale_linters = {
+	c: ['cc', 'clangtidy', 'cppcheck', 'cpplint'],
+	cpp: ['cc', 'clangtidy', 'cppcheck', 'cpplint'],
+	tex: ['chktex'],
+}
 autocmd VimEnter * hi clear SpellBad
 autocmd VimEnter * hi clear SpellCap
 autocmd VimEnter * hi clear SpellLocal
@@ -849,9 +849,9 @@ autocmd BufRead,BufNewFile *.vader setfiletype vader
 # }}}
 
 # competitest {{{
-Plug 'mao-yining/competitest.vim', { 'on': 'CompetiTest'}
+Plug 'mao-yining/competitest.vim'
 g:competitest_configs = {
-	multiple_testing: -1,
+	multiple_testing: 1,
 	output_compare_method: (output: string, expout: string) => {
 		def SquishString(str: string): string
 			var res = str
