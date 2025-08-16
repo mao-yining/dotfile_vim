@@ -310,20 +310,22 @@ augroup CustomAutocmds | autocmd!
 	autocmd FileType tex,markdown,text set wrap
 
 	# 设置 q 来退出窗口
-	autocmd BufWinEnter * if !&modifiable|nnoremap <buffer> q <Cmd>q<CR>|endif
+	autocmd FileType startuptime,fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
 
 	# 在 gitcommit 中自动进入插入模式
-	autocmd FileType gitcommit :1 | startinsert
+	# autocmd FileType gitcommit :1 | startinsert
 
 	# 在某些窗口中关闭 list 模式
-	autocmd FileType GV setlocal nolist
+	autocmd FileType GV,git setlocal nolist
 augroup END
 # }}}
 
 # plugs {{{
 packadd! comment
+packadd! cfilter
 packadd! editexisting
 packadd! editorconfig
+packadd! helptoc
 packadd! hlyank
 packadd! nohlsearch
 
@@ -504,12 +506,15 @@ nnoremap <Leader>D <Cmd>DevdocsFind<CR>
 #  Git {{{
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
+au FileType git map <C-N> <Cmd>cnext<CR>
+au FileType git map <C-P> <Cmd>cprev<CR>
+au FileType git map q <Cmd>tabclose<CR>
 nnoremap <Leader>gg <Cmd>Git<CR>
-nnoremap <Leader>gl <Cmd>GV<CR>
+nnoremap <Leader>gl <Cmd>tabnew +Gclog<CR>
 nnoremap <Leader>gL <Cmd>GV!<CR>
-nnoremap <Leader>gcc <Cmd>Git commit<CR>
-nnoremap <Leader>gca <Cmd>Git commit --amend<CR>
-nnoremap <Leader>gce <Cmd>Git commit --amend --no-edit<CR>
+nnoremap <Leader>gcc <Cmd>Git commit -s -v<CR>
+nnoremap <Leader>gca <Cmd>Git commit --amend -v<CR>
+nnoremap <Leader>gce <Cmd>Git commit --amend --no-edit -v<CR>
 nnoremap <Leader>gs :Git switch<Space>
 nnoremap <Leader>gS :Git stash<Space>
 nnoremap <Leader>gco :Git checkout<Space>
@@ -551,8 +556,18 @@ Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
 Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
-Plug 'bfrg/vim-qf-preview', { 'for': 'qf' }
-autocmd FileType qf nmap <buffer> p <plug>(qf-preview-open)
+Plug 'bfrg/vim-qf-preview', { 'on': '<plug>(qf-preview-open)' }
+autocmd FileType qf nnoremap <buffer>p <plug>(qf-preview-open)
+autocmd FileType qf echo "qf"
+def QfMakeConv()
+	var qflist = getqflist()
+	for i in qflist
+		i.text = iconv(i.text, "cp936", "utf-8")
+	endfor
+	setqflist(qflist)
+enddef
+au QuickfixCmdPost make QfMakeConv()
+
 Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
 Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
 Plug 'lervag/vimtex', { 'for': ['tex', 'context'], 'on': ['VimtexInverseSearch', 'VimtexDocPackage']}
@@ -596,6 +611,15 @@ autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<
 autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
 Plug 'sheerun/vim-polyglot'
 g:polyglot_disabled = ['markdown']
+g:filetype_md = 'pandoc'
+# g:pandoc#syntax#conceal#urls = 1
+g:pandoc#syntax#codeblocks#ignore = ['definition', 'markdown', 'md']
+g:pandoc#syntax#codeblocks#embeds#langs = [
+	"ruby",
+	"bash=sh",
+	"cpp",
+	"asm",
+]
 g:markdown_minlines = 500
 Plug 'tpope/vim-dadbod', { 'on': 'DB'}
 Plug 'kristijanhusak/vim-dadbod-ui' # Optional
