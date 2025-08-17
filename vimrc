@@ -54,6 +54,7 @@ set foldmethod=marker
 set foldopen+=jump
 set jumpoptions=stack
 
+set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
 set cursorline                  # 高亮显示当前行
 set number                      # 开启行号显示
 set relativenumber              # 展示相对行号
@@ -80,6 +81,7 @@ set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__
 set wildignore+=*.obsidian,*.svg
 set wildignorecase
+set complete-=i
 set completepopup=highlight:Pmenu,border:off
 
 set diffopt=vertical,internal,filler,closeoff,indent-heuristic,hiddenoff,algorithm:patience
@@ -169,53 +171,37 @@ enddef
 nnoremap <Leader>S <Cmd>set nossl<CR><Cmd>source $MYVIMRC<CR><Cmd>set ssl<CR>
 
 # change window width
-nnoremap <C-up> <C-w>+
-nnoremap <C-down> <C-w>-
-nnoremap <C-left> <C-w><
-nnoremap <C-right> <C-w>>
+noremap <C-up> <C-w>+
+noremap <C-down> <C-w>-
+noremap <C-left> <C-w><
+noremap <C-right> <C-w>>
 
 # change window in normal
 nmap <Leader>w <C-w>
-nnoremap <C-k> <C-w>k
-nnoremap <C-j> <C-w>j
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-nnoremap <M-k> <C-w>k
-nnoremap <M-j> <C-w>j
-nnoremap <M-h> <C-w>h
-nnoremap <M-l> <C-w>l
+noremap <C-K> <C-w>k
+noremap <C-J> <C-w>j
+noremap <C-H> <C-w>h
+noremap <C-L> <C-w>l
+noremap <M-K> <C-w>k
+noremap <M-J> <C-w>j
+noremap <M-H> <C-w>h
+noremap <M-L> <C-w>l
 
-nnoremap <silent><nowait>=q <Cmd>copen<CR>
-nnoremap <silent><nowait>\q <Cmd>cclose<CR>
-nnoremap <silent><nowait>=l <Cmd>lopen<CR>
-nnoremap <silent><nowait>\l <Cmd>lclose<CR>
+noremap <silent><nowait>=q <Cmd>copen<CR>
+noremap <silent><nowait>\q <Cmd>cclose<CR>
+noremap <silent><nowait>=l <Cmd>lopen<CR>
+noremap <silent><nowait>\l <Cmd>lclose<CR>
 
 # tab ctrl
-nnoremap <silent><nowait>=<Tab> <Cmd>tabnew<CR>
-nnoremap <silent><nowait>\<Tab> <Cmd>tabc<CR>
-nnoremap <silent><nowait>[<Tab> <Cmd>tabp<CR>
-nnoremap <silent><nowait>]<Tab> <Cmd>tabn<CR>
+noremap <silent><nowait>=<Tab> <Cmd>tabnew<CR>
+noremap <silent><nowait>\<Tab> <Cmd>tabc<CR>
+noremap <silent><nowait>[<Tab> gT
+noremap <silent><nowait>]<Tab> gt
 
-noremap <silent><M-1> <Cmd>tabn 1<CR>
-noremap <silent><M-2> <Cmd>tabn 2<CR>
-noremap <silent><M-3> <Cmd>tabn 3<CR>
-noremap <silent><M-4> <Cmd>tabn 4<CR>
-noremap <silent><M-5> <Cmd>tabn 5<CR>
-noremap <silent><M-6> <Cmd>tabn 6<CR>
-noremap <silent><M-7> <Cmd>tabn 7<CR>
-noremap <silent><M-8> <Cmd>tabn 8<CR>
-noremap <silent><M-9> <Cmd>tabn 9<CR>
-noremap <silent><M-0> <Cmd>tabn 10<CR>
-inoremap <silent><M-1> <ESC><Cmd>tabn 1<CR>
-inoremap <silent><M-2> <ESC><Cmd>tabn 2<CR>
-inoremap <silent><M-3> <ESC><Cmd>tabn 3<CR>
-inoremap <silent><M-4> <ESC><Cmd>tabn 4<CR>
-inoremap <silent><M-5> <ESC><Cmd>tabn 5<CR>
-inoremap <silent><M-6> <ESC><Cmd>tabn 6<CR>
-inoremap <silent><M-7> <ESC><Cmd>tabn 7<CR>
-inoremap <silent><M-8> <ESC><Cmd>tabn 8<CR>
-inoremap <silent><M-9> <ESC><Cmd>tabn 9<CR>
-inoremap <silent><M-0> <ESC><Cmd>tabn 10<CR>
+for i in range(10)
+	execute($"noremap <M-{i}> <Cmd> tabn {i == 0 ? 10 : i}<CR>")
+	execute($"inoremap <M-{i}> <Cmd> tabn {i == 0 ? 10 : i}<CR>")
+endfor
 
 def Tab_MoveLeft()
 	var tabnr = tabpagenr() - 2
@@ -229,8 +215,8 @@ def Tab_MoveRight()
 		exec 'tabmove ' .. tabnr
 	endif
 enddef
-noremap <silent><M-left> <Cmd>call Tab_MoveLeft()<CR>
-noremap <silent><M-right> <Cmd>call Tab_MoveRight()<CR>
+noremap <silent><M-left> <ScriptCmd>Tab_MoveLeft()<CR>
+noremap <silent><M-right> <ScriptCmd>Tab_MoveRight()<CR>
 
 # select search / substitute
 xmap g/ "sy/<C-R>s
@@ -241,6 +227,8 @@ xnoremap @ :normal @
 
 # repeat for macro
 nnoremap <silent><C-Q> @@
+
+map Q gq
 
 # 全选
 onoremap <silent>A :<C-U>normal! ggVG<CR>
@@ -271,10 +259,30 @@ vnoremap gf gF
 
 noremap U <C-R>
 noremap Y y$
+
+# start of line
+cnoremap <C-A> <Home>
+# back one character
+cnoremap <C-B> <Left>
+# delete character under cursor
+cnoremap <C-D> <Del>
+# end of line
+cnoremap <C-E> <End>
+# forward one character
+cnoremap <C-F> <Right>
+# recall newer command-line
+cnoremap <C-N> <Down>
+# recall previous (older) command-line
+cnoremap <C-P> <Up>
+# back one word
+cnoremap <C-S-B> <S-Left>
+# forward one word
+cnoremap <C-S-F> <S-Right>
 # }}}
 
 # autocmds {{{
-augroup CustomAutocmds | autocmd!
+augroup CustomAutocmds
+	autocmd!
 	# 回到上次编辑的位置
 	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
@@ -315,6 +323,9 @@ augroup CustomAutocmds | autocmd!
 	# 在 gitcommit 中自动进入插入模式
 	# autocmd FileType gitcommit :1 | startinsert
 
+	# QuickFixCmdPost
+	autocmd QuickFixCmdPost vimgrep cwindow
+
 	# 在某些窗口中关闭 list 模式
 	autocmd FileType GV,git setlocal nolist
 augroup END
@@ -354,12 +365,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-characterize'     # 'ga' improve
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-eunuch'
-Plug 'svermeulen/vim-yoink'
-nmap <c-n> <plug>(YoinkPostPasteSwapBack)
-nmap <c-p> <plug>(YoinkPostPasteSwapForward)
-nmap p <plug>(YoinkPaste_p)
-nmap P <plug>(YoinkPaste_P)
-Plug 'svermeulen/vim-subversive'
+Plu 'svermeulen/vim-subversive'
 nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
@@ -557,8 +563,7 @@ Plug 'jamessan/vim-gnupg'
 Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
 Plug 'romainl/vim-qf', { 'for': 'qf' }
 Plug 'bfrg/vim-qf-preview', { 'on': '<plug>(qf-preview-open)' }
-autocmd FileType qf nnoremap <buffer>p <plug>(qf-preview-open)
-autocmd FileType qf echo "qf"
+autocmd FileType qf nmap <buffer>p <Plug>(qf-preview-open)
 def QfMakeConv()
 	var qflist = getqflist()
 	for i in qflist
@@ -723,9 +728,9 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 # Use K to show documentation in preview window
-nnoremap <silent> K <Cmd>call ShowDocumentation()<CR>
+nnoremap <silent> K <ScriptCmd>ShowDocumentation()<CR>
 command! -nargs=0 Hover call CocAction('doHover')
-def g:ShowDocumentation()
+def ShowDocumentation()
 	if index(['vim', 'help'], &filetype) >= 0
 		execute 'help ' .. expand('<cword>')
 	elseif &filetype ==# 'tex'
