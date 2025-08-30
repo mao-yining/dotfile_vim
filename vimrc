@@ -326,6 +326,51 @@ augroup CustomAutocmds
 	# QuickFixCmdPost
 	autocmd QuickFixCmdPost vimgrep cwindow
 
+	def QfMakeConv()
+		var qflist = getqflist()
+		for i in qflist
+			i.text = iconv(i.text, "cp936", "utf-8")
+		endfor
+		setqflist(qflist)
+	enddef
+
+	autocmd QuickfixCmdPost make QfMakeConv()
+
+	autocmd User TermdebugStartPost {
+		ALEDisable
+		nnoremap <nowait> <LocalLeader>g <Cmd>Gdb<CR>
+		nnoremap <nowait> <LocalLeader>p <Cmd>Program<CR>
+		nnoremap <nowait> <LocalLeader>s <Cmd>Source<CR>
+		nnoremap <nowait> <LocalLeader>a <Cmd>Asm<CR>
+		nnoremap <nowait> <LocalLeader>v <Cmd>Var<CR>
+		nnoremap <nowait> <F3> <Cmd>Break<CR>
+		nnoremap <nowait> <LocalLeader><F3> <Cmd>TBreak<CR>
+		nnoremap <nowait> <F4> <Cmd>Clear<CR>
+		nnoremap <nowait> <F5> <Cmd>Continue<CR>
+		nnoremap <nowait> <LocalLeader><F5> <Cmd>Stop<CR>
+		nnoremap <nowait> <Leader><F5> <Cmd>Run<CR>
+		nnoremap <nowait> <F6> <Cmd>Step<CR>
+		nnoremap <nowait> <F7> <Cmd>Over<CR>
+		nnoremap <nowait> <F8> <Cmd>Finish<CR>
+	}
+	autocmd User TermdebugStopPost {
+		ALEEnable
+		nunmap <LocalLeader>g
+		nunmap <LocalLeader>p
+		nunmap <LocalLeader>s
+		nunmap <LocalLeader>a
+		nunmap <LocalLeader>v
+		nunmap <F3>
+		nunmap <LocalLeader><F3>
+		nunmap <F4>
+		nunmap <F5>
+		nunmap <Leader><F5>
+		nunmap <LocalLeader><F5>
+		nunmap <F6>
+		nunmap <F7>
+		nunmap <F8>
+	}
+
 	# 在某些窗口中关闭 list 模式
 	autocmd FileType GV,git setlocal nolist
 augroup END
