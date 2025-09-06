@@ -779,9 +779,9 @@ def ShowDocumentation()
 	if index(['vim', 'help'], &filetype) >= 0
 		execute 'help ' .. expand('<cword>')
 	elseif &filetype ==# 'tex'
-		VimtexDocPackage
+		execute 'VimtexDocPackage'
 	else
-		Hover
+		execute 'Hover'
 	endif
 enddef
 
