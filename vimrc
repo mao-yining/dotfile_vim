@@ -1,19 +1,22 @@
 vim9script
 
-$v = $HOME .. (has('win32') ? '/vimfiles' : '/.vim')
-$VIMRC = $v .. '/vimrc'
+$v = $HOME .. (has("win32") ? "/vimfiles" : "/.vim")
+$VIMRC = $v .. "/vimrc"
 
-g:mapleader = ' '               # 定义<Leader>键
-g:maplocalleader = ';'          # 定义<LocalLeader>键
+g:mapleader = " "               # 定义<Leader>键
+g:maplocalleader = ";"          # 定义<LocalLeader>键
 
 # options {{{
+filetype plugin indent on
+syntax enable
 set nocompatible
 set t_Co=256                    # 开启256色支持
 set termguicolors               # 在终端上使用与 GUI 一致的颜色
 
 set noerrorbells                # 关闭错误提示
 set nolangremap
-set vb t_vb=
+set belloff=all
+set novb t_vb=
 
 set spelllang=en,cjk
 set langmenu=zh_CN.UTF-8
@@ -26,13 +29,11 @@ set breakindent
 set colorcolumn=81
 set conceallevel=2
 
-set formatoptions+=mM          # 强制自动换行，应对中文无空格
+set formatoptions+=mM           # 强制自动换行，应对中文无空格
 set formatoptions+=j            # 按 J 时自动删除注释符号
 set formatoptions+=n            # 识别编号的列表
 set linebreak
-au FileType markdown,text set nolinebreak
 set laststatus=2                # 总是显示状态栏
-set history=200                 # keep 200 lines of command line history
 set virtualedit=block,onemore
 set noshowmode                  # 设置不打开底部insert
 set switchbuf=useopen,usetab
@@ -41,7 +42,7 @@ set nojoinspaces  # suppress inserting two spaces between sentences
 set matchpairs+=<:>             # 设置%匹配<>
 set showmatch
 
-set smartindent                 # 智能的选择对其方式
+set autoindent smartindent      # 智能的选择对其方式
 set shiftwidth=4
 set list
 set listchars=tab:>\ ,trail:~,precedes:<,extends:>,nbsp:␣
@@ -62,98 +63,76 @@ set relativenumber              # 展示相对行号
 set updatetime=300
 set tabpagemax=50
 
-set undofile
-set nobackup
-set nowritebackup
-set autowrite
-set autoread                    # 设置自动保存
+set undofile nobackup nowritebackup
+set autowrite autoread
 
 set hlsearch                    # 高亮显示搜索结果
-set ignorecase                  # 搜索时大小写不敏感
-set smartcase                   # 搜索智能匹配大小写
+set ignorecase smartcase        # 搜索智能匹配大小写
 
 set shortmess+=c                # 设置补全静默
+set complete-=i
 set completeopt=fuzzy,menuone,popup
-set wildmenu
-set wildoptions=pum
-set wildcharm=<Tab>
+set completepopup=highlight:Pmenu,border:off
+set wildmenu wildoptions=pum wildcharm=<Tab>
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__
 set wildignore+=*.obsidian,*.svg
 set wildignorecase
-set complete-=i
-set completepopup=highlight:Pmenu,border:off
-
-set diffopt=vertical,internal,filler,closeoff,indent-heuristic,hiddenoff,algorithm:patience
+set diffopt+=vertical,indent-heuristic,hiddenoff,algorithm:patience
 set diffopt+=inline:word        # word / char  patch 9.1.1243
 set sessionoptions=buffers,curdir,folds,help,resize,tabpages,winsize,slash,terminal,unix
 set viewoptions=cursor,folds,slash,unix
 
-if has('win32')
-	autocmd VimEnter * set shellslash
-endif
-
 set clipboard=unnamed
 
-if has('sodium') && has("patch-9.0.1481")
+if has("sodium") && has("patch-9.0.1481")
 	set cryptmethod=xchacha20v2
+else
+	set cryptmethod=blowfish2
 endif
 
 if !empty($SUDO_USER) && $USER !=# $SUDO_USER
 	setglobal viminfo=
 	setglobal directory-=~/tmp
 	setglobal backupdir-=~/tmp
-elseif exists('+undodir') && !has('nvim-0.5')
+elseif exists("+undodir") && !has("nvim-0.5")
 	if !empty($XDG_DATA_HOME)
-		$DATA_HOME = substitute($XDG_DATA_HOME, '/$', '', '') . '/vim/'
-	elseif has('win32')
-		$DATA_HOME = expand('~/AppData/Local/vim/')
+		$DATA_HOME = substitute($XDG_DATA_HOME, "/$", "", "") . "/vim/"
+	elseif has("win32")
+		$DATA_HOME = expand("~/AppData/Local/vim/")
 	else
-		$DATA_HOME = expand('~/.local/share/vim/')
+		$DATA_HOME = expand("~/.local/share/vim/")
 	endif
-	&undodir = $DATA_HOME .. 'undo//'
-	&directory = $DATA_HOME .. 'swap//'
-	&backupdir = $DATA_HOME .. 'backup//'
-	if !isdirectory(&undodir) | mkdir(&undodir, 'p') | endif
-	if !isdirectory(&directory) | mkdir(&directory, 'p') | endif
-	if !isdirectory(&backupdir) | mkdir(&backupdir, 'p') | endif
+	&undodir = $DATA_HOME .. "undo//"
+	&directory = $DATA_HOME .. "swap//"
+	&backupdir = $DATA_HOME .. "backup//"
+	if !isdirectory(&undodir) | mkdir(&undodir, "p") | endif
+	if !isdirectory(&directory) | mkdir(&directory, "p") | endif
+	if !isdirectory(&backupdir) | mkdir(&backupdir, "p") | endif
 endif
 # }}}
 
 # keymaps {{{
-noremap <expr> k v:count == 0 ? 'gk' : 'k'
-noremap <expr> j v:count == 0 ? 'gj' : 'j'
-noremap <expr> <Up> v:count == 0 ? 'gk' : 'k'
-noremap <expr> <Down> v:count == 0 ? 'gj' : 'j'
+noremap <expr> k v:count == 0 ? "gk" : "k"
+noremap <expr> j v:count == 0 ? "gj" : "j"
+noremap <expr> <Up> v:count == 0 ? "gk" : "k"
+noremap <expr> <Down> v:count == 0 ? "gj" : "j"
 inoremap <Up> <C-O>gk
 inoremap <Down> <C-O>gj
-nnoremap <script><silent><expr> <CR> &buftype ==# 'quickfix' ? "\r" : ":\025confirm " .. (&buftype !=# 'terminal' ? (v:count ? 'write' : 'update') : &modified <Bar><Bar> exists('*jobwait') && jobwait([&channel], 0)[0] == -1 ? 'normal! i' : 'bdelete!') .. "\r"
-
-# vim-buffer {{{
-nnoremap <silent>H     <Cmd>call <sid>ChangeBuffer('p')<CR>
-nnoremap <silent>L     <Cmd>call <sid>ChangeBuffer('n')<CR>
+nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " .. (&buftype !=# "terminal" ? (v:count ? "write" : "update") : &modified <Bar><Bar> exists("*jobwait") && jobwait([&channel], 0)[0] == -1 ? "normal! i" : "bdelete!") .. "\r"
 
 # buffer delete {{{
-nnoremap <silent>=b <Cmd>enew<CR>
-nnoremap <silent>\b <Cmd>call CloseBuf()<CR>
-def ChangeBuffer(direct: string)
-	if &bt != '' || &ft == 'netrw'|echo "buftype is " ..  &bt .. " cannot be change"|return|endif
-	if direct == 'n'|bn
-	else|bp|endif
-	while &bt != ''
-		if direct == 'n'|bn
-		else|bp|endif
-	endwhile
-enddef
-def g:CloseBuf()
-	if &bt != '' || &ft == 'netrw'|bd|return|endif
+nnoremap =b <Cmd>enew<CR>
+nnoremap \b <ScriptCmd>CloseBuf()<CR>
+def CloseBuf()
+	if &bt != null_string || &ft == "netrw"|bd|return|endif
 	var buf_now = bufnr()
 	var buf_jump_list = getjumplist()[0]
 	var buf_jump_now = getjumplist()[1] - 1
 	while buf_jump_now >= 0
 		var last_nr = buf_jump_list[buf_jump_now]["bufnr"]
 		var last_line = buf_jump_list[buf_jump_now]["lnum"]
-		if buf_now != last_nr && bufloaded(last_nr) && getbufvar(last_nr, "&bt") == ''
+		if buf_now != last_nr && bufloaded(last_nr) && getbufvar(last_nr, "&bt") == null_string
 			execute ":buffer " .. last_nr
 			execute ":bd " .. buf_now
 			return
@@ -161,46 +140,44 @@ def g:CloseBuf()
 			buf_jump_now -= 1
 		endif
 	endwhile
-	bp|while &bt != ''|bp|endwhile
+	bp|while &bt != null_string|bp|endwhile
 	execute "bd " .. buf_now
 enddef
-# }}}
 # }}}
 
 # reload .vimrc
 nnoremap <Leader>S <Cmd>set nossl<CR><Cmd>source $MYVIMRC<CR><Cmd>set ssl<CR>
 
 # change window width
-noremap <C-up> <C-w>+
-noremap <C-down> <C-w>-
-noremap <C-left> <C-w><
-noremap <C-right> <C-w>>
+noremap <C-Up> <C-W>+
+noremap <C-Down> <C-W>-
+noremap <C-Left> <C-W><
+noremap <C-Right> <C-W>>
 
 # change window in normal
 nmap <Leader>w <C-w>
-noremap <C-K> <C-w>k
-noremap <C-J> <C-w>j
-noremap <C-H> <C-w>h
-noremap <C-L> <C-w>l
-noremap <M-K> <C-w>k
-noremap <M-J> <C-w>j
-noremap <M-H> <C-w>h
-noremap <M-L> <C-w>l
+noremap  <M-S-K> <C-w>k
+noremap  <M-S-J> <C-w>j
+noremap  <M-S-H> <C-w>h
+noremap  <M-S-L> <C-w>l
+tnoremap <M-S-H> <C-_>h
+tnoremap <M-S-L> <C-_>l
+tnoremap <M-S-J> <C-_>j
+tnoremap <M-S-K> <C-_>k
 
-noremap <silent><nowait>=q <Cmd>copen<CR>
-noremap <silent><nowait>\q <Cmd>cclose<CR>
-noremap <silent><nowait>=l <Cmd>lopen<CR>
-noremap <silent><nowait>\l <Cmd>lclose<CR>
+tnoremap <C-\> <C-\><C-N>
 
-# tab ctrl
-noremap <silent><nowait>=<Tab> <Cmd>tabnew<CR>
-noremap <silent><nowait>\<Tab> <Cmd>tabc<CR>
-noremap <silent><nowait>[<Tab> gT
-noremap <silent><nowait>]<Tab> gt
+noremap =q <Cmd>copen<CR>
+noremap \q <Cmd>cclose<CR>
+noremap =l <Cmd>lopen<CR>
+noremap \l <Cmd>lclose<CR>
+
+nnoremap L gt
+nnoremap H gT
+nnoremap =<Tab> <Cmd>tabnew<CR>
 
 for i in range(10)
 	execute($"noremap <M-{i}> <Cmd> tabn {i == 0 ? 10 : i}<CR>")
-	execute($"inoremap <M-{i}> <Cmd> tabn {i == 0 ? 10 : i}<CR>")
 endfor
 
 def Tab_MoveLeft()
@@ -215,33 +192,27 @@ def Tab_MoveRight()
 		exec 'tabmove ' .. tabnr
 	endif
 enddef
-noremap <silent><M-left> <ScriptCmd>Tab_MoveLeft()<CR>
-noremap <silent><M-right> <ScriptCmd>Tab_MoveRight()<CR>
+noremap <silent><M-Left> <ScriptCmd>Tab_MoveLeft()<CR>
+noremap <silent><M-Right> <ScriptCmd>Tab_MoveRight()<CR>
 
 # select search / substitute
 xmap g/ "sy/<C-R>s
 xmap gs "sy:%s/<C-R>s/
 
-# run macro in visual model
-xnoremap @ :normal @
-
-# repeat for macro
-nnoremap <silent><C-Q> @@
-
-map Q gq
-
-# 全选
-onoremap <silent>A :<C-U>normal! ggVG<CR>
-xnoremap <silent>A :<C-U>normal! ggVG<CR>
+onoremap A <Cmd>normal! ggVG<CR>
+xnoremap A <Cmd>normal! ggVG<CR>
+# visual-block
+autocmd ModeChanged *:[\x16] xunmap A
+autocmd ModeChanged [\x16]:* xnoremap A :<C-U>normal! ggVG<CR>
 
 # sudo to write file
 cab w!! w !sudo tee % >/dev/null
 
 # quick to change dir
-cab cdn cd <C-R>=expand('%:p:h')<CR>
+cab cdn cd <C-R>=expand("%:p:h")<CR>
 cab cdr cd <C-R>=FindRoot()<CR>
 def g:FindRoot(): string
-	var gitdir = finddir(".git", getcwd() .. ';')
+	var gitdir = finddir(".git", getcwd() .. ";")
 	if !empty(gitdir)
 		if gitdir == ".git"
 			gitdir = getcwd()
@@ -250,34 +221,26 @@ def g:FindRoot(): string
 		endif
 		return gitdir
 	endif
-	return ""
+	return null_string
 enddef
-
-# enhance gf
-nnoremap gf gF
-vnoremap gf gF
 
 noremap U <C-R>
 noremap Y y$
+map Q @@
+noremap gf gF
 
-# start of line
 cnoremap <C-A> <Home>
-# back one character
 cnoremap <C-B> <Left>
-# delete character under cursor
 cnoremap <C-D> <Del>
-# end of line
 cnoremap <C-E> <End>
-# forward one character
 cnoremap <C-F> <Right>
-# recall newer command-line
 cnoremap <C-N> <Down>
-# recall previous (older) command-line
 cnoremap <C-P> <Up>
-# back one word
 cnoremap <C-S-B> <S-Left>
-# forward one word
 cnoremap <C-S-F> <S-Right>
+
+nmap <C-N> <Cmd>cnext<CR>
+nmap <C-P> <Cmd>cprev<CR>
 # }}}
 
 # autocmds {{{
@@ -318,7 +281,7 @@ augroup CustomAutocmds
 	autocmd FileType tex,markdown,text set wrap
 
 	# 设置 q 来退出窗口
-	autocmd FileType startuptime,fugitive,qf,help,gitcommit map <buffer>q <Cmd>q<CR>
+	autocmd FileType startuptime,fugitive,qf,help,git,fugitiveblame,gitcommit map <buffer>q <Cmd>q<CR>
 
 	# 在 gitcommit 中自动进入插入模式
 	# autocmd FileType gitcommit :1 | startinsert
@@ -343,6 +306,7 @@ augroup CustomAutocmds
 		nnoremap <nowait> <LocalLeader>s <Cmd>Source<CR>
 		nnoremap <nowait> <LocalLeader>a <Cmd>Asm<CR>
 		nnoremap <nowait> <LocalLeader>v <Cmd>Var<CR>
+		nnoremap <nowait> <LocalLeader>r <Cmd>Run<CR>
 		nnoremap <nowait> <F3> <Cmd>Break<CR>
 		nnoremap <nowait> <LocalLeader><F3> <Cmd>TBreak<CR>
 		nnoremap <nowait> <F4> <Cmd>Clear<CR>
@@ -360,6 +324,7 @@ augroup CustomAutocmds
 		nunmap <LocalLeader>s
 		nunmap <LocalLeader>a
 		nunmap <LocalLeader>v
+		nunmap <LocalLeader>r
 		nunmap <F3>
 		nunmap <LocalLeader><F3>
 		nunmap <F4>
@@ -385,51 +350,47 @@ packadd! helptoc
 packadd! hlyank
 packadd! nohlsearch
 
-const vimplug = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-if has('unix') && empty(glob('~/.vim/autoload/plug.vim'))
-	execute 'silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs ' .. vimplug
-elseif (has('win32') || has('win64')) && empty(glob('$HOME/vimfiles/autoload/plug.vim'))
-	execute 'silent !powershell -command "iwr -useb ' .. vimplug
-		.. ' | ni $HOME/vimfiles/autoload/plug.vim -Force"'
-endif
+plugpac#Begin({
+	progress_open: "tab",
+	status_open: "vertical",
+})
 
-plug#begin()
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'yianwillis/vimcdoc'
+Pack "catppuccin/vim", { name: "catppuccin" }
+Pack "k-takata/minpac", { type: "opt" }
+Pack "yianwillis/vimcdoc"
 
-if has('gui_running') && has('win32')
-	Plug 'stillwwater/wincap.vim' # 根据背景颜色修改标题栏
-endif
+# if has("gui_running") && has("win32")
+#		# Plug "stillwwater/wincap.vim" # 根据背景颜色修改标题栏
+# endif
 
 # coding {{{
-Plug 'kshenoy/vim-signature'      # show marks
-Plug 'wellle/targets.vim'         # text-object
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-speeddating'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-characterize'     # 'ga' improve
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-eunuch'
-Plu 'svermeulen/vim-subversive'
+Pack "kshenoy/vim-signature"      # show marks
+Pack "wellle/targets.vim"         # text-object
+Pack "tpope/vim-repeat"
+Pack "tpope/vim-speeddating"
+Pack "tpope/vim-unimpaired"
+Pack "tpope/vim-characterize"     # "ga" improve
+Pack "tpope/vim-surround"
+Pack "tpope/vim-sleuth"
+Pack "svermeulen/vim-subversive"
 nmap s <plug>(SubversiveSubstitute)
 nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
 xmap s <plug>(SubversiveSubstitute)
-Plug 'Andrewradev/switch.vim'
+Pack "Andrewradev/switch.vim"
 g:speeddating_no_mappings = 1
 nnoremap <Plug>SpeedDatingFallbackUp <C-A>
 nnoremap <Plug>SpeedDatingFallbackDown <C-X>
 nnoremap <silent><C-A> <Cmd>if !switch#Switch() <Bar> call speeddating#increment(v:count1) <Bar> endif<CR>
-nnoremap <silent><C-X> <Cmd>if !switch#Switch({'reverse': 1}) <Bar> call speeddating#increment(-v:count1) <Bar> endif<CR>
-Plug 'itchyny/calendar.vim', { 'on': 'Calendar' }
-Plug 'voldikss/vim-browser-search', { 'on': ['<Plug>SearchNormal', '<Plug>SearchVisual'] }
+nnoremap <silent><C-X> <Cmd>if !switch#Switch({"reverse": 1}) <Bar> call speeddating#increment(-v:count1) <Bar> endif<CR>
+Pack "voldikss/vim-browser-search", { on: ["<Plug>SearchNormal", "<Plug>SearchVisual"] }
 g:browser_search_default_engine = "bing"
-nmap <silent> <LocalLeader>s <Plug>SearchNormal
-vmap <silent> <LocalLeader>s <Plug>SearchVisual
+nmap <silent> <LocalLeader>S <Plug>SearchNormal
+vmap <silent> <LocalLeader>S <Plug>SearchVisual
 # }}}
 
 # ui {{{
-Plug 'mhinz/vim-startify'
+Pack "mhinz/vim-startify"
 autocmd user startified setlocal cursorline
 g:startify_enable_special      = 0
 g:startify_relative_path       = 1
@@ -438,95 +399,95 @@ g:startify_update_oldfiles     = 1
 g:startify_fortune_use_unicode = 1
 g:startify_files_number        = 3
 g:startify_lists = [
-	{ 'type': 'sessions',  'header': ['   Sessions']  },
-	{ 'type': 'files',     'header': ['   MRU']       },
-	{ 'type': 'bookmarks', 'header': ['   Bookmarks'] },
-	{ 'type': 'commands',  'header': ['   Commands']  },
+	{ type: "sessions",  header: ["   Sessions"]  },
+	{ type: "files",     header: ["   MRU"]       },
+	{ type: "bookmarks", header: ["   Bookmarks"] },
+	{ type: "commands",  header: ["   Commands"]  },
 ]
 g:startify_session_sort = 1
-g:startify_custom_header = 'startify#pad(startify#fortune#boxed())'
+g:startify_custom_header = "startify#pad(startify#fortune#boxed())"
 g:startify_session_autoload    = 1
 g:startify_session_persistence = 1
 g:startify_change_to_vcs_root = 1
-g:startify_session_dir = $v .. '/sessions'
+g:startify_session_dir = $v .. "/sessions"
 g:startify_skiplist = [ "runtime/doc/", "/plugged/.*/doc/", "/.git/" ]
 g:startify_skiplist += [ "/Temp/", "fugitiveblame$" ]
-g:startify_bookmarks = [ { 'c': $vimrc } ]
-g:startify_bookmarks += [ { 'b': '~/Documents/vault/projects/accounts/main.bean' } ]
-g:startify_custom_footer = ["", "   Vim is charityware. Please read ':help uganda'.", ""]
+g:startify_bookmarks = [ { "c": $vimrc } ]
+g:startify_bookmarks += [ { "b": "~/Documents/vault/projects/accounts/main.bean" } ]
+g:startify_custom_footer = ["", "   Vim is charityware. Please read \":help uganda\".", ""]
 
-Plug 'Bakudankun/qline.vim'
-Plug 'vim-airline/vim-airline'
+Pack "Bakudankun/qline.vim"
+Pack "vim-airline/vim-airline"
 g:loaded_airline = 1
 g:qline_config = {
 	active: {
 		left: [
-			['mode', 'paste'],
-			['gitbranch', 'gitgutter'],
-			['filename'],
+			["mode", "paste"],
+			["gitbranch", "gitgutter"],
+			["filename"],
 		],
+		right: [
+			["lineinfo"],
+			["percent"],
+			["filetype", "fileencoding", "fileformat", "tasks"]
+		]
 	},
 	inactive: {
-		left: [['filename', 'gitbranch', 'gitgutter'], ['bufstate']],
-		right: [['filetype'], ['fileinfo']],
-		separator: {left: '', right: '', margin: ' '},
-		subseparator: {left: '|', right: '|', margin: ' '},
+		left: [["filename", "gitbranch", "gitgutter"], ["bufstate"]],
+		right: [["filetype"], ["fileinfo"]],
+		separator: {left: "", right: "", margin: " "},
+		subseparator: {left: "|", right: "|", margin: " "},
 	},
 	component: {
-		gitbranch: () => fugitive#statusline()->matchstr('(\zs[^)]*\ze)'),
+		tasks: () => g:asyncrun_status
+		->matchstr('\(running\|success\|failure\)')
+		->substitute("^success$", "%#String#success%*", "")
+		->substitute("^failure$", "%#Exception#failure%*", ""),
+		gitbranch: () => fugitive#statusline()->matchstr("(\\zs[^)]*\\ze)"),
 		gitgutter: {
 		content: () =>
 			g:GitGutterGetHunkSummary()
-			->mapnew((idx, val) => !val ? '' : ['+', '~', '-'][idx] .. val)
+			->mapnew((idx, val) => !val ? null_string : ["+", "~", "-"][idx] .. val)
 			->filter((_, val) => !!val)
 			->join(),
 			visible_condition: () => g:GitGutterGetHunks(),
 		},
 	},
-}
-Plug 'nathanaelkane/vim-indent-guides'
-autocmd VimEnter * unmap <Leader>ig
-autocmd VimEnter * nnoremap <silent><nowait> yoi <Cmd>IndentGuidesToggle<CR>
-autocmd VimEnter * nnoremap <silent><nowait> [oi <Cmd>IndentGuidesEnable<CR>
-autocmd VimEnter * nnoremap <silent><nowait> ]oi <Cmd>IndentGuidesDisable<CR>
-# }}}
+} # }}}
 
-Plug 'lacygoill/vim9asm', { 'on': 'Disassemble' } # vim9 asm plugin
-Plug 'skywind3000/vim-terminal-help'
+Pack "lacygoill/vim9asm", { on: "Disassemble" } # vim9 asm plugin
+Pack "skywind3000/vim-terminal-help"
 g:terminal_list = 0
-if has('win32')
-	g:terminal_shell = 'nu'
+if has("win32")
+	g:terminal_shell = "nu"
 endif
-tnoremap <C-\> <C-\><C-N>
-tnoremap <M-H> <C-_>h
-tnoremap <M-L> <C-_>l
-tnoremap <M-J> <C-_>j
-tnoremap <M-K> <C-_>k
 
-Plug 'vim-scripts/DrawIt', { 'on': 'DIstart' }
+Pack "vim-scripts/DrawIt", { on: "DIstart" }
 noremap =d <Cmd>DIstart<CR>
 noremap \d <Cmd>DIstop<CR>
 
-Plug 'habamax/vim-dir', { 'on': 'Dir' }
+Pack "habamax/vim-dir", { on: "Dir" }
 nnoremap - <Cmd>Dir<CR>
 
-Plug 'lilydjwg/colorizer', { 'on': 'ColorHighlight' }
+Pack "lilydjwg/colorizer", { on: "ColorHighlight" }
 noremap =c <Cmd>ColorHighlight<CR>
 noremap \c <Cmd>ColorClear<CR>
 
-Plug 'liuchengxu/vista.vim'
+Pack "liuchengxu/vista.vim", { on: "Vista" }
 g:vista#renderer#enable_icon = false
 nnoremap <silent><LocalLeader>v <Cmd>Vista!!<CR>
 
-Plug 'dstein64/vim-startuptime', {'on': 'StartupTime'}
+Pack "dstein64/vim-startuptime", {on: "StartupTime"}
 
 #  asynctasks {{{
-Plug 'skywind3000/asyncrun.vim'
-Plug 'skywind3000/asynctasks.vim'
-g:asynctasks_term_pos = 'external' # quickfix | vim | tab | bottom | external
+Pack "skywind3000/asyncrun.vim"
+Pack "skywind3000/asynctasks.vim"
+g:asynctasks_term_pos = "external" # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况
-g:asyncrun_open = 6
 g:asyncrun_save = 1
+if has("win32")
+	g:asyncrun_encs = "cp936"
+endif
 noremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
 noremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
 noremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
@@ -537,7 +498,7 @@ inoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
 inoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 #  }}}
 
-Plug 'sbdchd/neoformat', {'on': 'Neoformat'}
+Pack "sbdchd/neoformat", { on: "Neoformat"}
 noremap <LocalLeader>f <Cmd>Neoformat<CR>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
@@ -547,21 +508,18 @@ g:neoformat_c_clangformat = { exe: "clang-format", args: [ expandcmd('-assume-fi
 g:neoformat_tex_texfmt = { exe: "tex-fmt", args: [ "--stdin" ], stdin: 1 }
 g:neoformat_enabled_tex = [ "texfmt" ]
 
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } # 撤销树
+Pack "mbbill/undotree", { on: "UndotreeToggle" } # 撤销树
 nnoremap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
 
-Plug 'girishji/devdocs.vim'
+Pack "girishji/devdocs.vim", { on: [ "DevdocsFind", "DevdocsInstall" ] }
 nnoremap <Leader>D <Cmd>DevdocsFind<CR>
 
 #  Git {{{
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim', { 'on': ['GV', 'GV!'] }
-au FileType git map <C-N> <Cmd>cnext<CR>
-au FileType git map <C-P> <Cmd>cprev<CR>
-au FileType git map q <Cmd>tabclose<CR>
+Pack "tpope/vim-fugitive"
+Pack "junegunn/gv.vim", { on: "GV" }
 nnoremap <Leader>gg <Cmd>Git<CR>
-nnoremap <Leader>gl <Cmd>tabnew +Gclog<CR>
+nnoremap <Leader>gl <Cmd>GV<CR>
 nnoremap <Leader>gL <Cmd>GV!<CR>
 nnoremap <Leader>gcc <Cmd>Git commit -s -v<CR>
 nnoremap <Leader>gca <Cmd>Git commit --amend -v<CR>
@@ -581,7 +539,7 @@ nnoremap <Leader>gB <Cmd>Git branch<CR>
 nnoremap <Leader>gb <Cmd>Git blame<CR>
 nnoremap <Leader>gr <Cmd>Gread<CR>
 nnoremap <Leader>gw <Cmd>Gwrite<CR>
-Plug 'airblade/vim-gitgutter'
+Pack "airblade/vim-gitgutter"
 nnoremap <LocalLeader>hw <Plug>(GitGutterStageHunk)
 nnoremap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
 nnoremap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
@@ -593,34 +551,20 @@ nnoremap ]h <Plug>(GitGutterNextHunk)
 nnoremap [h <Plug>(GitGutterPrevHunk)
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
-Plug 'rhysd/conflict-marker.vim'
-Plug 'mhinz/vim-signify', { 'on': 'SignifyEnable' }
-g:signify_sign_add               = '+'
-g:signify_sign_delete            = '_'
-g:signify_sign_delete_first_line = '‾'
-g:signify_sign_change            = '~'
-g:signify_sign_changedelete      = g:signify_sign_change
+Pack "rhysd/conflict-marker.vim"
 #  }}}
 
 # ftplugins {{{
-Plug 'vim-utils/vim-man', { 'on': ['Man', 'Mangrep']}
-Plug 'jamessan/vim-gnupg'
-Plug 'vimwiki/vimwiki', { 'for': 'vimwiki' }
-Plug 'romainl/vim-qf', { 'for': 'qf' }
-Plug 'bfrg/vim-qf-preview', { 'on': '<plug>(qf-preview-open)' }
+Pack "vim-utils/vim-man", { on: ["Man", "Mangrep"]}
+Pack "jamessan/vim-gnupg"
+Pack "vimwiki/vimwiki", { for: "vimwiki" }
+Pack "romainl/vim-qf", { for: "qf" }
+Pack "mtdl9/vim-log-highlighting", { for: "log" }
+Pack "bfrg/vim-qf-preview", { on: "<plug>(qf-preview-open)" }
 autocmd FileType qf nmap <buffer>p <Plug>(qf-preview-open)
-def QfMakeConv()
-	var qflist = getqflist()
-	for i in qflist
-		i.text = iconv(i.text, "cp936", "utf-8")
-	endfor
-	setqflist(qflist)
-enddef
-au QuickfixCmdPost make QfMakeConv()
-
-Plug 'ubaldot/vim-conda-activate', { 'on': 'CondaActivate' }
-Plug 'bfrg/vim-cmake-help', { 'for': 'cmake' }
-Plug 'lervag/vimtex', { 'for': ['tex', 'context'], 'on': ['VimtexInverseSearch', 'VimtexDocPackage']}
+Pack "ubaldot/vim-conda-activate", { on: "CondaActivate" }
+Pack "bfrg/vim-cmake-help", { for: "cmake" }
+Pack "lervag/vimtex", { for: ["tex", "context"], on: "VimtexInverseSearch" }
 g:vimtex_quickfix_autoclose_after_keystrokes = 2
 g:vimtex_quickfix_open_on_warning = 0
 g:vimtex_format_enabled = 1
@@ -647,37 +591,57 @@ g:vimtex_compiler_latexmk = {
 		"-interaction=nonstopmode",
 	],
 }
-Plug 'junegunn/vim-easy-align', { 'on': '<Plug>(EasyAlign)' }
+Pack "junegunn/vim-easy-align", { on: "<Plug>(EasyAlign)" }
 xmap <LocalLeader><tab> <Plug>(EasyAlign)
 nmap <LocalLeader><tab> <Plug>(EasyAlign)
-Plug 'ferrine/md-img-paste.vim', { 'for': 'markdown' }
-Plug 'nathangrigg/vim-beancount', { 'for': 'bean' }
-autocmd FileType beancount imap <buffer> <Tab> <C-X><C-O>
-Plug 'normen/vim-pio'
-Plug 'tpope/vim-scriptease'
-Plug 'mhinz/vim-lookup', { 'for': 'vim' }
-Plug 'chrisbra/csv.vim'
-autocmd FileType vim nnoremap <buffer><silent> <C-]>  <Cmd>call lookup#lookup()<CR>
-autocmd FileType vim nnoremap <buffer><silent> <C-t>  <Cmd>call lookup#pop()<CR>
-Plug 'sheerun/vim-polyglot'
-g:polyglot_disabled = ['markdown']
-g:filetype_md = 'pandoc'
-# g:pandoc#syntax#conceal#urls = 1
-g:pandoc#syntax#codeblocks#ignore = ['definition', 'markdown', 'md']
+Pack "ferrine/md-img-paste.vim", { for: "markdown" }
+Pack "nathangrigg/vim-beancount", { for: "beancount" }
+Pack "normen/vim-pio"
+Pack "tpope/vim-scriptease"
+Pack "mhinz/vim-lookup", { for: "vim" }
+Pack "chrisbra/csv.vim", { for: "csv" }
+autocmd FileType vim nnoremap <buffer> <C-]>  <Cmd>call lookup#lookup()<CR>
+autocmd FileType vim nnoremap <buffer> <C-t>  <Cmd>call lookup#pop()<CR>
+# g:filetype_md = "pandoc"
+g:pandoc#syntax#conceal#use = 1
+g:pandoc#syntax#conceal#urls = 1
+g:pandoc#syntax#codeblocks#ignore = ["definition", "markdown", "md"]
 g:pandoc#syntax#codeblocks#embeds#langs = [
-	"ruby",
 	"bash=sh",
-	"cpp",
+	"shell=sh",
+	"sh",
 	"asm",
+	"c",
+	"cpp",
+	"rust",
+	"go",
+	"javascript",
+	"yaml",
+	"json",
+	"jsonc",
+	"toml",
+	"python",
+	"perl",
+	"vim",
+	"ruby",
+	"lua",
+	"tex",
+	"tikz=tex",
+	"typst",
+	"git",
+	"gitcommit",
+	"gitrebase",
+	"messages",
+	"mermaid",
 ]
 g:markdown_minlines = 500
-Plug 'tpope/vim-dadbod', { 'on': 'DB'}
-Plug 'kristijanhusak/vim-dadbod-ui' # Optional
+Pack "tpope/vim-dadbod", { on: "DB"}
+Pack "kristijanhusak/vim-dadbod-ui" # Optional
 # }}}
 
 # vimspector {{{
-Plug 'puremourning/vimspector'
-g:vimspector_install_gadgets = [ 'debugpy', 'vscode-cpptools', 'CodeLLDB' ]
+Pack "puremourning/vimspector"
+g:vimspector_install_gadgets = [ "debugpy", "vscode-cpptools", "CodeLLDB" ]
 nnoremap <F5>          <Plug>VimspectorContinue
 nnoremap <F3>          <Plug>VimspectorToggleBreakpoint
 nnoremap <Leader><F3>  <Plug>VimspectorRunToCursor
@@ -699,44 +663,45 @@ def g:LoadVimspectorMaps()
 	nnoremap <Leader>D     <Plug>VimspectorDisassemble
 enddef
 def g:UnLoadVimspectorMaps()
-	if exists('<Leader><F5>')|nunmap <Leader><F5>|endif
-	if exists('<F6>')|nunmap <F6>|endif
+	if exists("<Leader><F5>")|nunmap <Leader><F5>|endif
+	if exists("<F6>")|nunmap <F6>|endif
 	nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
 	nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
 	nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
 	nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
-	if exists('<Leader><F11>')|nunmap <Leader><F11>|endif
-	if exists('<Leader><F12>')|nunmap <Leader><F12>|endif
-	if exists('<Leader>B')|nunmap <Leader>B|endif
-	if exists('<Leader>D')|nunmap <Leader>D|endif
+	if exists("<Leader><F11>")|nunmap <Leader><F11>|endif
+	if exists("<Leader><F12>")|nunmap <Leader><F12>|endif
+	if exists("<Leader>B")|nunmap <Leader>B|endif
+	if exists("<Leader>D")|nunmap <Leader>D|endif
 enddef
 # }}}
 
 # coc {{{
-Plug 'Shougo/neco-vim'
-Plug 'neoclide/coc-neco'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'honza/vim-snippets'
+Pack "Shougo/neco-vim"
+Pack "neoclide/coc-neco"
+Pack "neoclide/coc.nvim", {"branch": "release"}
+Pack "honza/vim-snippets"
 
 # Use tab for trigger completion with characters ahead and navigate
 # NOTE: There's always complete item selected by default, you may want to enable
 # no select by `"suggest.noselect": true` in your configuration file
-# NOTE: Use command ':verbose imap <Tab>' to make sure tab is not mapped by
+# NOTE: Use command ":verbose imap <Tab>" to make sure tab is not mapped by
 # other plugin before putting this into your config
 inoremap <silent><expr> <Tab>
 			\ coc#pum#visible() ? coc#pum#next(1) :
 			\ CheckBackspace() ? "\<Tab>" :
 			\ coc#refresh()
-inoremap <expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<C-H>"
 
 # Make <CR> to accept selected completion item or notify coc.nvim to format
 # <C-g>u breaks current undo, please make your own choice
+# Remove "\<C-R>=coc#on_enter()" as it not used
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-			\ : "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
+			\ : "\<C-G>u\<CR>"
 
 def CheckBackspace(): bool
-	var col = col('.') - 1
-	return !col || getline('.')[col - 1] =~# '\s'
+	var col = col(".") - 1
+	return !col || getline(".")[col - 1] =~# "\\s"
 enddef
 
 # Use <C-l> for trigger snippet expand.
@@ -746,21 +711,16 @@ imap <C-l> <Plug>(coc-snippets-expand)
 vmap <C-j> <Plug>(coc-snippets-select)
 
 # Use <C-j> for jump to next placeholder, it's default of coc.nvim
-g:coc_snippet_next = '<C-j>'
+g:coc_snippet_next = "<C-j>"
 
 # Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-g:coc_snippet_prev = '<C-k>'
+g:coc_snippet_prev = "<C-k>"
 
 # Use <Leader>x for convert visual selected code to snippet
 xmap <Leader>x  <Plug>(coc-convert-snippet)
 
-# Make <CR> to accept selected completion item or notify coc.nvim to format
-# <C-g>u breaks current undo, please make your own choice
-# inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-# \: "\<C-g>u\<CR>\<C-r>=coc#on_enter()\<CR>"
-
 # Use <C-space> to trigger completion
-if has('nvim')
+if has("nvim")
 	inoremap <silent><expr> <C-space> coc#refresh()
 else
 	inoremap <silent><expr> <C-@> coc#refresh()
@@ -774,19 +734,19 @@ nmap <silent> gr <Plug>(coc-references)
 
 # Use K to show documentation in preview window
 nnoremap <silent> K <ScriptCmd>ShowDocumentation()<CR>
-command! -nargs=0 Hover call CocAction('doHover')
+command! -nargs=0 Hover call CocAction("doHover")
 def ShowDocumentation()
-	if index(['vim', 'help'], &filetype) >= 0
-		execute 'help ' .. expand('<cword>')
-	elseif &filetype ==# 'tex'
-		execute 'VimtexDocPackage'
+	if index(["vim", "help"], &filetype) >= 0
+		execute "help " .. expand("<cword>")
+	elseif &filetype ==# "tex"
+		execute "VimtexDocPackage"
 	else
-		execute 'Hover'
+		execute "Hover"
 	endif
 enddef
 
 # Highlight the symbol and its references when holding the cursor
-autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync("highlight")
 
 # Symbol renaming
 nmap <F2> <Plug>(coc-rename)
@@ -794,9 +754,9 @@ nmap <F2> <Plug>(coc-rename)
 augroup mygroup
 	autocmd!
 	# Setup formatexpr specified filetype(s)
-	autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+	autocmd FileType typescript,json setl formatexpr=CocAction("formatSelected")
 	# Update signature help on jump placeholder
-	autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+	autocmd User CocJumpPlaceholder call CocActionAsync("showSignatureHelp")
 augroup end
 
 # Applying code actions to the selected code block
@@ -824,7 +784,7 @@ nmap ]oI  <Cmd>CocCommand document.disableInlayHint<CR>
 nmap yoI  <Cmd>CocCommand document.toggleInlayHint<CR>
 
 # Map function and class text objects
-# NOTE: Requires 'textDocument.documentSymbol' support from the language server
+# NOTE: Requires "textDocument.documentSymbol" support from the language server
 xmap if <Plug>(coc-funcobj-i)
 omap if <Plug>(coc-funcobj-i)
 xmap af <Plug>(coc-funcobj-a)
@@ -835,28 +795,28 @@ xmap ac <Plug>(coc-classobj-a)
 omap ac <Plug>(coc-classobj-a)
 
 # Remap <C-f> and <C-b> to scroll float windows/popups
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-	nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-	nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-	inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(1)\<CR>" : "\<Right>"
-	inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<C-r>=coc#float#scroll(0)\<CR>" : "\<Left>"
-	vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-	vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+if has("nvim-0.4.0") || has("patch-8.2.0750")
+	nnoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-F>"
+	nnoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-B>"
+	inoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? "\<C-R>=coc#float#scroll(1)\<CR>" : "\<Right>"
+	inoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? "\<C-R>=coc#float#scroll(0)\<CR>" : "\<Left>"
+	vnoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-F>"
+	vnoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-B>"
 endif
 
 # Use CTRL-S for selections ranges
-# Requires 'textDocument/selectionRange' support of language server
-nmap <silent> <C-s> <Plug>(coc-range-select)
-xmap <silent> <C-s> <Plug>(coc-range-select)
+# Requires "textDocument/selectionRange" support of language server
+nmap <silent> <C-S> <Plug>(coc-range-select)
+xmap <silent> <C-S> <Plug>(coc-range-select)
 
 # Add `:Format` command to format current buffer
-command! -nargs=0 Format call CocActionAsync('format')
+command! -nargs=0 Format call CocActionAsync("format")
 
 # Add `:Fold` command to fold current buffer
-command! -nargs=? Fold call CocAction('fold', <f-args>)
+command! -nargs=? Fold call CocAction("fold", <f-args>)
 
 # Add `:OR` command for organize imports of the current buffer
-command! -nargs=0 OR   call CocActionAsync('runCommand', 'editor.action.organizeImport')
+command! -nargs=0 OR   call CocActionAsync("runCommand", "editor.action.organizeImport")
 
 nnoremap <Leader>e  <Cmd>CocCommand explorer<CR>
 
@@ -877,23 +837,23 @@ nnoremap <Leader>t <Cmd>CocList tasks<CR>
 # }}}
 
 # ALE {{{
-Plug 'dense-analysis/ale'
+Pack "dense-analysis/ale"
 
 g:ale_sign_column_always = true
 g:ale_disable_lsp = true
-g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+g:ale_echo_msg_format = "[%linter%] %s [%severity%]"
 g:ale_virtualtext_prefix = ""
-g:ale_sign_error = '>>'
-g:ale_sign_warning = '--'
+g:ale_sign_error = ">>"
+g:ale_sign_warning = "--"
 nmap <LocalLeader>d <Plug>(ale_detail)
 nmap <silent> [d <Plug>(ale_previous)
 nmap <silent> ]d <Plug>(ale_next)
-g:ale_c_cppcheck_options = '--enable=style --check-level=exhaustive'
-g:ale_cpp_cppcheck_options = '--enable=style --check-level=exhaustive'
+g:ale_c_cppcheck_options = "--enable=style --check-level=exhaustive"
+g:ale_cpp_cppcheck_options = "--enable=style --check-level=exhaustive"
 g:ale_linters = {
-	c: ['cc', 'clangtidy', 'cppcheck', 'cpplint'],
-	cpp: ['cc', 'clangtidy', 'cppcheck', 'cpplint'],
-	tex: ['chktex'],
+	c: ["cc", "clangtidy", "cppcheck", "cpplint"],
+	cpp: ["cc", "clangtidy", "cppcheck", "cpplint"],
+	tex: ["chktex"],
 }
 autocmd VimEnter * hi clear SpellBad
 autocmd VimEnter * hi clear SpellCap
@@ -910,20 +870,20 @@ autocmd VimEnter,Colorscheme * hi ALEVirtualTextInfo    ctermfg=14 ctermbg=16 gu
 # }}}
 
 # test {{{
-Plug 'vim-test/vim-test', { 'on': [ "TestNearest", "TestFile", "TestSuite" ] }
+Pack "vim-test/vim-test", { on: [ "TestNearest", "TestFile", "TestSuite" ] }
 nmap <silent> <LocalLeader>tt <Cmd>TestNearest<CR>
 nmap <silent> <LocalLeader>tf <Cmd>TestFile<CR>
 nmap <silent> <LocalLeader>ts <Cmd>TestSuite<CR>
 nmap <silent> <LocalLeader>tl <Cmd>TestLast<CR>
 nmap <silent> <LocalLeader>tv <Cmd>TestVisit<CR>
-g:test#strategy = 'vimterminal'
-Plug 'junegunn/vader.vim', { 'for': 'vader', 'on': 'Vader' }
+g:test#strategy = "vimterminal"
+Pack "junegunn/vader.vim", { for: "vader", on: "Vader" }
 autocmd FileType vader nnoremap <buffer><silent> K K
 autocmd BufRead,BufNewFile *.vader setfiletype vader
 # }}}
 
 # competitest {{{
-Plug 'mao-yining/competitest.vim'
+Pack "mao-yining/competitest.vim"
 g:competitest_configs = {
 	multiple_testing: 1,
 	output_compare_method: (output: string, expout: string) => {
@@ -970,7 +930,7 @@ g:competitest_configs = {
 }
 # }}}
 
-plug#end() # }}}
+plugpac#End() # }}}
 
 if &background == 'dark'
 	silent! colorscheme catppuccin_mocha
