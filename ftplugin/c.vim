@@ -1,0 +1,1 @@
+set formatprg=clang-format

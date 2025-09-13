@@ -1,5 +1,24 @@
 vim9script noclear
 
+setlocal nolinebreak
+setlocal textwidth=74
+
+def AddFormat(mark: string): string
+	return $"di{mark}\<C-R>\"{mark}\<Esc>"
+enddef
+
+# 创建视觉模式映射
+xnoremap <expr> <LocalLeader>b AddFormat("**")
+xnoremap <expr> <LocalLeader>i AddFormat("*")
+xnoremap <expr> <LocalLeader>m AddFormat("$")
+xnoremap <expr> <LocalLeader>s AddFormat("~~")
+xnoremap <expr> <LocalLeader>c AddFormat("`")
+xnoremap <expr> <LocalLeader>q AddFormat("`")
+
+iab 》 >
+iab 【 [
+iab 】 ]
+
 var input_flags = ['commonmark_x',
 	'+wikilinks_title_after_pipe',
 	'+east_asian_line_breaks',
@@ -8,7 +27,7 @@ var input_flags = ['commonmark_x',
 var target = 'pdf'
 
 var args = [
-	'%',
+	'%:S',
 	'-f',
 	join(input_flags, ''),
 	$"-t {target}",
@@ -23,3 +42,4 @@ var args = [
 
 # g:neoformat_pandoc_pandoc = { exe: "pandoc", args: args, stdin: 1 }
 &l:makeprg = $"pandoc {args->join(' ')}"
+&l:conceallevel = 2

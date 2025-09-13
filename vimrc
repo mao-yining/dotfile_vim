@@ -559,7 +559,7 @@ Pack "vim-utils/vim-man", { on: ["Man", "Mangrep"]}
 Pack "jamessan/vim-gnupg"
 Pack "vimwiki/vimwiki", { for: "vimwiki" }
 Pack "romainl/vim-qf", { for: "qf" }
-Pack "mtdl9/vim-log-highlighting", { for: "log" }
+Pack "mao-yining/vim-log-highlighting", { for: "log" }
 Pack "bfrg/vim-qf-preview", { on: "<plug>(qf-preview-open)" }
 autocmd FileType qf nmap <buffer>p <Plug>(qf-preview-open)
 Pack "ubaldot/vim-conda-activate", { on: "CondaActivate" }
@@ -592,8 +592,8 @@ g:vimtex_compiler_latexmk = {
 	],
 }
 Pack "junegunn/vim-easy-align", { on: "<Plug>(EasyAlign)" }
-xmap <LocalLeader><tab> <Plug>(EasyAlign)
-nmap <LocalLeader><tab> <Plug>(EasyAlign)
+xmap <LocalLeader><Tab> <Plug>(EasyAlign)
+nmap <LocalLeader><Tab> <Plug>(EasyAlign)
 Pack "ferrine/md-img-paste.vim", { for: "markdown" }
 Pack "nathangrigg/vim-beancount", { for: "beancount" }
 Pack "normen/vim-pio"
