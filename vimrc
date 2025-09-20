@@ -55,7 +55,8 @@ set foldmethod=marker
 set foldopen+=jump
 set jumpoptions=stack
 
-set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+set grepprg=rg\ --vimgrep\ --smart-case\ \"$*\"
+set grepformat=%f:%l:%c:%m
 set cursorline                  # 高亮显示当前行
 set number                      # 开启行号显示
 set relativenumber              # 展示相对行号
