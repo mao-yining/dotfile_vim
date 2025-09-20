@@ -111,6 +111,11 @@ elseif exists("+undodir") && !has("nvim-0.5")
 	if !isdirectory(&directory) | mkdir(&directory, "p") | endif
 	if !isdirectory(&backupdir) | mkdir(&backupdir, "p") | endif
 endif
+
+if !has("gui_running")
+	source $VIMRUNTIME/menu.vim
+endif
+
 # }}}
 
 # keymaps {{{
@@ -288,7 +293,7 @@ augroup CustomAutocmds
 	# autocmd FileType gitcommit :1 | startinsert
 
 	# QuickFixCmdPost
-	autocmd QuickFixCmdPost vimgrep cwindow
+	autocmd QuickFixCmdPost * cwindow
 
 	def QfMakeConv()
 		var qflist = getqflist()
