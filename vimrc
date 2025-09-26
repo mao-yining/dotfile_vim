@@ -119,12 +119,6 @@ endif
 # }}}
 
 # keymaps {{{
-noremap <expr> k v:count == 0 ? "gk" : "k"
-noremap <expr> j v:count == 0 ? "gj" : "j"
-noremap <expr> <Up> v:count == 0 ? "gk" : "k"
-noremap <expr> <Down> v:count == 0 ? "gj" : "j"
-inoremap <Up> <C-O>gk
-inoremap <Down> <C-O>gj
 nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " .. (&buftype !=# "terminal" ? (v:count ? "write" : "update") : &modified <Bar><Bar> exists("*jobwait") && jobwait([&channel], 0)[0] == -1 ? "normal! i" : "bdelete!") .. "\r"
 
 # buffer delete {{{
