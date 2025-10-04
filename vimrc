@@ -1,8 +1,5 @@
 vim9script
 
-$v = $HOME .. (has("win32") ? "/vimfiles" : "/.vim")
-$VIMRC = $v .. "/vimrc"
-
 g:mapleader = " "               # 定义<Leader>键
 g:maplocalleader = ";"          # 定义<LocalLeader>键
 
@@ -239,7 +236,6 @@ cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h') .. '/' : '%%'
 
 inoremap <CR> <C-G>u<CR>
 inoremap <C-U> <C-G>u<C-U>
-inoremap / /<C-X><C-F>
 command DiffOrig {
 	vert new
 	set bt=nofile
@@ -430,10 +426,10 @@ g:startify_custom_header = "startify#pad(startify#fortune#boxed())"
 g:startify_session_autoload    = 1
 g:startify_session_persistence = 1
 g:startify_change_to_vcs_root = 1
-g:startify_session_dir = $v .. "/sessions"
+g:startify_session_dir = $MYVIMDIR .. "/sessions"
 g:startify_skiplist = [ "runtime/doc/", "/plugged/.*/doc/", "/.git/" ]
 g:startify_skiplist += [ "/Temp/", "fugitiveblame$" ]
-g:startify_bookmarks = [ { "c": $vimrc } ]
+g:startify_bookmarks = [ { "c": $MYVIMRC } ]
 g:startify_bookmarks += [ { "b": "~/Documents/vault/projects/accounts/main.bean" } ]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read \":help uganda\".", ""]
 

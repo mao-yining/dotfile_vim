@@ -10,18 +10,19 @@ cnoremap <C-S-V> <C-R><C-O>+
 if has("gui_win32")
 	set renderoptions=type:directx
 	set linespace=0
-	# autocmd GUIEnter * simalt ~x
-	# Toggle fullscreen mode by pressing F11
-	noremap! <F11> <Cmd>ToggleFullscreen<CR>
-	noremap  <F11> <Cmd>ToggleFullscreen<CR>
-	# Toggle window transparency to 247 or 180 by pressing F12
-	noremap! <F12> <Cmd>ToggleTransparency<CR>
-	noremap  <F12> <Cmd>ToggleTransparency<CR>
+	$ALPHADLL = $MYVIMDIR .. "gvim_fullscreen.dll"
+	if has("libcall") && filereadable($ALPHADLL)
+		noremap! <expr><F11> libcall($ALPHADLL, "ToggleFullscreen", 0)
+		noremap  <expr><F11> libcall($ALPHADLL, "ToggleFullscreen", 0)
+		noremap! <expr><F12> libcall($ALPHADLL, "ToggleTransparency", "255,180")
+		noremap  <expr><F12> libcall($ALPHADLL, "ToggleTransparency", "255,180")
+	endif
 	augroup mswin_strat | au!
-	# :h w32-experimental-keycode-trans-strategy
-		au VimEnter * test_mswin_event('set_keycode_trans_strategy', {'strategy': 'experimental'})
-	# gVim 的 IME 初始化有问题，临时解决方案。
-	autocmd VimEnter * set imdisable | set noimdisable
+		# autocmd GUIEnter * simalt ~x
+		# :h w32-experimental-keycode-trans-strategy
+		au VimEnter * test_mswin_event("set_keycode_trans_strategy", {strategy: "experimental"})
+		# gVim 的 IME 初始化有问题，临时解决方案。
+		au VimEnter * set imdisable | set noimdisable
 	augroup END
 endif
 
