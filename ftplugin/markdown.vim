@@ -4,7 +4,7 @@ setlocal nolinebreak
 setlocal textwidth=74
 
 def AddFormat(mark: string): string
-	return $"di{mark}\<C-R>\"{mark}\<Esc>"
+	return $"c{mark}\<C-R>\"{mark}\<Esc>"
 enddef
 
 # 创建视觉模式映射

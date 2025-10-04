@@ -3,7 +3,7 @@ vim9script noclear
 # Author: mao-yining
 # Description: a plugin for transparency and fullscreen of gvim.
 # gvim_fullscreen.dll is needed
-# Last Modified: 2025-07-02
+# Last Modified: 2025-10-03
 
 if !has('gui_running') || (!has('win32') && !has('win64'))
 	finish
@@ -24,11 +24,11 @@ if empty(dll)
 endif
 
 def ToggleFullscreen()
-	libcallnr(dll, 'ToggleFullscreen', 0)
+	libcall(dll, 'ToggleFullscreen', 0)
 enddef
 
 def ToggleTransparency()
-	libcallnr(dll, 'ToggleTransparency', "200,255")
+	libcall(dll, 'ToggleTransparency', "200,255")
 enddef
 
 command -nargs=0 ToggleFullscreen call <SID>ToggleFullscreen()

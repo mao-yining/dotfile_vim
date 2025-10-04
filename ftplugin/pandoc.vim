@@ -1,20 +1,22 @@
-vim9script
+vim9script noclear
 
-var input_flags = ['commonmark_x',
-	'+wikilinks_title_after_pipe',
-	'+east_asian_line_breaks',
-]
+g:neoformat_enabled_pandoc = [ "prettier" ]
 
-var target_flags = ['commonmark_x',
-]
+setlocal nolinebreak
+setlocal textwidth=74
 
-var args = [
-	'-f',
-	join(input_flags, ''),
-	'-t',
-	join(target_flags, ''),
-	'-s',
-	'--wrap=auto',
-]
+def AddFormat(mark: string): string
+	return $"c{mark}\<C-R>\"{mark}\<Esc>"
+enddef
 
-g:neoformat_pandoc_pandoc = { exe: "pandoc", args: args, stdin: 1 }
+# 创建视觉模式映射
+xnoremap <expr> <LocalLeader>b AddFormat("**")
+xnoremap <expr> <LocalLeader>i AddFormat("*")
+xnoremap <expr> <LocalLeader>m AddFormat("$")
+xnoremap <expr> <LocalLeader>s AddFormat("~~")
+xnoremap <expr> <LocalLeader>c AddFormat("`")
+xnoremap <expr> <LocalLeader>q AddFormat("`")
+
+iab 》 >
+iab 【 [
+iab 】 ]

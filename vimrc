@@ -13,46 +13,33 @@ set nocompatible
 set t_Co=256                    # 开启256色支持
 set termguicolors               # 在终端上使用与 GUI 一致的颜色
 
+set hidden confirm confirm
 set noerrorbells                # 关闭错误提示
-set nolangremap
-set belloff=all
+set belloff=all shortmess+=cC
 set novb t_vb=
+set nolangremap
 
-set spelllang=en,cjk
+set spelllang=en_gb,cjk
 set langmenu=zh_CN.UTF-8
 set helplang=cn
 set termencoding=utf-8
 set encoding=utf-8
 
-set smoothscroll
-set breakindent
+set display=truncate smoothscroll
+set scrolloff=5
 set colorcolumn=81
 set conceallevel=2
 
-set formatoptions+=mM           # 强制自动换行，应对中文无空格
-set formatoptions+=j            # 按 J 时自动删除注释符号
-set formatoptions+=n            # 识别编号的列表
-set linebreak
-set laststatus=2                # 总是显示状态栏
-set virtualedit=block,onemore
-set noshowmode                  # 设置不打开底部insert
-set switchbuf=useopen,usetab
-set hidden                      # 设置允许在未保存切换buffer
-set nojoinspaces  # suppress inserting two spaces between sentences
-set matchpairs+=<:>             # 设置%匹配<>
+set formatoptions+=mMjn
+set laststatus=2
+set noshowmode
+set matchpairs+=<:>
 set showmatch
 
-set autoindent smartindent      # 智能的选择对其方式
-set shiftwidth=4
-set list
-set listchars=tab:>\ ,trail:~,precedes:<,extends:>,nbsp:␣
-set fillchars+=eob:\            # 去掉buffer后的‘~’符号
-set smarttab                    # 在行和段开始处使用制表符
-set splitbelow
-set splitright
+set splitbelow splitright
+set autoindent smartindent smarttab
 
-set foldmethod=marker
-set foldopen+=jump
+set foldopen+=jump,insert
 set jumpoptions=stack
 
 set grepprg=rg\ --vimgrep\ --smart-case\ \"$*\"
@@ -61,30 +48,40 @@ set cursorline                  # 高亮显示当前行
 set number                      # 开启行号显示
 set relativenumber              # 展示相对行号
 
-set updatetime=300
+set ttimeout ttimeoutlen=100
+set updatetime=400
 set tabpagemax=50
 
 set undofile nobackup nowritebackup
 set autowrite autoread
 
-set hlsearch                    # 高亮显示搜索结果
-set ignorecase smartcase        # 搜索智能匹配大小写
+set hlsearch incsearch ignorecase smartcase
+set number relativenumber cursorline cursorlineopt=number signcolumn=number
+set breakindent breakindentopt=sbr,list:-1 linebreak nojoinspaces
+set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=↪
+set fillchars=fold:\ ,vert:│
+set virtualedit=block
+set nostartofline
+set switchbuf=useopen,usetab
+set fileformat=unix fileformats=unix,dos
+set sidescroll=1 sidescrolloff=3
+set nrformats=bin,hex,unsigned
+set sessionoptions=buffers,curdir,help,tabpages,winsize,slash,terminal,unix
+set diffopt+=algorithm:histogram,linematch:60,inline:word
+set completeopt=menuone,popup,fuzzy completepopup=highlight:Pmenu
+set complete=o^10,.^10,w^5,b^5,u^3,t^3
+set completefuzzycollect=keyword
+set autocomplete
+set mouse=a
 
-set shortmess+=c                # 设置补全静默
-set complete-=i
-set completeopt=fuzzy,menuone,popup
-set completepopup=highlight:Pmenu,border:off
 set wildmenu wildoptions=pum wildcharm=<Tab>
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__
 set wildignore+=*.obsidian,*.svg
 set wildignorecase
-set diffopt+=vertical,indent-heuristic,hiddenoff,algorithm:patience
-set diffopt+=inline:word        # word / char  patch 9.1.1243
-set sessionoptions=buffers,curdir,folds,help,resize,tabpages,winsize,slash,terminal,unix
-set viewoptions=cursor,folds,slash,unix
+set viewoptions=cursor,folds,options,curdir,slash,unix
 
-set clipboard=unnamed
+set clipboard^=unnamed
 
 if has("sodium") && has("patch-9.0.1481")
 	set cryptmethod=xchacha20v2
@@ -119,12 +116,10 @@ endif
 # }}}
 
 # keymaps {{{
-noremap <expr> k v:count == 0 ? "gk" : "k"
-noremap <expr> j v:count == 0 ? "gj" : "j"
-noremap <expr> <Up> v:count == 0 ? "gk" : "k"
-noremap <expr> <Down> v:count == 0 ? "gj" : "j"
-inoremap <Up> <C-O>gk
-inoremap <Down> <C-O>gj
+nnoremap <expr> k v:count == 0 ? "gk" : "k"
+nnoremap <expr> j v:count == 0 ? "gj" : "j"
+xnoremap <expr> k v:count == 0 ? "gk" : "k"
+xnoremap <expr> j v:count == 0 ? "gj" : "j"
 nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " .. (&buftype !=# "terminal" ? (v:count ? "write" : "update") : &modified <Bar><Bar> exists("*jobwait") && jobwait([&channel], 0)[0] == -1 ? "normal! i" : "bdelete!") .. "\r"
 
 # buffer delete {{{
@@ -172,11 +167,6 @@ tnoremap <M-S-J> <C-_>j
 tnoremap <M-S-K> <C-_>k
 
 tnoremap <C-\> <C-\><C-N>
-
-noremap =q <Cmd>copen<CR>
-noremap \q <Cmd>cclose<CR>
-noremap =l <Cmd>lopen<CR>
-noremap \l <Cmd>lclose<CR>
 
 nnoremap L gt
 nnoremap H gT
@@ -230,10 +220,11 @@ def g:FindRoot(): string
 	return null_string
 enddef
 
-noremap U <C-R>
-noremap Y y$
+nnoremap U <C-R>
+nnoremap Y y$
 map Q @@
-noremap gf gF
+sunmap Q
+nnoremap gf gF
 
 cnoremap <C-A> <Home>
 cnoremap <C-B> <Left>
@@ -244,16 +235,39 @@ cnoremap <C-N> <Down>
 cnoremap <C-P> <Up>
 cnoremap <C-S-B> <S-Left>
 cnoremap <C-S-F> <S-Right>
+cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h') .. '/' : '%%'
 
-nmap <C-N> <Cmd>cnext<CR>
-nmap <C-P> <Cmd>cprev<CR>
+inoremap <CR> <C-G>u<CR>
+inoremap <C-U> <C-G>u<C-U>
+inoremap / /<C-X><C-F>
+command DiffOrig {
+	vert new
+	set bt=nofile
+	r ++edit %%
+	:0delete
+	diffthis
+	wincmd p
+	diffthis
+}
 # }}}
 
 # autocmds {{{
 augroup CustomAutocmds
 	autocmd!
-	# 回到上次编辑的位置
-	au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+	autocmd BufReadPost * {
+		var line = line("'\"")
+		if line >= 1 && line <= line("$") && &filetype !~# 'commit'
+				&& index(['xxd', 'gitrebase', 'tutor'], &filetype) == -1
+				&& !&diff
+			execute "normal! g`\""
+		endif
+	}
+
+	autocmd TermResponse * {
+		if v:termresponse == "\e[>0;136;0c"
+			set bg=dark
+		endif
+	}
 
 	# vim -b : 用 xxd-格式编辑二进制文件！
 	autocmd BufReadPre  *.bin,*.exe,*.dll set binary
@@ -306,17 +320,15 @@ augroup CustomAutocmds
 	autocmd QuickfixCmdPost make QfMakeConv()
 
 	autocmd User TermdebugStartPost {
-		ALEDisable
 		nnoremap <nowait> <LocalLeader>g <Cmd>Gdb<CR>
 		nnoremap <nowait> <LocalLeader>p <Cmd>Program<CR>
 		nnoremap <nowait> <LocalLeader>s <Cmd>Source<CR>
 		nnoremap <nowait> <LocalLeader>a <Cmd>Asm<CR>
 		nnoremap <nowait> <LocalLeader>v <Cmd>Var<CR>
-		nnoremap <nowait> <LocalLeader>r <Cmd>Run<CR>
-		nnoremap <nowait> <F3> <Cmd>Break<CR>
+		nnoremap <nowait> <F3> <Cmd>ToggleBreak<CR>
 		nnoremap <nowait> <LocalLeader><F3> <Cmd>TBreak<CR>
 		nnoremap <nowait> <F4> <Cmd>Clear<CR>
-		nnoremap <nowait> <F5> <Cmd>Continue<CR>
+		nnoremap <nowait> <F5> <Cmd>RunOrContinue<CR>
 		nnoremap <nowait> <LocalLeader><F5> <Cmd>Stop<CR>
 		nnoremap <nowait> <Leader><F5> <Cmd>Run<CR>
 		nnoremap <nowait> <F6> <Cmd>Step<CR>
@@ -324,7 +336,6 @@ augroup CustomAutocmds
 		nnoremap <nowait> <F8> <Cmd>Finish<CR>
 	}
 	autocmd User TermdebugStopPost {
-		ALEEnable
 		nunmap <LocalLeader>g
 		nunmap <LocalLeader>p
 		nunmap <LocalLeader>s
@@ -347,14 +358,18 @@ augroup CustomAutocmds
 augroup END
 # }}}
 
-# plugs {{{
-packadd! comment
+# packs {{{
 packadd! cfilter
+packadd! comment
 packadd! editexisting
 packadd! editorconfig
 packadd! helptoc
 packadd! hlyank
+packadd! matchit
 packadd! nohlsearch
+
+nnoremap <Leader>t <Cmd>HelpToc<CR>
+tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
 
 plugpac#Begin({
 	progress_open: "tab",
@@ -447,8 +462,8 @@ g:qline_config = {
 	component: {
 		tasks: () => g:asyncrun_status
 		->matchstr('\(running\|success\|failure\)')
-		->substitute("^success$", "%#String#success%*", "")
-		->substitute("^failure$", "%#Exception#failure%*", ""),
+		->substitute("^success$", "%#Added#success%*", "")
+		->substitute("^failure$", "%#Removed#failure%*", ""),
 		gitbranch: () => fugitive#statusline()->matchstr("(\\zs[^)]*\\ze)"),
 		gitgutter: {
 		content: () =>
@@ -469,17 +484,17 @@ if has("win32")
 endif
 
 Pack "vim-scripts/DrawIt", { on: "DIstart" }
-noremap =d <Cmd>DIstart<CR>
-noremap \d <Cmd>DIstop<CR>
+nmap =d <Cmd>DIstart<CR>
+nmap \d <Cmd>DIstop<CR>
 
 Pack "habamax/vim-dir", { on: "Dir" }
-nnoremap - <Cmd>Dir<CR>
+nmap - <Cmd>Dir<CR>
 
 Pack "lilydjwg/colorizer", { on: "ColorHighlight" }
-noremap =c <Cmd>ColorHighlight<CR>
-noremap \c <Cmd>ColorClear<CR>
+nmap =c <Cmd>ColorHighlight<CR>
+nmap \c <Cmd>ColorClear<CR>
 
-Pack "liuchengxu/vista.vim", { on: "Vista" }
+Pack "liuchengxu/vista.vim"
 g:vista#renderer#enable_icon = false
 nnoremap <silent><LocalLeader>v <Cmd>Vista!!<CR>
 
@@ -504,15 +519,22 @@ inoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
 inoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 #  }}}
 
-Pack "sbdchd/neoformat", { on: "Neoformat"}
-noremap <LocalLeader>f <Cmd>Neoformat<CR>
+Pack "sbdchd/neoformat", { on: "Neoformat"} # Neoformat {{{
+nnoremap <LocalLeader>f <Cmd>Neoformat<CR>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
 g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
 g:neoformat_cpp_clangformat = { exe: "clang-format", args: [ expandcmd('-assume-filename="%"') ], stdin: 1 }
 g:neoformat_c_clangformat = { exe: "clang-format", args: [ expandcmd('-assume-filename="%"') ], stdin: 1 }
 g:neoformat_tex_texfmt = { exe: "tex-fmt", args: [ "--stdin" ], stdin: 1 }
+g:neoformat_pandoc_prettier = {
+	exe: 'prettier',
+	args: ['--stdin-filepath', '"%:p"'],
+	stdin: 1,
+	try_node_exe: 1,
+}
 g:neoformat_enabled_tex = [ "texfmt" ]
+# }}}
 
 Pack "mbbill/undotree", { on: "UndotreeToggle" } # 撤销树
 nnoremap <Leader>u <Cmd>UndotreeToggle<CR>
@@ -523,13 +545,14 @@ nnoremap <Leader>D <Cmd>DevdocsFind<CR>
 
 #  Git {{{
 Pack "tpope/vim-fugitive"
+Pack "tpope/vim-rhubarb", { type: "opt" }
 Pack "junegunn/gv.vim", { on: "GV" }
 nnoremap <Leader>gg <Cmd>Git<CR>
 nnoremap <Leader>gl <Cmd>GV<CR>
-nnoremap <Leader>gL <Cmd>GV!<CR>
 nnoremap <Leader>gcc <Cmd>Git commit -s -v<CR>
 nnoremap <Leader>gca <Cmd>Git commit --amend -v<CR>
 nnoremap <Leader>gce <Cmd>Git commit --amend --no-edit -v<CR>
+nnoremap <Leader>gb <Cmd>Git branch<CR>
 nnoremap <Leader>gs :Git switch<Space>
 nnoremap <Leader>gS :Git stash<Space>
 nnoremap <Leader>gco :Git checkout<Space>
@@ -539,12 +562,14 @@ nnoremap <Leader>gcb <Cmd>Git branch<CR>
 nnoremap <Leader>gp <Cmd>Git! pull<CR>
 nnoremap <Leader>gP <Cmd>Git! push<CR>
 nnoremap <Leader>gM <Cmd>Git mergetool<CR>
-nnoremap <Leader>gd <Cmd>Git diff<CR>
-nnoremap <Leader>gD <Cmd>Git difftool<CR>
-nnoremap <Leader>gB <Cmd>Git branch<CR>
-nnoremap <Leader>gb <Cmd>Git blame<CR>
-nnoremap <Leader>gr <Cmd>Gread<CR>
-nnoremap <Leader>gw <Cmd>Gwrite<CR>
+nnoremap <Leader>gd <Cmd>Git difftool<CR>
+nnoremap <LocalLeader>gl <Cmd>GV!<CR>
+nnoremap <LocalLeader>gd <Cmd>Git diff %<CR>
+nnoremap <LocalLeader>gD <Cmd>Gdiffsplit<CR>
+nnoremap <LocalLeader>gb <Cmd>Git blame<CR>
+nnoremap <LocalLeader>gB <Cmd>GBrowse<CR>
+nnoremap <LocalLeader>gr <Cmd>Gread<CR>
+nnoremap <LocalLeader>gw <Cmd>Gwrite<CR>
 Pack "airblade/vim-gitgutter"
 nnoremap <LocalLeader>hw <Plug>(GitGutterStageHunk)
 nnoremap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
@@ -564,13 +589,22 @@ Pack "rhysd/conflict-marker.vim"
 Pack "vim-utils/vim-man", { on: ["Man", "Mangrep"]}
 Pack "jamessan/vim-gnupg"
 Pack "vimwiki/vimwiki", { for: "vimwiki" }
-Pack "romainl/vim-qf", { for: "qf" }
-Pack "mao-yining/vim-log-highlighting", { for: "log" }
-Pack "bfrg/vim-qf-preview", { on: "<plug>(qf-preview-open)" }
-autocmd FileType qf nmap <buffer>p <Plug>(qf-preview-open)
+Pack "romainl/vim-qf"
+nmap <Home> <Plug>(qf_qf_previous)
+nmap <End>  <Plug>(qf_qf_next)
+nmap <C-Home> <Plug>(qf_loc_previous)
+nmap <C-End>  <Plug>(qf_loc_next)
+nmap <M-s> <Plug>(qf_qf_switch)
+nmap <Leader>q <Plug>(qf_qf_toggle)
+nmap <Leader>l <Plug>(qf_loc_toggle)
+g:qf_mapping_ack_style = 1
+g:qf_shorten_path = 3
+g:qf_number = 1
+Pack "mao-yining/vim-log-highlighting", { type: "opt" }
+au! BufNewFile,BufRead *.log	setfiletype log
 Pack "ubaldot/vim-conda-activate", { on: "CondaActivate" }
 Pack "bfrg/vim-cmake-help", { for: "cmake" }
-Pack "lervag/vimtex", { for: ["tex", "context"], on: "VimtexInverseSearch" }
+Pack "lervag/vimtex"
 g:vimtex_quickfix_autoclose_after_keystrokes = 2
 g:vimtex_quickfix_open_on_warning = 0
 g:vimtex_format_enabled = 1
@@ -581,7 +615,6 @@ g:matchup_override_vimtex = 1
 g:vimtex_view_skim_reading_bar = 1
 g:vimtex_complete_enabled = 1
 g:vimtex_quickfix_mode = 0
-g:tex_flavor = "latex"
 g:vimtex_compiler_latexmk = {
 	aux_dir: "",
 	out_dir: "",
@@ -601,14 +634,17 @@ Pack "junegunn/vim-easy-align", { on: "<Plug>(EasyAlign)" }
 xmap <LocalLeader><Tab> <Plug>(EasyAlign)
 nmap <LocalLeader><Tab> <Plug>(EasyAlign)
 Pack "ferrine/md-img-paste.vim", { for: "markdown" }
-Pack "nathangrigg/vim-beancount", { for: "beancount" }
+Pack "vim-pandoc/vim-pandoc", { type: "opt" }
+Pack 'vim-pandoc/vim-pandoc-syntax', { type: "opt" }
+Pack "nathangrigg/vim-beancount", { type: "opt" }
+au FileType beancount ++once packadd vim-beancount | e
 Pack "normen/vim-pio"
-Pack "tpope/vim-scriptease"
+Pack "tpope/vim-scriptease", { type: "opt" }
 Pack "mhinz/vim-lookup", { for: "vim" }
 Pack "chrisbra/csv.vim", { for: "csv" }
 autocmd FileType vim nnoremap <buffer> <C-]>  <Cmd>call lookup#lookup()<CR>
 autocmd FileType vim nnoremap <buffer> <C-t>  <Cmd>call lookup#pop()<CR>
-# g:filetype_md = "pandoc"
+g:filetype_md = "pandoc"
 g:pandoc#syntax#conceal#use = 1
 g:pandoc#syntax#conceal#urls = 1
 g:pandoc#syntax#codeblocks#ignore = ["definition", "markdown", "md"]
@@ -637,11 +673,12 @@ g:pandoc#syntax#codeblocks#embeds#langs = [
 	"git",
 	"gitcommit",
 	"gitrebase",
+	"diff",
 	"messages",
+	"log",
 	"mermaid",
 ]
-g:markdown_minlines = 500
-Pack "tpope/vim-dadbod", { on: "DB"}
+Pack "tpope/vim-dadbod", { on: "DB" }
 Pack "kristijanhusak/vim-dadbod-ui" # Optional
 # }}}
 
@@ -654,21 +691,7 @@ nnoremap <Leader><F3>  <Plug>VimspectorRunToCursor
 nnoremap <F4>          <Plug>VimspectorAddFunctionBreakpoint
 nnoremap <Leader><F4>  <Plug>VimspectorToggleConditionalBreakpoint
 g:vimspector_enable_winbar = 0
-autocmd User VimspectorDebugEnded g:UnLoadVimspectorMaps()
-autocmd User VimspectorUICreated g:LoadVimspectorMaps()
-def g:LoadVimspectorMaps()
-	nnoremap <Leader><F5>  <Plug>VimspectorStop
-	nnoremap <F6>          <Plug>VimspectorStepOver
-	nnoremap <F7>          <Plug>VimspectorStepInto
-	nnoremap <F8>          <Plug>VimspectorStepOut
-	nnoremap <F9>          <Plug>VimspectorPause
-	nnoremap <F10>         <Plug>VimspectorRestart
-	nnoremap <Leader><F11> <Plug>VimspectorUpFrame
-	nnoremap <Leader><F12> <Plug>VimspectorDownFrame
-	nnoremap <Leader>B     <Plug>VimspectorBreakpoints
-	nnoremap <Leader>D     <Plug>VimspectorDisassemble
-enddef
-def g:UnLoadVimspectorMaps()
+autocmd User VimspectorDebugEnded {
 	if exists("<Leader><F5>")|nunmap <Leader><F5>|endif
 	if exists("<F6>")|nunmap <F6>|endif
 	nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
@@ -679,171 +702,185 @@ def g:UnLoadVimspectorMaps()
 	if exists("<Leader><F12>")|nunmap <Leader><F12>|endif
 	if exists("<Leader>B")|nunmap <Leader>B|endif
 	if exists("<Leader>D")|nunmap <Leader>D|endif
-enddef
+}
+autocmd User VimspectorUICreated {
+	nnoremap <Leader><F5>  <Plug>VimspectorStop
+	nnoremap <F6>          <Plug>VimspectorStepOver
+	nnoremap <F7>          <Plug>VimspectorStepInto
+	nnoremap <F8>          <Plug>VimspectorStepOut
+	nnoremap <F9>          <Plug>VimspectorPause
+	nnoremap <F10>         <Plug>VimspectorRestart
+	nnoremap <Leader><F11> <Plug>VimspectorUpFrame
+	nnoremap <Leader><F12> <Plug>VimspectorDownFrame
+	nnoremap <Leader>B     <Plug>VimspectorBreakpoints
+	nnoremap <Leader>D     <Plug>VimspectorDisassemble
+}
 # }}}
 
-# coc {{{
+# # coc {{{
 Pack "Shougo/neco-vim"
-Pack "neoclide/coc-neco"
-Pack "neoclide/coc.nvim", {"branch": "release"}
-Pack "honza/vim-snippets"
+# Pack "neoclide/coc-neco", { type: "opt" }
+# Pack "neoclide/coc.nvim", { branch: "release", type: "opt" }
+# packadd! coc.nvim
+# packadd! coc-neco
+# Pack "honza/vim-snippets"
 
-# Use tab for trigger completion with characters ahead and navigate
-# NOTE: There's always complete item selected by default, you may want to enable
-# no select by `"suggest.noselect": true` in your configuration file
-# NOTE: Use command ":verbose imap <Tab>" to make sure tab is not mapped by
-# other plugin before putting this into your config
-inoremap <silent><expr> <Tab>
-			\ coc#pum#visible() ? coc#pum#next(1) :
-			\ CheckBackspace() ? "\<Tab>" :
-			\ coc#refresh()
-inoremap <expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<C-H>"
+# # Use tab for trigger completion with characters ahead and navigate
+# # NOTE: There's always complete item selected by default, you may want to enable
+# # no select by `"suggest.noselect": true` in your configuration file
+# # NOTE: Use command ":verbose imap <Tab>" to make sure tab is not mapped by
+# # other plugin before putting this into your config
+# inoremap <silent><expr> <Tab>
+#				\ coc#pum#visible() ? coc#pum#next(1) :
+#				\ CheckBackspace() ? "\<Tab>" :
+#				\ coc#refresh()
+# inoremap <expr><S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<C-H>"
 
-# Make <CR> to accept selected completion item or notify coc.nvim to format
-# <C-g>u breaks current undo, please make your own choice
-# Remove "\<C-R>=coc#on_enter()" as it not used
-inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
-			\ : "\<C-G>u\<CR>"
+# # Make <CR> to accept selected completion item or notify coc.nvim to format
+# # <C-g>u breaks current undo, please make your own choice
+# # Remove "\<C-R>=coc#on_enter()" as it not used
+# inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+#				\ : "\<C-G>u\<CR>"
 
-def CheckBackspace(): bool
-	var col = col(".") - 1
-	return !col || getline(".")[col - 1] =~# "\\s"
-enddef
+# def CheckBackspace(): bool
+#		var col = col(".") - 1
+#		return !col || getline(".")[col - 1] =~# "\\s"
+# enddef
 
-# Use <C-l> for trigger snippet expand.
-imap <C-l> <Plug>(coc-snippets-expand)
+# # Use <C-l> for trigger snippet expand.
+# imap <C-l> <Plug>(coc-snippets-expand)
 
-# Use <C-j> for select text for visual placeholder of snippet.
-vmap <C-j> <Plug>(coc-snippets-select)
+# # Use <C-j> for select text for visual placeholder of snippet.
+# vmap <C-j> <Plug>(coc-snippets-select)
 
-# Use <C-j> for jump to next placeholder, it's default of coc.nvim
-g:coc_snippet_next = "<C-j>"
+# # Use <C-j> for jump to next placeholder, it's default of coc.nvim
+# g:coc_snippet_next = "<C-j>"
 
-# Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-g:coc_snippet_prev = "<C-k>"
+# # Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+# g:coc_snippet_prev = "<C-k>"
 
-# Use <Leader>x for convert visual selected code to snippet
-xmap <Leader>x  <Plug>(coc-convert-snippet)
+# # Use <Leader>x for convert visual selected code to snippet
+# xmap <Leader>x  <Plug>(coc-convert-snippet)
 
-# Use <C-space> to trigger completion
-if has("nvim")
-	inoremap <silent><expr> <C-space> coc#refresh()
-else
-	inoremap <silent><expr> <C-@> coc#refresh()
-endif
+# # Use <C-space> to trigger completion
+# if has("nvim")
+#		inoremap <silent><expr> <C-space> coc#refresh()
+# else
+#		inoremap <silent><expr> <C-@> coc#refresh()
+# endif
 
-# GoTo code navigation
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
+# # GoTo code navigation
+# nmap <silent> gd <Plug>(coc-definition)
+# nmap <silent> gy <Plug>(coc-type-definition)
+# nmap <silent> gi <Plug>(coc-implementation)
+# nmap <silent> gr <Plug>(coc-references)
 
-# Use K to show documentation in preview window
-nnoremap <silent> K <ScriptCmd>ShowDocumentation()<CR>
-command! -nargs=0 Hover call CocAction("doHover")
-def ShowDocumentation()
-	if index(["vim", "help"], &filetype) >= 0
-		execute "help " .. expand("<cword>")
-	elseif &filetype ==# "tex"
-		execute "VimtexDocPackage"
-	else
-		execute "Hover"
-	endif
-enddef
+# # Use K to show documentation in preview window
+# nnoremap <silent> K <ScriptCmd>ShowDocumentation()<CR>
+# command! -nargs=0 Hover call CocAction("doHover")
+# def ShowDocumentation()
+#		if index(["vim", "help"], &filetype) >= 0
+#			execute "help " .. expand("<cword>")
+#		elseif &filetype ==# "tex"
+#			execute "VimtexDocPackage"
+#		else
+#			execute "Hover"
+#		endif
+# enddef
 
-# Highlight the symbol and its references when holding the cursor
-autocmd CursorHold * silent call CocActionAsync("highlight")
+# # Highlight the symbol and its references when holding the cursor
+# autocmd CursorHold * silent call CocActionAsync("highlight")
 
-# Symbol renaming
-nmap <F2> <Plug>(coc-rename)
+# # Symbol renaming
+# nmap <F2> <Plug>(coc-rename)
 
-augroup mygroup
-	autocmd!
-	# Setup formatexpr specified filetype(s)
-	autocmd FileType typescript,json setl formatexpr=CocAction("formatSelected")
-	# Update signature help on jump placeholder
-	autocmd User CocJumpPlaceholder call CocActionAsync("showSignatureHelp")
-augroup end
+# augroup mygroup
+#		autocmd!
+#		# Setup formatexpr specified filetype(s)
+#		autocmd FileType typescript,json setl formatexpr=CocAction("formatSelected")
+#		# Update signature help on jump placeholder
+#		autocmd User CocJumpPlaceholder call CocActionAsync("showSignatureHelp")
+# augroup end
 
-# Applying code actions to the selected code block
-# Example: `<Leader>aap` for current paragraph
-xmap <Leader>a  <Plug>(coc-codeaction-selected)
-nmap <Leader>a  <Plug>(coc-codeaction-selected)
+# # Applying code actions to the selected code block
+# # Example: `<Leader>aap` for current paragraph
+# xmap <Leader>a  <Plug>(coc-codeaction-selected)
+# nmap <Leader>a  <Plug>(coc-codeaction-selected)
 
-# Remap keys for applying code actions at the cursor position
-nmap <Leader>cc  <Plug>(coc-codeaction-cursor)
-# Remap keys for apply code actions affect whole buffer
-nmap <Leader>cs  <Plug>(coc-codeaction-source)
-# Apply the most preferred quickfix action to fix diagnostic on the current line
-nmap <Leader>.  <Plug>(coc-fix-current)
-nmap <Leader>ca  <Plug>(coc-fix-current)
+# # Remap keys for applying code actions at the cursor position
+# nmap <Leader>cc  <Plug>(coc-codeaction-cursor)
+# # Remap keys for apply code actions affect whole buffer
+# nmap <Leader>cs  <Plug>(coc-codeaction-source)
+# # Apply the most preferred quickfix action to fix diagnostic on the current line
+# nmap <Leader>.  <Plug>(coc-fix-current)
+# nmap <Leader>ca  <Plug>(coc-fix-current)
 
-# Remap keys for applying refactor code actions
-xmap <silent> <LocalLeader>r  <Plug>(coc-codeaction-refactor-selected)
-nmap <silent> <LocalLeader>r  <Plug>(coc-codeaction-refactor-selected)
+# # Remap keys for applying refactor code actions
+# xmap <silent> <LocalLeader>r  <Plug>(coc-codeaction-refactor-selected)
+# nmap <silent> <LocalLeader>r  <Plug>(coc-codeaction-refactor-selected)
 
-# Run the Code Lens action on the current line
-nmap <Leader>cl  <Plug>(coc-codelens-action)
+# # Run the Code Lens action on the current line
+# nmap <Leader>cl  <Plug>(coc-codelens-action)
 
-nmap [oI  <Cmd>CocCommand document.enableInlayHint<CR>
-nmap ]oI  <Cmd>CocCommand document.disableInlayHint<CR>
-nmap yoI  <Cmd>CocCommand document.toggleInlayHint<CR>
+# nmap [oI  <Cmd>CocCommand document.enableInlayHint<CR>
+# nmap ]oI  <Cmd>CocCommand document.disableInlayHint<CR>
+# nmap yoI  <Cmd>CocCommand document.toggleInlayHint<CR>
 
-# Map function and class text objects
-# NOTE: Requires "textDocument.documentSymbol" support from the language server
-xmap if <Plug>(coc-funcobj-i)
-omap if <Plug>(coc-funcobj-i)
-xmap af <Plug>(coc-funcobj-a)
-omap af <Plug>(coc-funcobj-a)
-xmap ic <Plug>(coc-classobj-i)
-omap ic <Plug>(coc-classobj-i)
-xmap ac <Plug>(coc-classobj-a)
-omap ac <Plug>(coc-classobj-a)
+# # Map function and class text objects
+# # NOTE: Requires "textDocument.documentSymbol" support from the language server
+# xmap if <Plug>(coc-funcobj-i)
+# omap if <Plug>(coc-funcobj-i)
+# xmap af <Plug>(coc-funcobj-a)
+# omap af <Plug>(coc-funcobj-a)
+# xmap ic <Plug>(coc-classobj-i)
+# omap ic <Plug>(coc-classobj-i)
+# xmap ac <Plug>(coc-classobj-a)
+# omap ac <Plug>(coc-classobj-a)
 
-# Remap <C-f> and <C-b> to scroll float windows/popups
-if has("nvim-0.4.0") || has("patch-8.2.0750")
-	nnoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-F>"
-	nnoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-B>"
-	inoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? "\<C-R>=coc#float#scroll(1)\<CR>" : "\<Right>"
-	inoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? "\<C-R>=coc#float#scroll(0)\<CR>" : "\<Left>"
-	vnoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-F>"
-	vnoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-B>"
-endif
+# # Remap <C-f> and <C-b> to scroll float windows/popups
+# if has("nvim-0.4.0") || has("patch-8.2.0750")
+#		nnoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-F>"
+#		nnoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-B>"
+#		inoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? "\<C-R>=coc#float#scroll(1)\<CR>" : "\<Right>"
+#		inoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? "\<C-R>=coc#float#scroll(0)\<CR>" : "\<Left>"
+#		vnoremap <silent><nowait><expr> <C-F> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-F>"
+#		vnoremap <silent><nowait><expr> <C-B> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-B>"
+# endif
 
-# Use CTRL-S for selections ranges
-# Requires "textDocument/selectionRange" support of language server
-nmap <silent> <C-S> <Plug>(coc-range-select)
-xmap <silent> <C-S> <Plug>(coc-range-select)
+# # Use CTRL-S for selections ranges
+# # Requires "textDocument/selectionRange" support of language server
+# nmap <silent> <C-S> <Plug>(coc-range-select)
+# xmap <silent> <C-S> <Plug>(coc-range-select)
 
-# Add `:Format` command to format current buffer
-command! -nargs=0 Format call CocActionAsync("format")
+# # Add `:Format` command to format current buffer
+# command! -nargs=0 Format call CocActionAsync("format")
 
-# Add `:Fold` command to fold current buffer
-command! -nargs=? Fold call CocAction("fold", <f-args>)
+# # Add `:Fold` command to fold current buffer
+# command! -nargs=? Fold call CocAction("fold", <f-args>)
 
-# Add `:OR` command for organize imports of the current buffer
-command! -nargs=0 OR   call CocActionAsync("runCommand", "editor.action.organizeImport")
+# # Add `:OR` command for organize imports of the current buffer
+# command! -nargs=0 OR   call CocActionAsync("runCommand", "editor.action.organizeImport")
 
-nnoremap <Leader>e  <Cmd>CocCommand explorer<CR>
+# nnoremap <Leader>e  <Cmd>CocCommand explorer<CR>
 
-# Mappings for CoCList
-nnoremap <Leader><Space> <Cmd>CocList files<CR>
-nnoremap <Leader>o  <Cmd>CocList outline<CR>
-nnoremap <Leader>s  <Cmd>CocList symbols<CR>
-nnoremap <Leader>j  <Cmd>CocNext<CR>
-nnoremap <Leader>k  <Cmd>CocPrev<CR>
-nnoremap <Leader>p  <Cmd>CocListResume<CR>
-nnoremap <Leader>b <Cmd>CocList buffers<CR>
-nnoremap <Leader>; <Cmd>CocList commands<CR>
-nnoremap <Leader>f <Cmd>CocList grep<CR>
-nnoremap <Leader>h <Cmd>CocList helptags<CR>
-nnoremap <Leader>r <Cmd>CocList mru<CR>
-nnoremap <Leader>m <Cmd>CocList marketplace<CR>
-nnoremap <Leader>t <Cmd>CocList tasks<CR>
-# }}}
+# # Mappings for CoCList
+# nnoremap <Leader><Space> <Cmd>CocList files<CR>
+# nnoremap <Leader>o  <Cmd>CocList outline<CR>
+# nnoremap <Leader>s  <Cmd>CocList symbols<CR>
+# nnoremap <Leader>j  <Cmd>CocNext<CR>
+# nnoremap <Leader>k  <Cmd>CocPrev<CR>
+# nnoremap <Leader>p  <Cmd>CocListResume<CR>
+# nnoremap <Leader>b <Cmd>CocList buffers<CR>
+# nnoremap <Leader>; <Cmd>CocList commands<CR>
+# nnoremap <Leader>f <Cmd>CocList grep<CR>
+# nnoremap <Leader>h <Cmd>CocList helptags<CR>
+# nnoremap <Leader>r <Cmd>CocList mru<CR>
+# nnoremap <Leader>m <Cmd>CocList marketplace<CR>
+# nnoremap <Leader>t <Cmd>CocList tasks<CR>
+# # }}}
 
 # ALE {{{
-Pack "dense-analysis/ale"
+Pack "dense-analysis/ale", { type: "opt" }
 
 g:ale_sign_column_always = true
 g:ale_disable_lsp = true
@@ -861,14 +898,6 @@ g:ale_linters = {
 	cpp: ["cc", "clangtidy", "cppcheck", "cpplint"],
 	tex: ["chktex"],
 }
-autocmd VimEnter * hi clear SpellBad
-autocmd VimEnter * hi clear SpellCap
-autocmd VimEnter * hi clear SpellLocal
-autocmd VimEnter * hi clear SpellRare
-autocmd VimEnter * hi SpellBad gui=undercurl guisp=LightRed term=undercurl
-autocmd VimEnter * hi SpellCap gui=undercurl guisp=LightYellow term=undercurl
-autocmd VimEnter * hi SpellLocal gui=undercurl guisp=LightBlue term=undercurl
-autocmd VimEnter * hi SpellRare gui=undercurl guisp=LightGreen term=undercurl
 autocmd VimEnter,Colorscheme * hi ALEVirtualTextError   ctermfg=12 ctermbg=16 guifg=#ff0000 guibg=#1E1E2E
 autocmd VimEnter,Colorscheme * hi ALEVirtualTextWarning ctermfg=6  ctermbg=16 guifg=#ff922b guibg=#1E1E2E
 autocmd VimEnter,Colorscheme * hi ALEVirtualTextInfo    ctermfg=14 ctermbg=16 guifg=#fab005 guibg=#1E1E2E
@@ -884,25 +913,21 @@ nmap <silent> <LocalLeader>tl <Cmd>TestLast<CR>
 nmap <silent> <LocalLeader>tv <Cmd>TestVisit<CR>
 g:test#strategy = "vimterminal"
 Pack "junegunn/vader.vim", { for: "vader", on: "Vader" }
-autocmd FileType vader nnoremap <buffer><silent> K K
 autocmd BufRead,BufNewFile *.vader setfiletype vader
 # }}}
 
 # competitest {{{
 Pack "mao-yining/competitest.vim"
 g:competitest_configs = {
-	multiple_testing: 1,
+	# multiple_testing: 1,
 	output_compare_method: (output: string, expout: string) => {
-		def SquishString(str: string): string
-			var res = str
-			res = substitute(res, '\s*\n', '\n', 'g') # 去除行尾空格
-			res = substitute(res, '^\s*', '', '')     # 删除开头的所有空白字符
-			res = substitute(res, '\s*$', '', '')     # 删除结尾的所有空白字符
-			return res
+		def TrimString(str: string): string
+			return str
+				->substitute('\s*\n', '\n', 'g') # 去除行尾空格
+				->substitute('^\s*', '', '')     # 删除开头的所有空白字符
+				->substitute('\s*$', '', '')     # 删除结尾的所有空白字符
 		enddef
-		var _output = SquishString(output)
-		var _expout = SquishString(expout)
-		return _output == _expout
+		return TrimString(output) == TrimString(expout)
 	},
 	testcases_input_file_format: "$(FNOEXT)$(TCNUM).in",
 	testcases_output_file_format: "$(FNOEXT)$(TCNUM).ans",
@@ -920,8 +945,8 @@ g:competitest_configs = {
 			contest = strpart(task.group, hyphen + 3)
 		endif
 
-		var safe_contest = substitute(substitute(contest, '[<>:"/\\|?*]', '_', 'g'), '#', '', 'g')
-		var safe_name = substitute(substitute(task.name, '[<>:"/\\|?*]', '_', 'g'), '#', '', 'g')
+		const safe_contest = substitute(substitute(contest, '[<>:"/\\|?*]', '_', 'g'), '#', '', 'g')
+		const safe_name = substitute(substitute(task.name, '[<>:"/\\|?*]', '_', 'g'), '#', '', 'g')
 
 		return printf(
 			"D:/Competitive-Programming/%s/%s/%s/_.%s",
@@ -936,12 +961,144 @@ g:competitest_configs = {
 }
 # }}}
 
+Pack "vim/colorschemes"
+
+# # vim9lsp {{{
+Pack 'yegappan/lsp', { type: "opt" }
+Pack 'hrsh7th/vim-vsnip', { type: "opt" }
+Pack 'hrsh7th/vim-vsnip-integ', { type: "opt" }
+Pack 'rafamadriz/friendly-snippets', { type: "opt" }
+Pack 'girishji/vimcomplete', { type: "opt" }
+# Pack 'SirVer/ultisnips', { type: "opt" }
+packadd! lsp
+packadd! vim-vsnip
+packadd! vim-vsnip-integ
+packadd! friendly-snippets
+# packadd! vimcomplete
+Pack 'girishji/scope.vim', { on: 'Scope', type: "opt" } # {{{
+nnoremap <Leader>b <Cmd>Scope Buffer<CR>
+nnoremap <Leader>; <Cmd>Scope commands<CR>
+nnoremap <Leader><Space> <Cmd>Scope File<CR>
+nnoremap <Leader>f <Cmd>Scope Grep<CR>
+nnoremap <Leader>h <Cmd>Scope Help<CR>
+nnoremap <Leader>r <Cmd>Scope MRU<CR>
+nnoremap <Leader>s <Cmd>Scope LspDocumentSymbol<CR>
+
+# }}}
+
+
+var lspOpts = { # {{{
+	aleSupport: false,
+	autoComplete: false,
+	autoHighlight: false,
+	autoHighlightDiags: true,
+	autoPopulateDiags: false,
+	completionMatcher: 'case',
+	completionMatcherValue: 1,
+	diagSignErrorText: 'E>',
+	diagSignHintText: 'H>',
+	diagSignInfoText: 'I>',
+	diagSignWarningText: 'W>',
+	echoSignature: false,
+	hideDisabledCodeActions: false,
+	highlightDiagInline: true,
+	hoverInPreview: false,
+	ignoreMissingServer: true,
+	keepFocusInDiags: true,
+	keepFocusInReferences: true,
+	completionTextEdit: true,
+	diagVirtualTextAlign: 'above',
+	diagVirtualTextWrap: 'default',
+	noNewlineInCompletion: false,
+	omniComplete: true,
+	outlineOnRight: false,
+	outlineWinSize: 20,
+	popupBorder: true,
+	popupBorderHighlight: 'Title',
+	popupBorderHighlightPeek: 'Special',
+	popupBorderSignatureHelp: false,
+	popupHighlightSignatureHelp: 'Pmenu',
+	popupHighlight: 'Normal',
+	semanticHighlight: true,
+	showDiagInBalloon: true,
+	showDiagInPopup: true,
+	showDiagOnStatusLine: false,
+	showDiagWithSign: true,
+	showDiagWithVirtualText: false,
+	showInlayHints: true,
+	showSignature: true,
+	snippetSupport: false,
+	ultisnipsSupport: false,
+	useBufferCompletion: false,
+	usePopupInCodeAction: false,
+	useQuickfixForLocations: false,
+	vsnipSupport: true,
+	bufferCompletionTimeout: 100,
+	customCompletionKinds: false,
+	completionKinds: {},
+	filterCompletionDuplicates: false,
+	condensedCompletionMenu: false,
+}
+autocmd User LspSetup call LspOptionsSet(lspOpts) # }}}
+
+var lspServers = [
+	{ filetype: ['c', 'cpp'], path: 'clangd', args: ['--background-index'] },
+	{ filetype: 'python', path: 'pyright-langserver.cmd', args: ['--stdio'], workspaceConfig: { python: { pythonPath: 'python' } } },
+	{ filetype: 'rust', path: 'rust-analyzer' },
+	{ filetype: ['tex', 'bib'], path: 'texlab'},
+	{ filetype: 'vim', path: 'vim-language-server.cmd', args: ['--stdio'] },
+	{ filetype: 'rust', path: 'rust-analyzer', syncInit: true },
+	{ filetype: ['markdown', 'pandoc'], path: 'marksman', args: ['server'], syncInit: true },
+	# { filetype: ['markdown', 'pandoc'], path: 'vscode-markdown-language-server.cmd', args: ['--stdio'] }
+]
+autocmd User LspSetup call LspAddServer(lspServers)
+nmap <silent> gd <Cmd>LspGotoDefinition<CR>
+nmap <silent> gy <Cmd>LspGotoTypeDef<CR>
+nmap <silent> gi <Cmd>LspGotoImpl<CR>
+nmap <silent> gr <Cmd>LspPeekReferences<CR>
+nmap <silent> yoI <Cmd>LspInlayHints toggle<CR>
+set keywordprg=:LspHover
+au FileType vim,help,colortemplate setlocal keywordprg=:help
+au FileType tex setlocal keywordprg=:VimtexDocPackage
+
+inoremap <expr> <C-l>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+snoremap <expr> <C-l>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
+inoremap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+snoremap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
+inoremap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+snoremap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
+inoremap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+snoremap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+nmap        <C-S>   <Plug>(vsnip-select-text)
+xmap        <C-S>   <Plug>(vsnip-select-text)
+nmap        <C-S-S> <Plug>(vsnip-cut-text)
+xmap        <C-S-S> <Plug>(vsnip-cut-text)
+
+var options = {
+	completor: { shuffleEqualPriority: true, postfixHighlight: true },
+	buffer: { enable: true, priority: 10, urlComplete: true, envComplete: true },
+	abbrev: { enable: true, priority: 10 },
+	lsp: { enable: true, priority: 10, maxCount: 5 },
+	omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
+	vsnip: { enable: true, priority: 11 },
+	vimscript: { enable: true, priority: 11 },
+	ngram: {
+		enable: true,
+		priority: 10,
+		bigram: false,
+		filetypes: ['text', 'help', 'markdown'],
+		filetypesComments: ['c', 'cpp', 'python', 'java'],
+	},
+}
+# autocmd VimEnter * g:VimCompleteOptionsSet(options)
+# }}}
+
 plugpac#End() # }}}
 
+colorscheme catppuccin
 if &background == 'dark'
-	silent! colorscheme catppuccin_mocha
 	g:qline_config.colorscheme = 'airline:catppuccin_mocha'
 else
-	silent! colorscheme catppuccin_latte
 	g:qline_config.colorscheme = 'airline:catppuccin_latte'
 endif
+# vim:fdm=marker
