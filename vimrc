@@ -10,10 +10,8 @@ set nocompatible
 set t_Co=256                    # 开启256色支持
 set termguicolors               # 在终端上使用与 GUI 一致的颜色
 
-set hidden confirm confirm
-set noerrorbells                # 关闭错误提示
+set hidden confirm
 set belloff=all shortmess+=cC
-set novb t_vb=
 set nolangremap
 
 set spelllang=en_gb,cjk
@@ -22,7 +20,8 @@ set helplang=cn
 set termencoding=utf-8
 set encoding=utf-8
 
-set display=truncate smoothscroll
+set history=10000
+set display=lastline smoothscroll
 set scrolloff=5
 set colorcolumn=81
 set conceallevel=2
@@ -41,12 +40,11 @@ set jumpoptions=stack
 
 set grepprg=rg\ --vimgrep\ --smart-case\ \"$*\"
 set grepformat=%f:%l:%c:%m
-set cursorline                  # 高亮显示当前行
-set number                      # 开启行号显示
-set relativenumber              # 展示相对行号
+set ruler
 
-set ttimeout ttimeoutlen=100
+set ttimeout ttimeoutlen=50
 set updatetime=400
+set tags=./tags;,tags
 set tabpagemax=50
 
 set undofile nobackup nowritebackup
@@ -54,12 +52,12 @@ set autowrite autoread
 
 set hlsearch incsearch ignorecase smartcase
 set number relativenumber cursorline cursorlineopt=number signcolumn=number
-set breakindent breakindentopt=sbr,list:-1 linebreak nojoinspaces
-set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:… showbreak=↪
-set fillchars=fold:\ ,vert:│
+set breakindent linebreak nojoinspaces
+set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
+set fillchars=vert:│,fold:·,foldsep:│
 set virtualedit=block
 set nostartofline
-set switchbuf=useopen,usetab
+set switchbuf=uselast
 set fileformat=unix fileformats=unix,dos
 set sidescroll=1 sidescrolloff=3
 set nrformats=bin,hex,unsigned
@@ -71,12 +69,12 @@ set completefuzzycollect=keyword
 set autocomplete
 set mouse=a
 
-set wildmenu wildoptions=pum wildcharm=<Tab>
+set wildmenu wildoptions=pum,tagfile wildcharm=<Tab>
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__
 set wildignore+=*.obsidian,*.svg
 set wildignorecase
-set viewoptions=cursor,folds,options,curdir,slash,unix
+set viewoptions=cursor,folds,curdir,slash,unix
 
 set clipboard^=unnamed
 
@@ -98,9 +96,9 @@ elseif exists("+undodir") && !has("nvim-0.5")
 	else
 		$DATA_HOME = expand("~/.local/share/vim/")
 	endif
-	&undodir = $DATA_HOME .. "undo//"
-	&directory = $DATA_HOME .. "swap//"
-	&backupdir = $DATA_HOME .. "backup//"
+	&undodir = $DATA_HOME .. "undo/"
+	&directory = $DATA_HOME .. "swap/"
+	&backupdir = $DATA_HOME .. "backup/"
 	if !isdirectory(&undodir) | mkdir(&undodir, "p") | endif
 	if !isdirectory(&directory) | mkdir(&directory, "p") | endif
 	if !isdirectory(&backupdir) | mkdir(&backupdir, "p") | endif
@@ -120,8 +118,8 @@ xnoremap <expr> j v:count == 0 ? "gj" : "j"
 nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " .. (&buftype !=# "terminal" ? (v:count ? "write" : "update") : &modified <Bar><Bar> exists("*jobwait") && jobwait([&channel], 0)[0] == -1 ? "normal! i" : "bdelete!") .. "\r"
 
 # buffer delete {{{
-nnoremap =b <Cmd>enew<CR>
-nnoremap \b <ScriptCmd>CloseBuf()<CR>
+nmap =b <Cmd>enew<CR>
+nmap \b <ScriptCmd>CloseBuf()<CR>
 def CloseBuf()
 	if &bt != null_string || &ft == "netrw"|bd|return|endif
 	var buf_now = bufnr()
@@ -144,33 +142,33 @@ enddef
 # }}}
 
 # reload .vimrc
-nnoremap <Leader>S <Cmd>set nossl<CR><Cmd>source $MYVIMRC<CR><Cmd>set ssl<CR>
+nmap <Leader>S <Cmd>set nossl<CR><Cmd>source $MYVIMRC<CR><Cmd>set ssl<CR>
 
 # change window width
-noremap <C-Up> <C-W>+
-noremap <C-Down> <C-W>-
-noremap <C-Left> <C-W><
-noremap <C-Right> <C-W>>
+map <C-Up> <C-W>+
+map <C-Down> <C-W>-
+map <C-Left> <C-W><
+map <C-Right> <C-W>>
 
 # change window in normal
 nmap <Leader>w <C-w>
-noremap  <M-S-K> <C-w>k
-noremap  <M-S-J> <C-w>j
-noremap  <M-S-H> <C-w>h
-noremap  <M-S-L> <C-w>l
-tnoremap <M-S-H> <C-_>h
-tnoremap <M-S-L> <C-_>l
-tnoremap <M-S-J> <C-_>j
-tnoremap <M-S-K> <C-_>k
+map  <M-S-K> <C-w>k
+map  <M-S-J> <C-w>j
+map  <M-S-H> <C-w>h
+map  <M-S-L> <C-w>l
+tmap <M-S-H> <C-_>h
+tmap <M-S-L> <C-_>l
+tmap <M-S-J> <C-_>j
+tmap <M-S-K> <C-_>k
 
 tnoremap <C-\> <C-\><C-N>
 
-nnoremap L gt
-nnoremap H gT
-nnoremap =<Tab> <Cmd>tabnew<CR>
+nmap L gt
+nmap H gT
+nmap =<Tab> <Cmd>tabnew<CR>
 
 for i in range(10)
-	execute($"noremap <M-{i}> <Cmd> tabn {i == 0 ? 10 : i}<CR>")
+	execute($"map <M-{i}> <Cmd> tabn {i == 0 ? 10 : i}<CR>")
 endfor
 
 def Tab_MoveLeft()
@@ -185,18 +183,18 @@ def Tab_MoveRight()
 		exec 'tabmove ' .. tabnr
 	endif
 enddef
-noremap <silent><M-Left> <ScriptCmd>Tab_MoveLeft()<CR>
-noremap <silent><M-Right> <ScriptCmd>Tab_MoveRight()<CR>
+map <M-Left> <ScriptCmd>Tab_MoveLeft()<CR>
+map <M-Right> <ScriptCmd>Tab_MoveRight()<CR>
 
 # select search / substitute
 xmap g/ "sy/<C-R>s
 xmap gs "sy:%s/<C-R>s/
 
-onoremap A <Cmd>normal! ggVG<CR>
-xnoremap A <Cmd>normal! ggVG<CR>
+omap A <Cmd>normal! ggVG<CR>
+xmap A <Cmd>normal! ggVG<CR>
 # visual-block
 autocmd ModeChanged *:[\x16] xunmap A
-autocmd ModeChanged [\x16]:* xnoremap A :<C-U>normal! ggVG<CR>
+autocmd ModeChanged [\x16]:* xmap A :<C-U>normal! ggVG<CR>
 
 # sudo to write file
 cab w!! w !sudo tee % >/dev/null
@@ -217,11 +215,11 @@ def g:FindRoot(): string
 	return null_string
 enddef
 
-nnoremap U <C-R>
-nnoremap Y y$
+nmap U <C-R>
+nmap Y y$
 map Q @@
 sunmap Q
-nnoremap gf gF
+nmap gf gF
 
 cnoremap <C-A> <Home>
 cnoremap <C-B> <Left>
@@ -316,20 +314,20 @@ augroup CustomAutocmds
 	autocmd QuickfixCmdPost make QfMakeConv()
 
 	autocmd User TermdebugStartPost {
-		nnoremap <nowait> <LocalLeader>g <Cmd>Gdb<CR>
-		nnoremap <nowait> <LocalLeader>p <Cmd>Program<CR>
-		nnoremap <nowait> <LocalLeader>s <Cmd>Source<CR>
-		nnoremap <nowait> <LocalLeader>a <Cmd>Asm<CR>
-		nnoremap <nowait> <LocalLeader>v <Cmd>Var<CR>
-		nnoremap <nowait> <F3> <Cmd>ToggleBreak<CR>
-		nnoremap <nowait> <LocalLeader><F3> <Cmd>TBreak<CR>
-		nnoremap <nowait> <F4> <Cmd>Clear<CR>
-		nnoremap <nowait> <F5> <Cmd>RunOrContinue<CR>
-		nnoremap <nowait> <LocalLeader><F5> <Cmd>Stop<CR>
-		nnoremap <nowait> <Leader><F5> <Cmd>Run<CR>
-		nnoremap <nowait> <F6> <Cmd>Step<CR>
-		nnoremap <nowait> <F7> <Cmd>Over<CR>
-		nnoremap <nowait> <F8> <Cmd>Finish<CR>
+		nmap <nowait> <LocalLeader>g <Cmd>Gdb<CR>
+		nmap <nowait> <LocalLeader>p <Cmd>Program<CR>
+		nmap <nowait> <LocalLeader>s <Cmd>Source<CR>
+		nmap <nowait> <LocalLeader>a <Cmd>Asm<CR>
+		nmap <nowait> <LocalLeader>v <Cmd>Var<CR>
+		nmap <nowait> <F3> <Cmd>ToggleBreak<CR>
+		nmap <nowait> <LocalLeader><F3> <Cmd>TBreak<CR>
+		nmap <nowait> <F4> <Cmd>Clear<CR>
+		nmap <nowait> <F5> <Cmd>RunOrContinue<CR>
+		nmap <nowait> <LocalLeader><F5> <Cmd>Stop<CR>
+		nmap <nowait> <Leader><F5> <Cmd>Run<CR>
+		nmap <nowait> <F6> <Cmd>Step<CR>
+		nmap <nowait> <F7> <Cmd>Over<CR>
+		nmap <nowait> <F8> <Cmd>Finish<CR>
 	}
 	autocmd User TermdebugStopPost {
 		nunmap <LocalLeader>g
@@ -364,8 +362,8 @@ packadd! hlyank
 packadd! matchit
 packadd! nohlsearch
 
-nnoremap <Leader>t <Cmd>HelpToc<CR>
-tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
+nmap <Leader>t <Cmd>HelpToc<CR>
+tmap <C-t><C-t> <Cmd>HelpToc<CR>
 
 plugpac#Begin({
 	progress_open: "tab",
@@ -375,10 +373,6 @@ plugpac#Begin({
 Pack "catppuccin/vim", { name: "catppuccin" }
 Pack "k-takata/minpac", { type: "opt" }
 Pack "yianwillis/vimcdoc"
-
-# if has("gui_running") && has("win32")
-#		# Plug "stillwwater/wincap.vim" # 根据背景颜色修改标题栏
-# endif
 
 # coding {{{
 Pack "kshenoy/vim-signature"      # show marks
@@ -398,12 +392,12 @@ Pack "Andrewradev/switch.vim"
 g:speeddating_no_mappings = 1
 nnoremap <Plug>SpeedDatingFallbackUp <C-A>
 nnoremap <Plug>SpeedDatingFallbackDown <C-X>
-nnoremap <silent><C-A> <Cmd>if !switch#Switch() <Bar> call speeddating#increment(v:count1) <Bar> endif<CR>
-nnoremap <silent><C-X> <Cmd>if !switch#Switch({"reverse": 1}) <Bar> call speeddating#increment(-v:count1) <Bar> endif<CR>
+nnoremap <C-A> <Cmd>if !switch#Switch() <Bar> call speeddating#increment(v:count1) <Bar> endif<CR>
+nnoremap <C-X> <Cmd>if !switch#Switch({"reverse": 1}) <Bar> call speeddating#increment(-v:count1) <Bar> endif<CR>
 Pack "voldikss/vim-browser-search", { on: ["<Plug>SearchNormal", "<Plug>SearchVisual"] }
 g:browser_search_default_engine = "bing"
-nmap <silent> <LocalLeader>S <Plug>SearchNormal
-vmap <silent> <LocalLeader>S <Plug>SearchVisual
+nmap <LocalLeader>S <Plug>SearchNormal
+vmap <LocalLeader>S <Plug>SearchVisual
 # }}}
 
 # ui {{{
@@ -492,7 +486,7 @@ nmap \c <Cmd>ColorClear<CR>
 
 Pack "liuchengxu/vista.vim"
 g:vista#renderer#enable_icon = false
-nnoremap <silent><LocalLeader>v <Cmd>Vista!!<CR>
+nmap <LocalLeader>v <Cmd>Vista!!<CR>
 
 Pack "dstein64/vim-startuptime", {on: "StartupTime"}
 
@@ -501,22 +495,23 @@ Pack "skywind3000/asyncrun.vim"
 Pack "skywind3000/asynctasks.vim"
 g:asynctasks_term_pos = "external" # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况
-g:asyncrun_save = 1
+g:asyncrun_save = true
+g:asyncrun_bell = true
 if has("win32")
 	g:asyncrun_encs = "cp936"
 endif
-noremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-noremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-noremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
-noremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
-inoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-inoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-inoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
-inoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+map <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+map <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+map <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+map <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+imap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+imap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+imap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+imap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 #  }}}
 
 Pack "sbdchd/neoformat", { on: "Neoformat"} # Neoformat {{{
-nnoremap <LocalLeader>f <Cmd>Neoformat<CR>
+nmap <LocalLeader>f <Cmd>Neoformat<CR>
 g:neoformat_basic_format_align = 1 # Enable alignment
 g:neoformat_basic_format_retab = 1 # Enable tab to spaces conversion
 g:neoformat_basic_format_trim = 1  # Enable trimmming of trailing whitespace
@@ -533,49 +528,49 @@ g:neoformat_enabled_tex = [ "texfmt" ]
 # }}}
 
 Pack "mbbill/undotree", { on: "UndotreeToggle" } # 撤销树
-nnoremap <Leader>u <Cmd>UndotreeToggle<CR>
+nmap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
 
 Pack "girishji/devdocs.vim", { on: [ "DevdocsFind", "DevdocsInstall" ] }
-nnoremap <Leader>D <Cmd>DevdocsFind<CR>
+nmap <Leader>D <Cmd>DevdocsFind<CR>
 
 #  Git {{{
 Pack "tpope/vim-fugitive"
 Pack "tpope/vim-rhubarb", { type: "opt" }
 Pack "junegunn/gv.vim", { on: "GV" }
-nnoremap <Leader>gg <Cmd>Git<CR>
-nnoremap <Leader>gl <Cmd>GV<CR>
-nnoremap <Leader>gcc <Cmd>Git commit -s -v<CR>
-nnoremap <Leader>gca <Cmd>Git commit --amend -v<CR>
-nnoremap <Leader>gce <Cmd>Git commit --amend --no-edit -v<CR>
-nnoremap <Leader>gb <Cmd>Git branch<CR>
-nnoremap <Leader>gs :Git switch<Space>
-nnoremap <Leader>gS :Git stash<Space>
-nnoremap <Leader>gco :Git checkout<Space>
-nnoremap <Leader>gcp :Git cherry-pick<Space>
-nnoremap <Leader>gm :Git merge<Space>
-nnoremap <Leader>gcb <Cmd>Git branch<CR>
-nnoremap <Leader>gp <Cmd>Git! pull<CR>
-nnoremap <Leader>gP <Cmd>Git! push<CR>
-nnoremap <Leader>gM <Cmd>Git mergetool<CR>
-nnoremap <Leader>gd <Cmd>Git difftool<CR>
-nnoremap <LocalLeader>gl <Cmd>GV!<CR>
-nnoremap <LocalLeader>gd <Cmd>Git diff %<CR>
-nnoremap <LocalLeader>gD <Cmd>Gdiffsplit<CR>
-nnoremap <LocalLeader>gb <Cmd>Git blame<CR>
-nnoremap <LocalLeader>gB <Cmd>GBrowse<CR>
-nnoremap <LocalLeader>gr <Cmd>Gread<CR>
-nnoremap <LocalLeader>gw <Cmd>Gwrite<CR>
+nmap <Leader>gg <Cmd>Git<CR>
+nmap <Leader>gl <Cmd>GV<CR>
+nmap <Leader>gcc <Cmd>Git commit -s -v<CR>
+nmap <Leader>gca <Cmd>Git commit --amend -v<CR>
+nmap <Leader>gce <Cmd>Git commit --amend --no-edit -v<CR>
+nmap <Leader>gb <Cmd>Git branch<CR>
+nmap <Leader>gs :Git switch<Space>
+nmap <Leader>gS :Git stash<Space>
+nmap <Leader>gco :Git checkout<Space>
+nmap <Leader>gcp :Git cherry-pick<Space>
+nmap <Leader>gm :Git merge<Space>
+nmap <Leader>gcb <Cmd>Git branch<CR>
+nmap <Leader>gp <Cmd>Git! pull<CR>
+nmap <Leader>gP <Cmd>Git! push<CR>
+nmap <Leader>gM <Cmd>Git mergetool<CR>
+nmap <Leader>gd <Cmd>Git difftool<CR>
+nmap <LocalLeader>gl <Cmd>GV!<CR>
+nmap <LocalLeader>gd <Cmd>Git diff %<CR>
+nmap <LocalLeader>gD <Cmd>Gdiffsplit<CR>
+nmap <LocalLeader>gb <Cmd>Git blame<CR>
+nmap <LocalLeader>gB <Cmd>GBrowse<CR>
+nmap <LocalLeader>gr <Cmd>Gread<CR>
+nmap <LocalLeader>gw <Cmd>Gwrite<CR>
 Pack "airblade/vim-gitgutter"
-nnoremap <LocalLeader>hw <Plug>(GitGutterStageHunk)
-nnoremap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
-nnoremap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
-onoremap ih <Plug>(GitGutterTextObjectInnerPending)
-onoremap ah <Plug>(GitGutterTextObjectOuterPending)
-xnoremap ih <Plug>(GitGutterTextObjectInnerVisual)
-xnoremap ah <Plug>(GitGutterTextObjectOuterVisual)
-nnoremap ]h <Plug>(GitGutterNextHunk)
-nnoremap [h <Plug>(GitGutterPrevHunk)
+nmap <LocalLeader>hw <Plug>(GitGutterStageHunk)
+nmap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
+nmap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
 Pack "rhysd/conflict-marker.vim"
@@ -594,8 +589,6 @@ nmap <M-s> <Plug>(qf_qf_switch)
 nmap <Leader>q <Plug>(qf_qf_toggle)
 nmap <Leader>l <Plug>(qf_loc_toggle)
 g:qf_mapping_ack_style = 1
-g:qf_shorten_path = 3
-g:qf_number = 1
 Pack "mao-yining/vim-log-highlighting", { type: "opt" }
 au! BufNewFile,BufRead *.log	setfiletype log
 Pack "ubaldot/vim-conda-activate", { on: "CondaActivate" }
@@ -638,8 +631,8 @@ Pack "normen/vim-pio"
 Pack "tpope/vim-scriptease", { type: "opt" }
 Pack "mhinz/vim-lookup", { for: "vim" }
 Pack "chrisbra/csv.vim", { for: "csv" }
-autocmd FileType vim nnoremap <buffer> <C-]>  <Cmd>call lookup#lookup()<CR>
-autocmd FileType vim nnoremap <buffer> <C-t>  <Cmd>call lookup#pop()<CR>
+autocmd FileType vim nmap <buffer> <C-]>  <Cmd>call lookup#lookup()<CR>
+autocmd FileType vim nmap <buffer> <C-t>  <Cmd>call lookup#pop()<CR>
 g:filetype_md = "pandoc"
 g:pandoc#syntax#conceal#use = 1
 g:pandoc#syntax#conceal#urls = 1
@@ -681,35 +674,35 @@ Pack "kristijanhusak/vim-dadbod-ui" # Optional
 # vimspector {{{
 Pack "puremourning/vimspector"
 g:vimspector_install_gadgets = [ "debugpy", "vscode-cpptools", "CodeLLDB" ]
-nnoremap <F5>          <Plug>VimspectorContinue
-nnoremap <F3>          <Plug>VimspectorToggleBreakpoint
-nnoremap <Leader><F3>  <Plug>VimspectorRunToCursor
-nnoremap <F4>          <Plug>VimspectorAddFunctionBreakpoint
-nnoremap <Leader><F4>  <Plug>VimspectorToggleConditionalBreakpoint
+nmap <F5>          <Plug>VimspectorContinue
+nmap <F3>          <Plug>VimspectorToggleBreakpoint
+nmap <Leader><F3>  <Plug>VimspectorRunToCursor
+nmap <F4>          <Plug>VimspectorAddFunctionBreakpoint
+nmap <Leader><F4>  <Plug>VimspectorToggleConditionalBreakpoint
 g:vimspector_enable_winbar = 0
 autocmd User VimspectorDebugEnded {
 	if exists("<Leader><F5>")|nunmap <Leader><F5>|endif
 	if exists("<F6>")|nunmap <F6>|endif
-	nnoremap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-	nnoremap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-	nnoremap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
-	nnoremap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+	nmap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+	nmap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+	nmap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+	nmap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 	if exists("<Leader><F11>")|nunmap <Leader><F11>|endif
 	if exists("<Leader><F12>")|nunmap <Leader><F12>|endif
 	if exists("<Leader>B")|nunmap <Leader>B|endif
 	if exists("<Leader>D")|nunmap <Leader>D|endif
 }
 autocmd User VimspectorUICreated {
-	nnoremap <Leader><F5>  <Plug>VimspectorStop
-	nnoremap <F6>          <Plug>VimspectorStepOver
-	nnoremap <F7>          <Plug>VimspectorStepInto
-	nnoremap <F8>          <Plug>VimspectorStepOut
-	nnoremap <F9>          <Plug>VimspectorPause
-	nnoremap <F10>         <Plug>VimspectorRestart
-	nnoremap <Leader><F11> <Plug>VimspectorUpFrame
-	nnoremap <Leader><F12> <Plug>VimspectorDownFrame
-	nnoremap <Leader>B     <Plug>VimspectorBreakpoints
-	nnoremap <Leader>D     <Plug>VimspectorDisassemble
+	nmap <Leader><F5>  <Plug>VimspectorStop
+	nmap <F6>          <Plug>VimspectorStepOver
+	nmap <F7>          <Plug>VimspectorStepInto
+	nmap <F8>          <Plug>VimspectorStepOut
+	nmap <F9>          <Plug>VimspectorPause
+	nmap <F10>         <Plug>VimspectorRestart
+	nmap <Leader><F11> <Plug>VimspectorUpFrame
+	nmap <Leader><F12> <Plug>VimspectorDownFrame
+	nmap <Leader>B     <Plug>VimspectorBreakpoints
+	nmap <Leader>D     <Plug>VimspectorDisassemble
 }
 # }}}
 
@@ -810,13 +803,13 @@ packadd! vim-vsnip-integ
 packadd! friendly-snippets
 # packadd! vimcomplete
 Pack 'girishji/scope.vim', { on: 'Scope', type: "opt" } # {{{
-nnoremap <Leader>b <Cmd>Scope Buffer<CR>
-nnoremap <Leader>; <Cmd>Scope commands<CR>
-nnoremap <Leader><Space> <Cmd>Scope File<CR>
-nnoremap <Leader>f <Cmd>Scope Grep<CR>
-nnoremap <Leader>h <Cmd>Scope Help<CR>
-nnoremap <Leader>r <Cmd>Scope MRU<CR>
-nnoremap <Leader>s <Cmd>Scope LspDocumentSymbol<CR>
+nmap <Leader>b <Cmd>Scope Buffer<CR>
+nmap <Leader>; <Cmd>Scope commands<CR>
+nmap <Leader><Space> <Cmd>Scope File<CR>
+nmap <Leader>f <Cmd>Scope Grep<CR>
+nmap <Leader>h <Cmd>Scope Help<CR>
+nmap <Leader>r <Cmd>Scope MRU<CR>
+nmap <Leader>s <Cmd>Scope LspDocumentSymbol<CR>
 
 # }}}
 
@@ -903,10 +896,10 @@ inoremap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '
 snoremap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
 inoremap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
 snoremap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-nmap        <C-S>   <Plug>(vsnip-select-text)
-xmap        <C-S>   <Plug>(vsnip-select-text)
-nmap        <C-S-S> <Plug>(vsnip-cut-text)
-xmap        <C-S-S> <Plug>(vsnip-cut-text)
+nmap     <C-S>   <Plug>(vsnip-select-text)
+xmap     <C-S>   <Plug>(vsnip-select-text)
+nmap     <C-S-S> <Plug>(vsnip-cut-text)
+xmap     <C-S-S> <Plug>(vsnip-cut-text)
 
 var options = {
 	completor: { shuffleEqualPriority: true, postfixHighlight: true },
