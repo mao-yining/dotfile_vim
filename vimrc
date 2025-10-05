@@ -63,7 +63,7 @@ set sidescroll=1 sidescrolloff=3
 set nrformats=bin,hex,unsigned
 set sessionoptions=buffers,curdir,help,tabpages,winsize,slash,terminal,unix
 set diffopt+=algorithm:histogram,linematch:60,inline:word
-set completeopt=menuone,popup,fuzzy completepopup=highlight:Pmenu
+set completeopt=menuone,popup,preinsert completepopup=highlight:Pmenu
 set complete=o^10,.^10,w^5,b^5,u^3,t^3
 set completefuzzycollect=keyword
 set autocomplete
@@ -111,6 +111,11 @@ endif
 # }}}
 
 # keymaps {{{
+
+# move lines
+xnoremap <M-j> :sil! m '>+1<CR>gv
+xnoremap <M-k> :sil! m '<-2<CR>gv
+
 nnoremap <expr> k v:count == 0 ? "gk" : "k"
 nnoremap <expr> j v:count == 0 ? "gj" : "j"
 xnoremap <expr> k v:count == 0 ? "gk" : "k"
@@ -141,8 +146,21 @@ def CloseBuf()
 enddef
 # }}}
 
-# reload .vimrc
-nmap <Leader>S <Cmd>set nossl<CR><Cmd>source $MYVIMRC<CR><Cmd>set ssl<CR>
+# source vimscript (operator)
+def SourceVim(...args: list<any>): string
+    if len(args) == 0
+        &opfunc = matchstr(expand('<stack>'), '[^. ]*\ze[')
+        return 'g@'
+    endif
+    if getline(nextnonblank(1) ?? 1) =~ '^\s*vim9script\s*$'
+        vim9cmd :'[,']source
+    else
+        :'[,']source
+    endif
+    return ''
+enddef
+nnoremap <silent> <expr> <space>S SourceVim()
+xnoremap <silent> <expr> <space>S SourceVim()
 
 # change window width
 map <C-Up> <C-W>+
@@ -320,7 +338,6 @@ augroup CustomAutocmds
 		nmap <nowait> <LocalLeader>a <Cmd>Asm<CR>
 		nmap <nowait> <LocalLeader>v <Cmd>Var<CR>
 		nmap <nowait> <F3> <Cmd>ToggleBreak<CR>
-		nmap <nowait> <LocalLeader><F3> <Cmd>TBreak<CR>
 		nmap <nowait> <F4> <Cmd>Clear<CR>
 		nmap <nowait> <F5> <Cmd>RunOrContinue<CR>
 		nmap <nowait> <LocalLeader><F5> <Cmd>Stop<CR>
@@ -335,16 +352,13 @@ augroup CustomAutocmds
 		nunmap <LocalLeader>s
 		nunmap <LocalLeader>a
 		nunmap <LocalLeader>v
-		nunmap <LocalLeader>r
-		nunmap <F3>
-		nunmap <LocalLeader><F3>
-		nunmap <F4>
-		nunmap <F5>
-		nunmap <Leader><F5>
+		map    <F3> <Plug>VimspectorToggleBreakpoint
+		nmap   <F5> <Plug>VimspectorContinue
 		nunmap <LocalLeader><F5>
+		nunmap <Leader><F5>
 		nunmap <F6>
-		nunmap <F7>
-		nunmap <F8>
+		nmap   <F7> <Cmd>AsyncTask file-run<CR>
+		nmap   <F8> <Cmd>AsyncTask file-build<CR>
 	}
 
 	# 在某些窗口中关闭 list 模式
@@ -389,6 +403,7 @@ nmap ss <plug>(SubversiveSubstituteLine)
 nmap S <plug>(SubversiveSubstituteToEndOfLine)
 xmap s <plug>(SubversiveSubstitute)
 Pack "Andrewradev/switch.vim"
+g:switch_mapping = null_string
 g:speeddating_no_mappings = 1
 nnoremap <Plug>SpeedDatingFallbackUp <C-A>
 nnoremap <Plug>SpeedDatingFallbackDown <C-X>
@@ -533,6 +548,9 @@ g:undotree_SetFocusWhenToggle = true
 
 Pack "girishji/devdocs.vim", { on: [ "DevdocsFind", "DevdocsInstall" ] }
 nmap <Leader>D <Cmd>DevdocsFind<CR>
+# popup
+g:popup_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
 
 #  Git {{{
 Pack "tpope/vim-fugitive"
@@ -594,6 +612,7 @@ au! BufNewFile,BufRead *.log	setfiletype log
 Pack "ubaldot/vim-conda-activate", { on: "CondaActivate" }
 Pack "bfrg/vim-cmake-help", { for: "cmake" }
 Pack "lervag/vimtex"
+au FileType tex,latex,context setlocal keywordprg=:VimtexDocPackage*
 g:vimtex_quickfix_autoclose_after_keystrokes = 2
 g:vimtex_quickfix_open_on_warning = 0
 g:vimtex_format_enabled = 1
@@ -683,10 +702,10 @@ g:vimspector_enable_winbar = 0
 autocmd User VimspectorDebugEnded {
 	if exists("<Leader><F5>")|nunmap <Leader><F5>|endif
 	if exists("<F6>")|nunmap <F6>|endif
-	nmap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-	nmap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-	nmap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
-	nmap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+	nmap <F7> <Cmd>AsyncTask file-run<CR>
+	nmap <F8> <Cmd>AsyncTask file-build<CR>
+	nmap <F9> <Cmd>AsyncTask project-run<CR>
+	nmap <F10> <Cmd>AsyncTask project-build<CR>
 	if exists("<Leader><F11>")|nunmap <Leader><F11>|endif
 	if exists("<Leader><F12>")|nunmap <Leader><F12>|endif
 	if exists("<Leader>B")|nunmap <Leader>B|endif
@@ -708,13 +727,16 @@ autocmd User VimspectorUICreated {
 
 # ALE {{{
 Pack "dense-analysis/ale", { type: "opt" }
+packadd! ale
 
 g:ale_sign_column_always = true
-g:ale_disable_lsp = true
-g:ale_echo_msg_format = "[%linter%] %s [%severity%]"
+g:ale_disable_lsp        = true
+g:ale_echo_msg_format    = "[%linter%] %s [%severity%]"
+g:ale_virtualtext_cursor = 0
 g:ale_virtualtext_prefix = ""
-g:ale_sign_error = ">>"
-g:ale_sign_warning = "--"
+g:ale_sign_error         = "E>"
+g:ale_sign_warning       = "W>"
+g:ale_sign_info          = "I>"
 nmap <LocalLeader>d <Plug>(ale_detail)
 nmap <silent> [d <Plug>(ale_previous)
 nmap <silent> ]d <Plug>(ale_next)
@@ -725,10 +747,6 @@ g:ale_linters = {
 	cpp: ["cc", "clangtidy", "cppcheck", "cpplint"],
 	tex: ["chktex"],
 }
-autocmd VimEnter,Colorscheme * hi ALEVirtualTextError   ctermfg=12 ctermbg=16 guifg=#ff0000 guibg=#1E1E2E
-autocmd VimEnter,Colorscheme * hi ALEVirtualTextWarning ctermfg=6  ctermbg=16 guifg=#ff922b guibg=#1E1E2E
-autocmd VimEnter,Colorscheme * hi ALEVirtualTextInfo    ctermfg=14 ctermbg=16 guifg=#fab005 guibg=#1E1E2E
-
 # }}}
 
 # test {{{
@@ -795,13 +813,10 @@ Pack 'yegappan/lsp', { type: "opt" }
 Pack 'hrsh7th/vim-vsnip', { type: "opt" }
 Pack 'hrsh7th/vim-vsnip-integ', { type: "opt" }
 Pack 'rafamadriz/friendly-snippets', { type: "opt" }
-Pack 'girishji/vimcomplete', { type: "opt" }
-# Pack 'SirVer/ultisnips', { type: "opt" }
 packadd! lsp
 packadd! vim-vsnip
 packadd! vim-vsnip-integ
 packadd! friendly-snippets
-# packadd! vimcomplete
 Pack 'girishji/scope.vim', { on: 'Scope', type: "opt" } # {{{
 nmap <Leader>b <Cmd>Scope Buffer<CR>
 nmap <Leader>; <Cmd>Scope commands<CR>
@@ -815,109 +830,62 @@ nmap <Leader>s <Cmd>Scope LspDocumentSymbol<CR>
 
 
 var lspOpts = { # {{{
-	aleSupport: false,
-	autoComplete: false,
-	autoHighlight: false,
-	autoHighlightDiags: true,
-	autoPopulateDiags: false,
+	aleSupport: true,
+	autoComplete: false, # Use OmniComplete
 	completionMatcher: 'case',
-	completionMatcherValue: 1,
-	diagSignErrorText: 'E>',
-	diagSignHintText: 'H>',
-	diagSignInfoText: 'I>',
-	diagSignWarningText: 'W>',
-	echoSignature: false,
-	hideDisabledCodeActions: false,
-	highlightDiagInline: true,
-	hoverInPreview: false,
-	ignoreMissingServer: true,
-	keepFocusInDiags: true,
-	keepFocusInReferences: true,
-	completionTextEdit: true,
-	diagVirtualTextAlign: 'above',
-	diagVirtualTextWrap: 'default',
-	noNewlineInCompletion: false,
-	omniComplete: true,
-	outlineOnRight: false,
-	outlineWinSize: 20,
+	diagVirtualTextAlign: 'after',
+	ignoreMissingServer: false,
 	popupBorder: true,
-	popupBorderHighlight: 'Title',
-	popupBorderHighlightPeek: 'Special',
-	popupBorderSignatureHelp: false,
-	popupHighlightSignatureHelp: 'Pmenu',
-	popupHighlight: 'Normal',
 	semanticHighlight: true,
-	showDiagInBalloon: true,
-	showDiagInPopup: true,
-	showDiagOnStatusLine: false,
-	showDiagWithSign: true,
 	showDiagWithVirtualText: false,
-	showInlayHints: true,
-	showSignature: true,
-	snippetSupport: false,
-	ultisnipsSupport: false,
-	useBufferCompletion: false,
-	usePopupInCodeAction: false,
-	useQuickfixForLocations: false,
+	useQuickfixForLocations: true, # For LspShowReferences
 	vsnipSupport: true,
-	bufferCompletionTimeout: 100,
-	customCompletionKinds: false,
-	completionKinds: {},
-	filterCompletionDuplicates: false,
-	condensedCompletionMenu: false,
 }
-autocmd User LspSetup call LspOptionsSet(lspOpts) # }}}
+autocmd User LspSetup g:LspOptionsSet(lspOpts)
+# }}}
 
 var lspServers = [
-	{ filetype: ['c', 'cpp'], path: 'clangd', args: ['--background-index'] },
-	{ filetype: 'python', path: 'pyright-langserver.cmd', args: ['--stdio'], workspaceConfig: { python: { pythonPath: 'python' } } },
-	{ filetype: 'rust', path: 'rust-analyzer' },
-	{ filetype: ['tex', 'bib'], path: 'texlab'},
-	{ filetype: 'vim', path: 'vim-language-server.cmd', args: ['--stdio'] },
-	{ filetype: 'rust', path: 'rust-analyzer', syncInit: true },
-	{ filetype: ['markdown', 'pandoc'], path: 'marksman', args: ['server'], syncInit: true },
+	{ filetype: ["c", "cpp"], path: "clangd", args: ["--background-index"] },
+	{ filetype: "python", path: "pyright-langserver.cmd", args: ["--stdio"], workspaceConfig: { python: { pythonPath: "python" } } },
+	{ filetype: "rust", path: "rust-analyzer" },
+	{ filetype: ["tex", "bib"], path: "texlab"},
+	{ filetype: "vim", path: "vim-language-server.cmd", args: ["--stdio"] },
+	{ filetype: "rust", path: "rust-analyzer", syncInit: true },
+	{ filetype: ["markdown", "pandoc"], path: "marksman", args: ["server"], syncInit: true },
 	# { filetype: ['markdown', 'pandoc'], path: 'vscode-markdown-language-server.cmd', args: ['--stdio'] }
 ]
-autocmd User LspSetup call LspAddServer(lspServers)
-nmap <silent> gd <Cmd>LspGotoDefinition<CR>
-nmap <silent> gy <Cmd>LspGotoTypeDef<CR>
-nmap <silent> gi <Cmd>LspGotoImpl<CR>
-nmap <silent> gr <Cmd>LspPeekReferences<CR>
-nmap <silent> yoI <Cmd>LspInlayHints toggle<CR>
+autocmd User LspSetup g:LspAddServer(lspServers)
+nmap gD <Cmd>LspGotoDeclaration<CR>
+nmap gd <Cmd>LspGotoDefinition<CR>
+nmap gy <Cmd>LspGotoTypeDef<CR>
+nmap gi <Cmd>LspGotoImpl<CR>
+nmap gr <Cmd>LspPeekReferences<CR>
+nmap gR <Cmd>LspShowReferences<CR>
+nmap gs <Cmd>LspSubTypeHierarchy<CR>
+nmap gS <Cmd>LspSuperTypeHierarchy<CR>
+nmap yoI <Cmd>LspInlayHints toggle<CR>
+nmap [oI <Cmd>LspInlayHints enable<CR>
+nmap ]oI <Cmd>LspInlayHints disable<CR>
+noremap <Leader>ca <Cmd>LspCodeAction<CR>
+noremap <Leader>cl <Cmd>LspCodeLens<CR>
+xnoremap <LocalLeader>e <Cmd>LspSelectionExpand<CR>
+xnoremap <LocalLeader>s <Cmd>LspSelectionShrink<CR>
+map <F2> <Cmd>LspRename<CR>
 set keywordprg=:LspHover
 au FileType vim,help,colortemplate setlocal keywordprg=:help
-au FileType tex setlocal keywordprg=:VimtexDocPackage
 
-inoremap <expr> <C-l>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-snoremap <expr> <C-l>   vsnip#expandable()  ? '<Plug>(vsnip-expand)'         : '<C-j>'
-inoremap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-snoremap <expr> <C-j>   vsnip#available(1)  ? '<Plug>(vsnip-expand-or-jump)' : '<C-l>'
-inoremap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-snoremap <expr> <Tab>   vsnip#jumpable(1)   ? '<Plug>(vsnip-jump-next)'      : '<Tab>'
-inoremap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
-snoremap <expr> <S-Tab> vsnip#jumpable(-1)  ? '<Plug>(vsnip-jump-prev)'      : '<S-Tab>'
+inoremap <expr> <C-l>   vsnip#expandable()  ? "<Plug>(vsnip-expand)"         : "<C-j>"
+snoremap <expr> <C-l>   vsnip#expandable()  ? "<Plug>(vsnip-expand)"         : "<C-j>"
+inoremap <expr> <C-j>   vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)" : "<C-l>"
+snoremap <expr> <C-j>   vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)" : "<C-l>"
+inoremap <expr> <Tab>   vsnip#jumpable(1)   ? "<Plug>(vsnip-jump-next)"      : "<Tab>"
+snoremap <expr> <Tab>   vsnip#jumpable(1)   ? "<Plug>(vsnip-jump-next)"      : "<Tab>"
+inoremap <expr> <S-Tab> vsnip#jumpable(-1)  ? "<Plug>(vsnip-jump-prev)"      : "<S-Tab>"
+snoremap <expr> <S-Tab> vsnip#jumpable(-1)  ? "<Plug>(vsnip-jump-prev)"      : "<S-Tab>"
 nmap     <C-S>   <Plug>(vsnip-select-text)
 xmap     <C-S>   <Plug>(vsnip-select-text)
 nmap     <C-S-S> <Plug>(vsnip-cut-text)
 xmap     <C-S-S> <Plug>(vsnip-cut-text)
-
-var options = {
-	completor: { shuffleEqualPriority: true, postfixHighlight: true },
-	buffer: { enable: true, priority: 10, urlComplete: true, envComplete: true },
-	abbrev: { enable: true, priority: 10 },
-	lsp: { enable: true, priority: 10, maxCount: 5 },
-	omnifunc: { enable: false, priority: 8, filetypes: ['python', 'javascript'] },
-	vsnip: { enable: true, priority: 11 },
-	vimscript: { enable: true, priority: 11 },
-	ngram: {
-		enable: true,
-		priority: 10,
-		bigram: false,
-		filetypes: ['text', 'help', 'markdown'],
-		filetypesComments: ['c', 'cpp', 'python', 'java'],
-	},
-}
-# autocmd VimEnter * g:VimCompleteOptionsSet(options)
 # }}}
 
 plugpac#End() # }}}
