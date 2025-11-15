@@ -64,7 +64,7 @@ set nrformats=bin,hex,unsigned
 set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal,unix
 set diffopt+=algorithm:histogram,linematch:60,inline:word
 set completeopt=menuone,popup,fuzzy
-set complete=o^10,Fvsnip#completefunc^10,.^9,w^5,b^5,u^3,t^3
+set complete=o^10,Fvsnip#completefunc^9,.^8,b^6,w^5,t^3,u^2
 set completefuzzycollect=keyword
 set autocomplete
 set mouse=a
