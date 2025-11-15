@@ -565,6 +565,7 @@ if executable("git")
 endif
 nmap <Leader>gg <Cmd>Git<CR>
 nmap <Leader>gl <Cmd>GV<CR>
+nmap <Leader>gc<Space> :Git commit<Space>
 nmap <Leader>gcc <Cmd>Git commit -v<CR>
 nmap <Leader>gcs <Cmd>Git commit -s -v<CR>
 nmap <Leader>gca <Cmd>Git commit --amend -v<CR>
