@@ -508,6 +508,7 @@ nmap <LocalLeader>v <Cmd>Vista!!<CR>
 Pack "dstein64/vim-startuptime", {on: "StartupTime"}
 
 #  asynctasks {{{
+Pack "tpope/vim-dispatch"
 Pack "skywind3000/asyncrun.vim"
 Pack "skywind3000/asynctasks.vim"
 g:asynctasks_term_pos = "external" # quickfix | vim | tab | bottom | external
