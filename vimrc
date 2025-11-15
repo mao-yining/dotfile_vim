@@ -65,7 +65,6 @@ set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal,u
 set diffopt+=algorithm:histogram,linematch:60,inline:word
 set completeopt=menuone,popup,fuzzy
 set complete=o^10,Fvsnip#completefunc^9,.^8,b^6,w^5,t^3,u^2
-set completefuzzycollect=keyword
 set autocomplete
 set mouse=a
 set mousemodel=extend
