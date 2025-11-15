@@ -611,7 +611,6 @@ nmap <C-End>  <Plug>(qf_loc_next)
 nmap <M-s> <Plug>(qf_qf_switch)
 nmap <Leader>q <Plug>(qf_qf_toggle)
 nmap <Leader>l <Plug>(qf_loc_toggle)
-g:qf_mapping_ack_style = 1
 Pack "mao-yining/vim-log-highlighting", { type: "opt" }
 au! BufNewFile,BufRead *.log	setfiletype log
 Pack "ubaldot/vim-conda-activate", { on: "CondaActivate" }
