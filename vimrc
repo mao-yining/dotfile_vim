@@ -379,6 +379,9 @@ packadd! nohlsearch
 
 nmap <Leader>t <Cmd>HelpToc<CR>
 tmap <C-t><C-t> <Cmd>HelpToc<CR>
+g:popup_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
+g:hlyank_duration = 200
 
 plugpac#Begin({
 	progress_open: "tab",
@@ -553,9 +556,6 @@ g:undotree_SetFocusWhenToggle = true
 
 Pack "girishji/devdocs.vim", { on: [ "DevdocsFind", "DevdocsInstall" ] }
 nmap <Leader>D <Cmd>DevdocsFind<CR>
-# popup
-g:popup_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
-g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
 
 #  Git {{{
 Pack "tpope/vim-fugitive", { type: "opt" }
