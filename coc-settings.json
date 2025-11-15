@@ -1,5 +1,0 @@
-{
-	"semanticTokens.enable": true,
-	"diagnostic.displayByAle": true,
-	"clangd.disableSnippetCompletion": true
-}
