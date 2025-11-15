@@ -576,7 +576,6 @@ nmap <Leader>gS :Git stash<Space>
 nmap <Leader>gco :Git checkout<Space>
 nmap <Leader>gcp :Git cherry-pick<Space>
 nmap <Leader>gM :Git merge<Space>
-nmap <Leader>gcb <Cmd>Git branch<CR>
 nmap <Leader>gp <Cmd>Git! pull<CR>
 nmap <Leader>gP <Cmd>Git! push<CR>
 nmap <Leader>gm <Cmd>Git mergetool<CR>
