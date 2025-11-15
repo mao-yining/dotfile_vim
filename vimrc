@@ -209,7 +209,7 @@ xmap g/ "sy/<C-R>s
 xmap gs "sy:%s/<C-R>s/
 
 omap A <Cmd>normal! ggVG<CR>
-xmap A <Cmd>normal! ggVG<CR>
+xmap A :<C-U>normal! ggVG<CR>
 # visual-block
 autocmd ModeChanged *:[\x16] xunmap A
 autocmd ModeChanged [\x16]:* xmap A :<C-U>normal! ggVG<CR>
