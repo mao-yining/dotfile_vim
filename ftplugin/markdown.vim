@@ -7,7 +7,7 @@ def AddFormat(mark: string): string
 	return $"c{mark}\<C-R>\"{mark}\<Esc>"
 enddef
 
-# 创建视觉模式映射
+# 创建可视模式映射
 xnoremap <expr> <LocalLeader>b AddFormat("**")
 xnoremap <expr> <LocalLeader>i AddFormat("*")
 xnoremap <expr> <LocalLeader>m AddFormat("$")
