@@ -68,6 +68,7 @@ set complete=o^10,Fvsnip#completefunc^10,.^9,w^5,b^5,u^3,t^3
 set completefuzzycollect=keyword
 set autocomplete
 set mouse=a
+set mousemodel=extend
 
 set wildmenu wildoptions=pum,tagfile wildcharm=<Tab>
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
@@ -103,11 +104,6 @@ elseif exists("+undodir") && !has("nvim-0.5")
 	if !isdirectory(&directory) | mkdir(&directory, "p") | endif
 	if !isdirectory(&backupdir) | mkdir(&backupdir, "p") | endif
 endif
-
-if !has("gui_running")
-	source $VIMRUNTIME/menu.vim
-endif
-
 # }}}
 
 # keymaps {{{
