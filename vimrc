@@ -1,14 +1,14 @@
 vim9script
 
-g:mapleader = " "               # 定义<Leader>键
-g:maplocalleader = ";"          # 定义<LocalLeader>键
+g:mapleader = " "
+g:maplocalleader = ";"
 
 # options {{{
 filetype plugin indent on
 syntax enable
 set nocompatible
-set t_Co=256                    # 开启256色支持
-set termguicolors               # 在终端上使用与 GUI 一致的颜色
+set t_Co=256
+set termguicolors
 
 set hidden confirm
 set belloff=all shortmess+=cC
@@ -61,10 +61,10 @@ set switchbuf=uselast
 set fileformat=unix fileformats=unix,dos
 set sidescroll=1 sidescrolloff=3
 set nrformats=bin,hex,unsigned
-set sessionoptions=buffers,curdir,help,tabpages,winsize,slash,terminal,unix
+set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal,unix
 set diffopt+=algorithm:histogram,linematch:60,inline:word
-set completeopt=menuone,popup,preinsert completepopup=highlight:Pmenu
-set complete=o^10,.^10,w^5,b^5,u^3,t^3
+set completeopt=menuone,popup,fuzzy
+set complete=o^10,Fvsnip#completefunc^10,.^9,w^5,b^5,u^3,t^3
 set completefuzzycollect=keyword
 set autocomplete
 set mouse=a
@@ -96,10 +96,10 @@ elseif exists("+undodir") && !has("nvim-0.5")
 	else
 		$DATA_HOME = expand("~/.local/share/vim/")
 	endif
-	&undodir = $DATA_HOME .. "undo/"
+	&undodir   = $DATA_HOME .. "undo/"
 	&directory = $DATA_HOME .. "swap/"
 	&backupdir = $DATA_HOME .. "backup/"
-	if !isdirectory(&undodir) | mkdir(&undodir, "p") | endif
+	if !isdirectory(&undodir)   | mkdir(&undodir, "p")   | endif
 	if !isdirectory(&directory) | mkdir(&directory, "p") | endif
 	if !isdirectory(&backupdir) | mkdir(&backupdir, "p") | endif
 endif
@@ -148,16 +148,16 @@ enddef
 
 # source vimscript (operator)
 def SourceVim(...args: list<any>): string
-    if len(args) == 0
-        &opfunc = matchstr(expand('<stack>'), '[^. ]*\ze[')
-        return 'g@'
-    endif
-    if getline(nextnonblank(1) ?? 1) =~ '^\s*vim9script\s*$'
-        vim9cmd :'[,']source
-    else
-        :'[,']source
-    endif
-    return ''
+	if len(args) == 0
+		&opfunc = matchstr(expand('<stack>'), '[^. ]*\ze[')
+		return 'g@'
+	endif
+	if getline(nextnonblank(1) ?? 1) =~ '^\s*vim9script\s*$'
+		vim9cmd :'[,']source
+	else
+		:'[,']source
+	endif
+	return ''
 enddef
 nnoremap <silent> <expr> <space>S SourceVim()
 xnoremap <silent> <expr> <space>S SourceVim()
@@ -238,6 +238,8 @@ nmap Y y$
 map Q @@
 sunmap Q
 nmap gf gF
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
 
 cnoremap <C-A> <Home>
 cnoremap <C-B> <Left>
@@ -338,7 +340,6 @@ augroup CustomAutocmds
 		nmap <nowait> <LocalLeader>a <Cmd>Asm<CR>
 		nmap <nowait> <LocalLeader>v <Cmd>Var<CR>
 		nmap <nowait> <F3> <Cmd>ToggleBreak<CR>
-		nmap <nowait> <F4> <Cmd>Clear<CR>
 		nmap <nowait> <F5> <Cmd>RunOrContinue<CR>
 		nmap <nowait> <LocalLeader><F5> <Cmd>Stop<CR>
 		nmap <nowait> <Leader><F5> <Cmd>Run<CR>
@@ -424,17 +425,17 @@ g:startify_change_to_dir       = 1
 g:startify_update_oldfiles     = 1
 g:startify_fortune_use_unicode = 1
 g:startify_files_number        = 3
+g:startify_session_sort        = 1
+g:startify_custom_header       = "startify#pad(startify#fortune#boxed())"
+g:startify_session_autoload    = 1
+g:startify_session_persistence = 1
+g:startify_change_to_vcs_root  = 1
 g:startify_lists = [
 	{ type: "sessions",  header: ["   Sessions"]  },
 	{ type: "files",     header: ["   MRU"]       },
 	{ type: "bookmarks", header: ["   Bookmarks"] },
 	{ type: "commands",  header: ["   Commands"]  },
 ]
-g:startify_session_sort = 1
-g:startify_custom_header = "startify#pad(startify#fortune#boxed())"
-g:startify_session_autoload    = 1
-g:startify_session_persistence = 1
-g:startify_change_to_vcs_root = 1
 g:startify_session_dir = $MYVIMDIR .. "/sessions"
 g:startify_skiplist = [ "runtime/doc/", "/plugged/.*/doc/", "/.git/" ]
 g:startify_skiplist += [ "/Temp/", "fugitiveblame$" ]
@@ -446,6 +447,7 @@ Pack "Bakudankun/qline.vim"
 Pack "vim-airline/vim-airline"
 g:loaded_airline = 1
 g:qline_config = {
+	colorscheme: "airline:catppuccin",
 	active: {
 		left: [
 			["mode", "paste"],
@@ -553,9 +555,16 @@ g:popup_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
 g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
 
 #  Git {{{
-Pack "tpope/vim-fugitive"
+Pack "tpope/vim-fugitive", { type: "opt" }
 Pack "tpope/vim-rhubarb", { type: "opt" }
-Pack "junegunn/gv.vim", { on: "GV" }
+Pack "junegunn/gv.vim", { type: "opt" }
+Pack "airblade/vim-gitgutter", { type: "opt" }
+Pack "rhysd/conflict-marker.vim", { type: "opt" }
+if executable("git")
+	packadd! vim-fugitive
+	packadd! vim-gitgutter
+	packadd! conflict-marker.vim
+endif
 nmap <Leader>gg <Cmd>Git<CR>
 nmap <Leader>gl <Cmd>GV<CR>
 nmap <Leader>gcc <Cmd>Git commit -s -v<CR>
@@ -566,11 +575,11 @@ nmap <Leader>gs :Git switch<Space>
 nmap <Leader>gS :Git stash<Space>
 nmap <Leader>gco :Git checkout<Space>
 nmap <Leader>gcp :Git cherry-pick<Space>
-nmap <Leader>gm :Git merge<Space>
+nmap <Leader>gM :Git merge<Space>
 nmap <Leader>gcb <Cmd>Git branch<CR>
 nmap <Leader>gp <Cmd>Git! pull<CR>
 nmap <Leader>gP <Cmd>Git! push<CR>
-nmap <Leader>gM <Cmd>Git mergetool<CR>
+nmap <Leader>gm <Cmd>Git mergetool<CR>
 nmap <Leader>gd <Cmd>Git difftool<CR>
 nmap <LocalLeader>gl <Cmd>GV!<CR>
 nmap <LocalLeader>gd <Cmd>Git diff %<CR>
@@ -579,7 +588,6 @@ nmap <LocalLeader>gb <Cmd>Git blame<CR>
 nmap <LocalLeader>gB <Cmd>GBrowse<CR>
 nmap <LocalLeader>gr <Cmd>Gread<CR>
 nmap <LocalLeader>gw <Cmd>Gwrite<CR>
-Pack "airblade/vim-gitgutter"
 nmap <LocalLeader>hw <Plug>(GitGutterStageHunk)
 nmap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
 nmap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
@@ -591,7 +599,6 @@ nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 g:gitgutter_map_keys = 0
 g:gitgutter_preview_win_floating = 1
-Pack "rhysd/conflict-marker.vim"
 #  }}}
 
 # ftplugins {{{
@@ -642,56 +649,34 @@ Pack "junegunn/vim-easy-align", { on: "<Plug>(EasyAlign)" }
 xmap <LocalLeader><Tab> <Plug>(EasyAlign)
 nmap <LocalLeader><Tab> <Plug>(EasyAlign)
 Pack "ferrine/md-img-paste.vim", { for: "markdown" }
-Pack "vim-pandoc/vim-pandoc", { type: "opt" }
-Pack 'vim-pandoc/vim-pandoc-syntax', { type: "opt" }
 Pack "nathangrigg/vim-beancount", { type: "opt" }
 au FileType beancount ++once packadd vim-beancount | e
-Pack "normen/vim-pio"
-Pack "tpope/vim-scriptease", { type: "opt" }
+Pack "normen/vim-pio", { on: "PIO" }
+Pack "tpope/vim-scriptease", { on: "PP" }
 Pack "mhinz/vim-lookup", { for: "vim" }
 Pack "chrisbra/csv.vim", { for: "csv" }
 autocmd FileType vim nmap <buffer> <C-]>  <Cmd>call lookup#lookup()<CR>
 autocmd FileType vim nmap <buffer> <C-t>  <Cmd>call lookup#pop()<CR>
-g:filetype_md = "pandoc"
-g:pandoc#syntax#conceal#use = 1
-g:pandoc#syntax#conceal#urls = 1
+g:filetype_md = "markdown"
 g:pandoc#syntax#codeblocks#ignore = ["definition", "markdown", "md"]
 g:pandoc#syntax#codeblocks#embeds#langs = [
-	"bash=sh",
-	"shell=sh",
-	"sh",
-	"asm",
-	"c",
-	"cpp",
-	"rust",
-	"go",
+	"bash=sh", "shell=sh", "sh",
+	"asm", "c", "cpp",
+	"rust", "go",
 	"javascript",
-	"yaml",
-	"json",
-	"jsonc",
-	"toml",
-	"python",
-	"perl",
-	"vim",
-	"ruby",
-	"lua",
-	"tex",
-	"tikz=tex",
-	"typst",
-	"git",
-	"gitcommit",
-	"gitrebase",
-	"diff",
-	"messages",
-	"log",
+	"yaml", "json", "jsonc", "toml",
+	"python", "perl", "vim", "ruby", "lua",
+	"tex", "tikz=tex", "typst",
+	"git", "gitcommit", "gitrebase", "diff",
+	"messages", "log",
 	"mermaid",
 ]
 Pack "tpope/vim-dadbod", { on: "DB" }
-Pack "kristijanhusak/vim-dadbod-ui" # Optional
+Pack "kristijanhusak/vim-dadbod-ui", { on: [ "DBUI", "DBUIToggle" ] }
 # }}}
 
 # vimspector {{{
-Pack "puremourning/vimspector"
+Pack "puremourning/vimspector", { type: "opt" }
 g:vimspector_install_gadgets = [ "debugpy", "vscode-cpptools", "CodeLLDB" ]
 nmap <F5>          <Plug>VimspectorContinue
 nmap <F3>          <Plug>VimspectorToggleBreakpoint
@@ -727,7 +712,6 @@ autocmd User VimspectorUICreated {
 
 # ALE {{{
 Pack "dense-analysis/ale", { type: "opt" }
-packadd! ale
 
 g:ale_sign_column_always = true
 g:ale_disable_lsp        = true
@@ -830,7 +814,7 @@ nmap <Leader>s <Cmd>Scope LspDocumentSymbol<CR>
 
 
 var lspOpts = { # {{{
-	aleSupport: true,
+	aleSupport: false,
 	autoComplete: false, # Use OmniComplete
 	completionMatcher: 'case',
 	diagVirtualTextAlign: 'after',
@@ -839,13 +823,12 @@ var lspOpts = { # {{{
 	semanticHighlight: true,
 	showDiagWithVirtualText: false,
 	useQuickfixForLocations: true, # For LspShowReferences
-	vsnipSupport: true,
 }
 autocmd User LspSetup g:LspOptionsSet(lspOpts)
 # }}}
 
 var lspServers = [
-	{ filetype: ["c", "cpp"], path: "clangd", args: ["--background-index"] },
+	{ filetype: ["c", "cpp"], path: "clangd", args: ['--background-index', '--clang-tidy'] },
 	{ filetype: "python", path: "pyright-langserver.cmd", args: ["--stdio"], workspaceConfig: { python: { pythonPath: "python" } } },
 	{ filetype: "rust", path: "rust-analyzer" },
 	{ filetype: ["tex", "bib"], path: "texlab"},
@@ -891,9 +874,4 @@ xmap     <C-S-S> <Plug>(vsnip-cut-text)
 plugpac#End() # }}}
 
 colorscheme catppuccin
-if &background == 'dark'
-	g:qline_config.colorscheme = 'airline:catppuccin_mocha'
-else
-	g:qline_config.colorscheme = 'airline:catppuccin_latte'
-endif
 # vim:fdm=marker
