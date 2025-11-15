@@ -494,7 +494,9 @@ Pack "vim-scripts/DrawIt", { on: "DIstart" }
 nmap =d <Cmd>DIstart<CR>
 nmap \d <Cmd>DIstop<CR>
 
-Pack "habamax/vim-dir", { on: "Dir" }
+g:loaded_netrw       = 1
+g:loaded_netrwPlugin = 1
+Pack "habamax/vim-dir"
 nmap - <Cmd>Dir<CR>
 
 Pack "lilydjwg/colorizer", { on: "ColorHighlight" }
