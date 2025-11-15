@@ -40,6 +40,5 @@ var args = [
 	'-V documentclass=ctexart',
 ]
 
-# g:neoformat_pandoc_pandoc = { exe: "pandoc", args: args, stdin: 1 }
 &l:makeprg = $"pandoc {args->join(' ')}"
 &l:conceallevel = 2

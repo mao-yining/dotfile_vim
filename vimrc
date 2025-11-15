@@ -655,10 +655,9 @@ Pack "mhinz/vim-lookup", { for: "vim" }
 Pack "chrisbra/csv.vim", { for: "csv" }
 autocmd FileType vim nmap <buffer> <C-]>  <Cmd>call lookup#lookup()<CR>
 autocmd FileType vim nmap <buffer> <C-t>  <Cmd>call lookup#pop()<CR>
-g:filetype_md = "markdown"
-g:pandoc#syntax#codeblocks#ignore = ["definition", "markdown", "md"]
-g:pandoc#syntax#codeblocks#embeds#langs = [
-	"bash=sh", "shell=sh", "sh",
+g:markdown_minlines = 500
+g:markdown_fenced_languages = [
+	"bash=sh", "shell=sh", "sh", "make",
 	"asm", "c", "cpp",
 	"rust", "go",
 	"javascript",
@@ -790,7 +789,7 @@ g:competitest_configs = {
 
 Pack "vim/colorschemes"
 
-# # vim9lsp {{{
+# vim9lsp {{{
 Pack 'yegappan/lsp', { type: "opt" }
 Pack 'hrsh7th/vim-vsnip', { type: "opt" }
 Pack 'hrsh7th/vim-vsnip-integ', { type: "opt" }
