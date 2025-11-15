@@ -580,13 +580,13 @@ nmap <Leader>gp <Cmd>Git! pull<CR>
 nmap <Leader>gP <Cmd>Git! push<CR>
 nmap <Leader>gm <Cmd>Git mergetool<CR>
 nmap <Leader>gd <Cmd>Git difftool<CR>
+nmap <Leader>gr <Cmd>Gread<CR>
+nmap <Leader>gw <Cmd>Gwrite<CR>
+nmap <Leader>gB <Cmd>GBrowse<CR>
 nmap <LocalLeader>gl <Cmd>GV!<CR>
 nmap <LocalLeader>gd <Cmd>Git diff %<CR>
 nmap <LocalLeader>gD <Cmd>Gdiffsplit<CR>
 nmap <LocalLeader>gb <Cmd>Git blame<CR>
-nmap <LocalLeader>gB <Cmd>GBrowse<CR>
-nmap <LocalLeader>gr <Cmd>Gread<CR>
-nmap <LocalLeader>gw <Cmd>Gwrite<CR>
 nmap <LocalLeader>hw <Plug>(GitGutterStageHunk)
 nmap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
 nmap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
