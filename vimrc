@@ -511,7 +511,7 @@ Pack "dstein64/vim-startuptime", {on: "StartupTime"}
 Pack "tpope/vim-dispatch"
 Pack "skywind3000/asyncrun.vim"
 Pack "skywind3000/asynctasks.vim"
-g:asynctasks_term_pos = "external" # quickfix | vim | tab | bottom | external
+g:asynctasks_term_pos = "tab" # quickfix | vim | tab | bottom | external
 # ‘vim' 时无法运行路径中有空格的情况
 g:asyncrun_save = true
 g:asyncrun_bell = true
