@@ -647,8 +647,8 @@ Pack "junegunn/vim-easy-align", { on: "<Plug>(EasyAlign)" }
 xmap <LocalLeader><Tab> <Plug>(EasyAlign)
 nmap <LocalLeader><Tab> <Plug>(EasyAlign)
 Pack "ferrine/md-img-paste.vim", { for: "markdown" }
-Pack "nathangrigg/vim-beancount", { type: "opt" }
-au FileType beancount ++once packadd vim-beancount | e
+Pack "nathangrigg/vim-beancount", { for: "opt" }
+au BufNewFile,BufRead *.bean,*.beancount ++once packadd vim-beancount
 Pack "normen/vim-pio", { on: "PIO" }
 Pack "tpope/vim-scriptease", { on: "PP" }
 Pack "mhinz/vim-lookup", { for: "vim" }
