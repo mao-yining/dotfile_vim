@@ -2,18 +2,11 @@ vim9script
 
 augroup general | au!
 
-autocmd BufReadPost * {
-	if line("'\"") >= 1 && line("'\"") <= line("$") && &filetype !~# 'commit'
-			&& index(['xxd', 'gitrebase', 'tutor'], &filetype) == -1
-			&& !&diff
-		execute "normal! g`\""
-	endif
-}
-
-	# goto last known position of the buffer
-	au BufReadPost * {
-		if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
-			exe 'normal! g`"'
+	autocmd BufReadPost * {
+		if line("'\"") >= 1 && line("'\"") <= line("$") && &filetype !~# 'commit'
+				&& index(['xxd', 'gitrebase', 'tutor'], &filetype) == -1
+				&& !&diff
+			execute "normal! g`\""
 		endif
 	}
 
@@ -97,6 +90,7 @@ autocmd BufReadPost * {
 		nmap <nowait> <F6> <Cmd>Step<CR>
 		nmap <nowait> <F7> <Cmd>Over<CR>
 		nmap <nowait> <F8> <Cmd>Finish<CR>
+		setlocal complete=
 	}
 	autocmd User TermdebugStopPost {
 		nunmap <LocalLeader>g
@@ -114,7 +108,7 @@ autocmd BufReadPost * {
 	}
 augroup end
 
-command DiffOrig {
+command! DiffOrig {
 	vert new
 	set bt=nofile
 	r ++edit %%
@@ -162,9 +156,6 @@ command! -range FixSpaces text.FixSpaces(<line1>, <line2>)
 
 import autoload "share.vim"
 command! -range=% -nargs=? -complete=custom,share.Complete Share share.Paste(<q-args>, <line1>, <line2>)
-
-command! CD lcd %:p:h
-command! MD call mkdir(expand("%:p:h"), "p")
 
 # syntax group names under cursor
 command! Inspect :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')

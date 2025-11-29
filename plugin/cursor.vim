@@ -1,5 +1,5 @@
 if has("gui_running")
-    finish
+	finish
 endif
 
 let &t_EI = "\e[2 q"

@@ -8,24 +8,15 @@ cnoreabbrev <expr> git CmdReplace("git", "Git")
 
 # quick to change dir
 cab cdn cd <C-R>=expand("%:p:h")<CR>
-cab cdr cd <C-R>=FindRoot()<CR>
-def g:FindRoot(): string
-	var gitdir = finddir(".git", getcwd() .. ";")
-	if !empty(gitdir)
-		if gitdir == ".git"
-			gitdir = getcwd()
-		else
-			gitdir = strpart(gitdir, 0, strridx(gitdir, "/"))
-		endif
-		return gitdir
-	endif
-	return null_string
-enddef
+cab cdr cd <C-R>=FindProjectRoot()<CR>
 
 inorea myn Mao-Yining
 inorea latex LaTeX
-inorea xelatex XeLaTeX
 inorea xetex XeTeX
+inorea xelatex XeLaTeX
+inorea luatex LuaTeX
+inorea lualatex LuaLaTeX
+inorea flase false
 inorea adn and
 inorea Adn And
 inorea teh the

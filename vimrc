@@ -50,16 +50,13 @@ set fileformat=unix fileformats=unix,dos
 set sidescroll=1 sidescrolloff=3
 set nrformats=bin,hex,unsigned
 set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal,unix
+set viewoptions=cursor,folds,curdir,slash,unix
 set diffopt+=algorithm:histogram,linematch:60,inline:word
 set completeopt=menuone,popup,fuzzy
-set completepopup=border:off pumborder=
+set completepopup=border:off,shadow:on pumborder=
 set autocomplete complete=o,.,w,b,t,u
 set complete+=Fcompletor#Path^10,Fcompletor#Abbrev^3,Fcompletor#Register^3
-set mouse=a
-set mousemodel=extend
-
-set viewoptions=cursor,folds,curdir,slash,unix
-
+set mouse=a mousemodel=extend
 set clipboard^=unnamed
 
 if has("sodium") && has("patch-9.0.1481")
@@ -71,21 +68,6 @@ endif
 # }}}
 
 # packs {{{
-packadd! cfilter
-packadd! comment
-packadd! editexisting
-packadd! editorconfig
-packadd! helptoc
-packadd! hlyank
-packadd! matchit
-packadd! nohlsearch
-
-nmap <Leader>t <Cmd>HelpToc<CR>
-tmap <C-t><C-t> <Cmd>HelpToc<CR>
-g:popup_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
-g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
-g:hlyank_duration = 200
-
 plugpac#Begin({
 	progress_open: "tab",
 	status_open: "vertical",
@@ -124,7 +106,6 @@ vmap <LocalLeader>S <Plug>SearchVisual
 
 # ui {{{
 Pack "mhinz/vim-startify"
-autocmd user startified setlocal cursorline
 g:startify_enable_special      = 0
 g:startify_relative_path       = 1
 g:startify_change_to_dir       = 1
@@ -195,15 +176,6 @@ g:qline_config = {
 } # }}}
 
 Pack "lacygoill/vim9asm", { on: "Disassemble" } # vim9 asm plugin
-Pack "skywind3000/vim-terminal-help", { type: "opt" }
-# g:terminal_list = 0
-# g:terminal_fixheight = 1
-# g:terminal_key = '<C-/>'
-# g:terminal_close = 1
-# g:terminal_default_mapping = 0
-# if has("win32")
-# 	g:terminal_shell = "nu"
-# endif
 
 Pack "vim-scripts/DrawIt", { on: "DIstart" }
 nmap =d <Cmd>DIstart<CR>
@@ -229,7 +201,8 @@ Pack "tpope/vim-dispatch"
 Pack "skywind3000/asyncrun.vim"
 Pack "skywind3000/asynctasks.vim"
 g:asynctasks_term_pos = "tab" # quickfix | vim | tab | bottom | external
-# ‘vim' 时无法运行路径中有空格的情况
+g:asyncrun_status = "stopped"
+g:asyncrun_open = 6
 g:asyncrun_save = true
 g:asyncrun_bell = true
 if has("win32")
@@ -478,12 +451,8 @@ packadd! vim-vsnip
 packadd! vim-vsnip-integ
 packadd! friendly-snippets
 Pack 'girishji/scope.vim', { on: 'Scope', type: "opt" } # {{{
-nmap <Leader>f <Cmd>Scope Grep<CR>
-nmap <Leader>r <Cmd>Scope MRU<CR>
 nmap <Leader>s <Cmd>Scope LspDocumentSymbol<CR>
-
 # }}}
-
 
 var lspOpts = { # {{{
 	autoComplete: false, # Use OmniComplete

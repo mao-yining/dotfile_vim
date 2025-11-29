@@ -1,23 +1,23 @@
 vim9script
 
 def Find(how: string = "", path: string = ""): string
-    var mods = ""
-    if how == "s" && winwidth(winnr()) * 0.3 > winheight(winnr())
-        mods = "vert "
-    endif
-    if empty(path)
-        silent g:SetProjectRoot()
-    else
-        silent g:Lcd(path)
-    endif
-    return $":{mods}{how}find "
+	var mods = ""
+	if how == "s" && winwidth(winnr()) * 0.3 > winheight(winnr())
+		mods = "vert "
+	endif
+	if empty(path)
+		silent g:SetProjectRoot()
+	else
+		silent g:Lcd(path)
+	endif
+	return $":{mods}{how}find "
 enddef
 def Buffer(how: string = ""): string
-    var mods = ""
-    if how == "s" && winwidth(winnr()) * 0.3 > winheight(winnr())
-        mods = "vert "
-    endif
-    return $":{mods}{how}b "
+	var mods = ""
+	if how == "s" && winwidth(winnr()) * 0.3 > winheight(winnr())
+		mods = "vert "
+	endif
+	return $":{mods}{how}b "
 enddef
 nnoremap <expr> <Leader><Leader> Find()
 nnoremap <expr> <Leader><LocalLeader> Find("tab")
@@ -32,6 +32,15 @@ nnoremap <expr> <Leader>fs ":SLoad "
 nnoremap <expr> <Leader>fc ":colorscheme "
 nnoremap <expr> <Leader>fu ":Unicode "
 
+# Grep word under cursor
+if has("win32")
+	nnoremap <Leader>fw <ScriptCmd>exe $'Rg \b{expand("<cword>")}\b -C {v:count}'<CR>
+else
+	nnoremap <Leader>fw <ScriptCmd>exe $'Rg \\b{expand("<cword>")}\\b -C {v:count}'<CR>
+endif
+# lvimgrep word in a current buffer
+nnoremap <Leader>o <ScriptCmd>exe $'Occur {expand("<cword>")}'<CR>
+
 import autoload 'text.vim'
 
 nnoremap <silent> <Leader><CR> <scriptcmd>text.Toggle()<CR>
@@ -41,10 +50,10 @@ nnoremap <silent> <Leader><CR> <scriptcmd>text.Toggle()<CR>
 # i_ i. i: i, i; i| i/ i\ i* i+ i- i# i<tab>
 # a_ a. a: a, a; a| a/ a\ a* a+ a- a# a<tab>
 for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#', '<tab>' ]
-    execute $"xnoremap <silent> i{char} <esc><scriptcmd>text.Obj('{char}', 1)<CR>"
-    execute $"xnoremap <silent> a{char} <esc><scriptcmd>text.Obj('{char}', 0)<CR>"
-    execute $"onoremap <silent> i{char} :normal vi{char}<CR>"
-    execute $"onoremap <silent> a{char} :normal va{char}<CR>"
+	execute $"xnoremap <silent> i{char} <esc><scriptcmd>text.Obj('{char}', 1)<CR>"
+	execute $"xnoremap <silent> a{char} <esc><scriptcmd>text.Obj('{char}', 0)<CR>"
+	execute $"onoremap <silent> i{char} :normal vi{char}<CR>"
+	execute $"onoremap <silent> a{char} :normal va{char}<CR>"
 endfor
 
 # indent text object
@@ -87,6 +96,8 @@ nnoremap <Leader>% :<C-U>%s/\<<C-r>=expand("<cword>")<CR>\>/
 xnoremap <Leader>% "sy:%s/\V<C-R>s/
 # literal search
 nnoremap <Leader>/ <ScriptCmd>exe $"Search {input("Search: ")}"<CR>
+xnoremap <Leader>/ y/\V<C-R>"<CR>
+
 
 # move lines
 xnoremap <M-j> :sil! m '>+1<CR>gv
@@ -178,10 +189,6 @@ enddef
 map <M-Left> <ScriptCmd>Tab_MoveLeft()<CR>
 map <M-Right> <ScriptCmd>Tab_MoveRight()<CR>
 
-# select search / substitute
-xmap g/ "sy/<C-R>s
-xmap gs "sy:%s/<C-R>s/
-
 omap A <Cmd>normal! ggVG<CR>
 xmap A :<C-U>normal! ggVG<CR>
 # visual-block
@@ -190,7 +197,7 @@ autocmd ModeChanged [\x16]:* xmap A :<C-U>normal! ggVG<CR>
 
 # write to a privileged file
 if executable('sudo')
-		command! W w !sudo tee "%" >/dev/null
+	command! W w !sudo tee "%" >/dev/null
 endif
 
 nmap U <C-R>

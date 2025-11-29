@@ -37,4 +37,3 @@ export def BotRight(): string
     endif
     return res
 enddef
-
