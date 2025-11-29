@@ -1,7 +1,7 @@
 vim9script
 packadd helptoc
 
-nnoremap <buffer> <Leader>t <ScriptCmd>HelpToc<CR>
+nnoremap <buffer> <LocalLeader>t <ScriptCmd>HelpToc<CR>
 nnoremap <buffer> q <Cmd>bd<CR>
 
 def HelpComplete(findstart: number, base: string): any

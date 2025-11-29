@@ -49,7 +49,7 @@ def CmdCompleteSelectFirst()
 		'Recent', 'SRecent', 'Bookmark', 'SBookmark',
 		'Project', 'Help',
 		'LoadSession', 'InsertTemplate', 'Colorscheme', 'Unicode',
-		'help', 'AsyncTask', 'SLoad',
+		'help', 'AsyncTask', 'SLoad', 'compiler'
 	]
 
 	# fullcommand() can't figure out `:vertical sbuffer` or `:horizontal sbuffer`,

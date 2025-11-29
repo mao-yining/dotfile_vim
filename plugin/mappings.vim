@@ -26,6 +26,7 @@ nnoremap <expr> <Leader>b Buffer()
 nnoremap <expr> <Leader>t ":AsyncTask "
 nnoremap <expr> <Leader>h ":help "
 nnoremap <expr> <Leader>r ":Recent "
+nnoremap <expr> <Leader>fm ":compiler "
 # nnoremap <expr> <Leader>fp ":Project "
 nnoremap <expr> <Leader>ft ":set ft= "
 nnoremap <expr> <Leader>fs ":SLoad "

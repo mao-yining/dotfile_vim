@@ -307,19 +307,15 @@ Pack "mao-yining/vim-log-highlighting", { type: "opt" }
 au! BufNewFile,BufRead *.log	setfiletype log
 Pack "ubaldot/vim-conda-activate", { on: "CondaActivate" }
 Pack "bfrg/vim-cmake-help", { for: "cmake" }
-Pack "lervag/vimtex"
+Pack "lervag/vimtex", { type: "opt" }
 Pack "junegunn/vim-easy-align", { on: "<Plug>(EasyAlign)" }
 xmap <LocalLeader><Tab> <Plug>(EasyAlign)
 nmap <LocalLeader><Tab> <Plug>(EasyAlign)
-Pack "ferrine/md-img-paste.vim", { for: "markdown" }
 Pack "nathangrigg/vim-beancount", { for: "opt" }
 au BufNewFile,BufRead *.bean,*.beancount ++once packadd vim-beancount
 Pack "normen/vim-pio", { on: "PIO" }
 Pack "tpope/vim-scriptease", { on: "PP" }
-Pack "mhinz/vim-lookup", { for: "vim" }
 Pack "chrisbra/csv.vim", { for: "csv" }
-autocmd FileType vim nmap <buffer> <C-]>  <Cmd>call lookup#lookup()<CR>
-autocmd FileType vim nmap <buffer> <C-t>  <Cmd>call lookup#pop()<CR>
 Pack "tpope/vim-dadbod", { on: "DB" }
 Pack "kristijanhusak/vim-dadbod-ui", { on: [ "DBUI", "DBUIToggle" ] }
 # }}}
