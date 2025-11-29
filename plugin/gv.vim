@@ -190,9 +190,9 @@ def Fill(cmd: string)
 
 	# TODO: Test Async Read
 	# cmd->job_start({
-	# 	out_io: "buffer",
-	# 	out_buf: bufnr,
-	# 	out_modifiable: false,
+	#	out_io: "buffer",
+	#	out_buf: bufnr,
+	#	out_modifiable: false,
 	# })
 enddef
 
@@ -228,7 +228,7 @@ def List(log_opts: list<string>)
 	silent exe (bufexists(bufname) ? 'buffer' : 'file') fnameescape(bufname)
 
 	Scratch()
-	setlocal nowrap tabstop=8 cursorline iskeyword+=#
+	setlocal nowrap tabstop=8 cursorline nolist iskeyword+=#
 	if !exists(':GBrowse')
 		doautocmd <nomodeline> User Fugitive
 	endif

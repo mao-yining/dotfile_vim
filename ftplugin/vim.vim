@@ -1,8 +1,5 @@
 vim9script
 
-setl formatprg=clang-format\ -assume-filename=\"%\"
-setl keywordprg=:LspHover
-
 if exists("g:loaded_lsp")
 	import autoload '../autoload/lsp.vim'
 	augroup LspSetup

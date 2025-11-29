@@ -1,5 +1,19 @@
 vim9script noclear
 
+g:markdown_minlines = 500
+g:markdown_fenced_languages = [
+	"bash=sh", "shell=sh", "sh", "make",
+	"asm", "c", "cpp",
+	"rust", "go",
+	"javascript",
+	"yaml", "json", "jsonc", "toml",
+	"python", "perl", "vim", "ruby", "lua",
+	"tex", "tikz=tex", "typst",
+	"git", "gitcommit", "gitrebase", "diff",
+	"messages", "log",
+	"mermaid",
+]
+
 setlocal nolinebreak
 setlocal textwidth=74
 
@@ -42,3 +56,12 @@ var args = [
 
 &l:makeprg = $"pandoc {args->join(' ')}"
 &l:conceallevel = 2
+
+setl keywordprg=:LspHover
+if exists("g:loaded_lsp")
+	import autoload '../autoload/lsp.vim'
+	augroup LspSetup
+		au!
+		au User LspAttached lsp.SetupMaps()
+	augroup END
+endif

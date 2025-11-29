@@ -1,6 +1,5 @@
 vim9script
 
-setl formatprg=clang-format\ -assume-filename=\"%\"
 setl keywordprg=:LspHover
 
 if exists("g:loaded_lsp")
@@ -10,3 +9,4 @@ if exists("g:loaded_lsp")
 		au User LspAttached lsp.SetupMaps()
 	augroup END
 endif
+

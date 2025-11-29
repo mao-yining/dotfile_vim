@@ -1,8 +1,26 @@
+vim9script
+
 def CmdReplace(cmd: string, ucmd: string): string
-    return (getcmdtype() ==# ':' && getcmdline() ==# cmd) ? ucmd : cmd
+	return (getcmdtype() ==# ':' && getcmdline() ==# cmd) ? ucmd : cmd
 enddef
 
 cnoreabbrev <expr> git CmdReplace("git", "Git")
+
+# quick to change dir
+cab cdn cd <C-R>=expand("%:p:h")<CR>
+cab cdr cd <C-R>=FindRoot()<CR>
+def g:FindRoot(): string
+	var gitdir = finddir(".git", getcwd() .. ";")
+	if !empty(gitdir)
+		if gitdir == ".git"
+			gitdir = getcwd()
+		else
+			gitdir = strpart(gitdir, 0, strridx(gitdir, "/"))
+		endif
+		return gitdir
+	endif
+	return null_string
+enddef
 
 inorea myn Mao-Yining
 inorea latex LaTeX
