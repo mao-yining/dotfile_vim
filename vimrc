@@ -119,26 +119,7 @@ nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " ..
 
 # buffer delete {{{
 nmap =b <Cmd>enew<CR>
-nmap \b <ScriptCmd>CloseBuf()<CR>
-def CloseBuf()
-	if &bt != null_string || &ft == "netrw"|bd|return|endif
-	var buf_now = bufnr()
-	var buf_jump_list = getjumplist()[0]
-	var buf_jump_now = getjumplist()[1] - 1
-	while buf_jump_now >= 0
-		var last_nr = buf_jump_list[buf_jump_now]["bufnr"]
-		var last_line = buf_jump_list[buf_jump_now]["lnum"]
-		if buf_now != last_nr && bufloaded(last_nr) && getbufvar(last_nr, "&bt") == null_string
-			execute ":buffer " .. last_nr
-			execute ":bd " .. buf_now
-			return
-		else
-			buf_jump_now -= 1
-		endif
-	endwhile
-	bp|while &bt != null_string|bp|endwhile
-	execute "bd " .. buf_now
-enddef
+nmap \b <Cmd>bdelete<CR>
 # }}}
 
 # source vimscript (operator)
