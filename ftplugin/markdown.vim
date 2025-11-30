@@ -17,6 +17,11 @@ g:markdown_fenced_languages = [
 setlocal nolinebreak
 setlocal textwidth=74
 
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
 def AddFormat(mark: string): string
 	return $"c{mark}\<C-R>\"{mark}\<Esc>"
 enddef

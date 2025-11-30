@@ -184,16 +184,8 @@ enddef
 def Fill(cmd: string)
 	setlocal modifiable
 	:%delete _
-	silent execute 'read' escape('!' .. cmd, '%')
-	normal! gg"_dd
+	setline(1, systemlist(cmd))
 	setlocal nomodifiable
-
-	# TODO: Test Async Read
-	# cmd->job_start({
-	#	out_io: "buffer",
-	#	out_buf: bufnr,
-	#	out_modifiable: false,
-	# })
 enddef
 
 def Tracked(file: string): bool

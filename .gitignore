@@ -4,5 +4,5 @@ session/
 sessions/
 *.swp
 tags
-tags.lock
+tags.*
 .netrwhist

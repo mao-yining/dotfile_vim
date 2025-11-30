@@ -13,10 +13,9 @@ set hidden confirm
 set belloff=all shortmess+=cC
 set nolangremap
 
-set langmenu=zh_CN.UTF-8 helplang=cn spelllang=en_gb,cjk
-set termencoding=utf-8 encoding=utf-8
+set helplang=cn spelllang=en_gb,cjk
 
-set history=10000
+set history=10000 updatetime=400 tabpagemax=50 termwinscroll=40000
 set display=lastline smoothscroll
 set scrolloff=5
 set colorcolumn=81
@@ -33,10 +32,6 @@ set autoindent smartindent smarttab
 set foldopen+=jump,insert
 set jumpoptions=stack
 set ttimeout ttimeoutlen=50
-set updatetime=400
-set tags=./tags;,tags
-set tabpagemax=50
-set termwinscroll=40000
 set autowrite autoread
 set hlsearch incsearch ignorecase smartcase
 set number relativenumber cursorline cursorlineopt=number signcolumn=number
@@ -46,11 +41,10 @@ set fillchars=vert:│,fold:·,foldsep:│
 set virtualedit=block
 set nostartofline
 set switchbuf=uselast
-set fileformat=unix fileformats=unix,dos
 set sidescroll=1 sidescrolloff=3
 set nrformats=bin,hex,unsigned
-set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal,unix
-set viewoptions=cursor,folds,curdir,slash,unix
+set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal
+set viewoptions=cursor,folds,curdir,slash
 set diffopt+=algorithm:histogram,linematch:60,inline:word
 set completeopt=menuone,popup,fuzzy
 set completepopup=border:off,shadow:on pumborder=
