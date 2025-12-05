@@ -94,14 +94,20 @@ def EditDirectoryHelper()
 	endif
 enddef
 
+def CmdComplete()
+	if getcmdcompltype() =~# 'customlist'
+		return
+	endif
+
+	EditDirectoryHelper()
+	# :! and :term completion is very slow on Windows and WSL, disable it there.
+	if !((has("win32") || exists("$WSLENV")) && getcmdcompltype() == 'shellcmd')
+		wildtrigger()
+	endif
+enddef
+
 augroup CmdComplete
 	au!
-	autocmd CmdlineChanged : {
-		EditDirectoryHelper()
-		# :! and :term completion is very slow on Windows and WSL, disable it there.
-		if !((has("win32") || exists("$WSLENV")) && getcmdcompltype() == 'shellcmd')
-			wildtrigger()
-		endif
-	}
+	autocmd CmdlineChanged : CmdComplete()
 	autocmd CmdlineLeavePre : CmdCompleteSelectFirst()
 augroup END
