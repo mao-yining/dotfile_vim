@@ -7,7 +7,7 @@ enddef
 cnoreabbrev <expr> git CmdReplace("git", "Git")
 
 # quick to change dir
-cab cdn cd <C-R>=expand("%:p:h")<CR>
+cab cdn lcd <C-R>=expand("%:p:h")<CR>
 cab cdr cd <C-R>=FindProjectRoot()<CR>
 
 inorea myn Mao-Yining
