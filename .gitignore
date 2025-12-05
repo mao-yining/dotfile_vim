@@ -3,5 +3,5 @@ pack/
 session/
 sessions/
 *.swp
-.tags*
+/tags
 .netrwhist
