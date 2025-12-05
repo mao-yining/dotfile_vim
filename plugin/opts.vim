@@ -16,4 +16,5 @@ g:hlyank_duration = 200
 
 if executable("ctags")
 	silent! packadd vim-gutentags
+	g:gutentags_exclude_filetypes = ['help']
 endif
