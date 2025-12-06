@@ -317,29 +317,6 @@ Pack "kristijanhusak/vim-dadbod-ui", { on: [ "DBUI", "DBUIToggle" ] }
 
 Pack "puremourning/vimspector", { type: "opt" }
 
-# ALE {{{
-Pack "dense-analysis/ale", { type: "opt" }
-
-g:ale_sign_column_always = true
-g:ale_disable_lsp        = true
-g:ale_echo_msg_format    = "[%linter%] %s [%severity%]"
-g:ale_virtualtext_cursor = 0
-g:ale_virtualtext_prefix = ""
-g:ale_sign_error         = "E>"
-g:ale_sign_warning       = "W>"
-g:ale_sign_info          = "I>"
-nmap <LocalLeader>d <Plug>(ale_detail)
-nmap <silent> [d <Plug>(ale_previous)
-nmap <silent> ]d <Plug>(ale_next)
-g:ale_c_cppcheck_options = "--enable=style --check-level=exhaustive"
-g:ale_cpp_cppcheck_options = "--enable=style --check-level=exhaustive"
-g:ale_linters = {
-	c: ["cc", "clangtidy", "cppcheck", "cpplint"],
-	cpp: ["cc", "clangtidy", "cppcheck", "cpplint"],
-	tex: ["chktex"],
-}
-# }}}
-
 # test {{{
 Pack "vim-test/vim-test", { on: [ "TestNearest", "TestFile", "TestSuite" ] }
 nmap <silent> <LocalLeader>tt <Cmd>TestNearest<CR>
@@ -436,6 +413,7 @@ var lspServers = [
 	{ filetype: ["markdown", "pandoc"], path: "marksman", args: ["server"], syncInit: true },
 	# { filetype: ['markdown', 'pandoc'], path: 'vscode-markdown-language-server.cmd', args: ['--stdio'] }
 ]
+
 autocmd User LspSetup g:LspAddServer(lspServers)
 
 inoremap <expr> <C-l>   vsnip#expandable()  ? "<Plug>(vsnip-expand)"         : "<C-j>"
