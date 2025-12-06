@@ -17,13 +17,6 @@ augroup general | au!
 		endif
 	}
 
-	# # save last session on exit if there is a buffer with name
-	# au VimLeavePre * {
-	# 	if reduce(getbufinfo({'buflisted': 1}), (a, v) => a || !empty(v.name), false)
-	# 		:exe $'mksession! {$MYVIMDIR}sessions/default.vim'
-	# 	endif
-	# }
-
 	autocmd TermResponse * {
 		if v:termresponse == "\e[>0;136;0c"
 			set bg=dark
@@ -55,14 +48,8 @@ augroup general | au!
 		endif
 	}
 
-	# 自动去除尾随空格
-	autocmd BufWritePre *.py :%s/[ \t\r]\+$//e
-
 	# 设置 q 来退出窗口
-	autocmd FileType startuptime,fugitive,qf,help,git,fugitiveblame,gitcommit map <buffer>q <Cmd>q<CR>
-
-	# 在 gitcommit 中自动进入插入模式
-	# autocmd FileType gitcommit :1 | startinsert
+	autocmd FileType startuptime,fugitive,fugitiveblame,gitcommit map <buffer>q <Cmd>q<CR>
 
 	# QuickFixCmdPost
 	autocmd QuickFixCmdPost * cwindow
@@ -77,35 +64,6 @@ augroup general | au!
 
 	autocmd QuickfixCmdPost make QfMakeConv()
 
-	autocmd User TermdebugStartPost {
-		nmap <nowait> <LocalLeader>g <Cmd>Gdb<CR>
-		nmap <nowait> <LocalLeader>p <Cmd>Program<CR>
-		nmap <nowait> <LocalLeader>s <Cmd>Source<CR>
-		nmap <nowait> <LocalLeader>a <Cmd>Asm<CR>
-		nmap <nowait> <LocalLeader>v <Cmd>Var<CR>
-		nmap <nowait> <F3> <Cmd>ToggleBreak<CR>
-		nmap <nowait> <F5> <Cmd>RunOrContinue<CR>
-		nmap <nowait> <LocalLeader><F5> <Cmd>Stop<CR>
-		nmap <nowait> <Leader><F5> <Cmd>Run<CR>
-		nmap <nowait> <F6> <Cmd>Step<CR>
-		nmap <nowait> <F7> <Cmd>Over<CR>
-		nmap <nowait> <F8> <Cmd>Finish<CR>
-		setlocal complete=
-	}
-	autocmd User TermdebugStopPost {
-		nunmap <LocalLeader>g
-		nunmap <LocalLeader>p
-		nunmap <LocalLeader>s
-		nunmap <LocalLeader>a
-		nunmap <LocalLeader>v
-		map    <F3> <Plug>VimspectorToggleBreakpoint
-		nmap   <F5> <Plug>VimspectorContinue
-		nunmap <LocalLeader><F5>
-		nunmap <Leader><F5>
-		nunmap <F6>
-		nmap   <F7> <Cmd>AsyncTask file-run<CR>
-		nmap   <F8> <Cmd>AsyncTask file-build<CR>
-	}
 augroup end
 
 command! DiffOrig {
@@ -144,7 +102,7 @@ command! -nargs=1 Occur exe $'lvim /\V{escape(<q-args>, '\')}/j %' | belowright 
 
 # fix trailing spaces
 command! FixTrailingSpaces {
-	var v = winsaveview()
+	const v = winsaveview()
 	keepj silent! :%s/\r\+$//g
 	keepj silent! :%s/\v(\s+$)//g
 	winrestview(v)
