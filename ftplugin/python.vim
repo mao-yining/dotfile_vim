@@ -1,5 +1,7 @@
 vim9script
 
+autocmd BufWritePre <buffer> FixTrailingSpaces
+
 if executable('black')
     &l:formatprg = "black -q - 2>/dev/null"
 elseif executable('yapf')

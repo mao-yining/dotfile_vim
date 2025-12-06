@@ -5,3 +5,4 @@ if exists('b:undo_ftplugin')
 endif
 
 setl nolist
+nmap <buffer>q <Cmd>q<CR>
