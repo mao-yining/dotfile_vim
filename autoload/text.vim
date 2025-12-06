@@ -2,6 +2,7 @@ vim9script
 
 # Name: autoload/text.vim
 # Author: Maxim Kim <habamax@gmail.com>
+# Maintainer: Mao-Yining <mao-yining@outlook.com>
 # Desc: Text manipulation functions.
 
 # Fix text:
@@ -32,26 +33,6 @@ export def FixSpaces(line1: number, line2: number)
     exe printf('silent :%d,%ds/\s*$//ge', line1, line2)
 enddef
 
-# Underline current line.
-# example mappings:
-# nnoremap <silent> <space>= :call text#Underline('=')<CR>
-# nnoremap <silent> <space>- :call text#Underline('-')<CR>
-# nnoremap <silent> <space>~ :call text#Underline('~')<CR>
-# nnoremap <silent> <space>^ :call text#Underline('^')<CR>
-# nnoremap <silent> <space>+ :call text#Underline('+')<CR>
-export def Underline(char: string)
-    var nextnr = line('.') + 1
-    var line = matchlist(getline('.'), '^\(\s*\)\(.*\)$')
-    if empty(line[2]) | return | endif
-    var underline = line[1] .. repeat(char, strchars(line[2]))
-    if getline(nextnr) =~ '^\s*' .. escape(char, '*\~^.') .. '\+$'
-        setline(nextnr, underline)
-    else
-        append('.', underline)
-    endif
-enddef
-
-
 # Dates (text object and stuff)
 var mons_en = ['Jan', 'Feb', 'Mar', 'Apr',
                'May', 'Jun', 'Jul', 'Aug',
@@ -59,11 +40,11 @@ var mons_en = ['Jan', 'Feb', 'Mar', 'Apr',
 var months_en = ['January',   'February', 'March',    'April',
                  'May',       'June',     'July',     'August',
                  'September', 'October',  'November', 'December']
-var months_ru = ['января',   'февраля', 'марта',  'апреля',
-                 'мая',      'июня',    'июля',   'августа',
-                 'сентября', 'октября', 'ноября', 'декабря']
+var months_cn = ['一月', '二月', '三月',   '四月',
+                 '五月', '六月', '七月',   '八月',
+                 '九月', '十月', '十一月', '十二月']
 
-var months = extend(months_en, months_ru)
+var months = extend(months_en, months_cn)
 months = extend(months, mons_en)
 g:months = copy(months)
 
@@ -113,11 +94,6 @@ export def ObjDate(inner: bool)
         return
     endif
     winrestview(view)
-enddef
-
-export def ObjDateRu()
-    var [year, month, day] = split(strftime("%Y-%m-%d"), '-')
-    return printf("%d %s %s", day, months_ru[month-1], year)
 enddef
 
 # number text object
@@ -223,7 +199,7 @@ enddef
 # Toggle current word
 # nnoremap <silent> <BS> <cmd>call text#Toggle()<CR>
 export def Toggle()
-    var toggles = {
+    const toggles = {
         true: 'false', false: 'true', True: 'False', False: 'True', TRUE: 'FALSE', FALSE: 'TRUE',
         yes: 'no', no: 'yes', Yes: 'No', No: 'Yes', YES: 'NO', NO: 'YES',
         on: 'off', off: 'on', On: 'Off', Off: 'On', ON: 'OFF', OFF: 'ON',
@@ -233,9 +209,8 @@ export def Toggle()
         first: 'last', last: 'first',
         top: 'right', right: 'bottom', bottom: 'left', left: 'center', center: 'top',
     }
-    var word = expand("<cword>")
-    if toggles->has_key(word)
-        execute 'normal! "_ciw' .. toggles[word]
+    if toggles->has_key(expand("<cword>"))
+        execute 'normal! "_ciw' .. toggles[expand("<cword>")]
     endif
 enddef
 
