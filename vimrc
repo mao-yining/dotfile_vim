@@ -463,11 +463,9 @@ autocmd User LspSetup g:LspOptionsSet(lspOpts)
 
 var lspServers = [
 	{ filetype: ["c", "cpp"], path: "clangd", args: ['--background-index', '--clang-tidy'] },
-	{ filetype: "python", path: "pyright-langserver.cmd", args: ["--stdio"], workspaceConfig: { python: { pythonPath: "python" } } },
-	{ filetype: "rust", path: "rust-analyzer" },
+	{ filetype: ["python"], path: "pyright-langserver.cmd", args: ["--stdio"], workspaceConfig: { python: { pythonPath: "python" } } },
 	{ filetype: ["tex", "bib"], path: "texlab"},
-	{ filetype: "vim", path: "vim-language-server.cmd", args: ["--stdio"] },
-	{ filetype: "rust", path: "rust-analyzer", syncInit: true },
+	{ filetype: ["rust"], path: "rust-analyzer", syncInit: true },
 	{ filetype: ["markdown", "pandoc"], path: "marksman", args: ["server"], syncInit: true },
 	# { filetype: ['markdown', 'pandoc'], path: 'vscode-markdown-language-server.cmd', args: ['--stdio'] }
 ]
