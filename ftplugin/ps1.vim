@@ -1,1 +1,1 @@
-setlocal makeprg=pwsh\ %
+compiler powershell

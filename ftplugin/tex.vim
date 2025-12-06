@@ -1,6 +1,7 @@
 vim9script
 
 setlocal wrap
+compiler tex
 
 if exists('g:loaded_vimtex')
 	setlocal keywordprg=:VimtexDocPackage*
