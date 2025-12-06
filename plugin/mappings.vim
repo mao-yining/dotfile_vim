@@ -150,6 +150,10 @@ map <C-Down> <C-W>-
 map <C-Left> <C-W><
 map <C-Right> <C-W>>
 
+# tab && pmenu
+imap <expr> <Tab> pumvisible() ? "\<C-n>" : "\t"
+imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
+
 # change window in normal
 nmap <Leader>w <C-w>
 noremap <M-H> <C-W>h
