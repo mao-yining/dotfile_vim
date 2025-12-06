@@ -138,7 +138,7 @@ enddef
 import autoload 'hlblink.vim'
 command BlinkLine hlblink.Line()
 
-const skip_lists = g:startify_skiplist
+const skip_lists = get(g:, "startify_skiplist", {})
 def RecentComplete(_, _, _): string
 	return v:oldfiles->filter((_, val: string): bool => {
 		for pattern in skip_lists
