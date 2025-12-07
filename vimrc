@@ -22,7 +22,6 @@ set colorcolumn=81
 set conceallevel=2
 
 set formatoptions+=mMjn
-# set laststatus=2
 set noshowmode
 set matchpairs+=<:>
 set showmatch
@@ -70,7 +69,7 @@ plugpac#Begin({
 
 Pack "catppuccin/vim", { name: "catppuccin" }
 Pack "k-takata/minpac", { type: "opt" }
-Pack "yianwillis/vimcdoc"
+Pack "yianwillis/vimcdoc", { type: "opt" }
 
 # coding {{{
 Pack "kshenoy/vim-signature"      # show marks
@@ -129,46 +128,11 @@ g:startify_bookmarks = [ { "c": $MYVIMRC } ]
 g:startify_bookmarks += [ { "b": "~/Documents/vault/projects/accounts/main.bean" } ]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read \":help uganda\".", ""]
 
-Pack "Bakudankun/qline.vim"
-Pack "vim-airline/vim-airline"
-g:loaded_qline = 1
-g:loaded_airline = 1
-g:qline_config = {
-	colorscheme: "airline:catppuccin",
-	active: {
-		left: [
-			["mode", "paste"],
-			["gitbranch", "gitgutter"],
-			["filename"],
-		],
-		right: [
-			["lineinfo"],
-			["percent"],
-			["filetype", "fileencoding", "fileformat", "tasks"]
-		]
-	},
-	inactive: {
-		left: [["filename", "gitbranch", "gitgutter"], ["bufstate"]],
-		right: [["filetype"], ["fileinfo"]],
-		separator: {left: "", right: "", margin: " "},
-		subseparator: {left: "|", right: "|", margin: " "},
-	},
-	component: {
-		tasks: () => g:asyncrun_status
-		->matchstr('\(running\|success\|failure\)')
-		->substitute("^success$", "%#Added#success%*", "")
-		->substitute("^failure$", "%#Removed#failure%*", ""),
-		gitbranch: () => fugitive#statusline()->matchstr("(\\zs[^)]*\\ze)"),
-		gitgutter: {
-		content: () =>
-			g:GitGutterGetHunkSummary()
-			->mapnew((idx, val) => !val ? null_string : ["+", "~", "-"][idx] .. val)
-			->filter((_, val) => !!val)
-			->join(),
-			visible_condition: () => g:GitGutterGetHunks(),
-		},
-	},
-} # }}}
+Pack "Bakudankun/qline.vim", { type: 'opts' }
+Pack "vim-airline/vim-airline", { type: 'opts' }
+packadd! vim-airline
+g:airline#extensions#whitespace#checks = [ 'trailing', 'long', 'conflicts' ]
+# }}}
 
 Pack "lacygoill/vim9asm", { on: "Disassemble" } # vim9 asm plugin
 
@@ -243,12 +207,18 @@ Pack "tpope/vim-rhubarb", { type: "opt" }
 Pack "junegunn/gv.vim", { type: "opt" }
 Pack "airblade/vim-gitgutter", { type: "opt" }
 Pack "rhysd/conflict-marker.vim", { type: "opt" }
+# def g:GitStatus(): string
+# 	const [a,m,r] = g:GitGutterGetHunkSummary()
+# 	return printf('%s +%d ~%d -%d', g:FugitiveStatusline(), a, m, r)
+# enddef
+# set statusline=%<%f\ %h%m%r%{GitStatus()}%=%-14.(%l,%c%V%)\ %P
 if executable("git")
 	packadd! vim-fugitive
 	packadd! vim-gitgutter
 	packadd! conflict-marker.vim
 	nmap <Leader>gg <Cmd>Git<CR>
 	nmap <Leader>gl <Cmd>GV<CR>
+	nmap g<Space> :Git<Space>
 	nmap <Leader>g<Space> :Git<Space>
 	nmap <Leader>gc<Space> :Git commit<Space>
 	nmap <Leader>gcc <Cmd>Git commit -v<CR>
