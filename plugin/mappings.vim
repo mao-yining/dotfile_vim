@@ -197,8 +197,10 @@ map <M-Right> <ScriptCmd>Tab_MoveRight()<CR>
 omap A <Cmd>normal! ggVG<CR>
 xmap A :<C-U>normal! ggVG<CR>
 # visual-block
-autocmd ModeChanged *:[\x16] xunmap A
-autocmd ModeChanged [\x16]:* xmap A :<C-U>normal! ggVG<CR>
+augroup mappings | au!
+	autocmd ModeChanged *:[\x16] xunmap A
+	autocmd ModeChanged [\x16]:* xmap A :<C-U>normal! ggVG<CR>
+augroup end
 
 # write to a privileged file
 if executable('sudo')
