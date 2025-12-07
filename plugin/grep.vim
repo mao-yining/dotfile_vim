@@ -26,6 +26,14 @@ command! Todo :Rg TODO:
 
 augroup quickfix
 	autocmd!
+	def QfMakeConv()
+		var qflist = getqflist()
+		for i in qflist
+			i.text = iconv(i.text, "cp936", "utf-8")
+		endfor
+		setqflist(qflist)
+	enddef
+	autocmd QuickfixCmdPost make QfMakeConv()
 	autocmd QuickFixCmdPost cgetexpr belowright cwindow
 	autocmd QuickFixCmdPost lgetexpr belowright lwindow
 augroup END

@@ -51,19 +51,6 @@ augroup general | au!
 	# 设置 q 来退出窗口
 	autocmd FileType startuptime,fugitive,fugitiveblame,gitcommit map <buffer>q <Cmd>q<CR>
 
-	# QuickFixCmdPost
-	autocmd QuickFixCmdPost * cwindow
-
-	def QfMakeConv()
-		var qflist = getqflist()
-		for i in qflist
-			i.text = iconv(i.text, "cp936", "utf-8")
-		endfor
-		setqflist(qflist)
-	enddef
-
-	autocmd QuickfixCmdPost make QfMakeConv()
-
 augroup end
 
 command! DiffOrig {
