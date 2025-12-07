@@ -1,8 +1,12 @@
 vim9script
 
-autocmd BufWritePre <buffer> FixTrailingSpaces
+augroup python | au!
+	autocmd BufWritePre <buffer> FixTrailingSpaces
+augroup end
 
-if executable('black')
+if executable('ruff')
+    &l:formatprg = "ruff format --stdin-filename %"
+elseif executable('black')
     &l:formatprg = "black -q - 2>/dev/null"
 elseif executable('yapf')
     # pip install yapf
