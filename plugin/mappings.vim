@@ -224,7 +224,6 @@ cnoremap <C-N> <Down>
 cnoremap <C-P> <Up>
 cnoremap <C-S-B> <S-Left>
 cnoremap <C-S-F> <S-Right>
-cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h') .. '/' : '%%'
 
 inoremap <CR> <C-G>u<CR>
 inoremap <C-U> <C-G>u<C-U>
