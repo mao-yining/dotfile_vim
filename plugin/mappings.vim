@@ -164,11 +164,12 @@ inoremap <M-H> <Esc><C-W>h
 inoremap <M-L> <Esc><C-W>l
 inoremap <M-J> <Esc><C-W>j
 inoremap <M-K> <Esc><C-W>k
-tnoremap <M-H> <C-W>h
-tnoremap <M-L> <C-W>l
-tnoremap <M-J> <C-W>j
-tnoremap <M-K> <C-W>k
-tnoremap <C-S-V> <C-W>"+
+set termwinkey=<C-_>
+tnoremap <M-H> <C-_>h
+tnoremap <M-L> <C-_>l
+tnoremap <M-J> <C-_>j
+tnoremap <M-K> <C-_>k
+tnoremap <C-S-V> <C-_>"+
 tnoremap <C-\> <C-\><C-N>
 
 nmap L gt
