@@ -49,7 +49,7 @@ endif
 
 packadd lsp
 g:LspAddServer(lspServers)
-nmap <Leader>s <Cmd>Scope LspDocumentSymbol<CR>
+nmap <Leader>s <Cmd>LspDocumentSymbol<CR>
 g:LspOptionsSet({
 	autoComplete: false, # Use OmniComplete
 	autoPopulateDiags: true,
