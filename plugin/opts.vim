@@ -11,13 +11,14 @@ packadd matchit
 packadd nohlsearch
 
 packadd vimcdoc
+packadd vimtex
 
-g:popup_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+g:popup_borderchars   = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
 g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
-g:hlyank_duration = 200
+g:hlyank_duration     = 200
 
-g:loaded_netrw       = 1
-g:loaded_netrwPlugin = 1
+g:loaded_netrw        = 1
+g:loaded_netrwPlugin  = 1
 nmap - <Cmd>Dir<CR>
 
 if executable("ctags")
@@ -44,10 +45,10 @@ g:vista#renderer#enable_icon = false
 nmap <LocalLeader>v <Cmd>Vista!!<CR>
 
 g:asynctasks_term_pos = "tab" # quickfix | vim | tab | bottom | external
-g:asyncrun_status = "stopped"
-g:asyncrun_open = 6
-g:asyncrun_save = true
-g:asyncrun_bell = true
+g:asyncrun_status     = "stopped"
+g:asyncrun_open       = 6
+g:asyncrun_save       = true
+g:asyncrun_bell       = true
 if has("win32")
 	g:asyncrun_encs = "cp936"
 endif

@@ -1,5 +1,6 @@
 plugged/
-pack/
+pack/devel/
+pack/mine/
 session/
 sessions/
 *.swp

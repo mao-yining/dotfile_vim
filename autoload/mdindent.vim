@@ -5,8 +5,8 @@ const NOCHANGE = -1   # indentexpr value of -1 means no-op.
 const list_item_head = '^\s*[*+-] \+'
 
 def GetPDMIndent(lnum: number)
-    # Find the nearest non-blank line before the current one.
-    const plnum = prevnonblank(lnum)
+	# Find the nearest non-blank line before the current one.
+	const plnum = prevnonblank(lnum)
 
 	if plnum == 0 # This is the first non-empty line, do not indent.
 		return 0

@@ -15,34 +15,34 @@ vim9script
 # Usage:
 # command! -range FixSpaces call text#fix_spaces(<line1>,<line2>)
 export def FixSpaces(line1: number, line2: number)
-    var view = winsaveview()
-    defer winrestview(view)
-    # replace non-breaking space to space first
-    exe printf('silent :%d,%ds/\%%xA0/ /ge', line1, line2)
-    # replace multiple spaces to a single space (preserving indent)
-    exe printf('silent :%d,%ds/\S\+\zs\(\s\|\%%xa0\)\+/ /ge', line1, line2)
-    # remove spaces between closed braces: ) ) -> ))
-    exe printf('silent :%d,%ds/)\s\+)\@=/)/ge', line1, line2)
-    # remove spaces between opened braces: ( ( -> ((
-    exe printf('silent :%d,%ds/(\s\+(\@=/(/ge', line1, line2)
-    # remove space before closed brace: word ) -> word)
-    exe printf('silent :%d,%ds/\s)/)/ge', line1, line2)
-    # remove space after opened brace: ( word -> (word
-    exe printf('silent :%d,%ds/(\s/(/ge', line1, line2)
-    # remove space at the end of line
-    exe printf('silent :%d,%ds/\s*$//ge', line1, line2)
+	var view = winsaveview()
+	defer winrestview(view)
+	# replace non-breaking space to space first
+	exe printf('silent :%d,%ds/\%%xA0/ /ge', line1, line2)
+	# replace multiple spaces to a single space (preserving indent)
+	exe printf('silent :%d,%ds/\S\+\zs\(\s\|\%%xa0\)\+/ /ge', line1, line2)
+	# remove spaces between closed braces: ) ) -> ))
+	exe printf('silent :%d,%ds/)\s\+)\@=/)/ge', line1, line2)
+	# remove spaces between opened braces: ( ( -> ((
+	exe printf('silent :%d,%ds/(\s\+(\@=/(/ge', line1, line2)
+	# remove space before closed brace: word ) -> word)
+	exe printf('silent :%d,%ds/\s)/)/ge', line1, line2)
+	# remove space after opened brace: ( word -> (word
+	exe printf('silent :%d,%ds/(\s/(/ge', line1, line2)
+	# remove space at the end of line
+	exe printf('silent :%d,%ds/\s*$//ge', line1, line2)
 enddef
 
 # Dates (text object and stuff)
 var mons_en = ['Jan', 'Feb', 'Mar', 'Apr',
-               'May', 'Jun', 'Jul', 'Aug',
-               'Sep', 'Oct', 'Nov', 'Dec']
+	'May', 'Jun', 'Jul', 'Aug',
+	'Sep', 'Oct', 'Nov', 'Dec']
 var months_en = ['January',   'February', 'March',    'April',
-                 'May',       'June',     'July',     'August',
-                 'September', 'October',  'November', 'December']
+	'May',       'June',     'July',     'August',
+	'September', 'October',  'November', 'December']
 var months_cn = ['一月', '二月', '三月',   '四月',
-                 '五月', '六月', '七月',   '八月',
-                 '九月', '十月', '十一月', '十二月']
+	'五月', '六月', '七月',   '八月',
+	'九月', '十月', '十一月', '十二月']
 
 var months = extend(months_en, months_cn)
 months = extend(months, mons_en)
@@ -62,56 +62,56 @@ g:months = copy(months)
 # xnoremap <silent> ad :<C-u>call text#ObjDate(0)<CR>
 # onoremap ad :<C-u>normal vad<CR>
 export def ObjDate(inner: bool)
-    var view = winsaveview()
-    var cword = expand("<cword>")
-    if  cword =~ '\d\{4}'
-        var rx = '\%(\D\d\{1,2}\s\+\%(' .. join(months, '\|') .. '\)\)'
-        rx ..= '\|'
-        rx ..= '\%(\s*\%(' .. join(months, '\|') .. '\)\s\+\d\{1,2},\?\)'
-        if !search(rx, 'bcW', line('.'))
-            search('\s*\D', 'bcW', line('.'))
-        endif
-    elseif cword =~ join(months, '\|')
-        search('^\|\D\ze\d\{1,2}\s\+', 'bceW')
-    elseif cword =~ '\d\{1,2}'
-        if !search('^\|\S\ze\%(' .. join(months, '\|') .. '\)\s\+\d\{1,2}', 'bceW')
-            search('^\|[^0-9\-]', 'becW')
-        endif
-    endif
+	var view = winsaveview()
+	var cword = expand("<cword>")
+	if  cword =~ '\d\{4}'
+		var rx = '\%(\D\d\{1,2}\s\+\%(' .. join(months, '\|') .. '\)\)'
+		rx ..= '\|'
+		rx ..= '\%(\s*\%(' .. join(months, '\|') .. '\)\s\+\d\{1,2},\?\)'
+		if !search(rx, 'bcW', line('.'))
+			search('\s*\D', 'bcW', line('.'))
+		endif
+	elseif cword =~ join(months, '\|')
+		search('^\|\D\ze\d\{1,2}\s\+', 'bceW')
+	elseif cword =~ '\d\{1,2}'
+		if !search('^\|\S\ze\%(' .. join(months, '\|') .. '\)\s\+\d\{1,2}', 'bceW')
+			search('^\|[^0-9\-]', 'becW')
+		endif
+	endif
 
-    var rxdate = '\%(\d\{4}-\d\{2}-\d\{2}\)'
-    rxdate ..= '\|'
-    rxdate ..= '\%(\d\{1,2}\s\+\%(' .. join(months, '\|') .. '\)\s\+\d\{4}\)'
-    rxdate ..= '\|'
-    rxdate ..= '\%(\%(' .. join(months, '\|') .. '\)\s\+\d\{1,2},\?\s\+\d\{4}\)'
-    if !inner
-        rxdate = '\s*\%(' .. rxdate .. '\)\s*'
-    endif
+	var rxdate = '\%(\d\{4}-\d\{2}-\d\{2}\)'
+	rxdate ..= '\|'
+	rxdate ..= '\%(\d\{1,2}\s\+\%(' .. join(months, '\|') .. '\)\s\+\d\{4}\)'
+	rxdate ..= '\|'
+	rxdate ..= '\%(\%(' .. join(months, '\|') .. '\)\s\+\d\{1,2},\?\s\+\d\{4}\)'
+	if !inner
+		rxdate = '\s*\%(' .. rxdate .. '\)\s*'
+	endif
 
-    if search(rxdate, 'cW') > 0
-        normal v
-        search(rxdate, 'ecW')
-        return
-    endif
-    winrestview(view)
+	if search(rxdate, 'cW') > 0
+		normal v
+		search(rxdate, 'ecW')
+		return
+	endif
+	winrestview(view)
 enddef
 
 # number text object
 export def ObjNumber()
-    var rx_num = '\d\+\(\.\d\+\)*'
-    if search(rx_num, 'ceW') > 0
-        normal! v
-        search(rx_num, 'bcW')
-    endif
+	var rx_num = '\d\+\(\.\d\+\)*'
+	if search(rx_num, 'ceW') > 0
+		normal! v
+		search(rx_num, 'bcW')
+	endif
 enddef
 
 # Line text object
 export def ObjLine(inner: bool)
-    if inner
-        normal! g_v^
-    else
-        normal! $v0
-    endif
+	if inner
+		normal! g_v^
+	else
+		normal! $v0
+	endif
 enddef
 
 # Indent text object
@@ -122,50 +122,50 @@ enddef
 # xnoremap <silent>ii <esc><scriptcmd>text.ObjIndent(v:true)<CR>
 # xnoremap <silent>ai <esc><scriptcmd>text.ObjIndent(v:false)<CR>
 export def ObjIndent(inner: bool)
-    var ln_start: number
-    var ln_end: number
-    if getline('.') =~ '^\s*$'
-        ln_start = prevnonblank('.') ?? 1
-    else
-        ln_start = line('.')
-    endif
+	var ln_start: number
+	var ln_end: number
+	if getline('.') =~ '^\s*$'
+		ln_start = prevnonblank('.') ?? 1
+	else
+		ln_start = line('.')
+	endif
 
-    var indent = indent(ln_start)
+	var indent = indent(ln_start)
 
-    while indent == 0 && ln_start < line('$')
-        ln_start = nextnonblank(ln_start + 1) ?? line('$')
-        indent = indent(ln_start)
-    endwhile
+	while indent == 0 && ln_start < line('$')
+		ln_start = nextnonblank(ln_start + 1) ?? line('$')
+		indent = indent(ln_start)
+	endwhile
 
-    if indent == 0
-        return
-    endif
+	if indent == 0
+		return
+	endif
 
-    ln_end = ln_start
+	ln_end = ln_start
 
-    while ln_start > 0 && indent(ln_start) >= indent
-        ln_start = prevnonblank(ln_start - 1)
-    endwhile
+	while ln_start > 0 && indent(ln_start) >= indent
+		ln_start = prevnonblank(ln_start - 1)
+	endwhile
 
-    while ln_end <= line('$') && indent(ln_end) >= indent
-        ln_end = nextnonblank(ln_end + 1) ?? line('$') + 1
-    endwhile
+	while ln_end <= line('$') && indent(ln_end) >= indent
+		ln_end = nextnonblank(ln_end + 1) ?? line('$') + 1
+	endwhile
 
-    if inner
-        ln_start = nextnonblank(ln_start + 1) ?? line('$') + 1
-        ln_end = prevnonblank(ln_end - 1)
-    else
-        ln_start += 1
-        ln_end -= 1
-    endif
+	if inner
+		ln_start = nextnonblank(ln_start + 1) ?? line('$') + 1
+		ln_end = prevnonblank(ln_end - 1)
+	else
+		ln_start += 1
+		ln_end -= 1
+	endif
 
-    if ln_end < ln_start
-        ln_end = ln_start
-    endif
+	if ln_end < ln_start
+		ln_end = ln_start
+	endif
 
-    exe ":" ln_end
-    normal! V
-    exe ":" ln_start
+	exe ":" ln_end
+	normal! V
+	exe ":" ln_start
 enddef
 
 # 26 simple text objects
@@ -180,37 +180,37 @@ enddef
 #     execute $"onoremap <silent> a{char} :normal va{char}<CR>"
 # endfor
 export def Obj(char: string, inner: bool)
-    var lnum = line('.')
-    var echar = escape(char, '.*\')
-    if (search('^\|' .. echar, 'cnbW', lnum) > 0 && search(echar, 'W', lnum) > 0)
-        || (search(echar, 'nbW', lnum) > 0 && search(echar .. '\|$', 'cW', lnum) > 0)
-        if inner
-            search('[^' .. escape(char, '\') .. ']', 'cbW', lnum)
-        endif
-        normal! v
-        search('^\|' .. echar, 'bW', lnum)
-        if inner
-            search('[^' .. escape(char, '\') .. ']', 'cW', lnum)
-        endif
-        return
-    endif
+	var lnum = line('.')
+	var echar = escape(char, '.*\')
+	if (search('^\|' .. echar, 'cnbW', lnum) > 0 && search(echar, 'W', lnum) > 0)
+			|| (search(echar, 'nbW', lnum) > 0 && search(echar .. '\|$', 'cW', lnum) > 0)
+		if inner
+			search('[^' .. escape(char, '\') .. ']', 'cbW', lnum)
+		endif
+		normal! v
+		search('^\|' .. echar, 'bW', lnum)
+		if inner
+			search('[^' .. escape(char, '\') .. ']', 'cW', lnum)
+		endif
+		return
+	endif
 enddef
 
 # Toggle current word
 # nnoremap <silent> <BS> <cmd>call text#Toggle()<CR>
 export def Toggle()
-    const toggles = {
-        true: 'false', false: 'true', True: 'False', False: 'True', TRUE: 'FALSE', FALSE: 'TRUE',
-        yes: 'no', no: 'yes', Yes: 'No', No: 'Yes', YES: 'NO', NO: 'YES',
-        on: 'off', off: 'on', On: 'Off', Off: 'On', ON: 'OFF', OFF: 'ON',
-        open: 'close', close: 'open', Open: 'Close', Close: 'Open',
-        dark: 'light', light: 'dark',
-        width: 'height', height: 'width',
-        first: 'last', last: 'first',
-        top: 'right', right: 'bottom', bottom: 'left', left: 'center', center: 'top',
-    }
-    if toggles->has_key(expand("<cword>"))
-        execute 'normal! "_ciw' .. toggles[expand("<cword>")]
-    endif
+	const toggles = {
+		true: 'false', false: 'true', True: 'False', False: 'True', TRUE: 'FALSE', FALSE: 'TRUE',
+		yes: 'no', no: 'yes', Yes: 'No', No: 'Yes', YES: 'NO', NO: 'YES',
+		on: 'off', off: 'on', On: 'Off', Off: 'On', ON: 'OFF', OFF: 'ON',
+		open: 'close', close: 'open', Open: 'Close', Close: 'Open',
+		dark: 'light', light: 'dark',
+		width: 'height', height: 'width',
+		first: 'last', last: 'first',
+		top: 'right', right: 'bottom', bottom: 'left', left: 'center', center: 'top',
+	}
+	if toggles->has_key(expand("<cword>"))
+		execute 'normal! "_ciw' .. toggles[expand("<cword>")]
+	endif
 enddef
 
