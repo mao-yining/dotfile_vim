@@ -48,8 +48,13 @@ augroup general | au!
 		endif
 	}
 
+	autocmd BufWritePost $MYVIMDIR/plugin/* {
+		echow "Config Change Detected. Reloading..."
+		:%so
+	}
+
 	# 设置 q 来退出窗口
-	autocmd FileType startuptime,fugitive,fugitiveblame,gitcommit map <buffer>q <Cmd>q<CR>
+	autocmd FileType startuptime,fugitive,fugitiveblame,gitcommit map <buffer> q <Cmd>q<CR>
 
 augroup end
 
