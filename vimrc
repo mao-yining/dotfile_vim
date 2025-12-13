@@ -1,8 +1,5 @@
-vim9script
-# options {{{
 g:mapleader = " "
 g:maplocalleader = ";"
-
 filetype plugin indent on
 syntax enable
 set nocompatible
@@ -48,11 +45,9 @@ set diffopt+=algorithm:histogram,linematch:60,inline:word
 set completeopt=menuone,popup,fuzzy
 set completepopup=border:off,shadow:on pumborder=
 set autocomplete complete=o^9,.^9,w^5,b^5,t^3,u^2
-set complete+=Fvsnip#completefunc^9
 set complete+=Fcompletor#Path^10,Fcompletor#Abbrev^3,Fcompletor#Register^3
 set mouse=a mousemodel=extend
 set clipboard^=unnamed
-# }}}
 
 # packs {{{
 plugpac#Begin({
@@ -173,4 +168,3 @@ Pack 'girishji/scope.vim', { on: 'Scope', type: "opt" }
 plugpac#End() # }}}
 
 colorscheme catppuccin
-# vim:fdm=marker

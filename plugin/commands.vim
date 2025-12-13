@@ -125,8 +125,8 @@ enddef
 import autoload 'hlblink.vim'
 command BlinkLine hlblink.Line()
 
-const skip_lists = get(g:, "startify_skiplist", {})
 def RecentComplete(_, _, _): string
+	const skip_lists: list<string> = get(g:, "startify_skiplist", [])
 	return v:oldfiles->filter((_, val: string): bool => {
 		for pattern in skip_lists
 			if val =~# pattern
@@ -136,6 +136,8 @@ def RecentComplete(_, _, _): string
 		return true
 	})->join("\n")
 enddef
+RecentComplete(0, 0, 0)
+
 def Edit(fname: string, split: bool = false, mods: string = "")
 	var guess_mods = ""
 	if !empty(mods)

@@ -1,6 +1,7 @@
 vim9script
 
 export def SetupMaps()
+	nmap <buffer> <Leader>s <Cmd>LspDocumentSymbol<CR>
 	nmap <buffer> gD <Cmd>LspGotoDeclaration<CR>
 	nmap <buffer> gd <Cmd>LspGotoDefinition<CR>
 	nmap <buffer> gy <Cmd>LspGotoTypeDef<CR>

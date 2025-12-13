@@ -40,4 +40,4 @@ def Find(cmd_arg: string, cmd_complete: bool): list<string>
 	endif
 enddef
 
-set findfunc=Find
+set findfunc=s:Find

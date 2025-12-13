@@ -10,6 +10,8 @@ packadd hlyank
 packadd matchit
 packadd nohlsearch
 
+packadd vimcdoc
+
 g:popup_borderchars = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
 g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
 g:hlyank_duration = 200
@@ -23,15 +25,74 @@ if executable("ctags")
 	g:gutentags_exclude_filetypes = ['help']
 endif
 
+if executable("man")
+	silent! packadd vim-man
+endif
+
+nmap s <plug>(SubversiveSubstitute)
+nmap ss <plug>(SubversiveSubstituteLine)
+nmap S <plug>(SubversiveSubstituteToEndOfLine)
+xmap s <plug>(SubversiveSubstitute)
+
+nmap =d <Cmd>DIstart<CR>
+nmap \d <Cmd>DIstop<CR>
+
+nmap =c <Cmd>ColorHighlight<CR>
+nmap \c <Cmd>ColorClear<CR>
+
+g:vista#renderer#enable_icon = false
+nmap <LocalLeader>v <Cmd>Vista!!<CR>
+
+g:asynctasks_term_pos = "tab" # quickfix | vim | tab | bottom | external
+g:asyncrun_status = "stopped"
+g:asyncrun_open = 6
+g:asyncrun_save = true
+g:asyncrun_bell = true
+if has("win32")
+	g:asyncrun_encs = "cp936"
+endif
+map <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+map <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+map <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+map <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+imap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
+imap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
+imap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+imap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
+
+nmap <Home> <Plug>(qf_qf_previous)
+nmap <End>  <Plug>(qf_qf_next)
+nmap <C-Home> <Plug>(qf_loc_previous)
+nmap <C-End>  <Plug>(qf_loc_next)
+nmap <M-s> <Plug>(qf_qf_switch)
+nmap <Leader>q <Plug>(qf_qf_toggle)
+nmap <Leader>l <Plug>(qf_loc_toggle)
+
+xmap <Enter> <Plug>(EasyAlign)
+nmap <LocalLeader><Tab> <Plug>(EasyAlign)
+
+nmap <Leader>u <Cmd>UndotreeToggle<CR>
+g:undotree_SetFocusWhenToggle = true
+
+def PackCommands(packname: string, command: string)
+	execute($"command -nargs=? {command} delc {command} <Bar> packa {packname} <Bar> {command} <f-args>")
+enddef
+
+PackCommands("undotree", "UndotreeToggle")
+PackCommands("vim-startuptime", "StartupTime")
+PackCommands("colorizer", "ColorHighlight")
+PackCommands("vim9asm", "Disassemble")
+PackCommands("vim-pio", "PIO")
+
+PackCommands("vim-test", "TestNearest")
+PackCommands("vim-test", "TestFile")
+PackCommands("vim-test", "TestSuite")
 nmap <silent> <LocalLeader>tt <Cmd>TestNearest<CR>
 nmap <silent> <LocalLeader>tf <Cmd>TestFile<CR>
 nmap <silent> <LocalLeader>ts <Cmd>TestSuite<CR>
 nmap <silent> <LocalLeader>tl <Cmd>TestLast<CR>
 nmap <silent> <LocalLeader>tv <Cmd>TestVisit<CR>
 g:test#strategy = "vimterminal"
-
-nmap <Leader>u <Cmd>UndotreeToggle<CR>
-g:undotree_SetFocusWhenToggle = true
 
 g:competitest_configs = {
 	# multiple_testing: 1,

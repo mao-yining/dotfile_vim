@@ -4,13 +4,11 @@ vim9script
 set wildmode=noselect:lastused,full
 set wildmenu wildoptions=pum,fuzzy wildcharm=<Tab> pumheight=12
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
-set wildignore+=*~,*.py[co],__pycache__
+set wildignore+=*~,*.py[co],__pycache__,pack
 set wildignore+=*.obsidian,*.svg
 
 cnoremap <expr> <Up> wildmenumode() ? "\<C-e>\<Up>" : "\<Up>"
 cnoremap <expr> <Down> wildmenumode() ? "\<C-e>\<Down>" : "\<Down>"
-cnoremap <expr> <Left> wildmenumode() ? "\<C-e>\<Left>" : "\<Left>"
-cnoremap <expr> <Right> wildmenumode() ? "\<C-e>\<Right>" : "\<Right>"
 
 def CmdCompleteSelectFirst()
 	# If @: is pressed v:char is \n, exit here, allowing the command to be executed.
@@ -28,8 +26,7 @@ def CmdCompleteSelectFirst()
 		return
 	endif
 
-	var cmd = info.cmdline_orig->split()
-	# Do not accept first element of completion for just commands:
+	var cmd = info.cmdline_orig->split() # Do not accept first element of completion for just commands:
 	# :e<CR> should not be expanded to :edit<CR>
 	if getcmdcompltype() == 'command' && cmd->len() == 1
 		return

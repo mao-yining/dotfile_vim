@@ -4,10 +4,10 @@ def CmdReplace(cmd: string, ucmd: string): string
 	return (getcmdtype() ==# ':' && getcmdline() ==# cmd) ? ucmd : cmd
 enddef
 
-cnoreabbrev <expr> git CmdReplace("git", "Git")
+cnoreabbrev <expr> git CmdReplace('git', 'Git')
 
 # quick to change dir
-cab cdn lcd <C-R>=expand("%:p:h")<CR>
+cab cdn lcd <C-R>=expand('%:p:h')<CR>
 cab cdr cd <C-R>=FindProjectRoot()<CR>
 
 inorea myn Mao-Yining

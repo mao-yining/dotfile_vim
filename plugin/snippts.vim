@@ -2,6 +2,7 @@ packadd vim-vsnip
 packadd vim-vsnip-integ
 packadd friendly-snippets
 
+set complete+=Fvsnip#completefunc^4
 inoremap <expr> <C-l>   vsnip#expandable()  ? "<Plug>(vsnip-expand)"         : "<C-j>"
 snoremap <expr> <C-l>   vsnip#expandable()  ? "<Plug>(vsnip-expand)"         : "<C-j>"
 inoremap <expr> <C-j>   vsnip#available(1)  ? "<Plug>(vsnip-expand-or-jump)" : "<C-l>"
