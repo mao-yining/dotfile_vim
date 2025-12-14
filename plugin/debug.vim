@@ -31,7 +31,8 @@ def ResetTermdebugMappings()
 	nmap   <F8> <Cmd>AsyncTask file-build<CR>
 enddef
 
-if exists("g:loaded_vimpector")
+if has('python3')
+	packadd vimspector
 	g:vimspector_install_gadgets = [ "debugpy", "vscode-cpptools", "CodeLLDB" ]
 	nmap <F5>          <Plug>VimspectorContinue
 	nmap <F3>          <Plug>VimspectorToggleBreakpoint
@@ -63,6 +64,7 @@ if exists("g:loaded_vimpector")
 		nmap <Leader>B     <Plug>VimspectorBreakpoints
 		nmap <Leader>D     <Plug>VimspectorDisassemble
 	enddef
+	ResetVimspectorMappings()
 endif
 
 augroup debug | au!
