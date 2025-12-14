@@ -62,7 +62,7 @@ g:LspOptionsSet({
 	ignoreMissingServer: false,
 	popupBorder: true,
 	semanticHighlight: true,
-	showDiagWithVirtualText: false,
+	showDiagWithVirtualText: true,
 	useQuickfixForLocations: true, # For LspShowReferences
 	usePopupInCodeAction: true,
 })
