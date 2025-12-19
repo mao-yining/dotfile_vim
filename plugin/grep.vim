@@ -10,30 +10,4 @@ elseif executable('ugrep')
 	command! -nargs=1 Ug :exe $'{<q-mods>} Term ug {<q-args>}'
 endif
 
-command -nargs=1 -bar Grep {
-	const cmd = $"{&grepprg} {<q-args>}"
-	cgetexpr system(cmd)
-	setqflist([], 'a', {title: cmd})
-}
-
-command -nargs=1 -bar LGrep {
-	const cmd = $"{&grepprg} {<q-args>}"
-	lgetexpr system(cmd)
-	setloclist(winnr(), [], 'a', {title: cmd})
-}
-
 command! Todo :Rg TODO:
-
-augroup quickfix
-	autocmd!
-	def QfMakeConv()
-		var qflist = getqflist()
-		for i in qflist
-			i.text = iconv(i.text, "cp936", "utf-8")
-		endfor
-		setqflist(qflist)
-	enddef
-	autocmd QuickfixCmdPost make QfMakeConv()
-	autocmd QuickFixCmdPost cgetexpr belowright cwindow
-	autocmd QuickFixCmdPost lgetexpr belowright lwindow
-augroup END
