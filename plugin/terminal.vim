@@ -8,8 +8,10 @@ def TermMappings()
 	setlocal nonumber
 	setlocal norelativenumber
 	nnoremap <buffer> q <Cmd>bdelete<CR>
-	# nnoremap <buffer> <CR> <ScriptCmd>terminal.OpenError()<CR>
 	nnoremap <buffer> o <ScriptCmd>terminal.OpenError(true)<CR>
+	if expand("<amatch>") =~# "^!rg "
+		nnoremap <buffer> <CR> <ScriptCmd>terminal.OpenError()<CR>
+	endif
 	nmap <buffer> <2-LeftMouse> o
 	nnoremap <buffer> J <ScriptCmd>terminal.NextError()<CR>
 	nnoremap <buffer> K <ScriptCmd>terminal.PrevError()<CR>
