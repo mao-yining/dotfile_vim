@@ -150,20 +150,21 @@ map <C-Left> <C-W><
 map <C-Right> <C-W>>
 
 # change window in normal
-nmap <Leader>w <C-w>
-noremap <M-H> <C-W>h
-noremap <M-L> <C-W>l
-noremap <M-J> <C-W>j
-noremap <M-K> <C-W>k
-inoremap <M-H> <Esc><C-W>h
-inoremap <M-L> <Esc><C-W>l
-inoremap <M-J> <Esc><C-W>j
-inoremap <M-K> <Esc><C-W>k
+nmap <Leader>w <C-W>
 set termwinkey=<C-_>
-tnoremap <M-H> <C-_>h
-tnoremap <M-L> <C-_>l
-tnoremap <M-J> <C-_>j
-tnoremap <M-K> <C-_>k
+noremap <M-H> <Cmd>wincmd h<CR>
+noremap <M-J> <Cmd>wincmd j<CR>
+noremap <M-K> <Cmd>wincmd k<CR>
+noremap <M-L> <Cmd>wincmd l<CR>
+inoremap <M-H> <Cmd>wincmd h<CR>
+inoremap <M-J> <Cmd>wincmd j<CR>
+inoremap <M-K> <Cmd>wincmd k<CR>
+inoremap <M-L> <Cmd>wincmd l<CR>
+tnoremap <M-H> <Cmd>wincmd h<CR>
+tnoremap <M-J> <Cmd>wincmd j<CR>
+tnoremap <M-K> <Cmd>wincmd k<CR>
+tnoremap <M-L> <Cmd>wincmd l<CR>
+
 tnoremap <C-S-V> <C-_>"+
 tnoremap <C-\> <C-\><C-N>
 

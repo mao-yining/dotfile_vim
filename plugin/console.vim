@@ -16,17 +16,6 @@ set <M-J>=J
 set <M-K>=K
 set <M-L>=L
 
-if empty($TMUX)
-	noremap <M-H> <scriptcmd>wincmd h<CR>
-	noremap <M-J> <scriptcmd>wincmd j<CR>
-	noremap <M-K> <scriptcmd>wincmd k<CR>
-	noremap <M-L> <scriptcmd>wincmd l<CR>
-	inoremap <M-H> <scriptcmd>wincmd h<CR>
-	inoremap <M-J> <scriptcmd>wincmd j<CR>
-	inoremap <M-K> <scriptcmd>wincmd k<CR>
-	inoremap <M-L> <scriptcmd>wincmd l<CR>
-	tnoremap <M-H> <scriptcmd>wincmd h<CR>
-	tnoremap <M-J> <scriptcmd>wincmd j<CR>
-	tnoremap <M-K> <scriptcmd>wincmd k<CR>
-	tnoremap <M-L> <scriptcmd>wincmd l<CR>
-endif
+for i in range(10)
+	execute($"set <M-{i}>={i == 0 ? 10 : i}")
+endfor
