@@ -219,3 +219,7 @@ cnoremap <C-N> <Down>
 cnoremap <C-P> <Up>
 cnoremap <C-S-B> <S-Left>
 cnoremap <C-S-F> <S-Right>
+
+# duplicate line
+nnoremap <C-j> <cmd>copy.<CR>
+nnoremap <C-k> <cmd>copy-1<CR>
