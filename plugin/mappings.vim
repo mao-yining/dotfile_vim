@@ -12,17 +12,10 @@ def Find(how: string = "", path: string = ""): string
 	endif
 	return $":{mods}{how}find "
 enddef
-def Buffer(how: string = ""): string
-	var mods = ""
-	if how == "s" && winwidth(winnr()) * 0.3 > winheight(winnr())
-		mods = "vert "
-	endif
-	return $":{mods}{how}b "
-enddef
 nnoremap <expr> <Leader><Leader> Find()
 nnoremap <expr> <Leader><LocalLeader> Find("tab")
 nnoremap <expr> <LocalLeader><Leader> Find("", expand("%"))
-nnoremap <expr> <Leader>b Buffer()
+nnoremap <expr> <Leader>b ":buffer "
 nnoremap <expr> <Leader>t ":AsyncTask "
 nnoremap <expr> <Leader>h ":help "
 nnoremap <expr> <Leader>r ":Recent "
@@ -50,17 +43,17 @@ nnoremap <silent> <Leader><CR> <scriptcmd>text.Toggle()<CR>
 # i_ i. i: i, i; i| i/ i\ i* i+ i- i# i<tab>
 # a_ a. a: a, a; a| a/ a\ a* a+ a- a# a<tab>
 for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#', '<tab>' ]
-	execute $"xnoremap <silent> i{char} <esc><scriptcmd>text.Obj('{char}', 1)<CR>"
-	execute $"xnoremap <silent> a{char} <esc><scriptcmd>text.Obj('{char}', 0)<CR>"
+	execute $"xnoremap <silent> i{char} <Esc><ScriptCmd>text.Obj('{char}', 1)<CR>"
+	execute $"xnoremap <silent> a{char} <Esc><ScriptCmd>text.Obj('{char}', 0)<CR>"
 	execute $"onoremap <silent> i{char} :normal vi{char}<CR>"
 	execute $"onoremap <silent> a{char} :normal va{char}<CR>"
 endfor
 
 # indent text object
-onoremap <silent>ii <scriptcmd>text.ObjIndent(v:true)<CR>
-onoremap <silent>ai <scriptcmd>text.ObjIndent(v:false)<CR>
-xnoremap <silent>ii <esc><scriptcmd>text.ObjIndent(v:true)<CR>
-xnoremap <silent>ai <esc><scriptcmd>text.ObjIndent(v:false)<CR>
+onoremap <silent>ii <ScriptCmd>text.ObjIndent(true)<CR>
+onoremap <silent>ai <ScriptCmd>text.ObjIndent(false)<CR>
+xnoremap <silent>ii <Esc><ScriptCmd>text.ObjIndent(true)<CR>
+xnoremap <silent>ai <Esc><ScriptCmd>text.ObjIndent(false)<CR>
 
 xnoremap <silent> in <esc><scriptcmd>text.ObjNumber()<CR>
 onoremap <silent> in :<C-u>normal vin<CR>
@@ -79,6 +72,9 @@ onoremap <silent> al :<C-u>normal val<CR>
 
 # CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 # so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
+
+inoremap <CR> <C-G>u<CR>
 inoremap <C-U> <C-G>u<C-U>
 
 nnoremap <Leader># <ScriptCmd>text.Underline('#')<CR>
@@ -223,6 +219,3 @@ cnoremap <C-N> <Down>
 cnoremap <C-P> <Up>
 cnoremap <C-S-B> <S-Left>
 cnoremap <C-S-F> <S-Right>
-
-inoremap <CR> <C-G>u<CR>
-inoremap <C-U> <C-G>u<C-U>
