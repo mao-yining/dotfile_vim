@@ -46,7 +46,7 @@ nmap <LocalLeader>v <Cmd>Vista!!<CR>
 
 g:asynctasks_term_pos = "vim" # quickfix | vim | tab | bottom | external
 g:asyncrun_status     = "stopped"
-g:asyncrun_open       = 6
+g:asyncrun_open       = 9
 g:asyncrun_save       = true
 g:asyncrun_bell       = true
 if has("win32")
