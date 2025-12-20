@@ -170,9 +170,10 @@ tnoremap <C-\> <C-\><C-N>
 nmap L gt
 nmap H gT
 nmap =<Tab> <Cmd>tabnew<CR>
+nmap \<Tab> <Cmd>tabclose<CR>
 
 for i in range(10)
-	execute($"map <M-{i}> <Cmd> tabn {i == 0 ? 10 : i}<CR>")
+	execute($"map <M-{i}> <Cmd>tabn {i == 0 ? 10 : i}<CR>")
 endfor
 
 def Tab_MoveLeft()
