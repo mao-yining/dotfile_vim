@@ -16,7 +16,9 @@ inorea xetex XeTeX
 inorea xelatex XeLaTeX
 inorea luatex LuaTeX
 inorea lualatex LuaLaTeX
+inorea winodws windows
 inorea flase false
+inorea ture true
 inorea adn and
 inorea Adn And
 inorea teh the
