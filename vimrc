@@ -30,6 +30,7 @@ set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
 set fillchars=vert:│,fold:·,foldsep:│
 set virtualedit=block
 set nostartofline
+set shellslash
 set switchbuf=uselast
 set sidescroll=1 sidescrolloff=3
 set nrformats=bin,hex,unsigned
