@@ -113,18 +113,19 @@ def CloseBuf()
 	var buf_jump_list = getjumplist()[0]
 	var buf_jump_now = getjumplist()[1] - 1
 	while buf_jump_now >= 0
-		var last_nr = buf_jump_list[buf_jump_now]["bufnr"]
-		var last_line = buf_jump_list[buf_jump_now]["lnum"]
-		if buf_now != last_nr && bufloaded(last_nr) && getbufvar(last_nr, "&bt") == null_string
-			execute ":buffer " .. last_nr
-			execute ":bd " .. buf_now
+		const last_nr = buf_jump_list[buf_jump_now].bufnr
+		const last_line = buf_jump_list[buf_jump_now].lnum
+		if buf_now != last_nr && bufloaded(last_nr)
+				&& getbufvar(last_nr, "&bt") == null_string
+			exe "buffer" last_nr
+			exe "bd" buf_now
 			return
 		else
 			buf_jump_now -= 1
 		endif
 	endwhile
 	bp|while &bt != null_string|bp|endwhile
-	execute "bd " .. buf_now
+	exe "bd" buf_now
 enddef
 
 # source vimscript (operator)
@@ -140,8 +141,8 @@ def SourceVim(...args: list<any>): string
 	endif
 	return ''
 enddef
-nnoremap <silent> <expr> <Leader>S SourceVim()
-xnoremap <silent> <expr> <Leader>S SourceVim()
+nnoremap <silent><expr> <Leader>S SourceVim()
+xnoremap <silent><expr> <Leader>S SourceVim()
 
 # change window width
 map <C-Up> <C-W>+
