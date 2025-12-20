@@ -69,8 +69,7 @@ nmap <M-s> <Plug>(qf_qf_switch)
 nmap <Leader>q <Plug>(qf_qf_toggle)
 nmap <Leader>l <Plug>(qf_loc_toggle)
 
-xmap <Enter> <Plug>(EasyAlign)
-nmap <LocalLeader><Tab> <Plug>(EasyAlign)
+xmap <Tab> <Plug>(EasyAlign)
 
 nmap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
