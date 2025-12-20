@@ -55,7 +55,7 @@ def CmdCompleteSelectFirst()
 	endif
 
 	var selected = info.matches[info.selected == -1 ? 0 : info.selected]
-	if fullcommand(cmd_orig) != "Help"
+	if fullcommand(cmd_orig) != "help"
 		selected = selected->escape('#%')
 	endif
 	setcmdline($'{cmd[ : cmd_len]->join()} {selected}')
