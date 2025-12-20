@@ -189,13 +189,30 @@ enddef
 map <M-Left> <ScriptCmd>Tab_MoveLeft()<CR>
 map <M-Right> <ScriptCmd>Tab_MoveRight()<CR>
 
+# visual-block
+def VisualBlockPara(cmd: string)
+	var target_row = getpos($"'{cmd}")[1]
+	if getline(target_row) =~ "^\s*$"
+		target_row += (cmd == "{" ? 1 : -1)
+		if target_row == line('.')
+			target_row = (cmd == "{" ? prevnonblank(target_row - 1)
+				: nextnonblank(target_row + 1))
+		endif
+	endif
+	if target_row > 0
+		exe $":{target_row}"
+	endif
+enddef
+augroup visual-block | au!
+	autocmd ModeChanged [\x16]:* xmap A :<C-U>normal! ggVG<CR>
+	autocmd ModeChanged *:[\x16] xunmap A
+	autocmd ModeChanged *:[\x16] xnoremap { <ScriptCmd>VisualBlockPara("{")<CR>
+	autocmd ModeChanged *:[\x16] xnoremap } <ScriptCmd>VisualBlockPara("}")<CR>
+	autocmd ModeChanged [\x16]:* xunmap {
+	autocmd ModeChanged [\x16]:* xunmap }
+augroup end
 omap A <Cmd>normal! ggVG<CR>
 xmap A :<C-U>normal! ggVG<CR>
-# visual-block
-augroup mappings | au!
-	autocmd ModeChanged *:[\x16] xunmap A
-	autocmd ModeChanged [\x16]:* xmap A :<C-U>normal! ggVG<CR>
-augroup end
 
 # write to a privileged file
 if executable('sudo')
