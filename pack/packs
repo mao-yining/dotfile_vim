@@ -1,23 +1,13 @@
 # vim: ts=35 sw=0 noet
-
-# Very nice to have
-mine/start/traces.vim	git@github.com:markonm/traces.vim.git
-
-# Nice to have
-mine/start/vim-swap	git@github.com:machakann/vim-swap.git
-mine/start/vim-closetag	git@github.com:alvan/vim-closetag.git
-
 devel	git@github.com:lifepillar/vim-devel.git
 mine/opt/DrawIt	git@github.com:vim-scripts/DrawIt.git
-mine/opt/friendly-snippets	git@github.com:rafamadriz/friendly-snippets.git
 mine/opt/colorizer	git@github.com:lilydjwg/colorizer.git
+mine/opt/friendly-snippets	git@github.com:rafamadriz/friendly-snippets.git
 mine/opt/lsp	git@github.com:yegappan/lsp.git
 mine/opt/undotree	git@github.com:mbbill/undotree.git
 mine/opt/vim-airline	git@github.com:vim-airline/vim-airline.git
 mine/opt/vim-browser-search	git@github.com:voldikss/vim-browser-search.git
 mine/opt/vim-dadbod	git@github.com:tpope/vim-dadbod.git
-mine/opt/vim-gitgutter	git@github.com:airblade/vim-gitgutter.git
-mine/opt/vim-gnupg	git@github.com:jamessan/vim-gnupg.git
 mine/opt/vim-dadbod-ui	git@github.com:kristijanhusak/vim-dadbod-ui.git
 mine/opt/vim-fugitive	git@github.com:tpope/vim-fugitive.git
 mine/opt/vim-gitgutter	git@github.com:airblade/vim-gitgutter.git
@@ -38,8 +28,10 @@ mine/start/catppuccin	git@github.com:catppuccin/vim.git
 mine/start/competitest.vim	git@codeberg.org:mao-yining/vim-competitest.git
 mine/start/csv.vim	git@github.com:chrisbra/csv.vim.git
 mine/start/targets.vim	git@github.com:wellle/targets.vim.git
+mine/start/traces.vim	git@github.com:markonm/traces.vim.git
 mine/start/vim-beancount	git@github.com:nathangrigg/vim-beancount.git
 mine/start/vim-characterize	git@github.com:tpope/vim-characterize.git
+mine/start/vim-closetag	git@github.com:alvan/vim-closetag.git
 mine/start/vim-dir	git@github.com:mao-yining/vim-dir.git
 mine/start/vim-dispatch	git@github.com:tpope/vim-dispatch.git
 mine/start/vim-easy-align	git@github.com:junegunn/vim-easy-align.git
@@ -51,6 +43,7 @@ mine/start/vim-speeddating	git@github.com:tpope/vim-speeddating.git
 mine/start/vim-startify	git@github.com:mhinz/vim-startify.git
 mine/start/vim-subversive	git@github.com:svermeulen/vim-subversive.git
 mine/start/vim-surround	git@github.com:tpope/vim-surround.git
+mine/start/vim-swap	git@github.com:machakann/vim-swap.git
 mine/start/vim-unimpaired	git@github.com:tpope/vim-unimpaired.git
 mine/start/vimcdoc	git@github.com:yianwillis/vimcdoc.git
 mine/start/vimtex	git@github.com:lervag/vimtex.git
