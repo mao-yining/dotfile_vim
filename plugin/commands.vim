@@ -149,7 +149,6 @@ def RecentComplete(_, _, _): string
 		return true
 	})->join("\n")
 enddef
-RecentComplete(0, 0, 0)
 
 def Edit(fname: string, split: bool = false, mods: string = "")
 	var guess_mods = ""
