@@ -1,6 +1,6 @@
 vim9script
 
-augroup general | au!
+augroup General | au!
 
 	autocmd BufReadPost * {
 		if line("'\"") >= 1 && line("'\"") <= line("$") && &filetype !~# 'commit'
@@ -64,7 +64,7 @@ augroup general | au!
 		setqflist(qflist)
 	enddef
 	autocmd QuickfixCmdPost make QfMakeConv()
-augroup end
+augroup END
 
 command! DiffOrig {
 	vert new
@@ -76,20 +76,17 @@ command! DiffOrig {
 	diffthis
 }
 
-# Commands
-
 # update packages
 import autoload "pack.vim"
 command! PackUpdate pack.Update()
 
 # Wipe all hidden buffers
-def WipeHiddenBuffers()
-	var buffers = filter(getbufinfo(), (_, v) => empty(v.windows))
+command! WipeHiddenBuffers {
+	const buffers = getbufinfo()->filter((_, v) => empty(v.windows))
 	if !empty(buffers)
-		execute 'confirm bwipeout' join(mapnew(buffers, (_, v) => v.bufnr))
+		execute 'confirm bwipeout' buffers->mapnew((_, v) => v.bufnr)->join()
 	endif
-enddef
-command! WipeHiddenBuffers WipeHiddenBuffers()
+}
 
 # literal search
 command! -nargs=? Search {
@@ -161,3 +158,5 @@ def Edit(fname: string, split: bool = false, mods: string = "")
 enddef
 command! -nargs=1 -complete=custom,RecentComplete Recent Edit(<q-args>, false, <q-mods>)
 command! -nargs=1 -complete=custom,RecentComplete SRecent Edit(<q-args>, true, <q-mods>)
+
+command! BackupVault exe "Git commit -am \"vault backup:" strftime("%Y-%m-%d %H:%M:%S\"")
