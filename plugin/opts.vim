@@ -10,6 +10,9 @@ packadd hlyank
 packadd matchit
 packadd nohlsearch
 
+tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
+g:helptoc = {shell_prompt: '^\(PS \)\?\f\+>\s'}
+
 packadd vimcdoc
 packadd vimtex
 
