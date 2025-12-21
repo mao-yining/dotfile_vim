@@ -1,16 +1,16 @@
 vim9script
 var lspServers: list<dict<any>>
 
-if executable('clangd')
+if executable("clangd")
 	lspServers->extend([{
-		name: 'clangd',
-		filetype: ['c', 'cpp'],
-		path: 'clangd',
-		args: ['--background-index', '--clang-tidy'],
+		name: "clangd",
+		filetype: ["c", "cpp"],
+		path: "clangd",
+		args: ["--background-index", "--clang-tidy"],
 	}])
 endif
 
-if executable('pyright-langserver.cmd')
+if executable("pyright-langserver.cmd")
 	lspServers->extend([{
 		path: "pyright-langserver.cmd",
 		filetype: ["python"],
@@ -19,14 +19,14 @@ if executable('pyright-langserver.cmd')
 	}])
 endif
 
-if executable('texlab')
+if executable("texlab")
 	lspServers->extend([{
 		path: "texlab",
 		filetype: ["tex", "bib"]
 	}])
 endif
 
-if executable('rust-analyzer')
+if executable("rust-analyzer")
 	lspServers->extend([{
 		path: "rust-analyzer",
 		filetype: ["rust"],
@@ -34,14 +34,14 @@ if executable('rust-analyzer')
 	}])
 endif
 
-if executable('marksman')
-	lspServers->extend([{
-		path: "marksman",
-		filetype: ["markdown", "pandoc"],
-		args: ["server"],
-		syncInit: true
-	}])
-endif
+# if executable("marksman")
+# 	lspServers->extend([{
+# 		path: "marksman",
+# 		filetype: ["markdown", "pandoc"],
+# 		args: ["server"],
+# 		syncInit: true
+# 	}])
+# endif
 
 if lspServers->empty()
 	finish
@@ -52,12 +52,12 @@ g:LspAddServer(lspServers)
 g:LspOptionsSet({
 	autoComplete: false, # Use OmniComplete
 	autoPopulateDiags: true,
-	completionMatcher: 'fuzzy',
-	diagVirtualTextAlign: 'after',
-	diagSignErrorText: '✘',
-	diagSignWarningText: '•',
-	diagSignHintText: '§',
-	diagSignInfoText: 'ℹ',
+	completionMatcher: "fuzzy",
+	diagVirtualTextAlign: "after",
+	diagSignErrorText: "✘",
+	diagSignWarningText: "•",
+	diagSignHintText: "§",
+	diagSignInfoText: "ℹ",
 	filterCompletionDuplicates: true,
 	ignoreMissingServer: false,
 	popupBorder: true,
