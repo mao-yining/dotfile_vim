@@ -1,6 +1,5 @@
 vim9script
 
-set winaltkeys=no
 set guioptions=!cCd
 
 inoremap <C-S-V> <C-R><C-P>+
