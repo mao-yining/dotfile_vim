@@ -27,6 +27,11 @@ nmap - <Cmd>Dir<CR>
 if executable("ctags")
 	silent! packadd vim-gutentags
 	g:gutentags_exclude_filetypes = ['help']
+	if executable('rg')
+		g:gutentags_file_list_command = 'rg --files'
+	elseif executable('git')
+		g:gutentags_file_list_command = 'git ls-files'
+	endif
 endif
 
 if executable("man")
