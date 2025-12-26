@@ -1,4 +1,4 @@
-# vim: ts=35 sw=0 noet
+# vim: ts=35 sw=0 noet cc=35
 devel	git@github.com:lifepillar/vim-devel.git
 mine/opt/DrawIt	git@github.com:vim-scripts/DrawIt.git
 mine/opt/colorizer	git@github.com:lilydjwg/colorizer.git
