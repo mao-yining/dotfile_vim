@@ -40,5 +40,4 @@ def Run()
     ColortemplateShow
 enddef
 
-nnoremap <buffer> <F5> <scriptcmd>Run()<CR>
-
+noremap  <buffer> <F5> <ScriptCmd>Run()<CR>

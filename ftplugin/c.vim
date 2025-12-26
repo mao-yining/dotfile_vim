@@ -11,7 +11,6 @@ if exists("g:loaded_lsp")
 		au User LspAttached {
 			lsp.SetupMaps()
 			setl keywordprg=:LspHover
-			setl omnifunc=LspOmniFunc
 		}
 	augroup END
 endif

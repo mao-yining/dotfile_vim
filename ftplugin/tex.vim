@@ -37,6 +37,8 @@ if exists('g:loaded_lsp')
 	import autoload 'lsp.vim'
 	augroup LspSetup
 		au!
-		au User LspAttached lsp.SetupMaps()
+		au User LspAttached {
+			lsp.SetupMaps()
+		}
 	augroup END
 endif

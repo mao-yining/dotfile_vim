@@ -54,12 +54,14 @@ var args = [
 &l:makeprg = $"pandoc {args->join(' ')}"
 &l:conceallevel = 2
 
-setl keywordprg=:LspHover
 if exists("g:loaded_lsp")
 	import autoload '../autoload/lsp.vim'
 	augroup LspSetup
 		au!
-		au User LspAttached lsp.SetupMaps()
+		au User LspAttached {
+			lsp.SetupMaps()
+			setl keywordprg=:LspHover
+		}
 	augroup END
 endif
 
