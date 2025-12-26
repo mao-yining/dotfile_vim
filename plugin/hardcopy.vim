@@ -1,8 +1,8 @@
 vim9script
 
-set printfont=NSimSun:h12
+set printfont=nsimsun:h12
 
-set printoptions=header:0
+set printoptions=header:0,paper:A4
 
 if executable('ps2pdf')
 	def Ps2Pdf(): number
