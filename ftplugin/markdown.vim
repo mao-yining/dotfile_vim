@@ -1,19 +1,5 @@
 vim9script noclear
 
-g:markdown_minlines = 500
-g:markdown_fenced_languages = [
-	"bash=sh", "shell=sh", "sh", "make",
-	"asm", "c", "cpp",
-	"rust", "go",
-	"javascript",
-	"yaml", "json", "jsonc", "toml",
-	"python", "perl", "vim", "ruby", "lua",
-	"tex", "tikz=tex", "typst",
-	"git", "gitcommit", "gitrebase", "diff",
-	"messages", "log",
-	"mermaid",
-]
-
 setlocal nolinebreak
 setlocal textwidth=74
 
@@ -37,6 +23,12 @@ xnoremap <expr> <LocalLeader>q AddFormat("`")
 iab 》 >
 iab 【 [
 iab 】 ]
+
+inorea <buffer> no! > [!Note]
+inorea <buffer> ti! > [!Tip]
+inorea <buffer> im! > [!Important]
+inorea <buffer> wa! > [!Warning]
+inorea <buffer> ca! > [!Caution]
 
 var input_flags = ['commonmark_x',
 	'+wikilinks_title_after_pipe',
@@ -70,3 +62,19 @@ if exists("g:loaded_lsp")
 		au User LspAttached lsp.SetupMaps()
 	augroup END
 endif
+
+if exists("g:markdown_fenced_languages")|finish|endif
+
+g:markdown_minlines = 500
+g:markdown_fenced_languages = [
+	"bash=sh", "shell=sh", "sh", "make",
+	"asm", "c", "cpp",
+	"rust", "go",
+	"javascript",
+	"yaml", "json", "jsonc", "toml",
+	"python", "perl", "vim", "ruby", "lua",
+	"tex", "tikz=tex", "typst",
+	"git", "gitcommit", "gitrebase", "diff",
+	"messages", "log",
+	"mermaid",
+]
