@@ -10,7 +10,7 @@ set helplang=cn spelllang=en_gb,cjk
 set history=10000 updatetime=400 tabpagemax=50 termwinscroll=40000
 set display=lastline smoothscroll
 set scrolloff=5
-set colorcolumn=81
+set colorcolumn=+1
 set conceallevel=2
 set formatoptions+=mMjn
 set noshowmode
