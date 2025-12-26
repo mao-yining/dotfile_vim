@@ -91,13 +91,13 @@ enddef
 
 def CmdComplete()
 	const cmdcompltype = getcmdcompltype()
-	if cmdcompltype ==# 'customlist,fugitive#Complete' || cmdcompltype ==# 'file'
+	if cmdcompltype ==# 'customlist,fugitive#Complete' || cmdcompltype ==# 'customlist,dispatch#command_complete'
 		return
 	endif
 
 	EditDirectoryHelper()
 	# :! and :term completion is very slow on Windows and WSL, disable it there.
-	if !((has("win32") || exists("$WSLENV")) && cmdcompltype == 'shellcmd')
+	if !((has("win32") || exists("$WSLENV")) && (cmdcompltype == 'shellcmd' || cmdcompltype ==# 'file'))
 		wildtrigger()
 	endif
 enddef
