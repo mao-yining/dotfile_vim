@@ -4,7 +4,6 @@ set guioptions=!cCd
 
 inoremap <C-S-V> <C-R><C-P>+
 cnoremap <C-S-V> <C-R><C-O>+
-nnoremap <expr> <C-Z> ':!' .. &shell .. '<CR>'
 
 if has("gui_win32")
 	set renderoptions=type:directx
