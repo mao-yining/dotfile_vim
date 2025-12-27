@@ -1,16 +1,9 @@
-if !executable("git")|finish|endif
-
-vim9script
+if !executable("git") || "vim-fugitive"->getcompletion("packadd")->empty()
+	finish
+endif
 packadd vim-fugitive
 packadd vim-gitgutter
 packadd conflict-marker.vim
-
-# def g:GitStatus(): string
-# 	const [a,m,r] = g:GitGutterGetHunkSummary()
-# 	return printf('%s +%d ~%d -%d', g:FugitiveStatusline(), a, m, r)
-# enddef
-# set statusline=%<%f\ %h%m%r%{GitStatus()}%=%-14.(%l,%c%V%)\ %P
-
 nmap <Leader>gg <Cmd>Git<CR>
 nmap <Leader>gl <Cmd>GV<CR>
 nmap g<Space> :Git<Space>
@@ -47,5 +40,5 @@ xmap ah <Plug>(GitGutterTextObjectOuterVisual)
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 
-g:gitgutter_map_keys = 0
-g:gitgutter_preview_win_floating = 1
+let g:gitgutter_map_keys = 0
+let g:gitgutter_preview_win_floating = 1

@@ -4,6 +4,6 @@ else
 	set cryptmethod=blowfish2
 endif
 
-if executable("gpg")
+if executable("gpg") && !"vim-gnupg"->getcompletion("packadd")->empty()
 	packadd vim-gnupg
 endif

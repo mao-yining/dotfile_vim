@@ -1,3 +1,4 @@
+if "vim-vsnip"->getcompletion("packadd")->empty()|finish|endif
 packadd vim-vsnip
 packadd vim-vsnip-integ
 packadd friendly-snippets

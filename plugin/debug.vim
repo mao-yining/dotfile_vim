@@ -31,7 +31,7 @@ def ResetTermdebugMappings()
 	nmap   <F8> <Cmd>AsyncTask file-build<CR>
 enddef
 
-if has('python3')
+if has('python3') && !"vimspector"->getcompletion("packadd")->empty()
 	packadd vimspector
 	g:vimspector_install_gadgets = [ "debugpy", "vscode-cpptools", "CodeLLDB" ]
 	nmap <F5>          <Plug>VimspectorContinue

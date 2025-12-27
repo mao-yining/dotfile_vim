@@ -30,4 +30,8 @@ augroup colors | au!
     au Colorscheme * hi CursorLineNr guibg=NONE gui=bold cterm=bold
 augroup END
 
-colorscheme catppuccin
+if getcompletion("catppuccin", "color")->empty()
+	colorscheme retrobox
+else
+	colorscheme catppuccin
+endif

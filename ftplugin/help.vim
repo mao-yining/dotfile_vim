@@ -1,6 +1,9 @@
-packadd helptoc
-
-nnoremap <buffer> <LocalLeader>t <ScriptCmd>HelpToc<CR>
+set tags=./tags
 nnoremap <buffer> q <Cmd>bd<CR>
 
-set tags=./tags
+if !exists(":HelpToc") && !"helptoc"->getcompletion("packadd")->empty()
+	packadd helptoc
+else
+	finish
+endif
+nnoremap <buffer> <LocalLeader>t <ScriptCmd>HelpToc<CR>

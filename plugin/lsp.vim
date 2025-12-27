@@ -1,3 +1,4 @@
+if "lsp"->getcompletion("packadd")->empty()|finish|endif
 vim9script
 var lspServers: list<dict<any>>
 

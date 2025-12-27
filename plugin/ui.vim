@@ -27,5 +27,6 @@ g:startify_bookmarks = [{ "c": $MYVIMRC }]
 g:startify_bookmarks += [{ "b": "~/Documents/vault/projects/accounts/main.bean" }]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read \":help uganda\".", ""]
 
+if "vim-airline"->getcompletion("packadd")->empty()|finish|endif
 packadd vim-airline
 g:airline#extensions#whitespace#checks = [ 'trailing', 'conflicts' ]
