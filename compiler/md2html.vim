@@ -15,15 +15,13 @@ var input_flags = [
 var target = 'pdf'
 
 var args = [
-	'-s',
-	'--toc',
-	'--toc-depth=3',
 	'-f',
 	join(input_flags, ''),
-	'%',
-	'-o'
 	'-s',
+	'%',
 	'--wrap=auto',
+	'--mathml',
+	'-o',
 	'%:t:r.html'
 ]
 
