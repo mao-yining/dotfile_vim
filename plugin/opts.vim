@@ -1,20 +1,37 @@
 vim9script
-# Check after/plugin/if_loaded.vim for settings that depends on plugin existence
 # Plugin settings
 
-packadd comment
-# packadd editexisting
-packadd editorconfig
-packadd helptoc
-packadd hlyank
-packadd matchit
-packadd nohlsearch
+if !"comment"->getcompletion("packadd")->empty()
+	packadd comment
+endif
+# if !"editexisting"->getcompletion("packadd")->empty()
+# 	packadd editexisting
+# endif
+if !"editorconfig"->getcompletion("packadd")->empty()
+	packadd editorconfig
+endif
+if !"helptoc"->getcompletion("packadd")->empty()
+	packadd helptoc
+endif
+if !"hlyank"->getcompletion("packadd")->empty()
+	packadd hlyank
+endif
+if !"matchit"->getcompletion("packadd")->empty()
+	packadd matchit
+endif
+if !"nohlsearch"->getcompletion("packadd")->empty()
+	packadd nohlsearch
+endif
 
 tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
 g:helptoc = {shell_prompt: '^\(PS \)\?\f\+>\s'}
 
-packadd vimcdoc
-packadd vimtex
+if !"vimcdoc"->getcompletion("packadd")->empty()
+	packadd vimcdoc
+endif
+if !"vimtex"->getcompletion("packadd")->empty()
+	packadd vimtex
+endif
 
 g:popup_borderchars   = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
 g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
@@ -24,7 +41,7 @@ g:loaded_netrw        = 1
 g:loaded_netrwPlugin  = 1
 nmap - <Cmd>Dir<CR>
 
-if executable("ctags")
+if executable("ctags") && !"vim-gutentags"->getcompletion("packadd")->empty()
 	silent! packadd vim-gutentags
 	g:gutentags_exclude_filetypes = ['help']
 	if executable('rg')
@@ -34,7 +51,7 @@ if executable("ctags")
 	endif
 endif
 
-if executable("man")
+if executable("man") && !"vim-man"->getcompletion("packadd")->empty()
 	silent! packadd vim-man
 endif
 
@@ -100,15 +117,6 @@ g:test#strategy = "vimterminal"
 
 g:competitest_configs = {
 	# multiple_testing: 1,
-	output_compare_method: (output: string, expout: string) => {
-		def TrimString(str: string): string
-			return str
-				->substitute('\s*\n', '\n', 'g') # 去除行尾空格
-				->substitute('^\s*', '', '')     # 删除开头的所有空白字符
-				->substitute('\s*$', '', '')     # 删除结尾的所有空白字符
-		enddef
-		return TrimString(output) == TrimString(expout)
-	},
 	testcases_input_file_format: "$(FNOEXT)$(TCNUM).in",
 	testcases_output_file_format: "$(FNOEXT)$(TCNUM).ans",
 	template_file: "D:/Competitive-Programming/template/template.$(FEXT)",
