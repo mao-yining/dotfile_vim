@@ -1,7 +1,6 @@
 # vim: ts=35 sw=0 noet cc=35
 devel	git@github.com:lifepillar/vim-devel.git
 mine/opt/DrawIt	git@github.com:vim-scripts/DrawIt.git
-mine/opt/colorizer	git@github.com:lilydjwg/colorizer.git
 mine/opt/friendly-snippets	git@github.com:rafamadriz/friendly-snippets.git
 mine/opt/lsp	git@github.com:yegappan/lsp.git
 mine/opt/undotree	git@github.com:mbbill/undotree.git

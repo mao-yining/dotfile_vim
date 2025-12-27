@@ -46,9 +46,6 @@ xmap s <plug>(SubversiveSubstitute)
 nmap =d <Cmd>DIstart<CR>
 nmap \d <Cmd>DIstop<CR>
 
-nmap =c <Cmd>ColorHighlight<CR>
-nmap \c <Cmd>ColorClear<CR>
-
 g:vista#renderer#enable_icon = false
 nmap <LocalLeader>v <Cmd>Vista!!<CR>
 
@@ -88,7 +85,6 @@ enddef
 
 PackCommands("undotree", "UndotreeToggle")
 PackCommands("vim-startuptime", "StartupTime")
-PackCommands("colorizer", "ColorHighlight")
 PackCommands("vim9asm", "Disassemble")
 PackCommands("vim-pio", "PIO")
 
