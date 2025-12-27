@@ -2,7 +2,6 @@ filetype plugin indent on
 syntax enable
 
 set nocompatible
-set termguicolors
 set hidden confirm
 set belloff=all shortmess+=cC
 set nolangremap
@@ -46,5 +45,3 @@ set clipboard^=unnamed
 
 let g:mapleader = " "
 let g:maplocalleader = ";"
-
-colorscheme catppuccin
