@@ -66,8 +66,7 @@ nmap \d <Cmd>DIstop<CR>
 g:vista#renderer#enable_icon = false
 nmap <LocalLeader>v <Cmd>Vista!!<CR>
 
-g:asynctasks_term_pos = "vim" # quickfix | vim | tab | bottom | external
-g:asyncrun_status     = "stopped"
+g:asynctasks_term_pos = "tab"
 g:asyncrun_open       = 9
 g:asyncrun_save       = true
 g:asyncrun_bell       = true
