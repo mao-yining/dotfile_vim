@@ -56,9 +56,8 @@ g:LspOptionsSet({
 	diagVirtualTextAlign: "after",
 	filterCompletionDuplicates: true,
 	ignoreMissingServer: false,
-	popupBorder: true,
 	semanticHighlight: true,
-	semanticHighlightDelay: 400,
+	semanticHighlightDelay: 350,
 	showDiagWithVirtualText: true,
 	useQuickfixForLocations: true, # For LspShowReferences
 	usePopupInCodeAction: true,
