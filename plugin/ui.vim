@@ -21,7 +21,7 @@ if !isdirectory($MYVIMDIR .. "/sessions")
 	mkdir($MYVIMDIR .. "/sessions", "p")
 endif
 g:startify_session_dir = $MYVIMDIR .. "/sessions"
-g:startify_skiplist = ["runtime/doc/", "/plugged/.*/doc/", "/.git/", "/Temp/"]
+g:startify_skiplist = ["runtime/doc/", "/plugged/.*/doc/", "/.git/", "\\Temp\\"]
 g:startify_skiplist += ["fugitiveblame$", "^dir:", "^fugitive:"]
 g:startify_bookmarks = [{ "c": $MYVIMRC }]
 g:startify_bookmarks += [{ "b": "~/Documents/vault/projects/accounts/main.bean" }]
