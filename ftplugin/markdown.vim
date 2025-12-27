@@ -1,7 +1,8 @@
 vim9script noclear
 
-setlocal nolinebreak
-setlocal textwidth=74
+setl nolinebreak
+setl textwidth=74
+setl conceallevel=2
 
 noremap j gj
 noremap k gk
@@ -20,39 +21,17 @@ xnoremap <expr> <LocalLeader>s AddFormat("~~")
 xnoremap <expr> <LocalLeader>c AddFormat("`")
 xnoremap <expr> <LocalLeader>q AddFormat("`")
 
-iab 》 >
-iab 【 [
-iab 】 ]
-
+inorea <buffer> 》 >
+inorea <buffer> 【 [
+inorea <buffer> 】 ]
 inorea <buffer> no! > [!Note]
 inorea <buffer> ti! > [!Tip]
 inorea <buffer> im! > [!Important]
 inorea <buffer> wa! > [!Warning]
 inorea <buffer> ca! > [!Caution]
 
-var input_flags = ['commonmark_x',
-	'+wikilinks_title_after_pipe',
-	'+east_asian_line_breaks',
-]
-
-var target = 'pdf'
-
-var args = [
-	'%:S',
-	'-f',
-	join(input_flags, ''),
-	$"-t {target}",
-	$"-o %:.:s?\.md?\.{target}?:s?notes?build?:S",
-	'--metadata title=%:t:r:S',
-	'-s',
-	'--wrap=auto',
-	'--pdf-engine=lualatex',
-	'--pdf-engine-opt=--shell-escape',
-	'-V documentclass=ctexart',
-]
-
-&l:makeprg = $"pandoc {args->join(' ')}"
-&l:conceallevel = 2
+import autoload "../autoload/markdown.vim" as md
+nnoremap <buffer> gf <ScriptCmd>md.OpenWikiLink()<CR>
 
 if exists("g:loaded_lsp")
 	import autoload '../autoload/lsp.vim'
