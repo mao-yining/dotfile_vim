@@ -18,11 +18,11 @@ var args = [
 	'-f',
 	join(input_flags, ''),
 	'-s',
-	'%',
+	'"%"',
 	'--wrap=auto',
 	'--mathml',
 	'-o',
-	'%:t:r.html'
+	'"%:t:r.html"'
 ]
 
 &l:makeprg = $"pandoc {args->join(' ')}"

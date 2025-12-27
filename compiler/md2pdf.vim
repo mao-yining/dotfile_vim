@@ -17,7 +17,7 @@ var args = [
 	'-f',
 	join(input_flags, ''),
 	$"-t {target}",
-	$"-o %:.:s?\.md?\.{target}?:s?notes?.build?:S",
+	$'-o %:.:s?\.md?\.{target}?:s?notes?.build?:S',
 	'-s',
 	'--wrap=auto',
 	'--pdf-engine=lualatex',
