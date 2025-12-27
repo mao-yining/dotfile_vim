@@ -11,7 +11,6 @@ cab cdn lcd <C-R>=expand('%:p:h')<CR>
 cab cdr cd <C-R>=FindProjectRoot()<CR>
 
 inorea myn Mao-Yining
-inorea mynmail mao.yining@outlook.com
 inorea latex LaTeX
 inorea xetex XeTeX
 inorea xelatex XeLaTeX
