@@ -1,8 +1,8 @@
 vim9script
 
-var popup_borderchars = get(g:, "popup_borderchars", ['─', '│', '─', '│', '┌', '┐', '┘', '└'])
-var popup_borderhighlight = get(g:, "popup_borderhighlight", ['Normal'])
-var popup_highlight = get(g:, "popup_highlight", 'Normal')
+const popup_borderchars = get(g:, "popup_borderchars", ['─', '│', '─', '│', '┌', '┐', '┘', '└'])
+const popup_borderhighlight = get(g:, "popup_borderhighlight", ['Normal'])
+const popup_highlight = get(g:, "popup_highlight", 'Normal')
 const UPD1 = "○"
 const UPD2 = "●"
 const INST1 = "⬠"
