@@ -1,4 +1,21 @@
-vim9script noclear
+vim9script
+
+compiler md2pdf
+noremap <buffer> <F5> <ScriptCmd>update<Bar>Make()<CR>
+
+def Make()
+	popup_menu(getcompletion("md2", "compiler"), {
+		pos: "center",
+		title: "使用哪个编译器？",
+		borderchars: get(g:, "popup_borderchars", ['─', '│', '─', '│', '┌', '┐', '┘', '└']),
+		borderhighlight: get(g:, "popup_borderhighlight", ['Normal']),
+		highlight: get(g:, "popup_highlight", 'Normal'),
+		callback: (id, result) => {
+			if result == -1 | return | endif
+			execute "compiler" getwininfo(id)[0].bufnr->getbufoneline(result)
+			silent :Make
+		}})
+enddef
 
 setl nolinebreak
 setl textwidth=74
