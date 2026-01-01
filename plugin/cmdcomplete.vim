@@ -49,7 +49,7 @@ def CmdCompleteSelectFirst()
 	# fullcommand() can't figure out `:vertical sbuffer` or `:horizontal sbuffer`,
 	var cmd_orig = info.cmdline_orig->substitute('\v^%(%(ver%[tical])|%(hor%[izontal]))', '', '')
 	var cmd_len = len(cmd_orig) == len(info.cmdline_orig) ? 0 : 1
-	if commands->index(fullcommand(cmd_orig)) != -1
+	if commands->index(fullcommand(cmd_orig)) == -1
 		return
 	endif
 
@@ -58,6 +58,7 @@ def CmdCompleteSelectFirst()
 		selected = selected->escape('#%')
 	endif
 	setcmdline($'{cmd[ : cmd_len]->join()} {selected}')
+	echom $'{cmd[ : cmd_len]->join()} {selected}'
 enddef
 
 def EditDirectoryHelper()
