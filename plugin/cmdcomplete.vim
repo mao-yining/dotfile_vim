@@ -42,15 +42,14 @@ def CmdCompleteSelectFirst()
 	# :e newfile<CR> should always edit newfile, not the first element of completion
 	var commands = [
 		'sfind', 'find', 'tabfind', 'buffer', 'sbuffer', 'colorscheme',
-		'highlight', 'help', 'ts', 'tselect', 'tag', 'ta', 'compiler',
-		'Recent', 'SRecent', 'InsertTemplate', 'Colorscheme', 'Unicode',
-		'AsyncTask', 'SLoad'
+		'highlight', 'help', 'tselect', 'tag', 'compiler',
+		'Recent', 'Unicode', 'AsyncTask', 'SLoad'
 	]
 
 	# fullcommand() can't figure out `:vertical sbuffer` or `:horizontal sbuffer`,
-	var cmd_orig = substitute(info.cmdline_orig, '\v^%(%(ver%[tical])|%(hor%[izontal]))', '', '')
+	var cmd_orig = info.cmdline_orig->substitute('\v^%(%(ver%[tical])|%(hor%[izontal]))', '', '')
 	var cmd_len = len(cmd_orig) == len(info.cmdline_orig) ? 0 : 1
-	if commands->index(fullcommand(cmd_orig)) == -1
+	if commands->index(fullcommand(cmd_orig)) != -1
 		return
 	endif
 
