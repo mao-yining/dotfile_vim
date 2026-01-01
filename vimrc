@@ -3,6 +3,7 @@ let g:maplocalleader = ";"
 filetype plugin indent on
 syntax enable
 
+set encoding=utf-8
 set nocompatible
 set hidden confirm
 set belloff=all shortmess+=cC
