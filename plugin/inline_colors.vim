@@ -103,7 +103,7 @@ def InlineColors(winid: number, lines: list<number> = [line('.'), line('.')]): v
     if lines[0] < 1 || lines[1] > line('$', winid)
         return
     endif
-    var bufnr = winbufnr(winid)
+    const bufnr = winbufnr(winid)
     var inline_colors = getbufvar(bufnr, 'inline_colors', {})
     if get(g:, "inline_color_disable", false) && !empty(inline_colors)
         prop_remove({types: inline_colors->keys(), all: true, bufnr: bufnr})
