@@ -17,6 +17,8 @@ def NoBg()
         return
     endif
     hi Normal guibg=NONE ctermbg=NONE
+    hi StatusLine guibg=NONE ctermbg=NONE
+    hi StatusLineNC guibg=NONE ctermbg=NONE
 enddef
 
 def Vsplit()

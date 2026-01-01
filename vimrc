@@ -23,7 +23,7 @@ set jumpoptions=stack
 set ttimeout ttimeoutlen=50
 set autowrite autoread
 set hlsearch incsearch ignorecase smartcase
-set number relativenumber cursorline cursorlineopt=both signcolumn=number
+set number relativenumber cursorline cursorlineopt=number signcolumn=number
 set breakindent linebreak nojoinspaces
 set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
 set fillchars=vert:│,fold:·,foldsep:│
