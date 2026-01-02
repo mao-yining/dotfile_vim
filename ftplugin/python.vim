@@ -1,6 +1,6 @@
 vim9script
 
-augroup python | au!
+augroup MyPython | au!
 	autocmd BufWritePre <buffer> FixTrailingSpaces
 augroup end
 
@@ -12,15 +12,3 @@ elseif executable('yapf')
     # pip install yapf
     &l:formatprg = "yapf"
 endif
-
-if exists("g:loaded_lsp")
-	import autoload '../autoload/lsp.vim'
-	augroup LspSetup
-		au!
-		au User LspAttached {
-			lsp.SetupMaps()
-			setl keywordprg=:LspHover
-		}
-	augroup END
-endif
-

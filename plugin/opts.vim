@@ -12,9 +12,12 @@ if !"editorconfig"->getcompletion("packadd")->empty()
 endif
 if !"helptoc"->getcompletion("packadd")->empty()
 	packadd helptoc
+	tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
+	g:helptoc = {shell_prompt: '^\(PS \)\?\f\+>\s'}
 endif
 if !"hlyank"->getcompletion("packadd")->empty()
 	packadd hlyank
+	g:hlyank_duration = 200
 endif
 if !"matchit"->getcompletion("packadd")->empty()
 	packadd matchit
@@ -23,19 +26,12 @@ if !"nohlsearch"->getcompletion("packadd")->empty()
 	packadd nohlsearch
 endif
 
-tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
-g:helptoc = {shell_prompt: '^\(PS \)\?\f\+>\s'}
-
 if !"vimcdoc"->getcompletion("packadd")->empty()
 	packadd vimcdoc
-endif
-if !"vimtex"->getcompletion("packadd")->empty()
-	packadd vimtex
 endif
 
 g:popup_borderchars   = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
 g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
-g:hlyank_duration     = 200
 
 g:loaded_netrw        = 1
 g:loaded_netrwPlugin  = 1

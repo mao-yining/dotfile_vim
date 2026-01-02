@@ -5,12 +5,7 @@ if executable("clang-format")
 endif
 
 if exists("g:loaded_lsp")
-	import autoload '../autoload/lsp.vim'
-	augroup LspSetup
-		au!
-		au User LspAttached {
-			lsp.SetupMaps()
-			setl keywordprg=:LspHover
-		}
+	augroup CLspSetup | au!
+		au User LspAttached setl keywordprg=:LspHover
 	augroup END
 endif

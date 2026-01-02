@@ -50,17 +50,6 @@ inorea <buffer> ca! > [!Caution]
 import autoload "../autoload/markdown.vim" as md
 nnoremap <buffer> gf <ScriptCmd>md.OpenWikiLink()<CR>
 
-if exists("g:loaded_lsp")
-	import autoload '../autoload/lsp.vim'
-	augroup LspSetup
-		au!
-		au User LspAttached {
-			lsp.SetupMaps()
-			setl keywordprg=:LspHover
-		}
-	augroup END
-endif
-
 if exists("g:markdown_fenced_languages")|finish|endif
 
 g:markdown_minlines = 500

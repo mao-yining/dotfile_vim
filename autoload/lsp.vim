@@ -2,6 +2,7 @@ vim9script
 
 export def SetupMaps()
 	setl omnifunc=LspOmniFunc
+	setl keywordprg=:LspHover
 	nmap <buffer> <Leader>s <Cmd>LspDocumentSymbol<CR>
 	nmap <buffer> gD <Cmd>LspGotoDeclaration<CR>
 	nmap <buffer> gd <Cmd>LspGotoDefinition<CR>
