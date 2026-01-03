@@ -163,10 +163,10 @@ noremap <M-H> <Cmd>wincmd h<CR>
 noremap <M-J> <Cmd>wincmd j<CR>
 noremap <M-K> <Cmd>wincmd k<CR>
 noremap <M-L> <Cmd>wincmd l<CR>
-inoremap <M-H> <Cmd>wincmd h<CR>
-inoremap <M-J> <Cmd>wincmd j<CR>
-inoremap <M-K> <Cmd>wincmd k<CR>
-inoremap <M-L> <Cmd>wincmd l<CR>
+inoremap <M-H> <Esc><Cmd>wincmd h<CR>
+inoremap <M-J> <Esc><Cmd>wincmd j<CR>
+inoremap <M-K> <Esc><Cmd>wincmd k<CR>
+inoremap <M-L> <Esc><Cmd>wincmd l<CR>
 tnoremap <M-H> <Cmd>wincmd h<CR>
 tnoremap <M-J> <Cmd>wincmd j<CR>
 tnoremap <M-K> <Cmd>wincmd k<CR>
