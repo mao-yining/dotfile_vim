@@ -11,3 +11,5 @@ elseif executable('ugrep')
 endif
 
 command! Todo :Rg TODO:
+nnoremap <expr> g<Space> "<Cmd>silent call g:SetProjectRoot()<CR>:grep "
+nnoremap <expr> g! "<Cmd>silent call g:SetProjectRoot()<CR>:grep! "

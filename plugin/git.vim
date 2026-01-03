@@ -6,7 +6,6 @@ packadd vim-gitgutter
 packadd conflict-marker.vim
 nmap <Leader>gg <Cmd>Git<CR>
 nmap <Leader>gl <Cmd>GV<CR>
-nmap g<Space> :Git<Space>
 nmap <Leader>g<Space> :Git<Space>
 nmap <Leader>gc<Space> :Git commit<Space>
 nmap <Leader>gcc <Cmd>Git commit -v<CR>
