@@ -12,15 +12,25 @@ def Find(how: string = "", path: string = ""): string
 	endif
 	return $":{mods}{how}find "
 enddef
+def Grep(path: string = ""): string
+	if empty(path)
+		silent g:SetProjectRoot()
+	else
+		silent g:Lcd(path)
+	endif
+	return ":grep "
+enddef
 nnoremap <expr> <Leader><Leader> Find()
 nnoremap <expr> <Leader><LocalLeader> Find("tab")
 nnoremap <expr> <LocalLeader><Leader> Find("", expand("%"))
+nnoremap <expr> <Leader>s Grep()
+nnoremap <expr> s<Leader> Grep(expand("%"))
 nnoremap <expr> <Leader>b ":buffer "
 nnoremap <expr> <Leader>t ":AsyncTask "
 nnoremap <expr> <Leader>h ":help "
 nnoremap <expr> <Leader>r ":Recent "
 nnoremap <expr> <Leader>fm ":compiler "
-nnoremap <expr> <Leader>ft ":set ft="
+nnoremap <expr> <Leader>ft ":set filetype="
 nnoremap <expr> <Leader>fs ":SLoad "
 nnoremap <expr> <Leader>fc ":colorscheme "
 nnoremap <expr> <Leader>fu ":Unicode "
