@@ -1,4 +1,5 @@
 vim9script
+# check with :so $VIMRUNTIME/tools/emoji_list.vim
 setcellwidths([
 	[0x2049, 0x2049, 2],
 	[0x2139, 0x2139, 2],
