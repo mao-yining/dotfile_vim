@@ -6,16 +6,17 @@ augroup CmdCompleteResetFind
 	au CmdlineEnter : files_cache = []
 augroup END
 
+const slash = has("win32unix") ? '//' : '/'
 def FindCmd(): string
-	var cmd = ''
+	var cmd: string
 	if executable('fd')
-		cmd = 'fd . --path-separator / --type f --hidden --follow --exclude .git'
+		cmd = $'fd . --path-separator {slash} --type f --hidden --follow --exclude .git'
 	elseif executable('fdfind')
-		cmd = 'fdfind . --path-separator / --type f --hidden --follow --exclude .git'
+		cmd = $'fdfind . --path-separator {slash} --type f --hidden --follow --exclude .git'
 	elseif executable('ugrep')
 		cmd = 'ugrep "" -Rl -I --ignore-files'
 	elseif executable('rg')
-		cmd = 'rg --path-separator / --files --hidden --glob !.git'
+		cmd = $'rg --path-separator{slash}/ --files --hidden --glob !.git'
 	elseif executable('find')
 		cmd = 'find \! \( -path "*/.git" -prune -o -name "*.swp" \) -type f -follow'
 	endif
