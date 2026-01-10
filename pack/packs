@@ -39,7 +39,6 @@ mine/start/vim-signature	git@github.com:kshenoy/vim-signature.git
 mine/start/vim-sleuth	git@github.com:tpope/vim-sleuth.git
 mine/start/vim-speeddating	git@github.com:tpope/vim-speeddating.git
 mine/start/vim-startify	git@github.com:mhinz/vim-startify.git
-mine/start/vim-subversive	git@github.com:svermeulen/vim-subversive.git
 mine/start/vim-surround	git@github.com:tpope/vim-surround.git
 mine/start/vim-swap	git@github.com:machakann/vim-swap.git
 mine/start/vim-unimpaired	git@github.com:tpope/vim-unimpaired.git

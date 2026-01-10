@@ -51,11 +51,6 @@ if executable("man") && !"vim-man"->getcompletion("packadd")->empty()
 	silent! packadd vim-man
 endif
 
-nmap s <plug>(SubversiveSubstitute)
-nmap ss <plug>(SubversiveSubstituteLine)
-nmap S <plug>(SubversiveSubstituteToEndOfLine)
-xmap s <plug>(SubversiveSubstitute)
-
 nmap =d <Cmd>DIstart<CR>
 nmap \d <Cmd>DIstop<CR>
 

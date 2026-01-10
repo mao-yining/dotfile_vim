@@ -94,6 +94,12 @@ xnoremap <Leader>% "sy:%s/\V<C-R>s/
 nnoremap <Leader>/ <ScriptCmd>exe $"Search {input("Search: ")}"<CR>
 xnoremap <Leader>/ y/\V<C-R>"<CR>
 
+import autoload 'substitute.vim'
+
+nmap s <ScriptCmd>substitute.SetOperatorFunc(false)<CR>g@
+nmap ss <ScriptCmd>substitute.Line()<CR>
+nmap S <ScriptCmd>substitute.ToEndOfLine()<CR>
+xmap s <Esc>`<<ScriptCmd>substitute.SetOperatorFunc(true)<CR>g@`>
 
 # move lines
 xnoremap <M-j> :sil! m '>+1<CR>gv
