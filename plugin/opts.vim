@@ -18,6 +18,7 @@ endif
 if !"hlyank"->getcompletion("packadd")->empty()
 	packadd hlyank
 	g:hlyank_duration = 200
+	g:hlyank_hlgroup = 'Search'
 endif
 if !"matchit"->getcompletion("packadd")->empty()
 	packadd matchit
