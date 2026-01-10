@@ -139,7 +139,7 @@ def RecentComplete(_, _, _): string
 	const skip_lists: list<string> = get(g:, "startify_skiplist", [])
 	return v:oldfiles->filter((_, val: string): bool => {
 		for pattern in skip_lists
-			if val =~# pattern
+			if val =~# pattern || empty(val)
 				return false
 			endif
 		endfor
