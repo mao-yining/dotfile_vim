@@ -78,14 +78,6 @@ imap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
 imap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
 imap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 
-nmap <Home> <Plug>(qf_qf_previous)
-nmap <End>  <Plug>(qf_qf_next)
-nmap <C-Home> <Plug>(qf_loc_previous)
-nmap <C-End>  <Plug>(qf_loc_next)
-nmap <M-s> <Plug>(qf_qf_switch)
-nmap <Leader>q <Plug>(qf_qf_toggle)
-nmap <Leader>l <Plug>(qf_loc_toggle)
-
 xmap <Tab> <Plug>(EasyAlign)
 
 nmap <Leader>u <Cmd>UndotreeToggle<CR>

@@ -13,7 +13,6 @@ mine/opt/vim-fugitive	git@github.com:tpope/vim-fugitive.git
 mine/opt/vim-gitgutter	git@github.com:airblade/vim-gitgutter.git
 mine/opt/vim-gnupg	git@github.com:jamessan/vim-gnupg.git
 mine/opt/vim-gutentags	git@github.com:ludovicchabant/vim-gutentags.git
-mine/opt/vim-man	git@github.com:vim-utils/vim-man.git
 mine/opt/vim-pio	git@github.com:normen/vim-pio.git
 mine/opt/vim-rhubarb	git@github.com:tpope/vim-rhubarb.git
 mine/opt/vim-startuptime	git@github.com:dstein64/vim-startuptime.git
@@ -35,7 +34,6 @@ mine/start/vim-closetag	git@github.com:alvan/vim-closetag.git
 mine/start/vim-dir	git@github.com:mao-yining/vim-dir.git
 mine/start/vim-dispatch	git@github.com:tpope/vim-dispatch.git
 mine/start/vim-easy-align	git@github.com:junegunn/vim-easy-align.git
-mine/start/vim-qf	git@github.com:romainl/vim-qf.git
 mine/start/vim-repeat	git@github.com:tpope/vim-repeat.git
 mine/start/vim-signature	git@github.com:kshenoy/vim-signature.git
 mine/start/vim-sleuth	git@github.com:tpope/vim-sleuth.git

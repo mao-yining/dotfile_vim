@@ -22,7 +22,7 @@ var args = [
 	'--wrap=auto',
 	'--mathml',
 	'-o',
-	'"%:t:r.html"'
+	'"%:r.html"'
 ]
 
 &l:makeprg = $"pandoc {args->join(' ')}"
