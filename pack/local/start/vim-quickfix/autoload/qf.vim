@@ -93,11 +93,9 @@ enddef
 
 export def ToggleLocationList()
 	for win in range(1, winnr('$'))
-		if getbufvar(winbufnr(win), '&buftype') == 'quickfix'
-			if getwinvar(win, 'loclist') == 1
-				lclose
-				return
-			endif
+		if win_getid(win)->getwininfo()[0].loclist == 1
+			lclose
+			return
 		endif
 	endfor
 	try
