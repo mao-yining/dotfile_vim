@@ -1,5 +1,7 @@
 vim9script
 
+setl nowrap
+
 import autoload '../autoload/qf.vim'
 
 nnoremap <buffer> o <ScriptCmd>qf.View()<CR>
@@ -10,8 +12,9 @@ nnoremap <buffer> K <ScriptCmd>qf.Prev()<CR>
 nnoremap <buffer> <Left>  <ScriptCmd>qf.Newer()<CR>
 nnoremap <buffer> <Right> <ScriptCmd>qf.Older()<CR>
 
-if getqflist({'title': 1}).title =~# "^:Dispatch"
+const title = getqflist({'title': 1}).title
+if title =~# "^:Dispatch"
 	nmap <buffer> <C-C> <Cmd>AbortDispatch<CR>
-elseif getqflist({'title': 1}).title =~# "^:AsyncRun"
+elseif title =~# "^:AsyncRun"
 	nmap <buffer> <C-C> <Cmd>AsyncStop<CR>
 endif
