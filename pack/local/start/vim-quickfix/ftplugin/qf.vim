@@ -9,8 +9,8 @@ nnoremap <buffer> t <ScriptCmd>qf.View(true)<CR>
 nnoremap <buffer> q <ScriptCmd>wincmd c<CR>
 nnoremap <buffer> J <ScriptCmd>qf.Next()<CR>
 nnoremap <buffer> K <ScriptCmd>qf.Prev()<CR>
-nnoremap <buffer> <Left>  <ScriptCmd>qf.Newer()<CR>
-nnoremap <buffer> <Right> <ScriptCmd>qf.Older()<CR>
+nnoremap <buffer> <Left>  <ScriptCmd>qf.Older()<CR>
+nnoremap <buffer> <Right> <ScriptCmd>qf.Newer()<CR>
 
 const title = getqflist({'title': 1}).title
 if title =~# "^:Dispatch"

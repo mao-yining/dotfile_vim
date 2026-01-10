@@ -106,9 +106,15 @@ export def ToggleLocationList()
 enddef
 
 export def Older()
-	silent! execute (IsLocationList() ? 'l' : 'c') .. 'older'
+	try
+		execute (IsLocationList() ? 'l' : 'c') .. 'older'
+	catch /^Vim([cl]older):E380:/
+	endtry
 enddef
 
 export def Newer()
-	silent! execute (IsLocationList() ? 'l' : 'c') .. 'newer'
+	try
+		execute (IsLocationList() ? 'l' : 'c') .. 'newer'
+	catch /^Vim([cl]newer):E381:/
+	endtry
 enddef
