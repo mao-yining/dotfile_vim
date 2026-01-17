@@ -1,5 +1,5 @@
-let g:mapleader = " "
-let g:maplocalleader = ";"
+let g:mapleader = ' '
+let g:maplocalleader = ';'
 filetype plugin indent on
 syntax enable
 
