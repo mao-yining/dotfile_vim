@@ -48,7 +48,7 @@ var months = extend(months_en, months_cn)
 months = extend(months, mons_en)
 g:months = copy(months)
 
-# * ISO-8601 2020-03-21
+# * ISO-8601 2020-03-21 -- 2020-06-30
 # * RU 21 марта 2020
 # * EN 10 December 2012
 # * EN December 10, 2012
@@ -74,7 +74,7 @@ export def ObjDate(inner: bool)
 	elseif cword =~ join(months, '\|')
 		search('^\|\D\ze\d\{1,2}\s\+', 'bceW')
 	elseif cword =~ '\d\{1,2}'
-		if !search('^\|\S\ze\%(' .. join(months, '\|') .. '\)\s\+\d\{1,2}', 'bceW')
+        if !search('\%(' .. join(months, '\|') .. '\)\s\+\d\{1,2}', 'bcW')
 			search('^\|[^0-9\-]', 'becW')
 		endif
 	endif
