@@ -26,6 +26,10 @@ augroup qf
 	exec printf('autocmd QuickFixCmdPost %s copen', quickfix_cmd_pattern)
 	exec printf('autocmd QuickFixCmdPost %s lopen', loc_list_cmd_pattern)
 
+	if has("win32") && $LANG == "zh_CN"
+		autocmd QuickfixCmdPost make getqflist()->foreach((_, l: dict<any>) => l.text->iconv("cp936", "utf-8"))->setqflist()
+	endif
+
 	# special case for :helpgrep and :lhelpgrep since the help window may not
 	# be opened yet when QuickFixCmdPost triggers
 	if exists('*timer_start')
