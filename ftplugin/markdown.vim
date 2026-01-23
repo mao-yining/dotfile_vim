@@ -1,21 +1,6 @@
 vim9script
 
 compiler md2pdf
-noremap <buffer> <F5> <ScriptCmd>update<Bar>Make()<CR>
-
-def Make()
-	popup_menu(getcompletion("md2", "compiler"), {
-		pos: "center",
-		title: "使用哪个编译器？",
-		borderchars: get(g:, "popup_borderchars", ['─', '│', '─', '│', '┌', '┐', '┘', '└']),
-		borderhighlight: get(g:, "popup_borderhighlight", ['Normal']),
-		highlight: get(g:, "popup_highlight", 'Normal'),
-		callback: (id, result) => {
-			if result == -1 | return | endif
-			execute "compiler" getwininfo(id)[0].bufnr->getbufoneline(result)
-			silent :Make
-		}})
-enddef
 
 setl nolinebreak
 setl textwidth=74
@@ -48,7 +33,15 @@ inorea <buffer> wa! > [!Warning]
 inorea <buffer> ca! > [!Caution]
 
 import autoload "../autoload/markdown.vim" as md
+
 nnoremap <buffer> gf <ScriptCmd>md.OpenWikiLink()<CR>
+
+onoremap <buffer><silent>if <ScriptCmd>md.ObjCodeFence(true)<CR>
+onoremap <buffer><silent>af <ScriptCmd>md.ObjCodeFence(false)<CR>
+xnoremap <buffer><silent>if <Esc><ScriptCmd>md.ObjCodeFence(true)<CR>
+xnoremap <buffer><silent>af <Esc><ScriptCmd>md.ObjCodeFence(false)<CR>
+
+noremap <buffer> <F5> <ScriptCmd>update<Bar>md.Make()<CR>
 
 if exists("g:markdown_fenced_languages")|finish|endif
 
