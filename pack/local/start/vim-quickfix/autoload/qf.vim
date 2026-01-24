@@ -52,33 +52,27 @@ export def View(tab = false)
 enddef
 
 export def Next()
-	try
-		if IsLocationList()
-			lnext
-		else
-			cnext
-		endif
-		if exists(":BlinkLine") == 2
-			BlinkLine
-		endif
-		wincmd p
-	catch
-	endtry
+	if IsLocationList()
+		execute($":{v:count1}lnext", "silent!")
+	else
+		execute($":{v:count1}cnext", "silent!")
+	endif
+	if exists(":BlinkLine") == 2
+		BlinkLine
+	endif
+	wincmd p
 enddef
 
 export def Prev()
-	try
-		if IsLocationList()
-			lprev
-		else
-			cprev
-		endif
-		if exists(":BlinkLine") == 2
-			BlinkLine
-		endif
-		wincmd p
-	catch
-	endtry
+	if IsLocationList()
+		execute($":{v:count1}lprev", "silent!")
+	else
+		execute($":{v:count1}cprev", "silent!")
+	endif
+	if exists(":BlinkLine") == 2
+		BlinkLine
+	endif
+	wincmd p
 enddef
 
 export def ToggleQF()
