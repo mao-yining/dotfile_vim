@@ -8,12 +8,13 @@ nmap <End>  <ScriptCmd>qf.Next()<CR>
 nmap <leader>q <ScriptCmd>qf.ToggleQF()<CR>
 nmap <leader>l <ScriptCmd>qf.ToggleLocationList()<CR>
 
-const quickfix_cmd_pattern = [ 'make', 'grep', 'grepadd', 'vimgrep',
-	'vimgrepadd', 'cfile', 'cgetfile', 'caddfile', 'cexpr', 'cgetexpr',
-	'caddexpr', 'cbuffer', 'cgetbuffer', 'caddbuffer' ]->join(',')
+const quickfix_cmd_pattern = [ 'caddbuffer' 'caddexpr', 'caddfile', 'cbuffer',
+	'cexpr', 'cfile', 'cgetbuffer', 'cgetexpr', 'cgetfile', 'grep', 'grepadd',
+	'make', 'vimgrep', 'vimgrepadd', ]->join(',')
 
-const loc_list_cmd_pattern = [ 'lfile', 'lgetfile', 'laddfile', 'lexpr',
-	'lgetexpr', 'laddexpr', 'lbuffer', 'lgetbuffer', 'laddbuffer' ]->join(',')
+const loc_list_cmd_pattern = [ 'laddbuffer' 'laddexpr', 'laddfile', 'lbuffer',
+	'lexpr', 'lfile', 'lgetbuffer', 'lgetexpr', 'lgetfile', 'lgrep',
+	'lgrepadd', 'lmake', 'lvimgrep', 'lvimgrepadd', ]->join(',')
 
 augroup qf
 	autocmd!
