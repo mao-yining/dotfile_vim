@@ -37,7 +37,8 @@ enddef
 export def View(tab = false)
 	var winid = win_getid()
 	if tab
-		exe "normal! \<C-W>\<CR>\<C-W>T"
+		exe "wincmd \<CR>"
+		wincmd T
 	else
 		exe "normal! \<CR>"
 	endif

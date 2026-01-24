@@ -8,23 +8,20 @@ nmap <End>  <ScriptCmd>qf.Next()<CR>
 nmap <leader>q <ScriptCmd>qf.ToggleQF()<CR>
 nmap <leader>l <ScriptCmd>qf.ToggleLocationList()<CR>
 
-const quickfix_cmd_pattern = [
-	'make', 'grep', 'grepadd', 'vimgrep', 'vimgrepadd', 'cfile', 'cgetfile',
-	'caddfile', 'cexpr', 'cgetexpr', 'caddexpr', 'cbuffer',
-	'cgetbuffer', 'caddbuffer'
-]->join(',')
-const loc_list_cmd_pattern = [
-	'lfile', 'lgetfile', 'laddfile', 'lexpr', 'lgetexpr', 'laddexpr',
-	'lbuffer', 'lgetbuffer', 'laddbuffer'
-]->join(',')
+const quickfix_cmd_pattern = [ 'make', 'grep', 'grepadd', 'vimgrep',
+	'vimgrepadd', 'cfile', 'cgetfile', 'caddfile', 'cexpr', 'cgetexpr',
+	'caddexpr', 'cbuffer', 'cgetbuffer', 'caddbuffer' ]->join(',')
+
+const loc_list_cmd_pattern = [ 'lfile', 'lgetfile', 'laddfile', 'lexpr',
+	'lgetexpr', 'laddexpr', 'lbuffer', 'lgetbuffer', 'laddbuffer' ]->join(',')
 
 augroup qf
 	autocmd!
 
 	# automatically open the location/quickfix window after :make, :grep,
 	# :lvimgrep and friends if there are valid locations/errors
-	exec printf('autocmd QuickFixCmdPost %s copen', quickfix_cmd_pattern)
-	exec printf('autocmd QuickFixCmdPost %s lopen', loc_list_cmd_pattern)
+	execute($'autocmd QuickFixCmdPost {quickfix_cmd_pattern} copen')
+	execute($'autocmd QuickFixCmdPost {loc_list_cmd_pattern} lopen')
 
 	if has("win32") && $LANG == "zh_CN"
 		autocmd QuickfixCmdPost make getqflist()->foreach((_, l: dict<any>) => l.text->iconv("cp936", "utf-8"))->setqflist()
