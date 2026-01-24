@@ -4,8 +4,8 @@ def EchoErr(message: string)
 	echohl ErrorMsg | echom "[qf.vim]" message | echohl None
 enddef
 
-def IsLocationList(): bool
-	return getloclist(winnr(), {'filewinid': 0}).filewinid > 0
+def IsLocationList(winnr = winnr()): bool
+	return getloclist(winnr, {'filewinid': 0}).filewinid > 0
 enddef
 
 export def QuickFixText(info: dict<any>): list<string>
@@ -76,25 +76,51 @@ export def Prev()
 	wincmd p
 enddef
 
-export def ToggleQF()
-	for win in range(1, winnr('$'))
-		if getbufvar(winbufnr(win), '&buftype') == 'quickfix'
-			cclose
-			return
-		endif
-	endfor
-	copen
+const max_height = 10
+
+export def COpen()
+	exe $':{min([max_height, len(getqflist())])}copen'
 enddef
 
-export def ToggleLocationList()
-	for win in range(1, winnr('$'))
-		if win_getid(win)->getwininfo()[0].loclist == 1
-			lclose
-			return
+export def LOpen()
+	exe $':{min([max_height, len(getloclist(0))])}lopen'
+enddef
+
+def IsQfWindowOpen(): bool
+	for i in range(1, winnr('$'))
+		if getbufvar(winbufnr(i), '&buftype') == 'quickfix'
+			return true
 		endif
 	endfor
+	return false
+enddef
+
+export def ToggleQF()
+	if IsQfWindowOpen()
+		cclose
+	else
+		COpen()
+	endif
+enddef
+
+def IsLocWindowOpen(winnr = winnr()): bool
+	for i in range(1, winnr('$'))
+		if IsLocationList(i)
+				&& (i == winnr
+				|| getloclist(i, {'filewinid': 0}).filewinid == win_getid(winnr))
+			return true
+		endif
+	endfor
+	return false
+enddef
+
+export def ToggleLoc()
+	if IsLocWindowOpen()
+		lclose
+		return
+	endif
 	try
-		lopen
+		LOpen()
 	catch /^Vim(lopen):E776:/
 		EchoErr(v:exception->strpart(17))
 	endtry
