@@ -84,8 +84,9 @@ enddef
 
 export def Path(findstart: number, base: string): any
 	if findstart > 0
-		var prefix = getline('.')->strpart(0, col('.') - 1)->matchstr('\v\f%(\f|\s)*$')
-		prefix = prefix->substitute('\v[^/\\]{-}\ze\f*([/\\]|$)', '', '')
+		var prefix = getline('.')->strpart(0, col('.') - 1)
+			->matchstr('\v\f%(\f|\s)*$')
+			->substitute('\v[^/\\]{-}\ze\f*([/\\]|$)', '', '')
 		var suffix = prefix->matchstr('[^/\\]\+$')
 		current_path = prefix->fnamemodify(':p')
 		if isdirectory(current_path) && !suffix->empty()
