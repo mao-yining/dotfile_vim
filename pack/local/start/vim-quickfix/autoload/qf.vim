@@ -9,23 +9,23 @@ def IsLocationList(): bool
 enddef
 
 export def QuickFixText(info: dict<any>): list<string>
-	var items = []
+	var items: list<dict<any>>
 	if info.quickfix == 1
 		items = getqflist({id: info.id, items: 1}).items
 	else
 		items = getloclist(info.winid, {id: info.id, items: 1}).items
 	endif
-	var l = []
+	var l: list<string>
 	for idx in range(info.start_idx - 1, info.end_idx - 1)
 		if items[idx].valid
 			var text = bufname(items[idx].bufnr)->fnamemodify(':p:~:.')->pathshorten()
 			if items[idx].lnum != 0
-				text ..= $":{items[idx].lnum}"
+				text ..= $"|{items[idx].lnum}"
 			endif
 			if items[idx].col != 0
 				text ..= $":{items[idx].col}"
 			endif
-			text ..= $":{items[idx].text}"
+			text ..= $"|{items[idx].text}"
 			l->add(text)
 		else
 			l->add(items[idx].text)
