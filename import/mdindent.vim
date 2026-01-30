@@ -4,7 +4,8 @@ const LISTINDENT = 4  # TODO: Consider implications of changing this.
 const NOCHANGE = -1   # indentexpr value of -1 means no-op.
 const list_item_head = '^\s*[*+-] \+'
 
-def GetPDMIndent(lnum: number)
+export def GetPDMIndent(): number
+	const lnum = v:lnum
 	# Find the nearest non-blank line before the current one.
 	const plnum = prevnonblank(lnum)
 

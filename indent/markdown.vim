@@ -4,9 +4,9 @@ if exists("b:did_indent")
 endif
 b:did_indent = 1
 
-import autoload "../autoload/mdindent.vim"
+import autoload "../import/mdindent.vim"
 
-setlocal indentexpr=mdindent.GetPDMIndent(v:lnum)
+setlocal indentexpr=mdindent.GetPDMIndent()
 
 setlocal nolisp			# lisp indent overrides, cancel it
 setlocal nosmartindent	# not sure this is necessary

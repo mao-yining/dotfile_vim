@@ -32,7 +32,7 @@ inorea <buffer> im! > [!Important]
 inorea <buffer> wa! > [!Warning]
 inorea <buffer> ca! > [!Caution]
 
-import autoload "../autoload/markdown.vim" as md
+import autoload "../import/markdown.vim" as md
 
 nnoremap <buffer> gf <ScriptCmd>md.OpenWikiLink()<CR>
 
