@@ -79,11 +79,11 @@ enddef
 const max_height = 10
 
 export def COpen()
-	exe $':{min([max_height, len(getqflist())])}copen'
+	exe $':{min([max_height, len(getqflist())])}cwindow'
 enddef
 
 export def LOpen()
-	exe $':{min([max_height, len(getloclist(0))])}lopen'
+	exe $':{min([max_height, len(getloclist(0))])}lwindow'
 enddef
 
 def IsQfWindowOpen(): bool
