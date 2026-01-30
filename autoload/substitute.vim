@@ -25,7 +25,7 @@ export def SetOperatorFunc(visual: bool)
 
 		cmd ..= "\<C-R>" .. v:register
 
-		if getreg(v:register) =~ '\v\n$'
+		if getreg(v:register) =~ '\n$'
 			cmd ..= "\<BS>"
 		endif
 
