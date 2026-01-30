@@ -10,6 +10,6 @@ elseif executable('ugrep')
 	command! -nargs=1 Ug :exe $'{<q-mods>} Term ug {<q-args>}'
 endif
 
-command! Todo :Rg TODO:
-nnoremap <expr> g<Space> "<Cmd>silent call g:SetProjectRoot()<CR>:grep "
-nnoremap <expr> g! "<Cmd>silent call g:SetProjectRoot()<CR>:grep! "
+command! Todo silent grep TODO:
+nnoremap <expr> g<Space> "<Cmd>silent call g:SetProjectRoot()<CR>:silent grep "
+nnoremap <expr> g! "<Cmd>silent call g:SetProjectRoot()<CR>:silent grep! "

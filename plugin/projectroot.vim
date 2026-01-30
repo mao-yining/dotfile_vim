@@ -65,7 +65,7 @@ def g:SetProjectRoot()
 enddef
 
 augroup prjroot | au!
-	# au BufEnter * g:SetProjectRoot()
+	# au BufEnter * g:SetProjectRoot() # TODO: Weather Leave it or not.
 augroup END
 
 def g:FindProjectRoot(): string

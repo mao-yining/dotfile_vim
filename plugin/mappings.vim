@@ -26,13 +26,9 @@ nnoremap <expr> <Leader>fc ":colorscheme "
 nnoremap <expr> <Leader>fu ":Unicode "
 
 # Grep word under cursor
-if has("win32")
-	nnoremap <Leader>fw <ScriptCmd>exe $'Rg \b{expand("<cword>")}\b -C {v:count}'<CR>
-else
-	nnoremap <Leader>fw <ScriptCmd>exe $'Rg \\b{expand("<cword>")}\\b -C {v:count}'<CR>
-endif
+nnoremap <Leader>fw <ScriptCmd>silent execute "grep" expand("<cword>")<CR>
 # lvimgrep word in a current buffer
-nnoremap <Leader>o <ScriptCmd>exe $'Occur {expand("<cword>")}'<CR>
+nnoremap <Leader>o <ScriptCmd>execute "Occur" expand("<cword>")<CR>
 
 import autoload 'text.vim'
 
