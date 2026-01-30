@@ -66,8 +66,8 @@ export def Register(findstart: number, base: string): any
 enddef
 
 # Path completion
-var current_path = ''
-var path_cache = []
+var current_path: string
+var path_cache: list<dict<any>>
 def PathSize(size: number): string
 	if size >= 10 * 1073741824 # 10G
 		return printf("%.0fG", ceil(size / 1073741824.0))
@@ -101,7 +101,7 @@ export def Path(findstart: number, base: string): any
 		if !isdirectory(current_path)
 			return -2
 		endif
-		path_cache = []
+		path_cache = null_list
 		return col('.') - suffix->len() - 1
 	endif
 
