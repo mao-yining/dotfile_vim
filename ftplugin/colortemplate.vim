@@ -17,4 +17,3 @@ noremap <buffer><F5> <ScriptCmd>ct.Run()<CR>
 noremap <buffer><F7> <Cmd>ColortemplateShow<CR>
 noremap <buffer><F8> <Cmd>Colortemplate!<CR>
 noremap <buffer><F9> <Cmd>ColortemplateAll!<CR>
-

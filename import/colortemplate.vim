@@ -61,7 +61,7 @@ export def ColorSupport()
     popup.Commands(commands)
 enddef
 
-def Run()
+export def Run()
     update
     Colortemplate!
     ColortemplateShow
