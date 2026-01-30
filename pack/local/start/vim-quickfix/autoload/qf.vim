@@ -78,12 +78,20 @@ enddef
 
 const max_height = 10
 
-export def COpen()
-	exe $':{min([max_height, len(getqflist())])}cwindow'
+export def COpen(force = false)
+	if force
+		exe $':{min([max_height, len(getqflist())])}copen'
+	else
+		exe $':{min([max_height, len(getqflist())])}cwindow'
+	endif
 enddef
 
-export def LOpen()
-	exe $':{min([max_height, len(getloclist(0))])}lwindow'
+export def LOpen(force = false)
+	if force
+		exe $':{min([max_height, len(getloclist(0))])}lopen'
+	else
+		exe $':{min([max_height, len(getloclist(0))])}lwindow'
+	endif
 enddef
 
 def IsQfWindowOpen(): bool
@@ -99,7 +107,7 @@ export def ToggleQF()
 	if IsQfWindowOpen()
 		cclose
 	else
-		COpen()
+		COpen(true)
 	endif
 enddef
 
@@ -120,7 +128,7 @@ export def ToggleLoc()
 		return
 	endif
 	try
-		LOpen()
+		LOpen(true)
 	catch /^Vim(lopen):E776:/
 		EchoErr(v:exception->strpart(17))
 	endtry
