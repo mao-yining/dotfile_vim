@@ -1,10 +1,10 @@
-if !executable("git") || "vim-fugitive"->getcompletion("packadd")->empty()
+if !executable("git") || "fugitive"->getcompletion("packadd")->empty()
 	finish
 endif
-packadd vim-fugitive
-packadd vim-gitgutter
+packadd fugitive
+packadd gitgutter
 packadd gv.vim
-packadd conflict-marker.vim
+packadd conflict-marker
 nmap <Leader>gg <Cmd>Git<CR>
 nmap <Leader>gl <Cmd>GV<CR>
 nmap <Leader>g<Space> :Git<Space>
