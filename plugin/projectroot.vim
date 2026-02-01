@@ -21,7 +21,7 @@ def g:Lcd(path: string)
 		return
 	endif
 
-	exe "lcd " .. curdir
+	exe "lcd" curdir
 enddef
 
 def g:SetProjectRoot()
@@ -58,9 +58,9 @@ def g:SetProjectRoot()
 	endif
 
 	if !rootdir->empty()
-		exe "lcd " .. fnamemodify(rootdir->escape('#%'), ":h")
+		exe "lcd" fnamemodify(rootdir->escape('#%'), ":h")
 	else
-		exe "lcd " .. curdir->escape('#%')
+		exe "lcd" curdir->escape('#%')
 	endif
 enddef
 
