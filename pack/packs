@@ -25,7 +25,6 @@ mine/start/asynctasks.vim	git@github.com:skywind3000/asynctasks.vim.git
 mine/start/catppuccin	git@github.com:catppuccin/vim.git
 mine/start/competitest	git@github.com:mao-yining/competitest.vim.git
 mine/start/csv.vim	git@github.com:chrisbra/csv.vim.git
-mine/start/targets.vim	git@github.com:wellle/targets.vim.git
 mine/start/traces.vim	git@github.com:markonm/traces.vim.git
 mine/start/vim-beancount	git@github.com:nathangrigg/vim-beancount.git
 mine/start/vim-characterize	git@github.com:tpope/vim-characterize.git
