@@ -25,20 +25,20 @@ augroup General | au!
 
 	# vim -b : 用 xxd-格式编辑二进制文件！
 	autocmd BufReadPre  *.bin,*.exe,*.dll set binary
-	autocmd BufReadPost *bin,*exe,*dll {
+	autocmd BufReadPost *.bin,*.exe,*.dll {
 		if &binary
 			silent :%!xxd -c 32
 			set filetype=xxd
 			redraw
 		endif
 	}
-	autocmd BufWritePre *bin,*exe,*dll {
+	autocmd BufWritePre *.bin,*.exe,*.dll {
 		if &binary
 			b:view = winsaveview()
 			silent :%!xxd -r -c 32
 		endif
 	}
-	autocmd BufWritePost *bin,*exe,*dll {
+	autocmd BufWritePost *.bin,*.exe,*.dll {
 		if &binary
 			undojoin
 			silent :%!xxd -c 32
