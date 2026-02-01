@@ -10,7 +10,6 @@ mine/opt/fugitive	git@github.com:tpope/vim-fugitive.git
 mine/opt/gitgutter	git@github.com:airblade/vim-gitgutter.git
 mine/opt/gv.vim	git@github.com:mao-yining/gv.vim.git
 mine/opt/lsp	git@github.com:yegappan/lsp.git
-mine/opt/undotree	git@github.com:mao-yining/undotree.vim.git
 mine/opt/vim-gnupg	git@github.com:jamessan/vim-gnupg.git
 mine/opt/vim-gutentags	git@github.com:ludovicchabant/vim-gutentags.git
 mine/opt/vim-pio	git@github.com:normen/vim-pio.git
@@ -26,6 +25,7 @@ mine/start/catppuccin	git@github.com:catppuccin/vim.git
 mine/start/competitest	git@github.com:mao-yining/competitest.vim.git
 mine/start/csv.vim	git@github.com:chrisbra/csv.vim.git
 mine/start/traces.vim	git@github.com:markonm/traces.vim.git
+mine/start/undotree	git@github.com:mao-yining/undotree.vim.git
 mine/start/vim-beancount	git@github.com:nathangrigg/vim-beancount.git
 mine/start/vim-characterize	git@github.com:tpope/vim-characterize.git
 mine/start/vim-closetag	git@github.com:alvan/vim-closetag.git
