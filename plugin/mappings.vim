@@ -32,7 +32,7 @@ nnoremap <Leader>o <ScriptCmd>execute "Occur" expand("<cword>")<CR>
 
 import autoload 'text.vim'
 
-nnoremap <silent> <Leader><CR> <scriptcmd>text.Toggle()<CR>
+nnoremap <silent> <Leader><CR> <ScriptCmd>text.Toggle()<CR>
 
 # simple text objects
 # -------------------
@@ -51,19 +51,19 @@ onoremap <silent>ai <ScriptCmd>text.ObjIndent(false)<CR>
 xnoremap <silent>ii <Esc><ScriptCmd>text.ObjIndent(true)<CR>
 xnoremap <silent>ai <Esc><ScriptCmd>text.ObjIndent(false)<CR>
 
-xnoremap <silent> in <esc><scriptcmd>text.ObjNumber()<CR>
+xnoremap <silent> in <Esc><ScriptCmd>text.ObjNumber()<CR>
 onoremap <silent> in :<C-u>normal vin<CR>
 
 # date text object
-xnoremap <silent> id <esc><scriptcmd>text.ObjDate(1)<CR>
+xnoremap <silent> id <Esc><ScriptCmd>text.ObjDate(1)<CR>
 onoremap <silent> id :<C-u>normal vid<CR>
-xnoremap <silent> ad <esc><scriptcmd>text.ObjDate(0)<CR>
+xnoremap <silent> ad <Esc><ScriptCmd>text.ObjDate(0)<CR>
 onoremap <silent> ad :<C-u>normal vad<CR>
 
 # line text object
-xnoremap <silent> il <esc><scriptcmd>text.ObjLine(1)<CR>
+xnoremap <silent> il <Esc><ScriptCmd>text.ObjLine(1)<CR>
 onoremap <silent> il :<C-u>normal vil<CR>
-xnoremap <silent> al <esc><scriptcmd>text.ObjLine(0)<CR>
+xnoremap <silent> al <Esc><ScriptCmd>text.ObjLine(0)<CR>
 onoremap <silent> al :<C-u>normal val<CR>
 
 # CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
@@ -84,8 +84,8 @@ nnoremap <Leader>" <ScriptCmd>text.Underline('"')<CR>
 nnoremap <Leader>` <ScriptCmd>text.Underline('`')<CR>
 nnoremap <Leader>. <ScriptCmd>text.Underline('.')<CR>
 
-nnoremap <Leader>% :<C-U>%s/\<<C-r>=expand("<cword>")<CR>\>/
-xnoremap <Leader>% "sy:%s/\V<C-R>s/
+nnoremap <Leader>% :%s/\<<C-R>=expand("<cword>")<CR>\>/<C-R>=expand("<cword>")<CR>
+xnoremap <Leader>% y:%s/\V<C-R>"/<C-R>"
 # literal search
 nnoremap <Leader>/ <ScriptCmd>exe $"Search {input("Search: ")}"<CR>
 xnoremap <Leader>/ y/\V<C-R>"<CR>
@@ -107,8 +107,8 @@ nmap =b <Cmd>enew<CR>
 nmap \b <ScriptCmd>CloseBuf()<CR>
 def CloseBuf()
 	if &bt != null_string || &ft == "netrw"|bd|return|endif
-	var buf_now = bufnr()
-	var buf_jump_list = getjumplist()[0]
+	const buf_now = bufnr()
+	const buf_jump_list = getjumplist()[0]
 	var buf_jump_now = getjumplist()[1] - 1
 	while buf_jump_now >= 0
 		const last_nr = buf_jump_list[buf_jump_now].bufnr
@@ -240,5 +240,5 @@ cnoremap <C-S-B> <S-Left>
 cnoremap <C-S-F> <S-Right>
 
 # duplicate line
-nnoremap <C-j> <cmd>copy.<CR>
-nnoremap <C-k> <cmd>copy-1<CR>
+nnoremap <C-j> <Cmd>copy.<CR>
+nnoremap <C-k> <Cmd>copy-1<CR>
