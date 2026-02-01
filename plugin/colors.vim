@@ -32,8 +32,11 @@ augroup colors | au!
 	au Colorscheme * hi CursorLineNr guibg=NONE gui=bold cterm=bold
 augroup END
 
-if getcompletion("catppuccin", "color")->empty()
-	colorscheme retrobox
-else
-	colorscheme catppuccin
-endif
+colorscheme catppuccin
+
+import autoload "../autoload/inline_colors.vim"
+augroup InlineColors | au!
+	au FileType colortemplate inline_colors.InlineColorsInit()
+	au OptionSet background inline_colors.InlineColorsInWindows()
+	au OptionSet termguicolors inline_colors.InlineColorsInWindows()
+augroup END

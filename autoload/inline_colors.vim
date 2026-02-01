@@ -1,10 +1,10 @@
 vim9script
 
-var color_char = "●"
+const color_char = "●"
 # var color_char = "█"
 # var color_char = "■"
 
-var xterm256colors = {
+const xterm256colors = {
 	'#000000': '16', '#870000':  '88', '#d70000': '160',
 	'#00005f': '17', '#87005f':  '89', '#d7005f': '161',
 	'#000087': '18', '#870087':  '90', '#d70087': '162',
@@ -148,26 +148,20 @@ def InlineColors(winid: number, lines: list<number> = [line('.'), line('.')]): v
 	setbufvar(bufnr, 'inline_colors', inline_colors)
 enddef
 
-def InlineColorsInWindows()
+export def InlineColorsInWindows()
 	var windows = getwininfo()
 	for w in windows
 		InlineColors(w.winid, WindowLines(w.winid))
 	endfor
 enddef
 
-def InlineColorsInit()
+export def InlineColorsInit()
 	augroup InlineColorsBuf | au!
 		au WinScrolled <buffer> InlineColors(win_getid(), WindowLines(win_getid()))
 		au BufRead <buffer> InlineColorsInWindows()
 		au WinEnter <buffer> InlineColorsInWindows()
-		au OptionSet background InlineColorsInWindows()
-		au OptionSet termguicolors InlineColorsInWindows()
 		au Colorscheme <buffer> InlineColorsInWindows()
 		au TextChanged <buffer> InlineColors(win_getid(), [line("'[", win_getid()), line("']", win_getid())])
 		au InsertLeave <buffer> InlineColors(win_getid(), [line("'[", win_getid()), line("']", win_getid())])
 	augroup END
 enddef
-
-augroup InlineColors | au!
-	au FileType colortemplate InlineColorsInit()
-augroup END
