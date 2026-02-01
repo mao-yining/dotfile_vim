@@ -85,18 +85,16 @@ enddef
 const max_height = 10
 
 export def COpen(force = false)
-	if force
-		exe $':{min([max_height, len(getqflist())])}copen'
-	else
-		exe $':{min([max_height, len(getqflist())])}cwindow'
+	exe $':{min([max_height, len(getqflist())])}copen'
+	if !force
+		cwindow
 	endif
 enddef
 
 export def LOpen(force = false)
-	if force
-		exe $':{min([max_height, len(getloclist(0))])}lopen'
-	else
-		exe $':{min([max_height, len(getloclist(0))])}lwindow'
+	exe $':{min([max_height, len(getloclist(0))])}lopen'
+	if !force
+		lwindow
 	endif
 enddef
 
