@@ -73,17 +73,6 @@ inoremap <C-U> <C-G>u<C-U>
 inoremap <CR> <C-G>u<CR>
 inoremap <C-U> <C-G>u<C-U>
 
-nnoremap <Leader># <ScriptCmd>text.Underline('#')<CR>
-nnoremap <Leader>* <ScriptCmd>text.Underline('*')<CR>
-nnoremap <Leader>= <ScriptCmd>text.Underline('=')<CR>
-nnoremap <Leader>- <ScriptCmd>text.Underline('-')<CR>
-nnoremap <Leader>~ <ScriptCmd>text.Underline('~')<CR>
-nnoremap <Leader>^ <ScriptCmd>text.Underline('^')<CR>
-nnoremap <Leader>+ <ScriptCmd>text.Underline('+')<CR>
-nnoremap <Leader>" <ScriptCmd>text.Underline('"')<CR>
-nnoremap <Leader>` <ScriptCmd>text.Underline('`')<CR>
-nnoremap <Leader>. <ScriptCmd>text.Underline('.')<CR>
-
 nnoremap <Leader>% :%s/\<<C-R>=expand("<cword>")<CR>\>/<C-R>=expand("<cword>")<CR>
 xnoremap <Leader>% y:%s/\V<C-R>"/<C-R>"
 # literal search
