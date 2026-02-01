@@ -18,9 +18,15 @@ export def QuickFixText(info: dict<any>): list<string>
 	var l: list<string>
 	for idx in range(info.start_idx - 1, info.end_idx - 1)
 		if items[idx].valid
-			var text = bufname(items[idx].bufnr)->fnamemodify(':p:~:.')->pathshorten()
+			var text = bufname(items[idx].bufnr)->fnamemodify(':p:~:.')
+			if text->strpart(0, 9) ==# "fugitive:"
+				text = text->fnamemodify(':t')->strpart(0, 7)
+			else
+				text = text->pathshorten()
+			endif
+			text ..= '|'
 			if items[idx].lnum != 0
-				text ..= $"|{items[idx].lnum}"
+				text ..= $"{items[idx].lnum}"
 			endif
 			if items[idx].col != 0
 				text ..= $":{items[idx].col}"
