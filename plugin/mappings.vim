@@ -36,9 +36,9 @@ nnoremap <silent> <Leader><CR> <ScriptCmd>text.Toggle()<CR>
 
 # simple text objects
 # -------------------
-# i_ i. i: i, i; i| i/ i\ i* i+ i- i# i<tab>
-# a_ a. a: a, a; a| a/ a\ a* a+ a- a# a<tab>
-for char in [ '_', '.', ':', ',', ';', '<bar>', '/', '<bslash>', '*', '+', '-', '#', '<tab>' ]
+# i_ i. i: i, i; i| i/ i\ i* i+ i- i# i<Tab>
+# a_ a. a: a, a; a| a/ a\ a* a+ a- a# a<Tab>
+for char in [ '_', '.', ':', ',', ';', '<Bar>', '/', '<Bslash>', '*', '+', '-', '#', '<Tab>' ]
 	execute $"xnoremap <silent> i{char} <Esc><ScriptCmd>text.Obj('{char}', 1)<CR>"
 	execute $"xnoremap <silent> a{char} <Esc><ScriptCmd>text.Obj('{char}', 0)<CR>"
 	execute $"onoremap <silent> i{char} :normal vi{char}<CR>"
@@ -69,9 +69,7 @@ onoremap <silent> al :<C-u>normal val<CR>
 # CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 # so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
-
 inoremap <CR> <C-G>u<CR>
-inoremap <C-U> <C-G>u<C-U>
 
 nnoremap <Leader>% :%s/\<<C-R>=expand("<cword>")<CR>\>/<C-R>=expand("<cword>")<CR>
 xnoremap <Leader>% y:%s/\V<C-R>"/<C-R>"
