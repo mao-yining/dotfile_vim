@@ -83,6 +83,11 @@ def PackCommands(packname: string, command: string)
 	execute($"command -nargs=? {command} delc {command} <Bar> packa {packname} <Bar> {command} <f-args>")
 enddef
 
+omap i, <Plug>(swap-textobject-i)
+xmap i, <Plug>(swap-textobject-i)
+omap a, <Plug>(swap-textobject-a)
+xmap a, <Plug>(swap-textobject-a)
+
 PackCommands("undotree", "UndotreeToggle")
 PackCommands("vim-startuptime", "StartupTime")
 PackCommands("vim9asm", "Disassemble")
