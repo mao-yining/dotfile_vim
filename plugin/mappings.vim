@@ -24,6 +24,7 @@ nnoremap <expr> <Leader>ft ":set filetype="
 nnoremap <expr> <Leader>fs ":SLoad "
 nnoremap <expr> <Leader>fc ":colorscheme "
 nnoremap <expr> <Leader>fu ":Unicode "
+inoremap <C-T> <C-O>:InsertTemplate<space>
 
 # Grep word under cursor
 nnoremap <Leader>fw <ScriptCmd>silent execute "grep" expand("<cword>")<CR>

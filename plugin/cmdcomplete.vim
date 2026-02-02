@@ -36,7 +36,7 @@ def CmdCompleteSelectFirst()
 	var commands = [
 		'sfind', 'find', 'tabfind', 'buffer', 'sbuffer', 'colorscheme',
 		'highlight', 'help', 'tselect', 'tag', 'compiler',
-		'Recent', 'Unicode', 'AsyncTask', 'SLoad'
+		'Recent', 'InsertTemplate', 'Unicode', 'AsyncTask', 'SLoad'
 	]
 
 	# fullcommand() can't figure out `:vertical sbuffer` or `:horizontal sbuffer`,

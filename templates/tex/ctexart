@@ -1,0 +1,43 @@
+\documentclass{ctexart}
+\usepackage{geometry}
+
+\usepackage{awesomebox} % admonitions
+
+\usepackage{parskip} % 去除段首缩进
+
+\usepackage{xcolor}
+
+% code blocks
+\usepackage[cache=false]{minted}
+\usepackage{mdframed}
+\surroundwithmdframed[
+        backgroundcolor=gray!5!white,
+        rightline=false,
+        bottomline=false,
+        topline=false,
+        linewidth=1pt,
+        linecolor=lightgray]{minted}
+
+\usepackage{hyperref} % urls
+
+\usepackage{longtable, array}
+
+\hfuzz=2pt % do not report warnings on small hbox overful
+
+\title{标题}
+\author{毛逸宁}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+
+\notebox{A note}
+\tipbox{A tip}
+\warningbox{A warning}
+\cautionbox{A caution}
+\importantbox{An important thing}
+
+\end{document}

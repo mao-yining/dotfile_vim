@@ -1,0 +1,10 @@
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|wr{3cm}|wc{3cm}|wl{5cm}|}
+			\hline
+			\strong{Header 1} & \strong{Header 2} & \strong{Header 3} \\ \hline\hline
+			value 1 & value 2 & value 3 \\ \hline
+			value 4 & value 5 & value 6 \\ \hline
+			value 7 & value 8 & value 9 \\ \hline
+	\end{tabular}
+\end{table}
