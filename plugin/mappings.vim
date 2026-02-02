@@ -91,27 +91,7 @@ xnoremap <M-k> :sil! m '<-2<CR>gv
 nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " .. (&buftype !=# "terminal" ? (v:count ? "write" : "update") : &modified <Bar><Bar> exists("*jobwait") && jobwait([&channel], 0)[0] == -1 ? "normal! i" : "bdelete!") .. "\r"
 
 nmap =b <Cmd>enew<CR>
-nmap \b <ScriptCmd>CloseBuf()<CR>
-def CloseBuf()
-	if &bt != null_string || &ft == "netrw"|bd|return|endif
-	const buf_now = bufnr()
-	const buf_jump_list = getjumplist()[0]
-	var buf_jump_now = getjumplist()[1] - 1
-	while buf_jump_now >= 0
-		const last_nr = buf_jump_list[buf_jump_now].bufnr
-		const last_line = buf_jump_list[buf_jump_now].lnum
-		if buf_now != last_nr && bufloaded(last_nr)
-				&& getbufvar(last_nr, "&bt") == null_string
-			exe "buffer" last_nr
-			exe "bd" buf_now
-			return
-		else
-			buf_jump_now -= 1
-		endif
-	endwhile
-	bp|while &bt != null_string|bp|endwhile
-	exe "bd" buf_now
-enddef
+nmap \b <Cmd>Bdelete<CR>
 
 # source vimscript (operator)
 def SourceVim(...args: list<any>): string
