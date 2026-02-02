@@ -205,7 +205,3 @@ cnoremap <C-N> <Down>
 cnoremap <C-P> <Up>
 cnoremap <C-S-B> <S-Left>
 cnoremap <C-S-F> <S-Right>
-
-# duplicate line
-nnoremap <C-j> <Cmd>copy.<CR>
-nnoremap <C-k> <Cmd>copy-1<CR>
