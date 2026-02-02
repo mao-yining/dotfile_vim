@@ -1,5 +1,4 @@
 vim9script
-
 const popup_borderchars = get(g:, "popup_borderchars", ['─', '│', '─', '│', '┌', '┐', '┘', '└'])
 const popup_borderhighlight = get(g:, "popup_borderhighlight", ['Normal'])
 const popup_highlight = get(g:, "popup_highlight", 'Normal')
@@ -7,23 +6,22 @@ const UPD1 = "○"
 const UPD2 = "●"
 const INST1 = "⬠"
 const INST2 = "⬟"
-
 const MAX_JOBS = 10
-var pack_jobs = []
-var pack_msg = {}
+
+var pack_jobs: list<job>
+var pack_msg: dict<string>
 
 def Packages(): list<tuple<string, string>>
-	var pack_list = $'{$MYVIMDIR}pack/packs'
+	const pack_list = $'{$MYVIMDIR}pack/packs'
 	if !filereadable(pack_list)
 		return []
 	endif
-	var plugs = readfile(pack_list)
-	var packages = []
-	for pinfo in plugs
+	var packages: list<tuple<string, string>>
+	for pinfo in readfile(pack_list)
 		if pinfo =~ '^\s*#' || pinfo =~ '^\s*$'
 			continue
 		endif
-		var [name, url] = pinfo->split("\t")
+		const [name, url] = pinfo->split("\t")
 		if empty(name) || empty(url)
 			continue
 		endif
@@ -33,20 +31,20 @@ def Packages(): list<tuple<string, string>>
 enddef
 
 def IsRunning(): bool
-	return reduce(pack_jobs, (acc, val) => acc || job_status(val) == 'run', false)
+	return pack_jobs->reduce((acc, val) => acc || job_status(val) == 'run', false)
 enddef
 
 def ShowChangelog()
-	var lines = []
+	var lines: list<string>
 	for [name, msg] in pack_msg->items()
 		if !empty(msg)
 			lines->add(name)
-			lines->add(repeat("=", strlen(name)))
+			lines->add("="->repeat(strlen(name)))
 			lines += [''] + msg->split("\n") + ['', '']
 		endif
 	endfor
 	if empty(lines)
-		popup_notification("All plugins are up to date.", {
+		"All plugins are up to date."->popup_notification({
 			title: " Plugins ",
 			borderchars: popup_borderchars,
 			line: &lines - 4,
@@ -56,16 +54,16 @@ def ShowChangelog()
 	endif
 	new
 	setl nobuflisted noswapfile buftype=nofile
-	nnoremap <buffer> gq <cmd>bd!<CR>
+	nnoremap <buffer> gq <Cmd>bd!<CR>
 	set syntax=git
 	syn match H1 "^.\+\n=\+$"
 	hi! link H1 Title
-	setline(1, lines[ : -3])
+	lines[ : -3]->setline(1)
 enddef
 
-def CreatePopup(Setup: func(number) = null_function): tuple<number, number>
-	var winid = popup_create("", {
-		title: $" Plugins ",
+def CreatePopup(Setup: func(number)): tuple<number, number>
+	const winid = ""->popup_create({
+		title: " Plugins ",
 		pos: 'botright',
 		col: &columns,
 		line: &lines,
@@ -100,7 +98,7 @@ export def Update()
 		return
 	endif
 
-	var [winid, bufnr] = CreatePopup((id) => {
+	const [winid, bufnr] = CreatePopup((id) => {
 		win_execute(id, $"syn match PackUpdateDone '^{UPD2}'")
 		win_execute(id, $"syn match PackInstallDone '^{INST2}'")
 		hi def link PackUpdateDone Added
@@ -125,17 +123,16 @@ export def Update()
 		if pack_jobs->len() >= MAX_JOBS
 			return
 		endif
-		var [name, url] = packages->remove(0)
-		var path = $"{$MYVIMDIR}/pack/{name}"
+		const [name, url] = packages->remove(0)
+		const path = $"{$MYVIMDIR}/pack/{name}"
 		if isdirectory(path)
 			if empty(getbufoneline(bufnr, 1))
 				setbufline(bufnr, 1, $"{UPD1} {name}")
 			else
 				appendbufline(bufnr, '$', $"{UPD1} {name}")
 			endif
-			var info = {}
 			pack_msg[name] = ""
-			var job = job_start([&shell, &shellcmdflag, 'git fetch -q && git log HEAD..@{u} && git reset --hard -q @{u} && git clean -dfx -q'], {
+			const job = job_start([&shell, &shellcmdflag, 'git fetch -q && git log HEAD..@{u} && git reset --hard -q @{u} && git clean -dfx -q'], {
 				cwd: path,
 				out_cb: (ch, msg) => {
 					pack_msg[name] ..= $"{msg}\n"
@@ -159,7 +156,7 @@ export def Update()
 			else
 				appendbufline(bufnr, '$', $"{INST1} {name}")
 			endif
-			var job = job_start($'git clone {url} {path}', {
+			const job = job_start($'git clone {url} {path}', {
 				cwd: $MYVIMDIR,
 				close_cb: (_) => {
 					var buftext = getbufline(bufnr, 1, '$')
