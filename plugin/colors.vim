@@ -1,9 +1,5 @@
 vim9script
 
-if !has('gui_running')
-	set termguicolors
-endif
-
 def Lsp()
 	hi link lspDiagSignErrorText Removed
 	hi link lspDiagVirtualTextError Removed
@@ -31,8 +27,6 @@ augroup colors | au!
 	au Colorscheme habamax,xamabah,wildcharm,lunaperche,catppuccin* Vsplit()
 	au Colorscheme * hi CursorLineNr guibg=NONE gui=bold cterm=bold
 augroup END
-
-colorscheme catppuccin
 
 import autoload "../autoload/inline_colors.vim"
 augroup InlineColors | au!
