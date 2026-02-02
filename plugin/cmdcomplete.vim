@@ -1,12 +1,5 @@
 vim9script
 
-# command line completion
-set wildmode=noselect:lastused,full
-set wildmenu wildoptions=pum,fuzzy wildcharm=<Tab> pumheight=12
-set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
-set wildignore+=*~,*.py[co],__pycache__,pack
-set wildignore+=*.obsidian,*.svg
-
 cnoremap <expr> <Up> wildmenumode() ? "\<C-e>\<Up>" : "\<Up>"
 cnoremap <expr> <Down> wildmenumode() ? "\<C-e>\<Down>" : "\<Down>"
 

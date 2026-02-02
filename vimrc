@@ -44,21 +44,8 @@ set autocomplete complete=o^9,.^9,w^5,b^5,t^3,u^2
 set complete+=Fcompletor#Path^10,Fcompletor#Abbrev^3,Fcompletor#Register^3
 set mouse=a mousemodel=extend
 set clipboard^=unnamed
-colorscheme catppuccin
-
-if has('gui_running')
-	finish
-endif
-set termguicolors
-let &t_TI = "\<Esc>[>4;2m"
-let &t_TE = "\<Esc>[>4;m"
-let &t_EI = "\e[2 q"
-let &t_SI = "\e[5 q"
-let &t_SR = "\e[3 q"
-set <M-H>=H
-set <M-J>=J
-set <M-K>=K
-set <M-L>=L
-for i in range(10)
-	execute "set <M-{i}>=" .. i == 0 ? 10 : i
-endfor
+set wildmode=noselect:lastused,full
+set wildmenu wildoptions=pum,fuzzy wildcharm=<Tab> pumheight=12
+set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
+set wildignore+=*~,*.py[co],__pycache__,pack
+set wildignore+=*.obsidian,*.svg
