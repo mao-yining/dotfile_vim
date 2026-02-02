@@ -5,7 +5,6 @@ mine/opt/airline	git@github.com:vim-airline/vim-airline.git
 mine/opt/conflict-marker	git@github.com:rhysd/conflict-marker.vim
 mine/opt/dadbod	git@github.com:tpope/vim-dadbod.git
 mine/opt/dadbod-ui	git@github.com:kristijanhusak/vim-dadbod-ui.git
-mine/opt/friendly-snippets	git@github.com:rafamadriz/friendly-snippets.git
 mine/opt/fugitive	git@github.com:tpope/vim-fugitive.git
 mine/opt/gitgutter	git@github.com:airblade/vim-gitgutter.git
 mine/opt/gv.vim	git@github.com:mao-yining/gv.vim.git
@@ -15,8 +14,6 @@ mine/opt/vim-gutentags	git@github.com:ludovicchabant/vim-gutentags.git
 mine/opt/vim-pio	git@github.com:normen/vim-pio.git
 mine/opt/vim-startuptime	git@github.com:dstein64/vim-startuptime.git
 mine/opt/vim-test	git@github.com:vim-test/vim-test.git
-mine/opt/vim-vsnip	git@github.com:hrsh7th/vim-vsnip.git
-mine/opt/vim-vsnip-integ	git@github.com:hrsh7th/vim-vsnip-integ.git
 mine/opt/vim9asm	git@github.com:lacygoill/vim9asm.git
 mine/opt/vimspector	git@github.com:puremourning/vimspector.git
 mine/start/asyncrun.vim	git@github.com:skywind3000/asyncrun.vim.git
