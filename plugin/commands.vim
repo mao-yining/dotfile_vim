@@ -124,8 +124,11 @@ command! -range FixSpaces text.FixSpaces(<line1>, <line2>)
 import autoload "share.vim"
 command! -range=% -nargs=? -complete=custom,share.Complete Share share.Paste(<q-args>, <line1>, <line2>)
 
+import autoload "template.vim"
+command! -nargs=1 -complete=custom,template.Complete InsertTemplate template.Insert(<f-args>)
+
 # syntax group names under cursor
-command! Inspect :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+command! Inspect echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 
 # write to a privileged file
 if executable('sudo')

@@ -106,7 +106,7 @@ g:competitest_configs = {
 	# multiple_testing: 1,
 	testcases_input_file_format: "$(FNOEXT)$(TCNUM).in",
 	testcases_output_file_format: "$(FNOEXT)$(TCNUM).ans",
-	template_file: "D:/Competitive-Programming/template/template.$(FEXT)",
+	template_file: "D:/Competitive-Programming/templates/template.$(FEXT)",
 	evaluate_template_modifiers: true,
 	received_problems_path: (task, file_extension): string => {
 		const hyphen = stridx(task.group, " - ") # Codeforces' contest
