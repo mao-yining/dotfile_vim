@@ -23,6 +23,7 @@ mine/start/asyncrun.vim	git@github.com:skywind3000/asyncrun.vim.git
 mine/start/asynctasks.vim	git@github.com:skywind3000/asynctasks.vim.git
 mine/start/catppuccin	git@github.com:catppuccin/vim.git
 mine/start/competitest	git@github.com:mao-yining/competitest.vim.git
+mine/start/copilot	git@github.com:github/copilot.vim.git
 mine/start/csv.vim	git@github.com:chrisbra/csv.vim.git
 mine/start/traces.vim	git@github.com:markonm/traces.vim.git
 mine/start/undotree	git@github.com:mao-yining/undotree.vim.git
