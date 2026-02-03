@@ -8,6 +8,5 @@ elseif executable('ugrep')
 	set grepformat=%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\\|%l\\\|%c\\\|%m
 endif
 
-command! Todo silent grep TODO:
-nnoremap <expr> g<Space> "<Cmd>silent call g:SetProjectRoot()<CR>:silent grep "
-nnoremap <expr> g! "<Cmd>silent call g:SetProjectRoot()<CR>:silent grep! "
+command! Todo silent grep! TODO:
+nnoremap g<Space> <Cmd>silent call g:SetProjectRoot()<CR>:silent grep!<Space>
