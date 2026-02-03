@@ -1,14 +1,27 @@
 vim9script
+# Name: autoload\unicode.vim
+# Author: Mao-Yining <mao.yining@outlook.com>
+# Desc: Unicode character lookup and clipboard utility
+#       Browse, search, and copy Unicode characters to clipboard
+# Usage:
+# import autoload 'unicode.vim'
+# command! -nargs=1 -complete=custom,unicode.Complete Unicode unicode.Copy(<f-args>)
 
-export def All(): list<dict<any>>
-	return all
+export def Complete(_, _, _): string
+	return subset->mapnew((_, v) => v.value->printf("%04X")->printf("%5S")
+		.. "  "
+		.. (v.value->nr2char(true) =~ '\p' ? v.value->nr2char(true) : " ")
+		->printf("%3S") .. "    " .. v.name)->join("\n")
 enddef
 
-export def Subset(): list<dict<any>>
-	return subset
+export def Copy(u: string)
+	const uchar = u->trim()->split()[0]->str2nr(16)->nr2char(true)
+	uchar->setreg('')
+	uchar->setreg('+')
+	echo $"{uchar} is copied to unnamed and + registers, p to paste it!"
 enddef
 
-var subset = [
+const subset = [
 	{value: 0x00A0, name: 'NO-BREAK SPACE'},
 	{value: 0x00A1, name: 'INVERTED EXCLAMATION MARK'},
 	{value: 0x00A2, name: 'CENT SIGN'},
@@ -5214,7 +5227,7 @@ var subset = [
 	{value: 0x1FBF9, name: 'SEGMENTED DIGIT NINE'},
 ]
 
-var all = [
+const all = [
 	{value: 0x0000, name: 'NULL'},
 	{value: 0x0001, name: 'START OF HEADING'},
 	{value: 0x0002, name: 'START OF TEXT'},
@@ -40104,11 +40117,3 @@ var all = [
 	{value: 0xE01EE, name: 'VARIATION SELECTOR-255'},
 	{value: 0xE01EF, name: 'VARIATION SELECTOR-256'},
 ]
-
-export def Copy(u: string)
-	var ucode = u->trim()->split()[0]
-	var uchar = nr2char(ucode->str2nr(16), true)
-	setreg('', uchar)
-	setreg('+', uchar)
-	echo $"{uchar} is copied to unnamed and + registers, p to paste it!"
-enddef

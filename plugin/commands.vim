@@ -137,16 +137,7 @@ if executable('sudo')
 endif
 
 import autoload 'unicode.vim'
-command! -nargs=1 -complete=custom,UnicodeComplete Unicode unicode.Copy(<f-args>)
-def UnicodeComplete(_, _, _): string
-	return unicode.Subset()
-		->mapnew((_, v) => {
-			return printf("%5S", printf("%04X", v.value))
-				.. "  "
-				.. printf("%3S", (nr2char(v.value, true) =~ '\p' ? nr2char(v.value, true) : " "))
-				.. "    " .. v.name
-		})->join("\n")
-enddef
+command! -nargs=1 -complete=custom,unicode.Complete Unicode unicode.Copy(<f-args>)
 
 import autoload 'hlblink.vim'
 command BlinkLine hlblink.Line()
