@@ -145,15 +145,15 @@ for i in range(10)
 endfor
 
 def Tab_MoveLeft()
-	var tabnr = tabpagenr() - 2
+	const tabnr = tabpagenr() - 2
 	if tabnr >= 0
-		exec 'tabmove ' .. tabnr
+		exe 'tabmove' tabnr
 	endif
 enddef
 def Tab_MoveRight()
-	var tabnr = tabpagenr() + 1
+	const tabnr = tabpagenr() + 1
 	if tabnr <= tabpagenr('$')
-		exec 'tabmove ' .. tabnr
+		exe 'tabmove' tabnr
 	endif
 enddef
 map <M-Left> <ScriptCmd>Tab_MoveLeft()<CR>
