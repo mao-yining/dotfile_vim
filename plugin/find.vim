@@ -16,7 +16,7 @@ def FindCmd(): string
 	elseif executable('ugrep')
 		cmd = 'ugrep "" -Rl -I --ignore-files'
 	elseif executable('rg')
-		cmd = $'rg --path-separator{slash}/ --files --hidden --glob !.git'
+		cmd = $'rg --path-separator {slash} --files --hidden --glob !.git'
 	elseif executable('find')
 		cmd = 'find \! \( -path "*/.git" -prune -o -name "*.swp" \) -type f -follow'
 	endif
@@ -41,4 +41,4 @@ def Find(cmd_arg: string, cmd_complete: bool): list<string>
 	endif
 enddef
 
-set findfunc=s:Find
+set findfunc=Find
