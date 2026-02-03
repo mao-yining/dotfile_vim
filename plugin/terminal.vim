@@ -4,13 +4,20 @@ import autoload 'terminal.vim'
 
 command! -nargs=? Term terminal.Run(<q-args> ?? &shell, <q-mods> ?? window#BotRight())
 
+if executable("nu")
+	nmap c<CR> <Cmd>Term nu<CR>
+else
+	nmap c<CR> <Cmd>Term<CR>
+endif
+nmap c<Space> :Term<Space>
+
 def TermMappings()
 	setlocal nonumber
 	setlocal norelativenumber
 	nnoremap <buffer> q <Cmd>bdelete<CR>
 	nnoremap <buffer> o <ScriptCmd>terminal.OpenError(true)<CR>
 	nnoremap <buffer> <CR> <ScriptCmd>terminal.OpenError()<CR>
-	nmap <buffer> <2-LeftMouse> o
+	nnoremap <buffer> <2-LeftMouse> o
 	nnoremap <buffer> J <ScriptCmd>terminal.NextError()<CR>
 	nnoremap <buffer> K <ScriptCmd>terminal.PrevError()<CR>
 	nnoremap <buffer> <C-R> <ScriptCmd>terminal.ReRun()<CR>
