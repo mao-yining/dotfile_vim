@@ -151,19 +151,13 @@ export def Update(...args: list<string>)
 			else
 				appendbufline(bufnr, '$', $"{INST1} {name}")
 			endif
-			const job = job_start($'git clone {url} {path}', {
+			const job = job_start($'git clone {url} {path} --depth 1', {
 				cwd: $MYVIMDIR,
 				close_cb: (_) => {
-					var buftext = getbufline(bufnr, 1, '$')
-					buftext = buftext->mapnew((_, v) => {
-						if v == $"{INST1} {name}"
-							return $"{INST2} {name}"
-						else
-							return v
-						endif
-					})
+					const buftext = bufnr->getbufline(1, '$')
+						->mapnew((_, v) => v == $"{INST1} {name}" ? $"{INST2} {name}" : v)
 					pack_msg[name] = "Installed.\n"
-					popup_settext(winid, buftext)
+					winid->popup_settext(buftext)
 				}}
 			)
 			pack_jobs->add(job)
