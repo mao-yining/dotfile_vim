@@ -28,9 +28,9 @@ g:startify_bookmarks += [{ "b": "~/Documents/vault/projects/accounts/main.bean" 
 g:startify_custom_footer = ["", "   Vim is charityware. Please read \":help uganda\".", ""]
 if "airline"->getcompletion("packadd")->empty()|finish|endif
 g:airline_experimental = 1
-g:airline#extensions#whitespace#checks = [ 'trailing', 'conflicts' ]
+g:airline#extensions#whitespace#checks = ['trailing', 'conflicts']
 g:airline_highlighting_cache = 1
-g:airline_extensions = [ "branch", "csv", "fugitiveline", "gutentags", "hunks",
+g:airline_extensions = ["branch", "csv", "fugitiveline", "gutentags", "hunks",
 	"keymap", "po", "quickfix", "searchcount", "term", "undotree", "vim9lsp",
 	"whitespace", "wordcount"]
 g:airline_filetype_overrides = {
