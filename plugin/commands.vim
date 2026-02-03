@@ -70,7 +70,7 @@ command! DiffOrig {
 
 # update packages
 import autoload "pack.vim"
-command! -nargs=* -complete=custom,packs.Complete PackUpdate packs.Update(<f-args>)
+command! -nargs=* -complete=custom,pack.Complete PackUpdate pack.Update(<f-args>)
 
 import autoload "bufdel.vim"
 command! -nargs=* -bang -range -addr=buffers -complete=buffer Bdelete {

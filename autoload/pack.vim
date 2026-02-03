@@ -12,7 +12,7 @@ vim9script
 #
 # 2. Import and define command in vimrc:
 #    import autoload "pack.vim"
-#    command! -nargs=* -complete=custom,packs.Complete PackUpdate packs.Update(<f-args>)
+#    command! -nargs=* -complete=custom,pack.Complete PackUpdate pack.Update(<f-args>)
 #
 # 3. Commands:
 #    :PackUpdate                  # Update all plugins
