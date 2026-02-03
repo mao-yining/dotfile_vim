@@ -1,5 +1,6 @@
 vim9script
-# Name: autoload\pack.vim Author: Mao-Yining <mao.yining@outlook.com>
+# Name: autoload\pack.vim
+# Author: Mao-Yining <mao.yining@outlook.com>
 # Desc: Manage Vim plugins via git with batch update/install functionality
 #       Supports parallel processing and visual progress tracking
 # Usage:
