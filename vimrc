@@ -15,7 +15,6 @@ set scrolloff=5
 set colorcolumn=+1
 set conceallevel=2
 set formatoptions+=mMjn
-set noshowmode
 set matchpairs+=<:>
 set showmatch
 set ruler
