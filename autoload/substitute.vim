@@ -14,12 +14,12 @@ export def SetOperatorFunc(visual: bool)
 	&operatorfunc = (v: bool, type: string) => {
 		var cmd = "normal! "
 		if v
-			cmd ..= $"`<\"_c{visualmode()}`>"
+			cmd ..= $'`<"_c{visualmode()}`>'
 		else
 			if type == 'line'
-				cmd ..= "`[\"_cV`]"
+				cmd ..= '`["_cV`]'
 			else
-				cmd ..= "`[\"_cv`]"
+				cmd ..= '`["_cv`]'
 			endif
 		endif
 
@@ -48,17 +48,17 @@ export def Line()
 		if line('.') >= line('$') - v:count1 + 1
 			paste_type = 'p'
 		endif
-		execute $"normal! {v:count1}\"_dd"
+		execute $'normal! {v:count1}"_dd'
 		if !paste_is_multiline
 			execute "normal! O\<Esc>"
 		endif
 	else
-		execute "normal! 0\"_d$"
+		execute 'normal! 0"_d$'
 	endif
 
-	execute $"normal! \"{v:register}{paste_type}"
+	execute $'normal! "{v:register}{paste_type}'
 enddef
 
 export def ToEndOfLine()
-	execute $"normal! \"_d$\"{v:register}{v:count1}p"
+	execute $'normal! "_d$"{v:register}{v:count1}p'
 enddef
