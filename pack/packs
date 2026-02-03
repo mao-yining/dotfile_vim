@@ -3,6 +3,7 @@ devel	git@github.com:lifepillar/vim-devel.git
 mine/opt/DrawIt	git@github.com:vim-scripts/DrawIt.git
 mine/opt/airline	git@github.com:vim-airline/vim-airline.git
 mine/opt/conflict-marker	git@github.com:rhysd/conflict-marker.vim
+mine/opt/copilot	git@github.com:github/copilot.vim.git
 mine/opt/dadbod	git@github.com:tpope/vim-dadbod.git
 mine/opt/dadbod-ui	git@github.com:kristijanhusak/vim-dadbod-ui.git
 mine/opt/fugitive	git@github.com:tpope/vim-fugitive.git
@@ -16,11 +17,11 @@ mine/opt/vim-startuptime	git@github.com:dstein64/vim-startuptime.git
 mine/opt/vim-test	git@github.com:vim-test/vim-test.git
 mine/opt/vim9asm	git@github.com:lacygoill/vim9asm.git
 mine/opt/vimspector	git@github.com:puremourning/vimspector.git
+mine/opt/coc	git@github.com:neoclide/coc.nvim.git
 mine/start/asyncrun.vim	git@github.com:skywind3000/asyncrun.vim.git
 mine/start/asynctasks.vim	git@github.com:skywind3000/asynctasks.vim.git
 mine/start/catppuccin	git@github.com:catppuccin/vim.git
 mine/start/competitest	git@github.com:mao-yining/competitest.vim.git
-mine/start/copilot	git@github.com:github/copilot.vim.git
 mine/start/csv.vim	git@github.com:chrisbra/csv.vim.git
 mine/start/traces.vim	git@github.com:markonm/traces.vim.git
 mine/start/undotree	git@github.com:mao-yining/undotree.vim.git
