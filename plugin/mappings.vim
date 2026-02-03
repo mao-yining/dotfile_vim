@@ -206,3 +206,6 @@ cnoremap <C-N> <Down>
 cnoremap <C-P> <Up>
 cnoremap <C-S-B> <S-Left>
 cnoremap <C-S-F> <S-Right>
+
+inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
