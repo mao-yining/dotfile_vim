@@ -197,15 +197,5 @@ nmap gf gF
 nnoremap & :&&<CR>
 xnoremap & :&&<CR>
 
-cnoremap <C-A> <Home>
-cnoremap <C-B> <Left>
-cnoremap <C-D> <Del>
-cnoremap <C-E> <End>
-cnoremap <C-F> <Right>
-cnoremap <C-N> <Down>
-cnoremap <C-P> <Up>
-cnoremap <C-S-B> <S-Left>
-cnoremap <C-S-F> <S-Right>
-
 inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
