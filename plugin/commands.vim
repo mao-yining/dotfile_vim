@@ -57,7 +57,8 @@ augroup General | au!
 	autocmd FileType startuptime,fugitive,fugitiveblame,gitcommit map <buffer> q <Cmd>wincmd c<CR>
 
 	autocmd CmdwinEnter * map <buffer> q <Cmd>wincmd c<CR>
-	autocmd CmdwinEnter * map <buffer> <CR> <CR>q:
+	autocmd CmdwinEnter : map <buffer> <CR> <CR>q:
+	autocmd CmdwinEnter :,? startinsert
 
 augroup END
 
