@@ -1,0 +1,4 @@
+{
+	"semanticTokens.enable": true,
+	"coc.preferences.useQuickfixForLocations": true
+}
