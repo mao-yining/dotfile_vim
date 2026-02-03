@@ -40,8 +40,8 @@ set viewoptions=cursor,folds,curdir,slash
 set diffopt+=algorithm:histogram,linematch:60,inline:word
 set completeopt=menuone,popup,fuzzy
 set completepopup=border:off pumborder=
-set autocomplete complete=o^9,.^9,w^5,b^5,t^3,u^2
-set complete+=Fcompletor#Path^10,Fcompletor#Abbrev^3,Fcompletor#Register^3
+set autocomplete complete=o,.^9,w^5,b^5,t^3,u^2
+set complete+=Fcompletor#Path,Fcompletor#Abbrev^3,Fcompletor#Register^3
 set mouse=a mousemodel=extend
 set clipboard^=unnamed
 set wildmode=noselect:lastused,full
