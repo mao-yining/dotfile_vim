@@ -54,8 +54,10 @@ augroup General | au!
 	}
 
 	# 设置 q 来退出窗口
-	autocmd FileType startuptime,fugitive,fugitiveblame,gitcommit map <buffer> q <Cmd>q<CR>
-	autocmd CmdwinEnter * map <buffer> q <Cmd>q<CR>
+	autocmd FileType startuptime,fugitive,fugitiveblame,gitcommit map <buffer> q <Cmd>wincmd c<CR>
+
+	autocmd CmdwinEnter * map <buffer> q <Cmd>wincmd c<CR>
+	autocmd CmdwinEnter * map <buffer> <CR> <CR>q:
 
 augroup END
 
