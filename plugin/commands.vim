@@ -48,9 +48,9 @@ augroup General | au!
 		endif
 	}
 
-	autocmd BufWritePost $MYVIMDIR/plugin/*,$MYVIMRC ++nested {
+	autocmd BufWritePost $MYVIMDIR/plugin/*.vim,$MYVIMRC ++nested {
 		echow "Config Change Detected. Reloading..."
-		:source
+		source
 	}
 
 	# 设置 q 来退出窗口
