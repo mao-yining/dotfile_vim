@@ -129,7 +129,7 @@ import autoload "template.vim"
 command! -nargs=1 -complete=custom,template.Complete InsertTemplate template.Insert(<f-args>)
 
 # syntax group names under cursor
-command! Inspect echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+command! Inspect echo synstack(line('.'), col('.'))->map('synIDattr(v:val, "name")')
 
 # write to a privileged file
 if executable('sudo')
