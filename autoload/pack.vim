@@ -1,4 +1,34 @@
 vim9script
+# Name: autoload\pack.vim Author: Mao-Yining <mao.yining@outlook.com>
+# Desc: Description of this plugin.
+# Usage:
+#
+# 1. Create plugin list file: $MYVIMDIR/pack/packs
+#    Format: <plugin-name><Tab><git-repo-url>
+#    Example:
+#    # vim: ts=35 sw=0 noet cc=35
+#    devel	git@github.com:lifepillar/vim-devel.git
+#    mine/opt/fugitive	git@github.com:tpope/vim-fugitive.git
+#
+# 2. Import and define command in vimrc:
+#    import autoload "pack.vim"
+#    command! -nargs=* -complete=custom,packs.Complete PackUpdate packs.Update(<f-args>)
+#
+# 3. Commands:
+#    :PackUpdate                  # Update all plugins
+#    :PackUpdate plugin1 plugin2  # Update specific plugins (tab-completion available)
+#
+# Features:
+# - Batch update/install plugins via git
+# - Progress popup with visual indicators
+# - Post-update changelog display
+# - Parallel processing (up to 10 concurrent jobs)
+# - Tab completion for plugin names
+#
+# Status Indicators:
+#   ○ → ● : Plugin update (pending → complete)
+#   ⬠ → ⬟ : Plugin install (pending → complete)
+
 const popup_borderchars = get(g:, "popup_borderchars", ['─', '│', '─', '│', '┌', '┐', '┘', '└'])
 const popup_borderhighlight = get(g:, "popup_borderhighlight", ['Normal'])
 const popup_highlight = get(g:, "popup_highlight", 'Normal')
@@ -8,13 +38,24 @@ const INST1 = "⬠"
 const INST2 = "⬟"
 const MAX_JOBS = 10
 
-var pack_jobs: list<job>
-var pack_msg: dict<string>
+var packages_cache: list<string>
+
+augroup CmdCompleteResetPack
+	au!
+	au CmdlineEnter : packages_cache = null_list
+augroup END
+
+export def Complete(_, _, _): string
+	if empty(packages_cache)
+		packages_cache = Packages()->mapnew((_, v) => v[0]->escape(' '))
+	endif
+	return packages_cache->join("\n")
+enddef
 
 def Packages(): list<tuple<string, string>>
 	const pack_list = $'{$MYVIMDIR}pack/packs'
 	if !filereadable(pack_list)
-		return []
+		return null_list
 	endif
 	var packages: list<tuple<string, string>>
 	for pinfo in readfile(pack_list)
@@ -30,69 +71,27 @@ def Packages(): list<tuple<string, string>>
 	return packages
 enddef
 
+var pack_jobs: list<job>
+var pack_msg: dict<string>
+
 def IsRunning(): bool
 	return pack_jobs->reduce((acc, val) => acc || job_status(val) == 'run', false)
 enddef
 
-def ShowChangelog()
-	var lines: list<string>
-	for [name, msg] in pack_msg->items()
-		if !empty(msg)
-			lines->add(name)
-			lines->add("="->repeat(strlen(name)))
-			lines += [''] + msg->split("\n") + ['', '']
-		endif
-	endfor
-	if empty(lines)
-		"All plugins are up to date."->popup_notification({
-			title: " Plugins ",
-			borderchars: popup_borderchars,
-			line: &lines - 4,
-			col: &columns - 20
-		})
-		return
-	endif
-	new
-	setl nobuflisted noswapfile buftype=nofile
-	nnoremap <buffer> gq <Cmd>bd!<CR>
-	set syntax=git
-	syn match H1 "^.\+\n=\+$"
-	hi! link H1 Title
-	lines[ : -3]->setline(1)
-enddef
-
-def CreatePopup(Setup: func(number)): tuple<number, number>
-	const winid = ""->popup_create({
-		title: " Plugins ",
-		pos: 'botright',
-		col: &columns,
-		line: &lines,
-		padding: [0, 1, 0, 1],
-		border: [1, 1, 1, 1],
-		mapping: 1,
-		tabpage: -1,
-		borderchars: popup_borderchars,
-		borderhighlight: popup_borderhighlight,
-		highlight: popup_highlight,
-	})
-
-	if Setup != null_function
-		Setup(winid)
-	endif
-
-	return (winid, getwininfo(winid)[0].bufnr)
-enddef
-
 # Update or install plugins listed in packs
-export def Update()
+export def Update(...args: list<string>)
 	if IsRunning()
 		echow "Previous update is not finished yet!"
 		return
 	endif
 
-	pack_jobs = []
-	pack_msg = {}
+	pack_jobs = null_list
+	pack_msg = null_dict
+
 	var packages = Packages()
+	if !empty(args)
+		packages->filter((_, v) => args->index(v[0]) != -1)
+	endif
 	if empty(packages)
 		echow "No packages to install or update!"
 		return
@@ -138,15 +137,9 @@ export def Update()
 					pack_msg[name] ..= $"{msg}\n"
 				},
 				close_cb: (_) => {
-					var buftext = getbufline(bufnr, 1, '$')
-					buftext = buftext->mapnew((_, v) => {
-						if v == $"{UPD1} {name}"
-							return $"{UPD2} {name}"
-						else
-							return v
-						endif
-					})
-					popup_settext(winid, buftext)
+					const buftext = bufnr->getbufline(1, '$')
+						->map((_, v) =>  v == $"{UPD1} {name}" ? $"{UPD2} {name}" : v)
+					winid->popup_settext(buftext)
 				}}
 			)
 			pack_jobs->add(job)
@@ -176,3 +169,51 @@ export def Update()
 	}, {"repeat": -1})
 enddef
 
+def CreatePopup(Setup: func(number)): tuple<number, number>
+	const winid = ""->popup_create({
+		title: " Plugins ",
+		pos: 'botright',
+		col: &columns,
+		line: &lines,
+		padding: [0, 1, 0, 1],
+		border: [1, 1, 1, 1],
+		mapping: 1,
+		tabpage: -1,
+		borderchars: popup_borderchars,
+		borderhighlight: popup_borderhighlight,
+		highlight: popup_highlight,
+	})
+
+	if Setup != null_function
+		Setup(winid)
+	endif
+
+	return (winid, getwininfo(winid)[0].bufnr)
+enddef
+
+def ShowChangelog()
+	var lines: list<string>
+	for [name, msg] in pack_msg->items()
+		if !empty(msg)
+			lines->add(name)
+			lines->add("="->repeat(strlen(name)))
+			lines += [''] + msg->split("\n") + ['', '']
+		endif
+	endfor
+	if empty(lines)
+		"All plugins are up to date."->popup_notification({
+			title: " Plugins ",
+			borderchars: popup_borderchars,
+			line: &lines - 4,
+			col: &columns - 20
+		})
+		return
+	endif
+	new
+	setl nobuflisted noswapfile buftype=nofile
+	nnoremap <buffer> gq <Cmd>bd!<CR>
+	set syntax=git
+	syn match H1 "^.\+\n=\+$"
+	hi! link H1 Title
+	lines[ : -3]->setline(1)
+enddef
