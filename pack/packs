@@ -1,11 +1,13 @@
+# mine/opt/dadbod	git@github.com:tpope/vim-dadbod.git
+# mine/opt/dadbod-ui	git@github.com:kristijanhusak/vim-dadbod-ui.git
+# mine/start/vim-closetag	git@github.com:alvan/vim-closetag.git
 # vim: ts=35 sw=0 noet cc=35
 devel	git@github.com:lifepillar/vim-devel.git
 mine/opt/DrawIt	git@github.com:vim-scripts/DrawIt.git
 mine/opt/airline	git@github.com:vim-airline/vim-airline.git
+mine/opt/coc	git@github.com:neoclide/coc.nvim.git
 mine/opt/conflict-marker	git@github.com:rhysd/conflict-marker.vim
 mine/opt/copilot	git@github.com:github/copilot.vim.git
-mine/opt/dadbod	git@github.com:tpope/vim-dadbod.git
-mine/opt/dadbod-ui	git@github.com:kristijanhusak/vim-dadbod-ui.git
 mine/opt/fugitive	git@github.com:tpope/vim-fugitive.git
 mine/opt/gitgutter	git@github.com:airblade/vim-gitgutter.git
 mine/opt/gv.vim	git@github.com:mao-yining/gv.vim.git
@@ -15,9 +17,7 @@ mine/opt/vim-gutentags	git@github.com:ludovicchabant/vim-gutentags.git
 mine/opt/vim-pio	git@github.com:normen/vim-pio.git
 mine/opt/vim-startuptime	git@github.com:dstein64/vim-startuptime.git
 mine/opt/vim-test	git@github.com:vim-test/vim-test.git
-mine/opt/vim9asm	git@github.com:lacygoill/vim9asm.git
 mine/opt/vimspector	git@github.com:puremourning/vimspector.git
-mine/opt/coc	git@github.com:neoclide/coc.nvim.git
 mine/start/asyncrun.vim	git@github.com:skywind3000/asyncrun.vim.git
 mine/start/asynctasks.vim	git@github.com:skywind3000/asynctasks.vim.git
 mine/start/catppuccin	git@github.com:catppuccin/vim.git
@@ -27,7 +27,6 @@ mine/start/traces.vim	git@github.com:markonm/traces.vim.git
 mine/start/undotree	git@github.com:mao-yining/undotree.vim.git
 mine/start/vim-beancount	git@github.com:nathangrigg/vim-beancount.git
 mine/start/vim-characterize	git@github.com:tpope/vim-characterize.git
-mine/start/vim-closetag	git@github.com:alvan/vim-closetag.git
 mine/start/vim-dir	git@github.com:mao-yining/vim-dir.git
 mine/start/vim-dispatch	git@github.com:tpope/vim-dispatch.git
 mine/start/vim-easy-align	git@github.com:junegunn/vim-easy-align.git
@@ -39,6 +38,7 @@ mine/start/vim-startify	git@github.com:mhinz/vim-startify.git
 mine/start/vim-surround	git@github.com:tpope/vim-surround.git
 mine/start/vim-swap	git@github.com:machakann/vim-swap.git
 mine/start/vim-unimpaired	git@github.com:tpope/vim-unimpaired.git
+mine/start/vim9asm	git@github.com:lacygoill/vim9asm.git
 mine/start/vimcdoc	git@github.com:yianwillis/vimcdoc.git
 mine/start/vimtex	git@github.com:lervag/vimtex.git
 mine/start/vista.vim	git@github.com:liuchengxu/vista.vim.git
