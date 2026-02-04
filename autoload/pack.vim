@@ -26,10 +26,6 @@ vim9script
 # - Post-update changelog display
 # - Parallel processing (up to 10 concurrent jobs)
 # - Tab completion for plugin names
-#
-# Status Indicators:
-#   ○ → ● : Plugin update (pending → complete)
-#   ⬠ → ⬟ : Plugin install (pending → complete)
 
 const popup_borderchars = get(g:, "popup_borderchars", ['─', '│', '─', '│', '┌', '┐', '┘', '└'])
 const popup_borderhighlight = get(g:, "popup_borderhighlight", ['Normal'])
