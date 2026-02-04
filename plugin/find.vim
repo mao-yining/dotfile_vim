@@ -17,6 +17,8 @@ def FindCmd(): string
 		cmd = 'ugrep "" -Rl -I --ignore-files'
 	elseif executable('rg')
 		cmd = $'rg --path-separator {slash} --files --hidden --glob !.git'
+	elseif executable('git')
+		cmd = 'git ls-files'
 	elseif executable('find')
 		cmd = 'find \! \( -path "*/.git" -prune -o -name "*.swp" \) -type f -follow'
 	endif
