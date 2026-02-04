@@ -109,15 +109,15 @@ g:competitest_configs = {
 	template_file: "D:/Competitive-Programming/templates/template.$(FEXT)",
 	evaluate_template_modifiers: true,
 	received_problems_path: (task, file_extension): string => {
-		const hyphen = stridx(task.group, " - ") # Codeforces' contest
+		const hyphen = task.group->stridx(" - ") # Codeforces' contest
 		var judge: string
 		var contest: string
 		if hyphen == -1
 			judge = task.group
 			contest = "problems"
 		else
-			judge = strpart(task.group, 0, hyphen)
-			contest = strpart(task.group, hyphen + 3)
+			judge = task.group->strpart(0, hyphen)
+			contest = task.group->strpart(hyphen + 3)
 				->substitute('[<>:"/\\|?*#]', '_', 'g')
 		endif
 		return printf(

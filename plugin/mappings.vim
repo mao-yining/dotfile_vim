@@ -1,7 +1,7 @@
 vim9script
 
-def Find(how: string = "", path: string = ""): string
-	var mods = ""
+def Find(how = null_string, path = null_string): string
+	var mods: string
 	if how == "s" && winwidth(winnr()) * 0.3 > winheight(winnr())
 		mods = "vert "
 	endif
