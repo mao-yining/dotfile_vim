@@ -4,9 +4,9 @@ if !empty($SUDO_USER) && $USER !=# $SUDO_USER
 	setglobal viminfo=
 	setglobal directory-=~/tmp
 	setglobal backupdir-=~/tmp
-elseif exists("+undodir") && !has("nvim-0.5")
+elseif exists("+undodir")
 	if !empty($XDG_DATA_HOME)
-		$DATA_HOME = $XDG_DATA_HOME->substitute("/$", "", "") .. "/vim/"
+		$DATA_HOME = $XDG_DATA_HOME->trim("/", 2) .. "/vim/"
 	elseif has("win32")
 		$DATA_HOME = expand("~/AppData/Local/vim/")
 	else
@@ -18,6 +18,6 @@ elseif exists("+undodir") && !has("nvim-0.5")
 	if !isdirectory(&undodir)   | &undodir->mkdir("p")   | endif
 	if !isdirectory(&directory) | &directory->mkdir("p") | endif
 	if !isdirectory(&backupdir) | &backupdir->mkdir("p") | endif
+	set undofile
 endif
-
-set undofile backup
+set backup
