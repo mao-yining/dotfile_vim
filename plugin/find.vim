@@ -27,7 +27,7 @@ def Find(cmd_arg: string, cmd_complete: bool): list<string>
 	if empty(files_cache)
 		var cmd = FindCmd()
 		if empty(cmd)
-			files_cache = globpath('.', '**', 1, 1)
+			files_cache = globpath('.', '**', false, true)
 				->filter((_, v) => !isdirectory(v))
 				->mapnew((_, v) => v->substitute('^\.[\/]', "", ""))
 		else
