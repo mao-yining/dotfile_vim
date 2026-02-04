@@ -26,7 +26,6 @@ g:startify_skiplist += ["fugitiveblame$", "^dir:", "^fugitive:"]
 g:startify_bookmarks = [{ "c": $MYVIMRC }]
 g:startify_bookmarks += [{ "b": "~/Documents/vault/projects/accounts/main.bean" }]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read \":help uganda\".", ""]
-set noshowmode
 if "airline"->getcompletion("packadd")->empty()|finish|endif
 g:airline_experimental = 1
 g:airline#extensions#whitespace#checks = ['trailing', 'conflicts']
@@ -41,4 +40,7 @@ g:airline_filetype_overrides = {
 	competitest_err: ['Errors', ''],
 	competitest_testcases: ['Testcases', ''],
 }
-timer_start(0, (_) => execute("packadd airline"))
+timer_start(0, (_) => {
+	set noshowmode
+	packadd airline
+})
