@@ -1,5 +1,6 @@
-let g:mapleader = ' '
-let g:maplocalleader = ';'
+vim9script
+g:mapleader = ' '
+g:maplocalleader = ';'
 filetype plugin indent on
 syntax enable
 
@@ -7,6 +8,7 @@ set encoding=utf-8
 set nocompatible
 set hidden confirm
 set belloff=all shortmess+=cC
+set cryptmethod=xchacha20v2
 set nolangremap
 set helplang=cn spelllang=en_gb,cjk
 set history=10000 updatetime=400 tabpagemax=50 termwinscroll=40000
@@ -42,3 +44,39 @@ set wildmenu wildoptions=pum,fuzzy wildcharm=<Tab> pumheight=12
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__,pack
 set wildignore+=*.obsidian,*.svg
+set backup
+if !empty($SUDO_USER) && $USER !=# $SUDO_USER
+	setglobal viminfo=
+	setglobal directory-=~/tmp
+	setglobal backupdir-=~/tmp
+elseif exists("+undodir")
+	if !empty($XDG_DATA_HOME)
+		$DATA_HOME = $XDG_DATA_HOME->trim("/", 2) .. "/vim/"
+	elseif has("win32")
+		$DATA_HOME = expand("~/AppData/Local/vim/")
+	else
+		$DATA_HOME = expand("~/.local/share/vim/")
+	endif
+	&undodir   = $DATA_HOME .. "undo/"
+	&directory = $DATA_HOME .. "swap/"
+	&backupdir = $DATA_HOME .. "backup/"
+	if !isdirectory(&undodir)   | &undodir->mkdir("p")   | endif
+	if !isdirectory(&directory) | &directory->mkdir("p") | endif
+	if !isdirectory(&backupdir) | &backupdir->mkdir("p") | endif
+	set undofile
+endif
+if has('gui_running')
+	finish
+endif
+&t_TI = "\<Esc>[>4;2m"
+&t_TE = "\<Esc>[>4;m"
+&t_EI = "\e[2 q"
+&t_SI = "\e[5 q"
+&t_SR = "\e[3 q"
+set <M-H>=H
+set <M-J>=J
+set <M-K>=K
+set <M-L>=L
+for i in range(10)
+	execute "set <M-{i}>=" .. i == 0 ? 10 : i
+endfor
