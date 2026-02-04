@@ -2,7 +2,7 @@ vim9script
 
 import autoload 'terminal.vim'
 
-command! -nargs=? Term terminal.Run(<q-args> ?? &shell, <q-mods> ?? window#BotRight())
+command! -nargs=* -complete=shellcmdline Term terminal.Run(<q-args> ?? &shell, <q-mods> ?? window#BotRight())
 
 if executable("nu")
 	nmap c<CR> <Cmd>Term nu<CR>
