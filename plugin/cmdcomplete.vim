@@ -55,24 +55,22 @@ def CmdCompleteSelectFirst()
 enddef
 
 def EditDirectoryHelper()
-	var info = cmdcomplete_info()
-
-	if empty(info) || getcmdcompltype() != 'file'
+	const cmdline = getcmdline()
+	if getcmdpos() - 1 != cmdline->len() || cmdline =~ '*'
 		return
 	endif
+	wildtrigger()
 
-	var cmdline = getcmdline()
-	if getcmdpos() - 1 != getcmdline()->len()
+	const info = cmdcomplete_info()
+	if empty(info)
 		return
 	endif
-
 	if info.pum_visible
 			&& info.selected == 0
 			&& len(info.matches) == 1
 			&& info.matches[0] =~ '\([\\/]\)$'
 		timer_start(0, (_) => {
-			var slash = has("win32") ? '\' : '/'
-			feedkeys(slash, 'nt')
+			feedkeys(has("win32") ? '\' : '/', 'nt')
 		})
 	else
 		if cmdline =~ "://*$"
@@ -84,13 +82,13 @@ enddef
 
 def CmdComplete()
 	const cmdcompltype = getcmdcompltype()
-	if cmdcompltype ==# 'customlist,fugitive#Complete' || cmdcompltype ==# 'customlist,dispatch#command_complete'
+	if ((has("win32") || exists("$WSLENV")) && cmdcompltype == 'shellcmd')
+			|| cmdcompltype ==# 'customlist,fugitive#Complete'
+			|| cmdcompltype ==# 'customlist,dispatch#command_complete'
 		return
-	endif
-
-	EditDirectoryHelper()
-	# :! and :term completion is very slow on Windows and WSL, disable it there.
-	if !((has("win32") || exists("$WSLENV")) && (cmdcompltype == 'shellcmd' || cmdcompltype ==# 'file'))
+	elseif cmdcompltype == 'file'
+		EditDirectoryHelper()
+	else
 		wildtrigger()
 	endif
 enddef
