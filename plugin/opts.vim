@@ -49,7 +49,15 @@ if executable("ctags") && !"vim-gutentags"->getcompletion("packadd")->empty()
 endif
 
 if executable("man") && !"vim-man"->getcompletion("packadd")->empty()
-	silent! packadd vim-man
+	packadd vim-man
+endif
+
+if executable("gpg") && !"vim-gnupg"->getcompletion("packadd")->empty()
+	packadd vim-gnupg
+endif
+
+if executable("pio") && !"vim-pio"->getcompletion("packadd")->empty()
+	packadd vim-pio
 endif
 
 nmap =d <Cmd>DIstart<CR>
@@ -79,22 +87,13 @@ xmap <Tab> <Plug>(EasyAlign)
 nmap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
 
-def PackCommands(packname: string, command: string)
-	execute($"command -nargs=? {command} delc {command} <Bar> packa {packname} <Bar> {command} <f-args>")
-enddef
-
 omap i, <Plug>(swap-textobject-i)
 xmap i, <Plug>(swap-textobject-i)
 omap a, <Plug>(swap-textobject-a)
 xmap a, <Plug>(swap-textobject-a)
 
-PackCommands("vim-startuptime", "StartupTime")
-PackCommands("vim9asm", "Disassemble")
-PackCommands("vim-pio", "PIO")
+command -nargs=? StartupTime delc StartupTime | packa vim-startuptime | StartupTime
 
-PackCommands("vim-test", "TestNearest")
-PackCommands("vim-test", "TestFile")
-PackCommands("vim-test", "TestSuite")
 nmap <silent> <LocalLeader>tt <Cmd>TestNearest<CR>
 nmap <silent> <LocalLeader>tf <Cmd>TestFile<CR>
 nmap <silent> <LocalLeader>ts <Cmd>TestSuite<CR>
