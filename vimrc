@@ -18,6 +18,7 @@ set formatoptions+=mMjn
 set matchpairs+=<:>
 set showmatch
 set ruler
+set laststatus=2
 set splitbelow splitright
 set autoindent smartindent smarttab
 set foldopen+=jump,insert
