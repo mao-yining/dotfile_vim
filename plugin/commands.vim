@@ -176,3 +176,6 @@ command! BackupVault exe "Git commit -am \"vault backup:" strftime("%Y-%m-%d %H:
 
 import autoload 'chineselinter.vim'
 command! -nargs=0 CheckChinese chineselinter.Check()
+
+import autoload "calendar.vim"
+command! -nargs=0 Calendar calendar.Open()

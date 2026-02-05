@@ -510,3 +510,4 @@ export def Sh(command: string, Finish_cb: func() = null_function): tuple<number,
 
     return (winid, jobid)
 enddef
+# vim:expandtab
