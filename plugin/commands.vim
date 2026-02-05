@@ -59,8 +59,8 @@ augroup General | au!
 
 	autocmd CmdwinEnter * map <buffer> q <Cmd>wincmd c<CR>
 	autocmd CmdwinEnter : map <buffer> <CR> <CR>q:
-	autocmd CmdwinEnter /,? startinsert
-	autocmd CmdwinEnter /,? map <buffer> <CR> <CR>
+	autocmd CmdwinEnter [\/\?] startinsert
+	autocmd CmdwinEnter [\/\?] map <buffer> <CR> <CR>
 
 augroup END
 

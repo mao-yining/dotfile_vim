@@ -1,5 +1,7 @@
 set tags=./tags
-nnoremap <buffer> q <Cmd>wincmd c<CR>
+if !&l:modifiable && &l:readonly
+	nnoremap <buffer> q <Cmd>wincmd c<CR>
+endif
 
 if !exists(":HelpToc") && !"helptoc"->getcompletion("packadd")->empty()
 	packadd helptoc
