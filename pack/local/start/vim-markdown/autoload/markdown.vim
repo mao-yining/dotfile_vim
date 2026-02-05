@@ -1818,11 +1818,11 @@ export def RemoveAllStyle()
 			RemoveLink()
 		endif
 		return
-	endif
+		endif
 
-	if is_quote_block
-		UnsetQuoteBlock()
-	endif
+		if is_quote_block
+			UnsetQuoteBlock()
+		endif
 enddef
 
 # ---- auto-completion --------------
