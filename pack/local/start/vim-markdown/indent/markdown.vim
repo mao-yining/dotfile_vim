@@ -4,7 +4,7 @@ if exists("b:did_indent")
 endif
 b:did_indent = 1
 
-import autoload "../import/mdindent.vim"
+import autoload "../autoload/mdindent.vim"
 
 setlocal indentexpr=mdindent.GetPDMIndent()
 

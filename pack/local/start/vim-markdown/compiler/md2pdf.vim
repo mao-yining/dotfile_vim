@@ -10,14 +10,13 @@ var input_flags = [
 	'+east_asian_line_breaks',
 ]
 
-var target = 'pdf'
-
 var args = [
+	'pandoc',
 	'%:S',
 	'-f',
-	join(input_flags, ''),
-	$"-t {target}",
-	$'-o %:.:s?\.md?\.{target}?:s?notes?.build?:S',
+	input_flags->join(''),
+	"-t pdf",
+	'-o %:.:s?\.md?\.pdf?:s?notes?.build?:S',
 	'-s',
 	'--wrap=auto',
 	'--pdf-engine=lualatex',
@@ -25,4 +24,4 @@ var args = [
 	'-V documentclass=ctexart',
 ]
 
-&l:makeprg = $"pandoc {args->join(' ')}"
+&l:makeprg = args->join()
