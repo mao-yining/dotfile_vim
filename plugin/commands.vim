@@ -1,6 +1,7 @@
 vim9script
 
 augroup General | au!
+	au BufNewFile,BufRead *.log,*_log,*.LOG,*_LOG setfiletype log
 
 	autocmd BufReadPost * {
 		if line("'\"") >= 1 && line("'\"") <= line("$") && &filetype !~# 'commit'
