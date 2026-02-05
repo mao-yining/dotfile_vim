@@ -173,3 +173,6 @@ command! -nargs=1 -complete=custom,RecentComplete Recent Edit(<q-args>, false, <
 command! -nargs=1 -complete=custom,RecentComplete SRecent Edit(<q-args>, true, <q-mods>)
 
 command! BackupVault exe "Git commit -am \"vault backup:" strftime("%Y-%m-%d %H:%M:%S\"")
+
+import autoload 'chineselinter.vim'
+command! -nargs=0 CheckChinese chineselinter.Check()
