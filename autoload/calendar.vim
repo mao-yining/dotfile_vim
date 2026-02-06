@@ -412,8 +412,8 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 		borderchars: config.borderchars,
 		borderhighlight: config.borderhighlight,
 		highlight: config.highlight,
-		zindex: 49,
 		mapping: false,
+		zindex: 49,
 		filter: (_, key) => {
 			def PreviousMonth()
 				const new_month = calendar.month == 1 ? 12 : calendar.month - 1
@@ -568,7 +568,6 @@ def OnChange(year: number, month: number)
 	extensions.auto = GetCalendarExts()
 	for ext in extensions.manual->values()
 		for mark in ext.get(year, month)
-			echom mark
 			Mark(mark.year, mark.month, mark.day)
 		endfor
 	endfor
@@ -604,10 +603,6 @@ def OnAction(year: number, month: number, day: number)
 	if empty(actions)
 		return
 	endif
-	# const choice = inputlist(actions->mapnew((_, v) => v.name)->insert('calendar actions'))
-	# if choice > 0
-	# 	# actions[choice].callback(actions[choice].date.year, actions[choice].date.month, actions[choice].date.day)
-	# endif
 	popup.Select("calendar actions", actions,
 		(res, key) => {
 			res.callback(res.date.year, res.date.month, res.date.day)
