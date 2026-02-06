@@ -180,7 +180,6 @@ command! -nargs=0 CheckChinese chineselinter.Check()
 import autoload "../autoload/notebook.vim"
 command! -nargs=0 Note notebook.Note()
 command! -nargs=0 Journal notebook.Journal()
-command! -nargs=? NoteBrowse notebook.Browse(<f-args>)
 
 import autoload "calendar.vim"
 command! -nargs=0 Calendar calendar.Open()
