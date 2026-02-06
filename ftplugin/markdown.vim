@@ -1,7 +1,15 @@
 vim9script
-
+import autoload "../autoload/notebook.vim"
 import autoload "../autoload/markdown.vim" as md
-
+setl tagfunc=notebook.TagFunc
+setl completefunc=notebook.CompleteFunc
+setl iskeyword+=:
+setl iskeyword+=-
+setl suffixesadd+=.mdreturn
+setl errorformat=%f:%l:\ %m
+setl include=\[\[\\s\]\]
+setl define=^#\ \\s*
+setl keywordprg=:NoteHover
 setl nolinebreak
 setl textwidth=74
 setl conceallevel=2
@@ -54,6 +62,7 @@ inoremap <buffer><CR> <C-E><ScriptCmd>md.CR_Hacked()<CR>
 def SetSurroundOpFunc(style: string)
 	&l:opfunc = md.SurroundSmart->function([style])
 enddef
+command! -buffer -nargs=* -complete=custom,notebook.HoverComplete NoteHover notebook.InternalExecuteHoverCmd(<f-args>)
 
 nnoremap <buffer><LocalLeader>b <ScriptCmd>SetSurroundOpFunc('markdownBold')<CR>g@
 xnoremap <buffer><LocalLeader>b <ScriptCmd>SetSurroundOpFunc('markdownBold')<CR>g@
@@ -87,6 +96,7 @@ nnoremap <buffer><LocalLeader>h <ScriptCmd>&l:opfunc = highlights.AddProp<CR>g@
 xnoremap <buffer><LocalLeader>h <ScriptCmd>&l:opfunc = highlights.AddProp<CR>g@
 
 nnoremap <buffer><silent> K <ScriptCmd>md.PreviewPopup()<CR>
+nnoremap <silent><nowait><buffer> [I <ScriptCmd>require("zettelkasten").show_back_references(expand("<cword>"))<CR>
 
 if exists("g:markdown_fenced_languages")|finish|endif
 g:markdown_minlines = 500

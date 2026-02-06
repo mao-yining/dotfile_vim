@@ -2,8 +2,7 @@ vim9script
 # Name: vimfiles\autoload\calendar.vim
 # Author: Mao-Yining <mao.yining@outlook.com>
 # Desc: A lightweight and extensible pure-Lua monthly calendar plugin for Vim,
-#	featuring Vim-style navigation, customizable day highlights and marks, and
-#	a simple extension system for integrating your own workflows.
+#	featuring Vim-style navigation, customizable day highlights and marks.
 # Derive From: wsdjeg's calendar.nvim <https://github.com/wsdjeg/calendar.nvim>
 # Usage:
 #	import autoload "calendar.vim"
@@ -13,7 +12,6 @@ vim9script
 # - Vim-style keyboard navigation
 # - Today highlighting and custom day highlights
 # - Marked days support
-# - Extensible architecture
 # - Configurable setup and keymaps
 
 if !exists("*strftime")
@@ -535,21 +533,47 @@ def HighlightDay(day_num: number)
 	endif
 enddef
 
-var extensions = {auto: {}, manual: {}}
+var extensions = {}
 var marked_days = {}
-def GetCalendarExts(): dict<dict<any>>
-	var exts = {}
-	for path in globpath(&runtimepath, 'autoload/calendar/extensions/*.vim', 0, 1)
-		try
-			exe "source" path
-			exts[path->fnamemodify(':t:r')] = g:calendar_extension
-		catch
-			echow "Error when sourcing extension:" path
-			echom v:exception
-			continue
-		endtry
+# Journal Ext{{{
+import autoload "notebook.vim"
+def Get(year: number, month: number): list<dict<any>>
+	var notes = notebook.GetNotes()
+	var marks: list<dict<any>> = []
+
+	for note in notes
+		var id_parts = split(note.id, '-')
+		if len(id_parts) >= 3
+			var note_year = id_parts[0]->str2nr()
+			var note_month = id_parts[1]->str2nr()
+			var note_day = id_parts[2]->str2nr()
+			if note_year == year && note_month == month
+				marks->add({
+					year: note_year,
+					month: note_month,
+					day: note_day,
+				})
+			endif
+		endif
 	endfor
-	return exts
+	return marks
+enddef
+
+def OpenDailyNote(year: number, month: number, day: number)
+	Close()
+	notebook.NewNote({date: {year: year, month: month, day: day}})
+enddef
+
+const journals = {
+	get: Get,
+	actions: {
+		open_daily_note: OpenDailyNote,
+	}
+} # }}}
+
+import autoload "popup.vim"
+def GetCalendarExts(): dict<dict<any>>
+	return {journals: journals}
 enddef
 
 def HasMarks(year: number, month: number, day: number): bool
@@ -560,38 +584,22 @@ def Mark(year: number, month: number, day: number)
 	marked_days[printf('%4d-%2d-%2d', year, month, day)] = true
 enddef
 
-def Register(name: string, ext: dict<any>)
-	extensions.manual[name] = ext
+export def Register(name: string, ext: dict<any>)
+	extensions[name] = ext
 enddef
 
 def OnChange(year: number, month: number)
-	extensions.auto = GetCalendarExts()
-	for ext in extensions.manual->values()
-		for mark in ext.get(year, month)
-			Mark(mark.year, mark.month, mark.day)
-		endfor
-	endfor
-	for ext in extensions.auto->values()
+	extensions->extend(GetCalendarExts())
+	for ext in extensions->values()
 		for mark in ext.get(year, month)
 			Mark(mark.year, mark.month, mark.day)
 		endfor
 	endfor
 enddef
 
-import autoload "popup.vim"
 def OnAction(year: number, month: number, day: number)
-	extensions.auto = GetCalendarExts()
 	var actions: list<dict<any>>
-	for [extension, ext] in items(extensions.manual)
-		for [action, callback] in items(ext.actions)
-			actions->add({
-				text: extension .. '/' .. action,
-				callback: callback,
-				date: { year: year, month: month, day: day },
-			})
-		endfor
-	endfor
-	for [extension, ext] in items(extensions.auto)
+	for [extension, ext] in items(extensions)
 		for [action, callback] in items(ext.actions)
 			actions->add({
 				text: extension .. '/' .. action,
@@ -603,10 +611,28 @@ def OnAction(year: number, month: number, day: number)
 	if empty(actions)
 		return
 	endif
-	popup.Select("calendar actions", actions,
-		(res, key) => {
-			res.callback(res.date.year, res.date.month, res.date.day)
+	if len(actions) == 1
+		const res = actions[0]
+		res.callback(res.date.year, res.date.month, res.date.day)
+	elseif len(actions) < 5
+		popup_menu(actions->mapnew((_, v) => v.text), {
+			borderchars: config.borderchars,
+			borderhighlight: config.borderhighlight,
+			highlight: config.highlight,
+			callback: (_, result) => {
+				if result > 0
+					const res = actions[result - 1]
+					res.callback(res.date.year, res.date.month, res.date.day)
+				endif
+			}
 		})
+	else
+		popup.Select("calendar actions", actions,
+			(res, key) => {
+				res.callback(res.date.year, res.date.month, res.date.day)
+			})
+	endif
 enddef
 command! -nargs=0 Calendar Open()
 map <buffer><F5> <Cmd>so<CR><Cmd>Calendar<CR>
+# vim:fdm=marker

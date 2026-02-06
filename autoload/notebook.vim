@@ -3,14 +3,6 @@ vim9script
 # Author: Mao-Yining <mao.yining@outlook.com>
 # Desc: Note taking plugin
 
-const NOTE_ID_STRFTIME_FORMAT = '%Y-%m-%d-%H-%M-%S'
-
-var log_highlights = {
-	INFO: 'Normal',
-	ERROR: 'Error',
-	WARN: 'WarningMsg',
-}
-
 var config = {
 	notes_path: '~/Documents/vault/journals/',
 	template_dir: '~/Documents/vault/templates/',
@@ -21,16 +13,7 @@ var config = {
 }
 g:notebook_config = config->extend(get(g:, 'notebook_config', {}))
 
-def Str2Chars(str: string): list<string>
-	return str->split('\zs')
-enddef
-
-def EchoWarn(str: string)
-	echohl WarningMsg
-	echomsg str
-	echohl NONE
-enddef
-var formatters: dict<func> = {
+const formatters: dict<func> = {
 	'%r': (line: dict<any>): string => {
 		return string(get(line, 'references', [])->len())
 	},
@@ -49,7 +32,7 @@ var formatters: dict<func> = {
 			return title .. repeat(' ', max_width - title_width)
 		else
 			var truncated = ''
-			for char in Str2Chars(title)
+			for char in title->split('\zs')
 				if strdisplaywidth(truncated) + strdisplaywidth(char) <= max_width - 3
 					truncated = truncated .. char
 				else
@@ -78,6 +61,12 @@ var formatters: dict<func> = {
 		return join(tags, ' ')
 	},
 }
+
+def EchoWarn(str: string)
+	echohl WarningMsg
+	echomsg str
+	echohl NONE
+enddef
 
 def GetFormatKeys(format: string): list<string>
 	var matches: list<string> = []
@@ -231,12 +220,8 @@ export def CompleteFunc(find_start: number, base: string): any
 enddef
 
 export def SetNoteId(bufnr: number, date: dict<any> = {})
-	const first_line = bufnr->getbufoneline(1)
 	const id = GenerateNoteId(date)
-
 	if !empty(id)
-		first_line = substitute(first_line, '^# ', '', '')
-		setbufline(bufnr, 1, '# ' .. id .. ' ' .. first_line)
 		execute 'file' id .. '.md'
 		setbufvar(bufnr, '&filetype', 'markdown')
 	else
@@ -485,7 +470,7 @@ export def NewNote(opt: dict<any> = {})
 	endif
 
 	if has_key(options, 'template')
-		var template_content = readfile(options.template)
+		const template_content = readfile(options.template)
 		setline(1, template_content)
 	else
 		normal! ggI# New Note
@@ -684,9 +669,8 @@ enddef
 
 export def GetTags(): list<dict<any>>
 	var notes = GetNotes()
-	var tags: list<dict<any>> = []
-	var seen_tags: dict<bool> = {}
-
+	var tags: list<dict<any>>
+	var seen_tags: dict<bool>
 	for note in notes
 		if empty(note.tags)
 			continue
@@ -709,8 +693,8 @@ export def GetTags(): list<dict<any>>
 enddef
 
 export def Browse(opt: dict<any> = {})
-	var options = extend({ tags: [] }, opt)
-	var bufnr = bufadd("note://browser")
+	const options = extend({ tags: [] }, opt)
+	const bufnr = bufadd("note://browser")
 	exe "buffer" bufnr
 	setl modifiable
 	GetNoteBrowserContent({
@@ -721,6 +705,7 @@ export def Browse(opt: dict<any> = {})
 	setl nomodifiable
 enddef
 
+# Tag Tree {{{
 var folded_keys: dict<bool>
 
 def UniqueStringTable(t: list<string>): list<string>
@@ -812,3 +797,5 @@ export def ToggleFoldedKey()
 
 	UpdateSidebarContext()
 enddef
+# }}}
+# vim:fdm=marker

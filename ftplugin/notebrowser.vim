@@ -20,7 +20,8 @@ command! -buffer -nargs=* -complete=custom,notebook.HoverComplete NoteHover
 
 nnoremap <silent><nowait><buffer> [I <ScriptCmd>notebook.ShowBackReferences(expand("<cword>"))<CR>
 nnoremap <silent><nowait><buffer> q <ScriptCmd>Bdelete<CR>
-nnoremap <silent><nowait><buffer> <C-r> <Cmd>ZkBrowse<CR>
+nnoremap <silent><nowait><buffer> <C-r> <Cmd>NoteBrowse<CR>
+cabbrev  <silent><nowait><buffer> e NoteBrowse
 def OnLeftRelease()
 	if synstack(line('.'), col('.'))->map('synIDattr(v:val, "name")')->index('ZettelKastenTags') != -1
 		notebook.Browse({
