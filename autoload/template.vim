@@ -37,7 +37,7 @@ export def Complete(_, _, _): string
 		for path in GetPaths()
 			const ft_path = $"{path}/{ft}"
 			if !empty(ft) && isdirectory(ft_path)
-				templates_cache = ft_path->readdirex((e) => e.type == 'file')->mapnew((_, v) => $"{ft}/{v.name}")
+				templates_cache->extend(ft_path->readdirex((e) => e.type == 'file')->mapnew((_, v) => $"{ft}/{v.name}"))
 			endif
 			if isdirectory(path)
 				templates_cache->extend(path->readdirex((e) => e.type == 'file')->mapnew((_, v) => v.name))
