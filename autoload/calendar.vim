@@ -412,9 +412,8 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 		borderchars: config.borderchars,
 		borderhighlight: config.borderhighlight,
 		highlight: config.highlight,
-		zindex: 300,
+		zindex: 49,
 		mapping: false,
-		filtermode: 'n',
 		filter: (_, key) => {
 			def PreviousMonth()
 				const new_month = calendar.month == 1 ? 12 : calendar.month - 1
@@ -468,9 +467,9 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 			elseif key == config.keymap.today
 				Open()
 			elseif key == config.keymap.close
-				popup_close(win)
+				Close()
 			elseif key == "\<ESC>"
-				popup_close(win)
+				Close()
 			elseif key == "\<LeftMouse>"
 				const pos = getmousepos()
 				if pos.winid == win
@@ -493,16 +492,18 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 				endif
 			elseif key == "\<Enter>"
 				OnAction(calendar.year, calendar.month, calendar.day)
-			else
-				return false
 			endif
 			return true
 		}
 	})
 	HighlightToday(year, month, calendar.grid)
+	OnChange(year, month)
 	HighlightDay(day)
 enddef
 
+export def Close()
+	popup_close(win)
+enddef
 
 def HighlightDay(day_num: number)
 	prop_remove({type: 'calendar_current', bufnr: buf, all: true})
@@ -536,13 +537,15 @@ enddef
 
 var extensions = {auto: {}, manual: {}}
 var marked_days = {}
-def GetCalendarExts(): dict<string>
+def GetCalendarExts(): dict<dict<any>>
 	var exts = {}
 	for path in globpath(&runtimepath, 'autoload/calendar/extensions/*.vim', 0, 1)
 		try
-			const ext = path->fnamemodify(':t:r')->readfile()->join("\n")->eval()
-			exts[path->fnamemodify(':t:r')] = ext
+			exe "source" path
+			exts[path->fnamemodify(':t:r')] = g:calendar_extension
 		catch
+			echow "Error when sourcing extension:" path
+			echom v:exception
 			continue
 		endtry
 	endfor
@@ -564,24 +567,26 @@ enddef
 def OnChange(year: number, month: number)
 	extensions.auto = GetCalendarExts()
 	for ext in extensions.manual->values()
-		for mark in ext.get(year, month)->values()
+		for mark in ext.get(year, month)
+			echom mark
 			Mark(mark.year, mark.month, mark.day)
 		endfor
 	endfor
 	for ext in extensions.auto->values()
-		for mark in ext.get(year, month)->values()
+		for mark in ext.get(year, month)
 			Mark(mark.year, mark.month, mark.day)
 		endfor
 	endfor
 enddef
 
+import autoload "popup.vim"
 def OnAction(year: number, month: number, day: number)
 	extensions.auto = GetCalendarExts()
 	var actions: list<dict<any>>
 	for [extension, ext] in items(extensions.manual)
 		for [action, callback] in items(ext.actions)
 			actions->add({
-				name: extension .. '/' .. action,
+				text: extension .. '/' .. action,
 				callback: callback,
 				date: { year: year, month: month, day: day },
 			})
@@ -590,7 +595,7 @@ def OnAction(year: number, month: number, day: number)
 	for [extension, ext] in items(extensions.auto)
 		for [action, callback] in items(ext.actions)
 			actions->add({
-				name: extension .. '/' .. action,
+				text: extension .. '/' .. action,
 				callback: callback,
 				date: { year: year, month: month, day: day },
 			})
@@ -599,10 +604,14 @@ def OnAction(year: number, month: number, day: number)
 	if empty(actions)
 		return
 	endif
-	const choice = inputlist(actions->mapnew((_, v) => v.name)->insert('calendar actions'))
-	if choice > 0
-		actions[choice].Callback(actions[choice].date.year, actions[choice].date.month, actions[choice].date.day)
-	endif
+	# const choice = inputlist(actions->mapnew((_, v) => v.name)->insert('calendar actions'))
+	# if choice > 0
+	# 	# actions[choice].callback(actions[choice].date.year, actions[choice].date.month, actions[choice].date.day)
+	# endif
+	popup.Select("calendar actions", actions,
+		(res, key) => {
+			res.callback(res.date.year, res.date.month, res.date.day)
+		})
 enddef
-# command! -nargs=0 Calendar Open()
-# map <buffer><F5> <Cmd>so<CR><Cmd>Calendar<CR>
+command! -nargs=0 Calendar Open()
+map <buffer><F5> <Cmd>so<CR><Cmd>Calendar<CR>
