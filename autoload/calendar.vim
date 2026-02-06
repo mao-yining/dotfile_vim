@@ -399,13 +399,7 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 	setbufline(buf, 1, lines)
 	setbufvar(buf, '&modifiable', false)
 
-	if popup_show(win) == 0 # Has Popup Show
-		HighlightToday(year, month, calendar.grid)
-		HighlightDay(day)
-		return
-	endif
-
-	win = buf->popup_create({
+	const popup_opts = {
 		border: null_list,
 		borderchars: config.borderchars,
 		borderhighlight: config.borderhighlight,
@@ -493,7 +487,12 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 			endif
 			return true
 		}
-	})
+	}
+
+	if popup_show(win) == -1 # Has Popup Show
+		win = buf->popup_create(popup_opts)
+	endif
+
 	HighlightToday(year, month, calendar.grid)
 	OnChange(year, month)
 	HighlightDay(day)
@@ -538,15 +537,15 @@ var marked_days = {}
 # Journal Ext{{{
 import autoload "notebook.vim"
 def Get(year: number, month: number): list<dict<any>>
-	var notes = notebook.GetNotes()
+	var files = notebook.GetJournals(year, month)
 	var marks: list<dict<any>> = []
 
-	for note in notes
-		var id_parts = split(note.id, '-')
-		if len(id_parts) >= 3
-			var note_year = id_parts[0]->str2nr()
-			var note_month = id_parts[1]->str2nr()
-			var note_day = id_parts[2]->str2nr()
+	for file in files
+		const parts = file->fnamemodify(':r')->split('-')
+		if len(parts) >= 3
+			const note_year  = parts[0]->str2nr()
+			const note_month = parts[1]->str2nr()
+			const note_day   = parts[2]->str2nr()
 			if note_year == year && note_month == month
 				marks->add({
 					year: note_year,
@@ -559,15 +558,15 @@ def Get(year: number, month: number): list<dict<any>>
 	return marks
 enddef
 
-def OpenDailyNote(year: number, month: number, day: number)
+def OpenDailyJournal(year: number, month: number, day: number)
 	Close()
-	notebook.NewNote({date: {year: year, month: month, day: day}})
+	notebook.Journal({year: year, month: month, day: day})
 enddef
 
 const journals = {
 	get: Get,
 	actions: {
-		open_daily_note: OpenDailyNote,
+		open_daily_note: OpenDailyJournal,
 	}
 } # }}}
 

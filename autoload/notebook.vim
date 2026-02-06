@@ -4,8 +4,10 @@ vim9script
 # Desc: Note taking plugin
 
 var config = {
-	notes_path: '~/Documents/vault/journals/',
-	template_dir: '~/Documents/vault/templates/',
+	journals_path: '~/Documents/vault/journals/',
+	notes_path: '~/Documents/vault/notes/',
+	journal_template: '~/Documents/vault/templates/journal.md',
+	note_template: '~/Documents/vault/templates/idea.md',
 	browseformat: '%f - %h [%r Refs] [%b B-Refs] %t',
 	preview_command: 'pedit',
 	completion_kind: '[zettelkasten]',
@@ -140,22 +142,6 @@ def GetAllTags(_lookup_tag = null_string): list<dict<any>>
 	return tags
 enddef
 
-def GenerateNoteId(date: dict<any> = {}): string
-	const note_time = {
-		year: get(date, 'year', strftime("%Y")->str2nr()),
-		month: get(date, 'month', strftime("%m")->str2nr()),
-		day: get(date, 'day', strftime("%d")->str2nr()),
-		hour: get(date, 'hour', strftime("%H")->str2nr()),
-		min: get(date, 'min', strftime("%M")->str2nr()),
-		sec: get(date, 'sec', strftime("%S")->str2nr()),
-	}
-
-	const time_str = printf("%04d-%02d-%02d-%02d-%02d-%02d",
-		note_time.year, note_time.month, note_time.day,
-		note_time.hour, note_time.min, note_time.sec)
-	return time_str
-enddef
-
 var complete_tags = false
 
 export def CompleteFunc(find_start: number, base: string): any
@@ -219,15 +205,6 @@ export def CompleteFunc(find_start: number, base: string): any
 	return words
 enddef
 
-export def SetNoteId(bufnr: number, date: dict<any> = {})
-	const id = GenerateNoteId(date)
-	if !empty(id)
-		execute 'file' id .. '.md'
-		setbufvar(bufnr, '&filetype', 'markdown')
-	else
-		echo "There's already a note with the same ID."
-	endif
-enddef
 
 export def TagFunc(pattern: string, flags: string, info: dict<any>): any
 	var in_insert = match(flags, 'i') != -1
@@ -457,50 +434,72 @@ export def InternalExecuteHoverCmd(...args: list<string>)
 	endif
 enddef
 
-export def NewNote(opt: dict<any> = {})
-	var options = extend({}, opt, 'force')
+export def Journal(date = {})
 	botright new
-	var buf = bufnr()
-	var notes_path = config.notes_path
-	if !empty(notes_path)
-		if !isdirectory(notes_path)
-			notes_path->mkdir('p')
+	var journals_path = config.journals_path
+	if !empty(journals_path)
+		if !isdirectory(journals_path)
+			journals_path->mkdir('p')
 		endif
-		execute 'lcd' notes_path
+		execute 'lcd' journals_path
 	endif
-
-	if has_key(options, 'template')
-		const template_content = readfile(options.template)
-		setline(1, template_content)
+	const title = JournalTitle(date)
+	const file = title .. '.md'
+	if file->filereadable()
+		exe 'edit' file
 	else
-		normal! ggI# New Note
+		exe 'edit' file
+		if config.journal_template->fnamemodify(':p')->filereadable()
+			readfile(config.journal_template->fnamemodify(':p'))
+				->map((_, v) =>  v->substitute("{{title}}", title, ""))
+				->setline(1)
+		else
+			setline(1, "# " .. title)
+		endif
 	endif
-
-	var date = {}
-	if has_key(options, 'date')
-		date = options.date
-	endif
-
-	SetNoteId(buf, date)
+	const buf = bufnr()
 	normal! $
 enddef
+
+def JournalTitle(date: dict<any> = {}): string
+	const note_time = {
+		year: get(date, 'year', strftime("%Y")->str2nr()),
+		month: get(date, 'month', strftime("%m")->str2nr()),
+		day: get(date, 'day', strftime("%d")->str2nr()),
+	}
+	const time_str = printf("%04d-%02d-%02d",
+		note_time.year, note_time.month, note_time.day)
+	return time_str
+enddef
+
+
+# def SetBufAutoCmd(buf: number)
+# 	[{
+# 		# group: 'MarkdownCallBacks',
+# 		# event: 'BufWritePre',
+# 		# bufnr: buf,
+# 		# cmd: 'BufWritePre()',
+# 		# replace: true,
+# 	}
+# 	]->autocmd_add()
+# enddef
 
 # 定义常量
 const TITLE_PATTERN = '# .\+'
 const ZK_ID_PATTERN = '\d\+-\d\+-\d\+-\d\+-\d\+-\d\+'
-const ZK_FILE_NAME_PATTERN = '\d\+-\d\+-\d\+-\d\+-\d\+-\d\+\.md'
+const FILE_NAME_PATTERN = '^.*\.md$'
+const JOURNAL_PATTERN = '^\d\{4\}-\d\{2\}-\d\{2\}\.md$'
 
 # 缓存变量
 var note_cache_with_file_path: dict<any> = {}
 var note_cache_with_id: dict<any> = {}
 
-# 在指定文件夹中获取所有 Zettelkasten 笔记文件
 def GetFiles(folder: string): list<string>
 	var files_str = globpath(folder, '*.md', 0, 1)
 	var files: list<string> = []
 
 	for file in files_str
-		if match(file, ZK_FILE_NAME_PATTERN) != -1
+		if match(file, FILE_NAME_PATTERN) != -1
 			files->add(file)
 		endif
 	endfor
@@ -508,7 +507,6 @@ def GetFiles(folder: string): list<string>
 	return files
 enddef
 
-# 从行中提取引用
 def ExtractReferences(line: string, linenr: number): list<dict<any>>
 	var references: list<dict<any>> = []
 	var pattern = '\[\[' .. ZK_ID_PATTERN .. '\]\]'
@@ -555,7 +553,6 @@ def ExtractBackReferences(notes: list<dict<any>>, note_id: string): list<dict<an
 	return back_references
 enddef
 
-# 从行中提取标签
 def ExtractTags(line: string, linenr: number): list<dict<any>>
 	var tags: list<dict<any>> = []
 	var tag_pattern = '#\a\w*\(-\w\+\)*'
@@ -581,7 +578,6 @@ def ExtractTags(line: string, linenr: number): list<dict<any>>
 	return tags
 enddef
 
-# 获取笔记信息
 def GetNoteInformation(file_path: string): dict<any>
 	const last_modified = '%Y-%m-%d.%H:%M:%S'->strftime(getftime(file_path))
 
@@ -643,6 +639,21 @@ export def GetNote(id: string): dict<any>
 		return note_cache_with_id[id]
 	endif
 	return {}
+enddef
+
+export def GetJournals(year = getftime("%Y"), month = getftime("%m")): list<string>
+	const folder = config.journals_path
+	const allfiles = globpath(folder, $'{year}-{month}-*.md', 0, 1)
+		->map((_, v) => v->fnamemodify(':t'))
+
+	var files: list<string>
+	for file in allfiles
+		if file =~# JOURNAL_PATTERN
+			files->add(file)
+		endif
+	endfor
+
+	return files
 enddef
 
 export def GetNotes(): list<dict<any>>
