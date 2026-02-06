@@ -33,7 +33,7 @@ set nrformats=bin,hex,unsigned
 set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal
 set viewoptions=cursor,folds,curdir,slash
 set diffopt+=algorithm:histogram,linematch:60,inline:word
-set ignorecase smartcase infercase
+set ignorecase smartcase
 set completeopt=menuone,popup,fuzzy completepopup=border:off
 set autocomplete complete=o,.^9,w^5,b^5,t^3,u^2
 set complete+=Fcompletor#Path,Fcompletor#Abbrev^3,Fcompletor#Register^3
