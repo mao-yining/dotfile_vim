@@ -65,7 +65,7 @@ def g:FindProjectRoot(): string
 enddef
 
 def g:SetProjectRoot()
-	exe "lcd" g:FindProjectRoot()
+	silent exe "lcd" g:FindProjectRoot()
 enddef
 
 augroup prjroot | au!
