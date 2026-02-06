@@ -504,66 +504,6 @@ def GetRightWindowID(): number
 	return -1 # No right window found
 enddef
 
-export def OpenLink(is_split: bool = false)
-	# Get link name depending of reference-style or inline link or just a
-	# link, like for example when it is in the reference Section
-	const saved_curpos = getcurpos()
-	var link = ''
-
-	if synIDattr(synID(line("."), charcol("."), 1), "name") != 'markdownUrl'
-		# Start the search from the end of the text-link
-		var symbol = ''
-		norm! f]
-		if searchpos('[', 'nW') == [0, 0]
-			symbol = '('
-		elseif searchpos('(', 'nW') == [0, 0]
-			symbol = '['
-		else
-			symbol = IsLess(searchpos('[', 'nW'), searchpos('(', 'nW'))
-				? '['
-				: '('
-		endif
-
-		exe $"norm! f{symbol}l"
-
-		if symbol == '['
-			b:markdown_extras_links = RefreshLinksDict()
-			const link_id = GetTextObject('i[').text
-			link = b:markdown_extras_links[link_id]
-		else
-			link = GetTextObject('i(').text
-		endif
-	else
-		const link_interval = values(IsLink())[0]
-		const start = link_interval[0][1] - 1
-		const length = link_interval[1][1] - link_interval[0][1] + 1
-		link = strcharpart(getline('.'), start, length)
-	endif
-
-	# COMMON
-	# Assume that a file is always small (=1 byte) is no large_file_support is
-	# enabled
-	const file_size = link =~ '^file://' && large_files_threshold > 0
-		? GetFileSize(URLToPath(link))
-		: 0
-
-	if link =~ '^file://'
-			&& (0 <= file_size && file_size <= large_files_threshold )
-			&& !IsBinary(URLToPath(link))
-		if is_split
-			if GetRightWindowID() == -1
-				win_execute(win_getid(), 'vsplit')
-			endif
-			win_execute(GetRightWindowID(), $'edit {URLToPath(link)}')
-		else
-			exe $'edit {URLToPath(link)}'
-		endif
-	else
-		exe $":Open {fnameescape(URLToPath(link))}"
-	endif
-	setcharpos('.', saved_curpos)
-enddef
-
 export def ConvertLinks()
 	const references_line = search($'^{references_comment}', 'nw')
 	if references_line == 0

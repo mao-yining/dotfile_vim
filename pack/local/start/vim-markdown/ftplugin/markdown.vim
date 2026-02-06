@@ -51,10 +51,6 @@ command! -buffer -nargs=0 MDEConvertLinks md.ConvertLinks()
 # Redefinition of <CR>.
 inoremap <buffer><CR> <C-E><ScriptCmd>md.CR_Hacked()<CR>
 
-noremap <buffer> <expr> gx empty(md.IsLink())
-			\ ? '<cmd>echo "Invalid URL"<CR>'
-			\ : '<ScriptCmd>md.OpenLink()<CR>'
-
 def SetSurroundOpFunc(style: string)
 	&l:opfunc = md.SurroundSmart->function([style])
 enddef
