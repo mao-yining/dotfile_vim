@@ -53,8 +53,8 @@ const JOURNAL_PATTERN = '^\d\{4\}-\d\{2\}-\d\{2\}\.md$'
 
 export def GetJournals(year = getftime("%Y"), month = getftime("%m")): list<string>
 	const folder = config.journals_path
-	const allfiles = globpath(folder, $'{year}-{month}-*.md', 0, 1)
-		->map((_, v) => v->fnamemodify(':t'))
+	const allfiles = printf('%04d-%02d-*.md', year, month)
+		->globpath(folder, false, true)->map((_, v) => v->fnamemodify(':t'))
 
 	var files: list<string>
 	for file in allfiles
