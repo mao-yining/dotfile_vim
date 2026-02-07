@@ -41,22 +41,21 @@ b:markdown_links = md.RefreshLinksDict()
 # Check that the values of the dict are valid URL
 for link in values(b:markdown_links)
 	if !md.IsURL(link)
-		md.Echowarn($'"{link}" is not a valid URL.'
-			.. ' Run :MDEReleaseNotes to read more')
+		md.Echowarn($'"{link}" is not a valid URL.')
 		sleep 200m
 		break
 	endif
 endfor
 
 # Convert links inline links [mylink](blabla) to referenced links [mylink][3]
-command! -buffer -nargs=0 MDEConvertLinks md.ConvertLinks()
+command! -buffer -nargs=0 ConvertLinks md.ConvertLinks()
 
-# Redefinition of <CR>.
 inoremap <buffer><CR> <C-E><ScriptCmd>md.CR_Hacked()<CR>
 
 def SetSurroundOpFunc(style: string)
 	&l:opfunc = md.SurroundSmart->function([style])
 enddef
+
 
 nnoremap <buffer><LocalLeader>b <ScriptCmd>SetSurroundOpFunc('markdownBold')<CR>g@
 xnoremap <buffer><LocalLeader>b <ScriptCmd>SetSurroundOpFunc('markdownBold')<CR>g@
@@ -86,11 +85,7 @@ nnoremap <buffer><LocalLeader>d <ScriptCmd>md.RemoveAllStyle()<CR>
 nnoremap <buffer><LocalLeader>l <ScriptCmd>&l:opfunc = md.CreateLink<CR>g@
 xnoremap <buffer><LocalLeader>l <ScriptCmd>&l:opfunc = md.CreateLink<CR>g@
 
-nnoremap <buffer><LocalLeader>h <ScriptCmd>&l:opfunc = highlights.AddProp<CR>g@
-xnoremap <buffer><LocalLeader>h <ScriptCmd>&l:opfunc = highlights.AddProp<CR>g@
-
 nnoremap <buffer><silent> K <ScriptCmd>md.PreviewPopup()<CR>
-nnoremap <silent><nowait><buffer> [I <ScriptCmd>require("zettelkasten").show_back_references(expand("<cword>"))<CR>
 
 b:load_ftp = 1
 if exists("g:markdown_fenced_languages")|finish|endif

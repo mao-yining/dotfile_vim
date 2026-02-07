@@ -42,7 +42,7 @@ const UNDERLINE_CLOSE_REGEX = "\\(</u\\_s*>\\|^$\\)"
 # TODO: I had to remove the :// at the end of each prefix because otherwise
 # the regex won't work.
 
-export const URL_PREFIXES = [ 'https://', 'http://', 'ftp://', 'ftps://',
+const URL_PREFIXES = [ 'https://', 'http://', 'ftp://', 'ftps://',
 	'sftp://', 'telnet://', 'file://']
 
 const URL_PREFIXES_REGEX = URL_PREFIXES
@@ -56,7 +56,7 @@ const LINK_OPEN_REGEX = '\v\zs\[\ze[^]]+\]'
 const LINK_CLOSE_REGEX = '\v\[[^]]+\zs\]\ze'
 	.. $'(\(({URL_PREFIXES_REGEX}):[^)]+\)|\[[^]]+\])'
 
-export const TEXT_STYLES_DICT = {
+const TEXT_STYLES_DICT = {
 	markdownCode: {open_delim: '`', close_delim: '`',
 		open_regex: CODE_OPEN_REGEX, close_regex: CODE_CLOSE_REGEX },
 
@@ -89,50 +89,18 @@ export const TEXT_STYLES_DICT = {
 		open_regex: UNDERLINE_OPEN_REGEX, close_regex: UNDERLINE_CLOSE_REGEX },
 }
 
-export const CODE_OPEN_DICT = {[TEXT_STYLES_DICT.markdownCode.open_delim]:
-TEXT_STYLES_DICT.markdownCode.open_regex}
-export const CODE_CLOSE_DICT = {[TEXT_STYLES_DICT.markdownCode.close_delim]:
-TEXT_STYLES_DICT.markdownCode.close_regex}
-export const ITALIC_OPEN_DICT = {[TEXT_STYLES_DICT.markdownItalic.open_delim]:
-TEXT_STYLES_DICT.markdownItalic.open_regex}
-export const ITALIC_CLOSE_DICT = {[TEXT_STYLES_DICT.markdownItalic.close_delim]:
-TEXT_STYLES_DICT.markdownItalic.close_regex}
-export const ITALIC_U_OPEN_DICT =
-	{[TEXT_STYLES_DICT.markdownItalicU.open_delim]:
-TEXT_STYLES_DICT.markdownItalicU.open_regex}
-export const ITALIC_U_CLOSE_DICT =
-	{[TEXT_STYLES_DICT.markdownItalicU.close_delim]:
-TEXT_STYLES_DICT.markdownItalicU.close_regex}
-export const BOLD_OPEN_DICT = {[TEXT_STYLES_DICT.markdownBold.open_delim]:
-TEXT_STYLES_DICT.markdownBold.open_regex}
-export const BOLD_CLOSE_DICT = {[TEXT_STYLES_DICT.markdownBold.close_delim]:
-TEXT_STYLES_DICT.markdownBold.close_regex}
-export const BOLD_U_OPEN_DICT = {[TEXT_STYLES_DICT.markdownBoldU.open_delim]:
-TEXT_STYLES_DICT.markdownBoldU.open_regex}
-export const BOLD_U_CLOSE_DICT = {[TEXT_STYLES_DICT.markdownBoldU.close_delim]:
-TEXT_STYLES_DICT.markdownBoldU.close_regex}
-export const STRIKE_OPEN_DICT = {[TEXT_STYLES_DICT.markdownStrike.open_delim]:
-TEXT_STYLES_DICT.markdownStrike.open_regex}
-export const STRIKE_CLOSE_DICT = {[TEXT_STYLES_DICT.markdownStrike.close_delim]:
-TEXT_STYLES_DICT.markdownStrike.close_regex}
-export const LINK_OPEN_DICT = {[TEXT_STYLES_DICT.markdownLinkText.open_delim]:
+const LINK_OPEN_DICT = {[TEXT_STYLES_DICT.markdownLinkText.open_delim]:
 TEXT_STYLES_DICT.markdownLinkText.open_regex}
-export const LINK_CLOSE_DICT = {[TEXT_STYLES_DICT.markdownLinkText.close_delim]:
-TEXT_STYLES_DICT.markdownLinkText.close_regex}
-export const UNDERLINE_OPEN_DICT = {[TEXT_STYLES_DICT.markdownUnderline.open_delim]:
-TEXT_STYLES_DICT.markdownUnderline.open_regex}
-export const UNDERLINE_CLOSE_DICT = {[TEXT_STYLES_DICT.markdownUnderline.close_delim]:
-TEXT_STYLES_DICT.markdownUnderline.close_regex}
 
 # TODO on the delimiter synIDattr(synID(line("."), charcharcol("."), 1), "name")
 # return markdownCodeDelimiter instead of
 # markdownCodeBlockDelimiter. Perhaps it is a bug in vim-markdown. Hence, we
 # cannot include it here.
-export const CODEBLOCK_OPEN_DICT = {'```': CODEBLOCK_OPEN_REGEX}
-export const CODEBLOCK_CLOSE_DICT = {'```': CODEBLOCK_CLOSE_REGEX}
+const CODEBLOCK_OPEN_DICT = {'```': CODEBLOCK_OPEN_REGEX}
+const CODEBLOCK_CLOSE_DICT = {'```': CODEBLOCK_CLOSE_REGEX}
 
-export const QUOTEBLOCK_OPEN_DICT = {'> ': QUOTEBLOCK_OPEN_REGEX}
-export const QUOTEBLOCK_CLOSE_DICT = {'> ': QUOTEBLOCK_CLOSE_REGEX}
+const QUOTEBLOCK_OPEN_DICT = {'> ': QUOTEBLOCK_OPEN_REGEX}
+const QUOTEBLOCK_CLOSE_DICT = {'> ': QUOTEBLOCK_CLOSE_REGEX}
 # --------- End Constants ---------------------------------
 
 var main_id = -1
@@ -206,7 +174,7 @@ export def URLToPath(url: string): string
 		# If it starts with a drive letter, like '///C:/', we remove the leading
 		# '///'. Otherwise it is a UNC (like \\server\foo\bar) but that is already set
 		if rest =~ '^///[A-Za-z]:/'
-			rest = substitute(rest, '^///', '', '')
+			rest = rest->trim('/', 1)
 		endif
 	else
 		rest = substitute(url, '^file://', '', '')
@@ -216,7 +184,7 @@ export def URLToPath(url: string): string
 
 	if has('win32') || has('win64')
 		# Convert forward slashes to backslashes on Windows
-		rest = substitute(rest, '/', '\\', 'g')
+		rest = rest->tr('/', '\')
 	endif
 
 	return rest
@@ -486,24 +454,6 @@ def IsBinary(link: string): bool
 	return is_binary
 enddef
 
-def GetRightWindowID(): number
-	var cur_winid = win_getid()
-	var cur_winpos = win_screenpos(win_id2win(cur_winid))
-	var cur_top = cur_winpos[0]
-	var cur_left = cur_winpos[1]
-
-	var winids = getwininfo()
-	for win in winids
-		if win.winid != cur_winid
-			var [top, left] = win_screenpos(win.winid)
-			if top == cur_top && left > cur_left
-				return win.winid
-			endif
-		endif
-	endfor
-	return -1 # No right window found
-enddef
-
 export def ConvertLinks()
 	const references_line = search($'^{references_comment}', 'nw')
 	if references_line == 0
@@ -765,7 +715,7 @@ export def ShowPromptPopup(slave_id: number,
 enddef
 
 export def CreateLink(type: string = '')
-	if !empty(synIDattr(synID(line("."), charcol("."), 1), "name"))
+	if !empty(synID(line("."), charcol("."), 1)->synIDattr("name"))
 		return
 	endif
 
@@ -948,56 +898,15 @@ export def PreviewPopup()
 	endif
 enddef
 
-export def Echoerr(msg: string)
+def Echoerr(msg: string)
 	echohl ErrorMsg | echom $'[markdown.vim] {msg}' | echohl None
 enddef
 
-export def Echowarn(msg: string)
+def Echowarn(msg: string)
 	echohl WarningMsg | echom $'[markdown.vim] {msg}' | echohl None
 enddef
 
-def UndoFormatting()
-	if v:shell_error != 0
-		undo
-		Echoerr($"'{&l:formatprg->matchstr('^\s*\S*')}' returned errors.")
-	else
-		# Display format command
-		redraw
-		if !empty(&l:formatprg)
-			echo $'{&l:formatprg}'
-		else
-			Echowarn("'formatprg' is empty. Using default formatter.")
-		endif
-	endif
-enddef
-
-export def FormatWithoutMoving(type: string = '')
-	# 'gq' is remapped to use this function.
-	# However, when running the 'gq' as formatter, we need to use as it is
-	# shipped with Vim, and therefore we use the bang in 'normal!'
-	var view = winsaveview()
-
-	# defer so if the function gets error of any kind, the following are run
-	# anyways
-	defer UndoFormatting()
-	defer winrestview(view)
-
-	var start = 0
-	var end = 0
-	if type != ''
-		start = line("'[")
-		end = line("']")
-	endif
-
-	if start == 0 && end == 0
-		normal! gggqG
-	else
-		var interval = end - start + 1
-		silent exe $"normal! {start}gg{interval}gqq"
-	endif
-enddef
-
-export def KeysFromValue(dict: dict<string>, target_value: string): list<string>
+def KeysFromValue(dict: dict<string>, target_value: string): list<string>
 	# Given a value, return all the keys associated to it
 	return keys(filter(copy(dict), $'v:val == "{escape(target_value, "\\")}"'))
 enddef
@@ -1046,47 +955,6 @@ export def RemoveSurrounding(range_info: dict<list<list<number>>> = {})
 		setline(lB, newline)
 	endif
 enddef
-
-# TODO: REMOVE ME (also docs and config dict)
-export def SurroundSimple(style: string, type: string = '')
-
-	if getcharpos("'[") == getcharpos("']")
-		return
-	endif
-
-	var open_delim = TEXT_STYLES_DICT[style].open_delim
-	var close_delim = TEXT_STYLES_DICT[style].close_delim
-
-	# line and column of point A
-	var lA = line("'[")
-	var cA = charcol("'[")
-
-	# line and column of point B
-	var lB = line("']")
-	var cB = charcol("']")
-
-	var toA = strcharpart(getline(lA), 0, cA - 1) .. open_delim
-	var fromB = close_delim .. strcharpart(getline(lB), cB)
-
-	# If on the same line
-	if lA == lB
-		# Overwrite everything that is in the middle
-		var A_to_B = strcharpart(getline(lA), cA - 1, cB - cA + 1)
-		setline(lA, toA .. A_to_B .. fromB)
-	else
-		var lineA = toA .. strcharpart(getline(lA), cA - 1)
-		setline(lA, lineA)
-		var lineB = strcharpart(getline(lB), 0, cB - 1) .. fromB
-		setline(lB, lineB)
-		var ii = 1
-		# Fix intermediate lines
-		while lA + ii < lB
-			setline(lA + ii, getline(lA + ii))
-			ii += 1
-		endwhile
-	endif
-enddef
-
 
 export def SurroundSmart(style: string, type: string = '')
 	# It tries to preserve the style.
@@ -1615,7 +1483,6 @@ export def GetTextObject(textobject: string): dict<any>
 	return {text: text, start: start_pos, end: end_pos}
 enddef
 var visited_buffers = []
-var visited_buffers_max_length = 100
 
 export def GoToPrevVisitedBuffer()
 	if len(visited_buffers) > 1
@@ -1719,7 +1586,6 @@ export def CR_Hacked()
 	setline(line('.'), this_line)
 	append(line('.'), item_symbol .. next_line)
 	cursor(line('.') + 1, strchars(item_symbol) + 1)
-
 enddef
 
 export def RemoveAllStyle()
@@ -1729,14 +1595,8 @@ export def RemoveAllStyle()
 	const is_quote_block = getline('.') =~ '^>\s'
 
 	# If on plain text, do nothing
-	if empty(range_info) && empty(prop_info)
+	if empty(range_info)
 			&& syn_info != 'markdownCodeBlock' && !is_quote_block
-		return
-	endif
-
-	# Start removing the text props
-	if !empty(prop_info)
-		prop_remove({'id': prop_info.id, 'all': 0})
 		return
 	endif
 
@@ -1880,7 +1740,7 @@ enddef
 
 var complete_cache: string
 
-augroup group_name
+augroup MarkdownAutoCmds
 	au!
 	au CmdlineEnter : complete_cache = null_string
 augroup END
@@ -1892,3 +1752,4 @@ export def PandocComplete(_, _, _): string
 	endif
 	return complete_cache
 enddef
+defcompile
