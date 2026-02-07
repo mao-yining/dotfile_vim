@@ -11,9 +11,9 @@ if executable("clangd")
 	}])
 endif
 
-if executable("pyright-langserver.cmd")
+if executable("pyright-langserver")
 	lspServers->extend([{
-		path: "pyright-langserver.cmd",
+		path: "pyright-langserver",
 		filetype: ["python"],
 		args: ["--stdio"],
 		workspaceConfig: { python: { pythonPath: "python" } }
