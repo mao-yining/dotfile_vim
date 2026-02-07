@@ -11,68 +11,9 @@ var config = {
 }
 g:notebook_config = config->extend(get(g:, 'notebook_config', {}))
 
-def EchoWarn(str: string)
-	echohl WarningMsg
-	echomsg str
-	echohl NONE
-enddef
-
-export def KeywordExpr(word: string, opts: dict<bool>): list<string>
-	if empty(word)
-		return null_list
-	endif
-
-	const options = { preview_note: false, return_lines: false }->extend(opts)
-
-	const note = GetNote(word)
-	if note == null_dict
-		EchoWarn('Cannot find note.')
-		return null_list
-	endif
-
-	var lines: list<string>
-	if options.preview_note && !options.return_lines
-		execute config.preview_command note.file_name
-	elseif options.preview_note && options.return_lines
-		lines = readfile(note.file_name)
-	else
-		lines->add(note.title)
-	endif
-
-	return lines
-enddef
-export def HoverComplete(ArgLead: string, CmdLine: string, CursorPos: number): string
-	if ArgLead =~ '^-'
-		return ['-preview', '-return-lines']->join("\n")
-	endif
-	return null_string
-enddef
-
-export def InternalExecuteHoverCmd(...args: list<string>)
-	var cword = ''
-	for arg in args
-		if arg != '-preview' && arg != '-return-lines'
-			cword = arg
-		endif
-	endfor
-
-	if empty(cword)
-		cword = expand('<cword>')
-	endif
-
-	var lines = KeywordExpr(cword, {
-		preview_note: index(args, '-preview') != -1,
-		return_lines: index(args, '-return-lines') != -1,
-	})
-
-	if !empty(lines)
-		echo join(lines, "\n")
-	endif
-enddef
-
-export def Journal(date = {})
+export def Journal(date: dict<number> = {})
 	botright new
-	var journals_path = config.journals_path
+	const journals_path = config.journals_path->fnamemodify(':p')
 	if !empty(journals_path)
 		if !isdirectory(journals_path)
 			journals_path->mkdir('p')
@@ -94,10 +35,11 @@ export def Journal(date = {})
 		endif
 	endif
 	const buf = bufnr()
-	normal! $
+	normal! jj
+	startinsert!
 enddef
 
-def JournalTitle(date: dict<any> = {}): string
+def JournalTitle(date: dict<number>): string
 	const note_time = {
 		year: get(date, 'year', strftime("%Y")->str2nr()),
 		month: get(date, 'month', strftime("%m")->str2nr()),
@@ -125,3 +67,31 @@ export def GetJournals(year = getftime("%Y"), month = getftime("%m")): list<stri
 	return files
 enddef
 
+export def Note()
+	botright new
+	const notes_path = config.notes_path->fnamemodify(':p')
+	if !empty(notes_path)
+		if !isdirectory(notes_path)
+			notes_path->mkdir('p')
+		endif
+		execute 'lcd' notes_path
+	endif
+	const title = input("Note name: ")
+	const file = title .. '.md'
+	if file->filereadable()
+		exe 'edit' file
+	else
+		exe 'edit' file
+		if config.note_template->fnamemodify(':p')->filereadable()
+			readfile(config.note_template->fnamemodify(':p'))
+				->map((_, v) =>  v->substitute("{{title}}", title, ""))
+				->setline(1)
+		else
+			setline(1, "# " .. title)
+		endif
+	endif
+	const buf = bufnr()
+	search('^# ')
+	normal! jo
+	startinsert
+enddef

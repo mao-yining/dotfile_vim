@@ -1,3 +1,6 @@
+if exists('b:load_ftp')
+	finish
+endif
 vim9script
 
 import autoload "../autoload/popup.vim"
@@ -69,10 +72,6 @@ def Run()
 enddef
 
 &omnifunc = HighlightCompletor
-if !has("gui_running")
-	noremap <buffer><F3> <ScriptCmd>ColorSupport()<CR>
-	b:undo_ftplugin ..= ' | exe "nunmap <buffer> <F3>"'
-endif
 noremap <buffer><F5> <ScriptCmd>Run()<CR>
 noremap <buffer><F7> <Cmd>ColortemplateShow<CR>
 noremap <buffer><F8> <Cmd>Colortemplate!<CR>
@@ -83,3 +82,8 @@ b:undo_ftplugin = 'setl omnifunc<'
 	.. ' | exe "nunmap <buffer> <F7>"'
 	.. ' | exe "nunmap <buffer> <F8>"'
 	.. ' | exe "nunmap <buffer> <F9>"'
+if !has("gui_running")
+	noremap <buffer><F3> <ScriptCmd>ColorSupport()<CR>
+	b:undo_ftplugin ..= ' | exe "nunmap <buffer> <F3>"'
+endif
+b:load_ftp = 1
