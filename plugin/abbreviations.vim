@@ -62,6 +62,8 @@ inorea Clena Clean
 inorea maek make
 inorea Maek Make
 
+inorea datenow <C-R>=strftime("%Y-%m-%d")<CR>
+
 inorea todo: TODO:
 inorea fixme: FIXME:
 inorea xxx: XXX:
