@@ -1538,14 +1538,14 @@ export def CR_Hacked()
 		return item_symbol
 	enddef
 
+	const col = col('.')
+	var current_line = getline('.')
 	# Break line at cursor position
-	var this_line = getline('.')->strpart(0, col('.') - 1)
-	var next_line = getline('.')->strpart(col('.') - 1)
-
+	var this_line = current_line->strpart(0, col - 1)
+	var next_line = current_line->strpart(col - 1)
 
 	# Handle different cases if the current line is an item of a list
 	var line_nr = line('.')
-	var current_line = getline(line_nr)
 	var item_symbol = GetItemSymbol(current_line)
 	if current_line =~ '^\s\{2,}'
 		while current_line !~ '^\s*$' && line_nr != 0 && empty(item_symbol)

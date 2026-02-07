@@ -8,24 +8,27 @@ setl define=^#\ \\s*
 setl nolinebreak
 setl textwidth=74
 setl conceallevel=2
-export def OmniFunc(findstart: number, base: string): any
+def OmniFunc(findstart: number, base: string): any
 	if findstart == 1
 		const line = getline('.')
 		var idx = col('.')
 		while idx > 0
 			idx -= 1
-			const c = line->strpart(idx, 1)
-			if c == '['
+			const c = line->strpart(idx, 2)
+			if c == '[['
+				idx += 2
 				break
 			endif
 		endwhile
-		return start
+		echo line[idx] .. idx .. line
+		return idx
 	endif
-	return {words: taglist(base)->filter((_, v) => v.kind != c)}
+	return taglist('^' .. base)->filter((_, v) => v.kind != 'c')
+		->map((_, v) => {
+			return {word: v->get('name'), kind: v->get('kind')}
+		})
 enddef
-setl omnifunc=OmniFunc()
-
-noremap <buffer> j gj
+setl omnifunc=OmniFunc
 noremap <buffer> k gk
 noremap <buffer> gj j
 noremap <buffer> gk k
