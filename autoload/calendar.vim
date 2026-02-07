@@ -417,9 +417,9 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 				const new_year = calendar.month == 12 ? calendar.year + 1 : calendar.year
 				Open(new_year, new_month)
 			enddef
-			if key == config.keymap.previous_month
+			if key == config.keymap.previous_month || key == "\<ScrollWheelUp>"
 				PreviousMonth()
-			elseif key == config.keymap.next_month
+			elseif key == config.keymap.next_month || key == "\<ScrollWheelDown>"
 				NextMonth()
 			elseif key == config.keymap.previous_day
 				if calendar.day > 1
@@ -458,29 +458,18 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 				HighlightDay(calendar.day)
 			elseif key == config.keymap.today
 				Open()
-			elseif key == config.keymap.close
-				Close()
-			elseif key == "\<ESC>"
+			elseif key == config.keymap.close || key == "\<ESC>"
 				Close()
 			elseif key == "\<LeftMouse>"
 				const pos = getmousepos()
-				if pos.winid == win
-					if pos.line > 3
-						var new_day = calendar.grid->get((pos.line - 5) / 2)
-							->get((pos.column - 4) / 4)
-						if type(new_day) == v:t_string
-							new_day = new_day->str2nr()
-							if pos.line == 4 && new_day < 7
-								PreviousMonth()
-							elseif pos.line > 11 && new_day > 15
-								NextMonth()
-							endif
-							calendar.day = new_day
-							HighlightDay(new_day)
-						endif
+				if pos.winid == win && pos.line > 3 && (pos.line - 3) % 2 == 0
+					var new_day = calendar.grid->get((pos.line - 3) / 2 - 1)
+						->get((pos.column - 4) / 4)
+					if type(new_day) == v:t_string
+						new_day = new_day->str2nr()
+						calendar.day = new_day
+						OnAction(calendar.year, calendar.month, calendar.day)
 					endif
-				else
-					return false
 				endif
 			elseif key == "\<Enter>"
 				OnAction(calendar.year, calendar.month, calendar.day)
@@ -632,6 +621,6 @@ def OnAction(year: number, month: number, day: number)
 			})
 	endif
 enddef
-command! -nargs=0 Calendar Open()
-map <buffer><F5> <Cmd>so<CR><Cmd>Calendar<CR>
+# command! -nargs=0 Calendar Open()
+# map <buffer><F5> <Cmd>so<CR><Cmd>Calendar<CR>
 # vim:fdm=marker
