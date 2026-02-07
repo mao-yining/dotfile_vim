@@ -61,6 +61,18 @@ inorea clena clean
 inorea Clena Clean
 inorea maek make
 inorea Maek Make
+inorea f1 F1
+inorea f2 F2
+inorea f3 F3
+inorea f4 F4
+inorea f5 F5
+inorea f6 F6
+inorea f7 F7
+inorea f8 F8
+inorea f9 F9
+inorea f10 F10
+inorea f11 F11
+inorea f12 F12
 
 inorea datenow <C-R>=strftime("%Y-%m-%d")<CR>
 
