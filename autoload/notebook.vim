@@ -18,7 +18,7 @@ export def Journal(date: dict<number> = {})
 		if !isdirectory(journals_path)
 			journals_path->mkdir('p')
 		endif
-		execute 'lcd' journals_path
+		silent exe 'lcd' journals_path
 	endif
 	const title = JournalTitle(date)
 	const file = title .. '.md'
@@ -73,7 +73,7 @@ export def Note()
 		if !isdirectory(notes_path)
 			notes_path->mkdir('p')
 		endif
-		execute 'lcd' notes_path
+		silent exe 'lcd' notes_path
 	endif
 	const title = input("Note name: ")
 	const file = title .. '.md'
