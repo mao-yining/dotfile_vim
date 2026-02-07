@@ -1,14 +1,29 @@
-if exists('b:load_ftp')
-	finish
-endif
 vim9script
+# if exists('b:load_ftp')
+# 	finish
+# endif
 import autoload "../autoload/markdown.vim" as md
 setl include=\[\[\\s\]\]
 setl define=^#\ \\s*
 setl nolinebreak
 setl textwidth=74
 setl conceallevel=2
-setl omnifunc=md.OmniFunc()
+export def OmniFunc(findstart: number, base: string): any
+	if findstart == 1
+		const line = getline('.')
+		var idx = col('.')
+		while idx > 0
+			idx -= 1
+			const c = line->strpart(idx, 1)
+			if c == '['
+				break
+			endif
+		endwhile
+		return start
+	endif
+	return {words: taglist(base)->filter((_, v) => v.kind != c)}
+enddef
+setl omnifunc=OmniFunc()
 
 noremap <buffer> j gj
 noremap <buffer> k gk

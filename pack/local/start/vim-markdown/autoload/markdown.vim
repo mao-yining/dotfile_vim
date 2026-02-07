@@ -1625,28 +1625,6 @@ export def RemoveAllStyle()
 	endif
 enddef
 
-# ---- auto-completion --------------
-export def OmniFunc(findstart: number, base: string): any
-	# Define the dictionary
-	b:markdown_links = RefreshLinksDict()
-
-	if findstart == 1
-		# Find the start of the word
-		var line = getline('.')
-		var start = charcol('.')
-		while start > 1 && getline('.')[start - 1] =~ '\d'
-			start -= 1
-		endwhile
-		return start
-	else
-		var matches = []
-		for key in keys(b:markdown_links)
-			add(matches, {word: $'{key}]', menu: b:markdown_links[key]})
-		endfor
-		return {words: matches}
-	endif
-enddef
-
 # Open links in wiki style
 export def OpenWikiLink()
 	const line = getline('.')
