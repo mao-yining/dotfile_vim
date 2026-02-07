@@ -62,6 +62,7 @@ augroup General | au!
 	autocmd CmdwinEnter [\/\?] startinsert
 	autocmd CmdwinEnter [\/\?] map <buffer> <CR> <CR>
 
+	autocmd VimLeavePre * WipeHiddenUnnamedBuffers
 augroup END
 
 command! DiffOrig {
@@ -99,9 +100,15 @@ command! -nargs=* -bang -range -addr=buffers -complete=buffer Bwipeout {
 	{ wipe: true, force: <bang>false, switch: 'lastused' })
 }
 
-# Wipe all hidden buffers
 command! WipeHiddenBuffers {
-	const buffers = getbufinfo()->filter((_, v) => empty(v.windows))
+	const buffers = getbufinfo()->filter((_, v) => v.hidden )
+	if !empty(buffers)
+		execute 'confirm bwipeout' buffers->mapnew((_, v) => v.bufnr)->join()
+	endif
+}
+
+command! WipeHiddenUnnamedBuffers {
+	const buffers = getbufinfo()->filter((_, v) => v.hidden && empty(v.name))
 	if !empty(buffers)
 		execute 'confirm bwipeout' buffers->mapnew((_, v) => v.bufnr)->join()
 	endif
