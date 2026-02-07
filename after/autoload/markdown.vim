@@ -1566,7 +1566,7 @@ export def CR_Hacked()
 	endif
 
 	# The following is in case the cursor is on the lhs of the item_symbol
-	if col('.') < strwidth(item_symbol)
+	if col < strwidth(item_symbol)
 		if current_line =~ $'^\s*{variant_4}'
 			this_line = $"{current_line->matchstr($'^\s*{variant_4}')}"
 			next_line = current_line->strpart(strwidth(item_symbol))

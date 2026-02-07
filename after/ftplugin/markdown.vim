@@ -68,12 +68,11 @@ endfor
 # Convert links inline links [mylink](blabla) to referenced links [mylink][3]
 command! -buffer -nargs=0 ConvertLinks md.ConvertLinks()
 
-inoremap <buffer><CR> <C-E><ScriptCmd>md.CR_Hacked()<CR>
+inoremap <buffer><CR> <Esc>a<ScriptCmd>md.CR_Hacked()<CR>
 
 def SetSurroundOpFunc(style: string)
 	&l:opfunc = md.SurroundSmart->function([style])
 enddef
-
 
 nnoremap <buffer><LocalLeader>b <ScriptCmd>SetSurroundOpFunc('markdownBold')<CR>g@
 xnoremap <buffer><LocalLeader>b <ScriptCmd>SetSurroundOpFunc('markdownBold')<CR>g@
