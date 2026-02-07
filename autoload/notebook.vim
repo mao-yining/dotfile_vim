@@ -33,10 +33,9 @@ export def Journal(date: dict<number> = {})
 		else
 			setline(1, "# " .. title)
 		endif
+		normal! jj
+		startinsert!
 	endif
-	const buf = bufnr()
-	normal! jj
-	startinsert!
 enddef
 
 def JournalTitle(date: dict<number>): string
@@ -89,9 +88,8 @@ export def Note()
 		else
 			setline(1, "# " .. title)
 		endif
+		search('^# ')
+		normal! jo
+		startinsert
 	endif
-	const buf = bufnr()
-	search('^# ')
-	normal! jo
-	startinsert
 enddef
