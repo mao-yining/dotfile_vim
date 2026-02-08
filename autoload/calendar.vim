@@ -521,9 +521,7 @@ def HighlightDay(day_num: number)
 	endif
 enddef
 
-var extensions = {}
-var marked_days = {}
-# Journal Ext{{{
+# Journal Extension {{{
 import autoload "notebook.vim"
 def Get(year: number, month: number): list<dict<any>>
 	var files = notebook.GetJournals(year, month)
@@ -558,8 +556,9 @@ const journals = {
 		open_daily_note: OpenDailyJournal,
 	}
 } # }}}
-
-import autoload "popup.vim"
+# Actions {{{
+var extensions = {}
+var marked_days = {}
 def GetCalendarExts(): dict<dict<any>>
 	return {journals: journals}
 enddef
@@ -585,6 +584,7 @@ def OnChange(year: number, month: number)
 	endfor
 enddef
 
+import autoload "popup.vim"
 def OnAction(year: number, month: number, day: number)
 	var actions: list<dict<any>>
 	for [extension, ext] in items(extensions)
@@ -621,6 +621,7 @@ def OnAction(year: number, month: number, day: number)
 			})
 	endif
 enddef
+# }}}
 # command! -nargs=0 Calendar Open()
 # map <buffer><F5> <Cmd>so<CR><Cmd>Calendar<CR>
 # vim:fdm=marker

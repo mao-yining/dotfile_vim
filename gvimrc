@@ -10,11 +10,6 @@ if has("gui_win32")
 	set linespace=0
 	noremap! <expr> <F11> $"<Cmd>se go{&go =~# 's' ? '-' : '+'}=s<CR>"
 	noremap  <expr> <F11> $"<Cmd>se go{&go =~# 's' ? '-' : '+'}=s<CR>"
-	$ALPHADLL = $MYVIMDIR .. "gvim_fullscreen.dll"
-	if has("libcall") && filereadable($ALPHADLL)
-		noremap! <expr> <F12> libcall($ALPHADLL, "ToggleTransparency", "255,180")
-		noremap  <expr> <F12> libcall($ALPHADLL, "ToggleTransparency", "255,180")
-	endif
 	augroup mswin_strat | au!
 		autocmd GUIEnter * {
 			simalt ~x
