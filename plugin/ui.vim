@@ -40,7 +40,5 @@ g:airline_filetype_overrides = {
 	competitest_err: ['Errors', ''],
 	competitest_testcases: ['Testcases', ''],
 }
-timer_start(0, (_) => {
-	set noshowmode
-	packadd airline
-})
+set noshowmode
+packadd airline
