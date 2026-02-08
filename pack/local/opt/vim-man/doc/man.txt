@@ -116,6 +116,10 @@ Default man command is '/usr/bin/man', but it can be changed:
 >
   let g:vim_man_cmd = 'LANG=ja_JP.UTF-8 /usr/bin/man'
 <
+Default man width is the width of window, but it can be changed:
+>
+  let g:man_width = 80
+<
 CONTRIBUTING					*man-contributing* *man-bugs*
 
 Contributing and bug fixes are welcome. If you have an idea for a new feature
