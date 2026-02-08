@@ -1,21 +1,38 @@
-vim9script
-
-if exists("b:did_ftplugin")
-    finish
+if exists('b:did_ftplugin')
+  finish
 endif
-
+vim9script
+import autoload '../autoload/man.vim'
+if exists('$MANPAGER')
+  $MANPAGER = ''
+endif
+setlocal iskeyword+=.,-
+setlocal nonumber
+setlocal norelativenumber
+setlocal foldcolumn=0
+setlocal nofoldenable
+setlocal nolist
+setlocal tabstop=8
+setlocal buftype=nofile
+setlocal bufhidden=hide
+setlocal nobuflisted
+setlocal noswapfile
+nnoremap <buffer> K <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> <C-]> <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> g<C-]> <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> g] <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> <C-W>] <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> <C-W><C-]> <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> <C-W>g<C-]> <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> <C-W>g] <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> <C-W>} <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> <C-W>g} <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
+nnoremap <buffer> <C-T> <ScriptCmd>man.PopPage()<CR>
+nnoremap <buffer> ]] <ScriptCmd>man.SectionMove(v:count1)<CR>
+xnoremap <buffer> ]] <ScriptCmd>man.SectionMove(v:count1)<CR>
+nnoremap <buffer> [[ <ScriptCmd>man.SectionMove(v:count1, 'b')<CR>
+xnoremap <buffer> [[ <ScriptCmd>man.SectionMove(v:count1, 'b')<CR>
+nnoremap <buffer> q <Cmd>q<CR>
+nnoremap <buffer> g/ /^\s*\zs
+b:undo_ftplugin = 'setlocal iskeyword<'
 b:did_ftplugin = 1
-
-setl bufhidden=hide
-setl buftype=nofile
-setl buflisted
-setl noswapfile
-setl noundofile
-setl nonumber norelativenumber
-setl keywordprg=:Man
-
-b:undo_ftplugin = 'setl bufhidden< buftype< buflisted< swapfile< undofile<'
-b:undo_ftplugin ..= '| setl keywordprg< number< relativenumber<'
-b:undo_ftplugin ..= '| exe "nunmap <buffer> gq"'
-
-nnoremap <buffer> gq <C-w>c
