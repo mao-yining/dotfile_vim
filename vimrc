@@ -43,12 +43,13 @@ set wildmenu wildoptions=pum,fuzzy wildcharm=<Tab> pumheight=12
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.swp,tags,*.cmx,*.cmi
 set wildignore+=*~,*.py[co],__pycache__,pack
 set wildignore+=*.obsidian,*.svg
+
 if has("sodium") && has("patch-9.0.1481")
 	set cryptmethod=xchacha20v2
 else
 	set cryptmethod=blowfish2
 endif
-set backup
+
 if !empty($SUDO_USER) && $USER !=# $SUDO_USER
 	setglobal viminfo=
 	setglobal directory-=~/tmp
@@ -69,6 +70,8 @@ elseif exists("+undodir")
 	if !isdirectory(&backupdir) | &backupdir->mkdir("p") | endif
 	set undofile
 endif
+set backup
+
 if has('gui_running')
 	finish
 endif
@@ -81,6 +84,7 @@ set <M-H>=H
 set <M-J>=J
 set <M-K>=K
 set <M-L>=L
+set <M-t>=t
 for i in range(10)
 	execute $"set <M-{i}>={(i == 0 ? 10 : i)}"
 endfor
