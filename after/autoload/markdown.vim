@@ -1482,24 +1482,6 @@ export def GetTextObject(textobject: string): dict<any>
 
 	return {text: text, start: start_pos, end: end_pos}
 enddef
-var visited_buffers = []
-
-export def GoToPrevVisitedBuffer()
-	if len(visited_buffers) > 1
-		remove(visited_buffers, -1)
-		exe $"buffer {visited_buffers[-1]}"
-	endif
-	# echom visited_buffers
-enddef
-
-export def ToggleMark() # Toggle checkbox marks in todo lists
-	const line = getline('.')
-	if line->match('- \[ \]') != -1
-		line->substitute('- \[ \]', '- [x]', '')->setline('.')
-	elseif line->match('- \[[-?!xX]\]') != -1
-		line->substitute('- \[[-?!xX]\]', '- [ ]', '')->setline('.')
-	endif
-enddef
 
 export def CR_Hacked()
 	# Needed for hacking <CR> when you are writing a list

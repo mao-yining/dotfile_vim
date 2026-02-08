@@ -85,6 +85,7 @@ set <M-J>=J
 set <M-K>=K
 set <M-L>=L
 set <M-t>=t
+set <M-x>=x
 for i in range(10)
 	execute $"set <M-{i}>={(i == 0 ? 10 : i)}"
 endfor

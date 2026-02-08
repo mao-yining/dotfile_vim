@@ -1,35 +1,36 @@
 vim9script
-# if exists('b:load_ftp')
-# 	finish
-# endif
+if exists('b:load_ftp')
+	finish
+endif
 import autoload "../autoload/markdown.vim" as md
 setl include=\[\[\\s\]\]
 setl define=^#\ \\s*
 setl nolinebreak
 setl textwidth=74
 setl conceallevel=2
-def OmniFunc(findstart: number, base: string): any
-	if findstart == 1
-		const line = getline('.')
-		var idx = col('.')
-		while idx > 0
-			idx -= 1
-			const c = line->strpart(idx, 2)
-			if c == '[['
-				idx += 2
-				break
-			endif
-		endwhile
-		echo line[idx] .. idx .. line
-		return idx
-	endif
-	return taglist('^' .. base)->filter((_, v) => v.kind != 'c')
-		->map((_, v) => {
-			return {word: v->get('name'), kind: v->get('kind')}
-		})
-enddef
-setl omnifunc=OmniFunc
+# def OmniFunc(findstart: number, base: string): any # TODO
+# 	if findstart == 1
+# 		const line = getline('.')
+# 		var idx = col('.')
+# 		while idx > 0
+# 			idx -= 1
+# 			const c = line->strpart(idx, 2)
+# 			if c == '[['
+# 				idx += 2
+# 				break
+# 			endif
+# 		endwhile
+# 		echo line[idx] .. idx .. line
+# 		return idx
+# 	endif
+# 	return taglist('^' .. base)->filter((_, v) => v.kind != 'c')
+# 		->map((_, v) => {
+# 			return {word: v->get('name'), kind: v->get('kind')}
+# 		})
+# enddef
+# setl omnifunc=OmniFunc
 noremap <buffer> k gk
+noremap <buffer> j gj
 noremap <buffer> gj j
 noremap <buffer> gk k
 
@@ -54,16 +55,16 @@ noremap <buffer> <F5> <ScriptCmd>update<Bar>md.Make()<CR>
 # This is the dictionary of the form [32]: https://example.com that takes into
 # account of all the links that the user place at the bottom of a markdown
 # file.
-b:markdown_links = md.RefreshLinksDict()
+# b:markdown_links = md.RefreshLinksDict()
 
-# Check that the values of the dict are valid URL
-for link in values(b:markdown_links)
-	if !md.IsURL(link)
-		md.Echowarn($'"{link}" is not a valid URL.')
-		sleep 200m
-		break
-	endif
-endfor
+# # Check that the values of the dict are valid URL
+# for link in values(b:markdown_links)
+# 	if !md.IsURL(link)
+# 		md.Echowarn($'"{link}" is not a valid URL.')
+# 		sleep 200m
+# 		break
+# 	endif
+# endfor
 
 # Convert links inline links [mylink](blabla) to referenced links [mylink][3]
 command! -buffer -nargs=0 ConvertLinks md.ConvertLinks()
@@ -95,7 +96,8 @@ xnoremap <buffer><LocalLeader>f <ScriptCmd>&l:opfunc = md.SetBlock<CR>g@
 nnoremap <buffer><LocalLeader>q <ScriptCmd>&l:opfunc = md.SetQuoteBlock<CR>g@
 xnoremap <buffer><LocalLeader>q <ScriptCmd>&l:opfunc = md.SetQuoteBlock<CR>g@
 
-nnoremap <buffer><C-A> <ScriptCmd>md.ToggleMark()<CR><C-A>
+nnoremap <buffer><M-x> <Plug>(CheckboxToggle)
+xnoremap <buffer><M-X> <Plug>(CheckboxToggle)
 
 nnoremap <buffer><LocalLeader>d <ScriptCmd>md.RemoveAllStyle()<CR>
 
