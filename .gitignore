@@ -1,9 +1,8 @@
 plugged/
 pack/devel/
 pack/mine/
-session/
 sessions/
 *.swp
 *.dll
-/tags*
+tags*
 .netrwhist
