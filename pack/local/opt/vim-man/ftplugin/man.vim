@@ -17,6 +17,10 @@ setlocal buftype=nofile
 setlocal bufhidden=hide
 setlocal nobuflisted
 setlocal noswapfile
+nnoremap <buffer><nowait> u <C-U>
+nnoremap <buffer><nowait> d <C-D>
+nnoremap <buffer><nowait> f <C-F>
+nnoremap <buffer><nowait> b <C-B>
 nnoremap <buffer> K <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
 nnoremap <buffer> <C-]> <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
 nnoremap <buffer> g<C-]> <ScriptCmd>man.GetPageFromCword('horizontal')<CR>
