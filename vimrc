@@ -25,7 +25,7 @@ set number relativenumber cursorline cursorlineopt=number signcolumn=number
 set breakindent linebreak nojoinspaces
 set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
 set fillchars=vert:│,fold:·,foldsep:│
-set virtualedit=block
+set virtualedit=block,onemore
 set nostartofline
 set switchbuf=uselast
 set sidescroll=1 sidescrolloff=3
