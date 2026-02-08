@@ -24,14 +24,14 @@ export def QuickFixText(info: dict<any>): list<string>
 			else
 				text = text->pathshorten()
 			endif
-			text ..= '|'
+			text ..= ':'
 			if items[idx].lnum != 0
 				text ..= $"{items[idx].lnum}"
 			endif
 			if items[idx].col != 0
 				text ..= $":{items[idx].col}"
 			endif
-			text ..= $"|{items[idx].text}"
+			text ..= $":{items[idx].text}"
 			l->add(text)
 		else
 			l->add(items[idx].text)

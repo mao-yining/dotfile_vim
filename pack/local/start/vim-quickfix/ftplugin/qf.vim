@@ -41,5 +41,3 @@ elseif title =~# "^:AsyncRun"
 	nmap <buffer> <C-C> <Cmd>AsyncStop<CR>
 	b:undo_ftplugin ..= "| execute 'nunmap <buffer> <C-C>'"
 endif
-
-autocmd qf BufEnter <buffer> ++nested if winnr('$') < 2 | q | endif
