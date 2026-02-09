@@ -57,11 +57,13 @@ g:LspOptionsSet({
 	diagVirtualTextAlign: "after",
 	filterCompletionDuplicates: true,
 	ignoreMissingServer: false,
+	popupBorderHighlight: 'Normal',
+	popupHighlight: 'Normal',
 	semanticHighlight: true,
 	semanticHighlightDelay: 350,
 	showDiagWithVirtualText: true,
-	useQuickfixForLocations: true, # For LspShowReferences
 	usePopupInCodeAction: true,
+	useQuickfixForLocations: true, # For LspShowReferences
 })
 import autoload 'lsp.vim'
 augroup LspSetup
