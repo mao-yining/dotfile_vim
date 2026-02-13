@@ -3,7 +3,7 @@ if exists('b:load_ftp')
 endif
 vim9script
 
-import autoload "../autoload/popup.vim"
+import autoload "popup.vim"
 
 # TODO: complete
 # - highlight groups as the first word or a link after ->
