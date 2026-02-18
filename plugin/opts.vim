@@ -1,35 +1,18 @@
 vim9script
 # Plugin settings
 
-if !"comment"->getcompletion("packadd")->empty()
-	packadd comment
-endif
-# if !"editexisting"->getcompletion("packadd")->empty()
-# 	packadd editexisting
-# endif
-if !"editorconfig"->getcompletion("packadd")->empty()
-	packadd editorconfig
-endif
-if !"helptoc"->getcompletion("packadd")->empty()
-	packadd helptoc
-	tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
-	g:helptoc = {shell_prompt: '^\(PS \)\?\f\+>\s'}
-endif
-if !"hlyank"->getcompletion("packadd")->empty()
-	packadd hlyank
-	g:hlyank_duration = 200
-	g:hlyank_hlgroup = 'Search'
-endif
-if !"matchit"->getcompletion("packadd")->empty()
-	packadd matchit
-endif
-if !"nohlsearch"->getcompletion("packadd")->empty()
-	packadd nohlsearch
-endif
-
-if !"vimcdoc"->getcompletion("packadd")->empty()
-	packadd vimcdoc
-endif
+silent! packadd comment
+silent! packadd editexisting
+silent! packadd editorconfig
+silent! packadd helptoc
+tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
+g:helptoc = {shell_prompt: '^\(PS \)\?\f\+>\s'}
+silent! packadd hlyank
+g:hlyank_duration = 200
+g:hlyank_hlgroup = 'Search'
+silent! packadd matchit
+silent! packadd nohlsearch
+silent! packadd vimcdoc
 
 g:popup_borderchars   = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
 g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
@@ -38,26 +21,24 @@ g:loaded_netrw        = 1
 g:loaded_netrwPlugin  = 1
 nmap - <Cmd>Dir<CR>
 
-if executable("ctags") && !"vim-gutentags"->getcompletion("packadd")->empty()
-	silent! packadd vim-gutentags
-	g:gutentags_exclude_filetypes = ['help']
-	if executable('rg')
-		g:gutentags_file_list_command = 'rg --files'
-	elseif executable('git')
-		g:gutentags_file_list_command = 'git ls-files'
-	endif
+silent! packadd vim-gutentags
+g:gutentags_exclude_filetypes = ['help']
+if executable('rg')
+	g:gutentags_file_list_command = 'rg --files'
+elseif executable('git')
+	g:gutentags_file_list_command = 'git ls-files'
 endif
 
-if executable("man") && !"vim-man"->getcompletion("packadd")->empty()
-	packadd vim-man
+if executable("man")
+	silent! packadd vim-man
 endif
 
-if executable("gpg") && !"vim-gnupg"->getcompletion("packadd")->empty()
-	packadd vim-gnupg
+if executable("gpg")
+	silent! packadd vim-gnupg
 endif
 
-if executable("pio") && !"vim-pio"->getcompletion("packadd")->empty()
-	packadd vim-pio
+if executable("pio")
+	silent! packadd vim-pio
 endif
 
 nmap =d <Cmd>DIstart<CR>
