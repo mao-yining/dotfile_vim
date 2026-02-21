@@ -3,8 +3,8 @@ vim9script
 import autoload '../autoload/qf.vim'
 set quickfixtextfunc=qf.QuickFixText
 
-nmap <Home> <ScriptCmd>qf.Prev()<CR>
-nmap <End>  <ScriptCmd>qf.Next()<CR>
+nmap <Home> <Cmd>cprev<CR>
+nmap <End>  <Cmd>cnext<CR>
 nmap <leader>q <ScriptCmd>qf.ToggleQF()<CR>
 nmap <leader>l <ScriptCmd>qf.ToggleLoc()<CR>
 
