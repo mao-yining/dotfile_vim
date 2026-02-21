@@ -19,7 +19,7 @@ if !exists("*strftime")
 	finish
 endif
 
-var config = {
+g:calendar_config = {
 	keymap: {
 		next_month: 'L',
 		previous_month: 'H',
@@ -36,7 +36,7 @@ var config = {
 		current: 'Visual',
 		today: 'Todo',
 		mark: 'Directory',
-		adjacent_days: 'NonText',
+		adjacent: 'NonText',
 	},
 	borderchars: get(g:, "popup_borderchars", ['─', '│', '─', '│', '╭', '╮', '╯', '╰']),
 	borderhighlight: get(g:, "popup_borderhighlight", ['VertSplit']),
@@ -144,30 +144,21 @@ var config = {
 				printf('%s %d г.', months[month - 1], year),
 		},
 	}
-}
-g:calendar_config = config->extend(get(g:, 'calendar_config', {}))
+}->extend(get(g:, 'calendar_config', {}))
 
+var config = g:calendar_config
 var buf: number
 var win: number
 var calendar: dict<any>
 
+
 def IsLeapYear(year: number): bool
-	if year % 400 == 0
-		return true
-	elseif year % 100 == 0
-		return false
-	else
-		return year % 4 == 0
-	endif
+	return year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)
 enddef
 
 def GetMonthDays(year: number, month: number): number
 	const month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-	if month == 2 && IsLeapYear(year)
-		return 29
-	else
-		return month_days[month - 1]
-	endif
+	return month == 2 && IsLeapYear(year) ? 29 : month_days[month - 1]
 enddef
 
 def GetFirstWeekday(year: number, month: number): number
@@ -350,13 +341,9 @@ def RenderLines(year: number, month: number, grid: dict<list<string>>): list<str
 	var months = locale_data.months
 	var year_month = locale_data.year_month(year, month, months)
 	lines->add(Center(year_month, CALENDAR_WIDTH))
-	lines->add('')
 
-	var weekdays: list<string>
-	for weekday in locale_data.weekdays
-		weekdays->add(Right(weekday, WEEKDAY_WIDTH))
-	endfor
-	lines->add(Center(weekdays->join(' '), CALENDAR_WIDTH))
+	lines->add('')
+	lines->add(Center(locale_data.weekdays->mapnew((_, v) => Right(v, 3))->join(' '), 34))
 	lines->add('')
 
 	for week in grid->values()
