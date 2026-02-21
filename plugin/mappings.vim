@@ -93,7 +93,7 @@ xnoremap <M-k> :sil! m '<-2<CR>gv
 nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " .. (&buftype !=# "terminal" ? (v:count ? "write" : "update") : &modified <Bar><Bar> exists("*jobwait") && jobwait([&channel], 0)[0] == -1 ? "normal! i" : "bdelete!") .. "\r"
 
 nmap =b <Cmd>enew<CR>
-nmap \b <Cmd>Bdelete<CR>
+nmap \b <Cmd>bdelete<CR>
 
 # source vimscript (operator)
 def SourceVim(...args: list<any>): string
