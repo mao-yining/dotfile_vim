@@ -192,3 +192,6 @@ command! -nargs=0 Journal notebook.Journal()
 
 import autoload "calendar.vim"
 command! -nargs=0 Calendar calendar.Open()
+
+import autoload "disassemble.vim"
+command! -nargs=* -complete=file ObjDump disassemble.Disassemble(<q-mods>, <q-args>)

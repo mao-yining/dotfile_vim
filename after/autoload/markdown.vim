@@ -899,11 +899,11 @@ export def PreviewPopup()
 enddef
 
 def Echoerr(msg: string)
-	echohl ErrorMsg | echom $'[markdown.vim] {msg}' | echohl None
+	echohl ErrorMsg | echom '[markdown.vim]' msg | echohl None
 enddef
 
 def Echowarn(msg: string)
-	echohl WarningMsg | echom $'[markdown.vim] {msg}' | echohl None
+	echohl WarningMsg | echom '[markdown.vim]' msg | echohl None
 enddef
 
 def KeysFromValue(dict: dict<string>, target_value: string): list<string>
