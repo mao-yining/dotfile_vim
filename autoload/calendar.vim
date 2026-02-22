@@ -175,7 +175,7 @@ def GetFirstWeekday(year: number, month: number): number
 	const J = y / 100
 	const Q = 1
 
-	var h = (Q + ((13 * (m + 1)) / 5)->float2nr() + K + (K / 4)->float2nr()
+	const h = (Q + ((13 * (m + 1)) / 5)->float2nr() + K + (K / 4)->float2nr()
 		+ (J / 4)->float2nr() - 2 * J) % 7
 
 	return (h + 6) % 7
@@ -231,13 +231,13 @@ def BuildMonthGrid(year: number, month: number, show_adjacent_days: bool = true)
 enddef
 
 def AlignStr(str: string, width: number, align = 'left', fillchar = ' '): string
-	var str_width = str->strdisplaywidth()
+	const str_width = str->strdisplaywidth()
 
 	if str_width >= width
 		return str
 	endif
 
-	var padding = width - str_width
+	const padding = width - str_width
 
 	if align == 'left'
 		return str .. fillchar->repeat(padding)
@@ -267,7 +267,7 @@ def HighlightToday(year: number, month: number, grid: dict<list<string>>)
 	var is_current_month: bool
 	for [row, week] in items(grid)
 		for [col, v] in items(week)
-			var val = v->str2nr()
+			const val = v->str2nr()
 			if is_current_month && val == 1
 				is_current_month = false
 			elseif !is_current_month && val == 1
@@ -279,7 +279,7 @@ def HighlightToday(year: number, month: number, grid: dict<list<string>>)
 					bufnr: buf,
 					type: 'calendar_today',
 				})
-				break
+				return
 			endif
 		endfor
 	endfor
@@ -291,7 +291,7 @@ def SetMark(year: number, month: number, grid: dict<list<string>>)
 	var is_current_month = false
 	for [row, week] in items(grid)
 		for [col, v] in items(week)
-			var val = v->str2nr()
+			const val = v->str2nr()
 			if is_current_month && val == 1
 				is_current_month = false
 			elseif !is_current_month && val == 1
@@ -309,13 +309,10 @@ def SetMark(year: number, month: number, grid: dict<list<string>>)
 enddef
 
 def HighlightAdjacentDays(grid: dict<list<string>>)
-	prop_remove({type: 'calendar_adjacent', bufnr: buf, all: true})
-
 	var is_current_month = false
-
 	for [row, week] in items(grid)
 		for [col, v] in items(week)
-			var val = v->str2nr()
+			const val = v->str2nr()
 			if is_current_month && val == 1
 				is_current_month = false
 			elseif !is_current_month && val == 1
@@ -333,21 +330,17 @@ def HighlightAdjacentDays(grid: dict<list<string>>)
 enddef
 
 def RenderLines(year: number, month: number, grid: dict<list<string>>): list<string>
-	var locale_data = config.locales[config.locale]
+	const locale_data = config.locales[config.locale]
+	const year_month = locale_data.year_month(year, month, locale_data.months)
+	const weekdays = locale_data.weekdays
+
 	var lines: list<string>
-	var CALENDAR_WIDTH = 34
-	var WEEKDAY_WIDTH = 3
-
-	var months = locale_data.months
-	var year_month = locale_data.year_month(year, month, months)
-	lines->add(Center(year_month, CALENDAR_WIDTH))
-
+	lines->add(Center(year_month, 34))
 	lines->add('')
-	lines->add(Center(locale_data.weekdays->mapnew((_, v) => Right(v, 3))->join(' '), 34))
+	lines->add(Center(weekdays->mapnew((_, v) => Right(v, 3))->join(' '), 34))
 	lines->add('')
-
 	for week in grid->values()
-		lines->add('   ' .. (week->join(' ')) .. '    ')
+		lines->add($'   {week->join(' ')}    ')
 		lines->add("\t\t\t\t\t\t\t\t")
 	endfor
 
@@ -374,7 +367,7 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 			prop_type_add('calendar_mark', {
 				bufnr: buf, highlight: config.highlights.mark })
 			prop_type_add('calendar_adjacent', {
-				bufnr: buf, highlight: config.highlights.adjacent_days })
+				bufnr: buf, highlight: config.highlights.adjacent })
 			prop_type_add('calendar_current', {
 				bufnr: buf, highlight: config.highlights.current, })
 		endif
@@ -436,7 +429,7 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 				HighlightDay(calendar.day)
 			elseif key == config.keymap.next_week
 				if calendar.day + 7 > calendar.days
-					var new_day = calendar.day + 7 - calendar.days
+					const new_day = calendar.day + 7 - calendar.days
 					NextMonth()
 					calendar.day = new_day
 				else
@@ -479,7 +472,7 @@ export def Close()
 enddef
 
 def HighlightDay(day_num: number)
-	prop_remove({type: 'calendar_current', bufnr: buf, all: true})
+	prop_remove({type: 'calendar_current', bufnr: buf})
 
 	var is_current_month = false
 	for [row, week] in items(calendar.grid)
@@ -487,7 +480,7 @@ def HighlightDay(day_num: number)
 			continue
 		endif
 		for [col, v] in items(week)
-			var val = v->str2nr()
+			const val = v->str2nr()
 			if is_current_month && val == 1
 				is_current_month = false
 			elseif !is_current_month && val == 1
@@ -510,11 +503,10 @@ enddef
 
 # Journal Extension {{{
 import autoload "notebook.vim"
-def Get(year: number, month: number): list<dict<any>>
-	var files = notebook.GetJournals(year, month)
-	var marks: list<dict<any>> = []
+def Get(year: number, month: number): list<dict<number>>
+	var marks: list<dict<number>>
 
-	for file in files
+	for file in notebook.GetJournals(year, month)
 		const parts = file->fnamemodify(':r')->split('-')
 		if len(parts) >= 3
 			const note_year  = parts[0]->str2nr()
@@ -544,18 +536,18 @@ const journals = {
 	}
 } # }}}
 # Actions {{{
-var extensions = {}
-var marked_days = {}
+var extensions: dict<any>
+var marked_days: dict<bool>
 def GetCalendarExts(): dict<dict<any>>
 	return {journals: journals}
 enddef
 
 def HasMarks(year: number, month: number, day: number): bool
-	return marked_days->has_key(printf('%4d-%2d-%2d', year, month, day))
+	return marked_days->has_key(printf('%4d%2d%2d', year, month, day))
 enddef
 
 def Mark(year: number, month: number, day: number)
-	marked_days[printf('%4d-%2d-%2d', year, month, day)] = true
+	marked_days[printf('%4d%2d%2d', year, month, day)] = true
 enddef
 
 export def Register(name: string, ext: dict<any>)
