@@ -24,13 +24,13 @@ nnoremap <expr> <Leader>ft ":set filetype="
 nnoremap <expr> <Leader>fs ":SLoad "
 nnoremap <expr> <Leader>fc ":colorscheme "
 nnoremap <expr> <Leader>fu ":Unicode "
-inoremap <M-t> <C-o>:InsertTemplate<space>
-nnoremap <M-t> :<C-u>InsertTemplate<space>
+inoremap <M-t> <C-o>:InsertTemplate<Space>
+nnoremap <M-t> :<C-u>InsertTemplate<Space>
 
 # Grep word under cursor
-nnoremap <Leader>fw <ScriptCmd>silent execute "grep" expand("<cword>")<CR>
+nnoremap <Leader>fw <Cmd>silent execute "grep" expand("<cword>")<CR>
 # lvimgrep word in a current buffer
-nnoremap <Leader>o <ScriptCmd>execute "Occur" expand("<cword>")<CR>
+nnoremap <Leader>o <Cmd>execute "Occur" expand("<cword>")<CR>
 
 import autoload 'text.vim'
 
