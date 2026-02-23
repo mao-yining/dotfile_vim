@@ -89,22 +89,12 @@ g:competitest_configs = {
 	template_file: "D:/Competitive-Programming/templates/template.$(FEXT)",
 	evaluate_template_modifiers: true,
 	received_problems_path: (task, file_extension): string => {
-		const hyphen = task.group->stridx(" - ") # Codeforces' contest
-		var judge: string
-		var contest: string
-		if hyphen == -1
-			judge = task.group
-			contest = "problems"
-		else
-			judge = task.group->strpart(0, hyphen)
-			contest = task.group->strpart(hyphen + 3)
-				->substitute('[<>:"/\\|?*#]', '_', 'g')
-		endif
+		const parts = task.group->split(" - ") # Codeforces' contest
 		return printf(
 			"D:/Competitive-Programming/%s/%s/%s/_.%s",
-			judge,
-			contest,
-			task.name->split(' ')[0]->substitute('[#.]', '', 'g'),
+			parts[0]->substitute('[<>:"/\\|?*#]', '_', 'g'), # judge platform
+			parts->get(1, 'problems')->substitute('[<>:"/\\|?*#]', '_', 'g'),
+			task.name->split()[0]->substitute('[#.]', '', 'g'),
 			file_extension
 		)
 	},
