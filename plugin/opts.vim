@@ -1,5 +1,10 @@
 vim9script
-# Plugin settings
+g:popup_borderchars   = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
+
+g:loaded_netrw        = 1
+g:loaded_netrwPlugin  = 1
+nmap - <Cmd>Dir<CR>
 
 silent! packadd comment
 silent! packadd editexisting
@@ -14,19 +19,14 @@ silent! packadd matchit
 silent! packadd nohlsearch
 silent! packadd vimcdoc
 
-g:popup_borderchars   = ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
-g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
-
-g:loaded_netrw        = 1
-g:loaded_netrwPlugin  = 1
-nmap - <Cmd>Dir<CR>
-
-silent! packadd vim-gutentags
-g:gutentags_exclude_filetypes = ['help']
-if executable('rg')
-	g:gutentags_file_list_command = 'rg --files'
-elseif executable('git')
-	g:gutentags_file_list_command = 'git ls-files'
+if executable("ctags")
+	g:gutentags_exclude_filetypes = ['help']
+	if executable('rg')
+		g:gutentags_file_list_command = 'rg --files'
+	elseif executable('git')
+		g:gutentags_file_list_command = 'git ls-files'
+	endif
+	silent! packadd vim-gutentags
 endif
 
 if executable("man")
@@ -54,13 +54,13 @@ g:asyncrun_bell       = true
 if has("win32")
 	g:asyncrun_encs = "cp936"
 endif
-map <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-map <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-map <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
-map <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
-imap <silent><F7> <Esc><Cmd>AsyncTask file-run<CR>
-imap <silent><F8> <Esc><Cmd>AsyncTask file-build<CR>
-imap <silent><F9> <Esc><Cmd>AsyncTask project-run<CR>
+map  <silent><F7>  <Esc><Cmd>AsyncTask file-run<CR>
+imap <silent><F7>  <Esc><Cmd>AsyncTask file-run<CR>
+map  <silent><F8>  <Esc><Cmd>AsyncTask file-build<CR>
+imap <silent><F8>  <Esc><Cmd>AsyncTask file-build<CR>
+map  <silent><F9>  <Esc><Cmd>AsyncTask project-run<CR>
+imap <silent><F9>  <Esc><Cmd>AsyncTask project-run<CR>
+map  <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 imap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 
 xmap <Tab> <Plug>(EasyAlign)
