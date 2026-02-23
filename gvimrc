@@ -1,12 +1,13 @@
 vim9script
 
-set guioptions=!cCd
+set guioptions=!cCdM
 
 inoremap <C-S-V> <C-R><C-P>+
 cnoremap <C-S-V> <C-R><C-O>+
 
-if has("gui_win32")
+if has("win32")
 	set renderoptions=type:directx
+	set guifont=Inconsolata_Nerd_Font_Mono:h13
 	set linespace=0
 	noremap! <expr> <F11> $"<Cmd>se go{&go =~# 's' ? '-' : '+'}=s<CR>"
 	noremap  <expr> <F11> $"<Cmd>se go{&go =~# 's' ? '-' : '+'}=s<CR>"
