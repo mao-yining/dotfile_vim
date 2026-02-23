@@ -31,7 +31,6 @@ g:calendar_config = {
 		close: 'q',
 	},
 	mark_icon: ' •',
-	show_adjacent_days: true,
 	highlights: {
 		current: 'Visual',
 		today: 'Todo',
@@ -41,9 +40,9 @@ g:calendar_config = {
 	borderchars: get(g:, "popup_borderchars", ['─', '│', '─', '│', '╭', '╮', '╯', '╰']),
 	borderhighlight: get(g:, "popup_borderhighlight", ['VertSplit']),
 	highlight: get(g:, "popup_highlight", 'Normal'),
-	locale: 'zh-CN',
+	locale: v:lang,
 	locales: {
-		'en-US': {
+		'en_US': {
 			months: [
 				'January', 'February', 'March', 'April', 'May', 'June',
 				'July', 'August', 'September', 'October', 'November', 'December'
@@ -53,7 +52,7 @@ g:calendar_config = {
 				printf('%s %d', months[month - 1], year),
 		},
 
-		'de-DE': {
+		'de_DE': {
 			months: [
 				'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
 				'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
@@ -63,7 +62,7 @@ g:calendar_config = {
 				printf('%s %d', months[month - 1], year),
 		},
 
-		'en-GB': {
+		'en_GB': {
 			months: [
 				'January', 'February', 'March', 'April', 'May', 'June',
 				'July', 'August', 'September', 'October', 'November', 'December'
@@ -73,7 +72,7 @@ g:calendar_config = {
 				printf('%s %d', months[month - 1], year),
 		},
 
-		'es-ES': {
+		'es_ES': {
 			months: [
 				'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
 				'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
@@ -83,7 +82,7 @@ g:calendar_config = {
 				printf('%s %d', months[month - 1], year),
 		},
 
-		'fr-FR': {
+		'fr_FR': {
 			months: [
 				'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
 				'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
@@ -93,7 +92,7 @@ g:calendar_config = {
 				printf('%s %d', months[month - 1], year),
 		},
 
-		'it-IT': {
+		'it_IT': {
 			months: [
 				'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
 				'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'
@@ -103,14 +102,14 @@ g:calendar_config = {
 				printf('%s %d', months[month - 1], year),
 		},
 
-		'ja-JP': {
+		'ja_JP': {
 			months: null_list,
 			weekdays: ['日', '月', '火', '水', '木', '金', '土'],
 			year_month: (year: number, month: number, _: list<string>): string =>
 				printf('%04d 年 %2d 月', year, month),
 		},
 
-		'ko-KR': {
+		'ko_KR': {
 			months: [
 				'1월', '2월', '3월', '4월', '5월', '6월',
 				'7월', '8월', '9월', '10월', '11월', '12월'
@@ -120,21 +119,21 @@ g:calendar_config = {
 				printf('%04d년 %2d월', year, month),
 		},
 
-		'zh-CN': {
+		'zh_CN': {
 			months: null_list,
 			weekdays: ['日', '一', '二', '三', '四', '五', '六'],
 			year_month: (year: number, month: number, _: list<string>): string =>
 				printf('%04d 年 %2d 月', year, month),
 		},
 
-		'zh-TW': {
+		'zh_TW': {
 			months: null_list,
 			weekdays: ['日', '一', '二', '三', '四', '五', '六'],
 			year_month: (year: number, month: number, _: list<string>): string =>
 				printf('%04d 年 %2d 月', year, month),
 		},
 
-		'ru-RU': {
+		'ru_RU': {
 			months: [
 				'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
 				'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
@@ -149,86 +148,87 @@ g:calendar_config = {
 var config = g:calendar_config
 var buf: number
 var win: number
-var calendar: dict<any>
 
-
-def IsLeapYear(year: number): bool
-	return year % 400 == 0 || (year % 100 != 0 && year % 4 == 0)
-enddef
-
-def GetMonthDays(year: number, month: number): number
-	const month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-	return month == 2 && IsLeapYear(year) ? 29 : month_days[month - 1]
-enddef
-
-def GetFirstWeekday(year: number, month: number): number
-	# Use Zeller's congruence
-	# https://en.wikipedia.org/wiki/Zeller%27s_congruence
-	var y = year
-	var m = month
-	if m < 3
-		y -= 1
-		m += 12
-	endif
-
-	const K = y % 100
-	const J = y / 100
-	const Q = 1
-
-	const h = (Q + ((13 * (m + 1)) / 5)->float2nr() + K + (K / 4)->float2nr()
-		+ (J / 4)->float2nr() - 2 * J) % 7
-
-	return (h + 6) % 7
-enddef
-
-def BuildMonthGrid(year: number, month: number, show_adjacent_days: bool = true): dict<list<string>>
-	var grid: dict<list<string>>
-	for i in range(6)
-		grid[i] = []
-		for j in range(7)
-			grid[i]->add('   ')
+type Grid = list<list<number>>
+class Calendar
+	public var day: number
+	const month: number
+	const year: number
+	const days: number
+	const grid: Grid
+	def new(this.year, this.month, this.day)
+		for i in range(6)
+			this.grid[i] = [0]->repeat(7)
 		endfor
-	endfor
 
-	const start_col = GetFirstWeekday(year, month)
-	const days = GetMonthDays(year, month)
+		const start_col = this.GetFirstWeekday(this.year, this.month)
+		const days = this.GetMonthDays(this.year, this.month)
 
-	var row = 0
-	var col = start_col
+		var row = 0
+		var col = start_col
 
-	if show_adjacent_days && start_col > 0
-		var prev_month = month == 1 ? 12 : month - 1
-		var prev_year = month == 1 ? year - 1 : year
-		var prev_days = GetMonthDays(prev_year, prev_month)
+		if start_col > 0
+			var prev_month = this.month == 1 ? 12 : this.month - 1
+			var prev_year = this.month == 1 ? this.year - 1 : this.year
+			var prev_days = this.GetMonthDays(prev_year, prev_month)
 
-		for i in range(start_col)
-			grid[0][i] = printf('%3d', prev_days - start_col + 1 + i)
-		endfor
-	endif
-
-	for i in range(1, days)
-		grid[row][col] = printf('%3d', i)
-		col += 1
-		if col > 6
-			col = 0
-			row += 1
+			for i in range(start_col)
+				this.grid[0][i] = prev_days - start_col + 1 + i
+			endfor
 		endif
-	endfor
 
-	if show_adjacent_days
-		for i in range(1, 42 - start_col - days)
-			grid[row][col] = printf('%3d', i)
+		for i in range(1, days)
+			this.grid[row][col] = i
 			col += 1
 			if col > 6
 				col = 0
 				row += 1
 			endif
 		endfor
-	endif
 
-	calendar.days = days
-	return grid
-enddef
+		# show_adjacent_days
+		for i in range(1, 42 - start_col - days)
+			this.grid[row][col] = i
+			col += 1
+			if col > 6
+				col = 0
+				row += 1
+			endif
+		endfor
+
+		this.days = days
+	enddef
+
+	def IsLeapYear(year: number): bool
+		return (year % 100 != 0 && year % 4 == 0) || year % 400 == 0
+	enddef
+
+	def GetMonthDays(year: number, month: number): number
+		const month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+		return month == 2 && this.IsLeapYear(year) ? 29 : month_days[month - 1]
+	enddef
+
+	def GetFirstWeekday(year: number, month: number): number
+		# Use Zeller's congruence
+		# https://en.wikipedia.org/wiki/Zeller%27s_congruence
+		var y = year
+		var m = month
+		if m < 3
+			y -= 1
+			m += 12
+		endif
+
+		const K = y % 100
+		const J = y / 100
+		const Q = 1
+
+		const h = (Q + ((13 * (m + 1)) / 5)->float2nr() + K
+			+ (K / 4)->float2nr() + (J / 4)->float2nr() - 2 * J) % 7
+
+		return (h + 6) % 7
+	enddef
+endclass
+var calendar: Calendar
 
 def AlignStr(str: string, width: number, align = 'left', fillchar = ' '): string
 	const str_width = str->strdisplaywidth()
@@ -260,24 +260,23 @@ def Right(str: string, width: number): string
 	return AlignStr(str, width, 'right')
 enddef
 
-def HighlightToday(year: number, month: number, grid: dict<list<string>>)
+def HighlightToday(year: number, month: number, grid: Grid)
 	if "%Y"->strftime()->str2nr() != year || "%m"->strftime()->str2nr() != month
 		return
 	endif
 	var is_current_month: bool
 	for [row, week] in items(grid)
-		for [col, v] in items(week)
-			const val = v->str2nr()
+		for [col, val] in items(week)
 			if is_current_month && val == 1
 				is_current_month = false
 			elseif !is_current_month && val == 1
 				is_current_month = true
 			endif
 			if is_current_month && val == "%d"->strftime()->str2nr()
-				prop_add(str2nr(row) * 2 + 5, col * 4 + 5, {
+				prop_add(row * 2 + 5, col * 4 + 5, {
 					length: 2,
 					bufnr: buf,
-					type: 'calendar_today',
+					type: 'today',
 				})
 				return
 			endif
@@ -285,51 +284,47 @@ def HighlightToday(year: number, month: number, grid: dict<list<string>>)
 	endfor
 enddef
 
-def SetMark(year: number, month: number, grid: dict<list<string>>)
-	prop_remove({type: 'calendar_mark', bufnr: buf, all: true})
-
+def SetMark(year: number, month: number, grid: Grid)
 	var is_current_month = false
 	for [row, week] in items(grid)
-		for [col, v] in items(week)
-			const val = v->str2nr()
+		for [col, val] in items(week)
 			if is_current_month && val == 1
 				is_current_month = false
 			elseif !is_current_month && val == 1
 				is_current_month = true
 			endif
 			if is_current_month && HasMarks(year, month, val)
-				prop_add(str2nr(row) * 2 + 6, col + 2, {
+				prop_add(row * 2 + 6, col + 2, {
 					bufnr: buf,
 					text: config.mark_icon,
-					type: 'calendar_mark',
+					type: 'mark',
 				})
 			endif
 		endfor
 	endfor
 enddef
 
-def HighlightAdjacentDays(grid: dict<list<string>>)
+def HighlightAdjacentDays(grid: Grid)
 	var is_current_month = false
 	for [row, week] in items(grid)
-		for [col, v] in items(week)
-			const val = v->str2nr()
+		for [col, val] in items(week)
 			if is_current_month && val == 1
 				is_current_month = false
 			elseif !is_current_month && val == 1
 				is_current_month = true
 			endif
 			if !is_current_month
-				prop_add(str2nr(row) * 2 + 5, col * 4 + 5, {
+				prop_add(row * 2 + 5, col * 4 + 5, {
 					length: 2,
 					bufnr: buf,
-					type: 'calendar_adjacent',
+					type: 'adjacent',
 				})
 			endif
 		endfor
 	endfor
 enddef
 
-def RenderLines(year: number, month: number, grid: dict<list<string>>): list<string>
+def RenderLines(year: number, month: number, grid: Grid): list<string>
 	const locale_data = config.locales[config.locale]
 	const year_month = locale_data.year_month(year, month, locale_data.months)
 	const weekdays = locale_data.weekdays
@@ -339,45 +334,30 @@ def RenderLines(year: number, month: number, grid: dict<list<string>>): list<str
 	lines->add('')
 	lines->add(Center(weekdays->mapnew((_, v) => Right(v, 3))->join(' '), 34))
 	lines->add('')
-	for week in grid->values()
-		lines->add($'   {week->join(' ')}    ')
-		lines->add("\t\t\t\t\t\t\t\t")
+	for week in grid
+		lines->add($'   {week->mapnew((_, v) => v->printf('%3d'))->join(' ')}    ')
+		lines->add(repeat("\t", 8))
 	endfor
 
 	return lines
 enddef
 
-export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(), day = strftime("%d")->str2nr())
-	calendar.year = year
-	calendar.month = month
-	calendar.day = day
-	calendar.grid = BuildMonthGrid(year, month)
-
-	const lines = RenderLines(year, month, calendar.grid)
-
+export def Open(year = str2nr(strftime("%Y")), month = str2nr(strftime("%m")), day = str2nr(strftime("%d")))
 	if buf == 0 || !bufexists(buf)
 		buf = bufadd('Calendar')
 		setbufvar(buf, '&buftype', 'nofile')
 		setbufvar(buf, '&bufhidden', 'hide')
 		setbufvar(buf, '&swapfile', false)
 		setbufvar(buf, '&tabstop', 4)
-		if 'calendar_current'->prop_type_get({bufnr: buf})->empty()
-			prop_type_add('calendar_today', {
-				bufnr: buf, highlight: config.highlights.today })
-			prop_type_add('calendar_mark', {
-				bufnr: buf, highlight: config.highlights.mark })
-			prop_type_add('calendar_adjacent', {
-				bufnr: buf, highlight: config.highlights.adjacent })
-			prop_type_add('calendar_current', {
-				bufnr: buf, highlight: config.highlights.current, })
+		if prop_type_list({bufnr: buf})->empty()
+			config.highlights->foreach((name, highlight) => prop_type_add(name, { bufnr: buf, highlight: highlight }))
 		endif
+		bufload(buf)
 	endif
 
-	# Set buffer content
-	setbufvar(buf, '&modifiable', true)
-	bufload(buf)
-	setbufline(buf, 1, lines)
-	setbufvar(buf, '&modifiable', false)
+	calendar = Calendar.new(year, month, day)
+
+	RenderLines(year, month, calendar.grid)->setbufline(buf, 1)
 
 	const popup_opts = {
 		border: null_list,
@@ -462,9 +442,12 @@ export def Open(year = strftime("%Y")->str2nr(), month = strftime("%m")->str2nr(
 		win = buf->popup_create(popup_opts)
 	endif
 
-	HighlightToday(year, month, calendar.grid)
-	OnChange(year, month)
 	HighlightDay(day)
+	HighlightAdjacentDays(calendar.grid)
+	HighlightToday(year, month, calendar.grid)
+
+	OnChange(year, month)
+	SetMark(calendar.year, calendar.month, calendar.grid)
 enddef
 
 export def Close()
@@ -472,33 +455,25 @@ export def Close()
 enddef
 
 def HighlightDay(day_num: number)
-	prop_remove({type: 'calendar_current', bufnr: buf})
-
+	prop_remove({type: 'current', bufnr: buf})
 	var is_current_month = false
 	for [row, week] in items(calendar.grid)
-		if !(type(week) == v:t_list)
-			continue
-		endif
-		for [col, v] in items(week)
-			const val = v->str2nr()
+		for [col, val] in items(week)
 			if is_current_month && val == 1
 				is_current_month = false
 			elseif !is_current_month && val == 1
 				is_current_month = true
 			endif
 			if is_current_month && val == day_num
-				prop_add(str2nr(row) * 2 + 5, col * 4 + 4, {
+				prop_add(row * 2 + 5, col * 4 + 4, {
 					length: 4,
 					bufnr: buf,
-					type: 'calendar_current',
+					type: 'current',
 				})
+				return
 			endif
 		endfor
 	endfor
-	SetMark(calendar.year, calendar.month, calendar.grid)
-	if config.show_adjacent_days
-		HighlightAdjacentDays(calendar.grid)
-	endif
 enddef
 
 # Journal Extension {{{
