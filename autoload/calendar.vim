@@ -151,18 +151,51 @@ var win: number
 
 type Grid = list<list<number>>
 class Calendar
-	public var day: number
-	const month: number
-	const year: number
-	const days: number
-	const grid: Grid
-	def new(this.year, this.month, this.day)
+	var year  = str2nr(strftime("%Y"))
+	var month = str2nr(strftime("%m"))
+	var day   = str2nr(strftime("%d"))
+	var days: number
+	var grid: Grid
+	var localtime = localtime()
+	def Refresh()
+		const month = this.month
+		this.year  = str2nr(strftime("%Y", this.localtime))
+		this.month = str2nr(strftime("%m", this.localtime))
+		this.day   = str2nr(strftime("%d", this.localtime))
+		if month != this.month
+			this.GridUpdate()
+			Open()
+		endif
+	enddef
+	def DayPrev(n = 1)
+		this.localtime -= 86400 * n
+		this.Refresh()
+	enddef
+	def DayNext(n = 1)
+		this.localtime += 86400 * n
+		this.Refresh()
+	enddef
+	def MonthPrev()
+		this.DayPrev(this.GetMonthDays(
+			this.month == 1 ? this.year - 1 : this.year,
+			this.month == 1 ? 12 : this.month - 1))
+	enddef
+	def MonthNext()
+		this.DayNext(this.days)
+	enddef
+	def new()
 		for i in range(6)
 			this.grid[i] = [0]->repeat(7)
 		endfor
-
+		this.GridUpdate()
+	enddef
+	def Today()
+		this.localtime = localtime()
+		this.Refresh()
+	enddef
+	def GridUpdate()
 		const start_col = this.GetFirstWeekday(this.year, this.month)
-		const days = this.GetMonthDays(this.year, this.month)
+		this.days = this.GetMonthDays(this.year, this.month)
 
 		var row = 0
 		var col = start_col
@@ -177,7 +210,7 @@ class Calendar
 			endfor
 		endif
 
-		for i in range(1, days)
+		for i in range(1, this.days)
 			this.grid[row][col] = i
 			col += 1
 			if col > 6
@@ -186,8 +219,7 @@ class Calendar
 			endif
 		endfor
 
-		# show_adjacent_days
-		for i in range(1, 42 - start_col - days)
+		for i in range(1, 42 - start_col - this.days)
 			this.grid[row][col] = i
 			col += 1
 			if col > 6
@@ -195,10 +227,7 @@ class Calendar
 				row += 1
 			endif
 		endfor
-
-		this.days = days
 	enddef
-
 	def IsLeapYear(year: number): bool
 		return (year % 100 != 0 && year % 4 == 0) || year % 400 == 0
 	enddef
@@ -228,7 +257,7 @@ class Calendar
 		return (h + 6) % 7
 	enddef
 endclass
-var calendar: Calendar
+var calendar = Calendar.new()
 
 def AlignStr(str: string, width: number, align = 'left', fillchar = ' '): string
 	const str_width = str->strdisplaywidth()
@@ -258,6 +287,46 @@ enddef
 
 def Right(str: string, width: number): string
 	return AlignStr(str, width, 'right')
+enddef
+
+def RenderLines(year: number, month: number, grid: Grid): list<string>
+	const locale_data = config.locales[config.locale]
+	const year_month = locale_data.year_month(year, month, locale_data.months)
+	const weekdays = locale_data.weekdays
+
+	var lines: list<string>
+	lines->add(Center(year_month, 34))
+	lines->add('')
+	lines->add(Center(weekdays->mapnew((_, v) => Right(v, 3))->join(' '), 34))
+	lines->add('')
+	for week in grid
+		lines->add($'   {week->mapnew((_, v) => v->printf('%3d'))->join(' ')}    ')
+		lines->add(repeat("\t", 8))
+	endfor
+
+	return lines
+enddef
+
+def HighlightDay(day_num: number)
+	prop_remove({type: 'current', bufnr: buf})
+	var is_current_month = false
+	for [row, week] in items(calendar.grid)
+		for [col, val] in items(week)
+			if is_current_month && val == 1
+				is_current_month = false
+			elseif !is_current_month && val == 1
+				is_current_month = true
+			endif
+			if is_current_month && val == day_num
+				prop_add(row * 2 + 5, col * 4 + 4, {
+					length: 4,
+					bufnr: buf,
+					type: 'current',
+				})
+				return
+			endif
+		endfor
+	endfor
 enddef
 
 def HighlightToday(year: number, month: number, grid: Grid)
@@ -324,25 +393,7 @@ def HighlightAdjacentDays(grid: Grid)
 	endfor
 enddef
 
-def RenderLines(year: number, month: number, grid: Grid): list<string>
-	const locale_data = config.locales[config.locale]
-	const year_month = locale_data.year_month(year, month, locale_data.months)
-	const weekdays = locale_data.weekdays
-
-	var lines: list<string>
-	lines->add(Center(year_month, 34))
-	lines->add('')
-	lines->add(Center(weekdays->mapnew((_, v) => Right(v, 3))->join(' '), 34))
-	lines->add('')
-	for week in grid
-		lines->add($'   {week->mapnew((_, v) => v->printf('%3d'))->join(' ')}    ')
-		lines->add(repeat("\t", 8))
-	endfor
-
-	return lines
-enddef
-
-export def Open(year = str2nr(strftime("%Y")), month = str2nr(strftime("%m")), day = str2nr(strftime("%d")))
+export def Open()
 	if buf == 0 || !bufexists(buf)
 		buf = bufadd('Calendar')
 		setbufvar(buf, '&buftype', 'nofile')
@@ -355,9 +406,7 @@ export def Open(year = str2nr(strftime("%Y")), month = str2nr(strftime("%m")), d
 		bufload(buf)
 	endif
 
-	calendar = Calendar.new(year, month, day)
-
-	RenderLines(year, month, calendar.grid)->setbufline(buf, 1)
+	RenderLines(calendar.year, calendar.month, calendar.grid)->setbufline(buf, 1)
 
 	const popup_opts = {
 		border: null_list,
@@ -367,57 +416,24 @@ export def Open(year = str2nr(strftime("%Y")), month = str2nr(strftime("%m")), d
 		mapping: false,
 		zindex: 49,
 		filter: (_, key) => {
-			def PreviousMonth()
-				const new_month = calendar.month == 1 ? 12 : calendar.month - 1
-				const new_year = calendar.month == 1 ? calendar.year - 1 : calendar.year
-				Open(new_year, new_month)
-			enddef
-			def NextMonth()
-				const new_month = calendar.month == 12 ? 1 : calendar.month + 1
-				const new_year = calendar.month == 12 ? calendar.year + 1 : calendar.year
-				Open(new_year, new_month)
-			enddef
 			if key == config.keymap.previous_month || key == "\<ScrollWheelUp>"
-				PreviousMonth()
+				calendar.MonthPrev()
 			elseif key == config.keymap.next_month || key == "\<ScrollWheelDown>"
-				NextMonth()
+				calendar.MonthNext()
 			elseif key == config.keymap.previous_day
-				if calendar.day > 1
-					calendar.day -= 1
-					HighlightDay(calendar.day)
-				else
-					PreviousMonth()
-					calendar.day = calendar.days
-					HighlightDay(calendar.day)
-				endif
+				calendar.DayPrev()
+				HighlightDay(calendar.day)
 			elseif key == config.keymap.next_day
-				if calendar.day < calendar.days
-					calendar.day += 1
-				else
-					NextMonth()
-					calendar.day = 1
-				endif
+				calendar.DayNext()
 				HighlightDay(calendar.day)
 			elseif key == config.keymap.previous_week
-				if calendar.day <= 7
-					const new_day = 7 - calendar.day
-					PreviousMonth()
-					calendar.day = calendar.days - new_day
-				else
-					calendar.day -= 7
-				endif
+				calendar.DayPrev(7)
 				HighlightDay(calendar.day)
 			elseif key == config.keymap.next_week
-				if calendar.day + 7 > calendar.days
-					const new_day = calendar.day + 7 - calendar.days
-					NextMonth()
-					calendar.day = new_day
-				else
-					calendar.day += 7
-				endif
+				calendar.DayNext(7)
 				HighlightDay(calendar.day)
 			elseif key == config.keymap.today
-				Open()
+				calendar.Today()
 			elseif key == config.keymap.close || key == "\<ESC>"
 				Close()
 			elseif key == "\<LeftMouse>"
@@ -427,8 +443,7 @@ export def Open(year = str2nr(strftime("%Y")), month = str2nr(strftime("%m")), d
 						->get((pos.column - 4) / 4)
 					if type(new_day) == v:t_string
 						new_day = new_day->str2nr()
-						calendar.day = new_day
-						OnAction(calendar.year, calendar.month, calendar.day)
+						OnAction(calendar.year, calendar.month, new_day)
 					endif
 				endif
 			elseif key == "\<Enter>"
@@ -442,38 +457,16 @@ export def Open(year = str2nr(strftime("%Y")), month = str2nr(strftime("%m")), d
 		win = buf->popup_create(popup_opts)
 	endif
 
-	HighlightDay(day)
+	HighlightDay(calendar.day)
 	HighlightAdjacentDays(calendar.grid)
-	HighlightToday(year, month, calendar.grid)
+	HighlightToday(calendar.year, calendar.month, calendar.grid)
 
-	OnChange(year, month)
+	OnChange(calendar.year, calendar.month)
 	SetMark(calendar.year, calendar.month, calendar.grid)
 enddef
 
 export def Close()
 	popup_close(win)
-enddef
-
-def HighlightDay(day_num: number)
-	prop_remove({type: 'current', bufnr: buf})
-	var is_current_month = false
-	for [row, week] in items(calendar.grid)
-		for [col, val] in items(week)
-			if is_current_month && val == 1
-				is_current_month = false
-			elseif !is_current_month && val == 1
-				is_current_month = true
-			endif
-			if is_current_month && val == day_num
-				prop_add(row * 2 + 5, col * 4 + 4, {
-					length: 4,
-					bufnr: buf,
-					type: 'current',
-				})
-				return
-			endif
-		endfor
-	endfor
 enddef
 
 # Journal Extension {{{
