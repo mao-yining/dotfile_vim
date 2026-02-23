@@ -79,27 +79,6 @@ command! DiffOrig {
 import autoload "pack.vim"
 command! -nargs=* -complete=custom,pack.Complete PackUpdate pack.Update(<f-args>)
 
-import autoload "bufdel.vim"
-command! -nargs=* -bang -range -addr=buffers -complete=buffer Bdelete {
-	bufdel.Delete(bufdel.CmdToBuffers({
-		range: <range>,
-		line1: <line1>,
-		line2: <line2>,
-		fargs: split(<q-args>),
-		bang: <bang>false}),
-	{ force: <bang>false, switch: 'lastused' })
-}
-
-command! -nargs=* -bang -range -addr=buffers -complete=buffer Bwipeout {
-	bufdel.Delete(bufdel.CmdToBuffers({
-		range: <range>,
-		line1: <line1>,
-		line2: <line2>,
-		fargs: split(<q-args>),
-		bang: <bang>false}),
-	{ wipe: true, force: <bang>false, switch: 'lastused' })
-}
-
 command! WipeHiddenBuffers {
 	const buffers = getbufinfo()->filter((_, v) => v.hidden )
 	if !empty(buffers)
