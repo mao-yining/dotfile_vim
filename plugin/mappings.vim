@@ -177,28 +177,22 @@ enddef
 augroup visual-block | au!
 	autocmd ModeChanged [\x16]:* xmap A :<C-U>normal! ggVG<CR>
 	autocmd ModeChanged *:[\x16] xunmap A
-	autocmd ModeChanged *:[\x16] xnoremap { <ScriptCmd>VisualBlockPara("{")<CR>
-	autocmd ModeChanged *:[\x16] xnoremap } <ScriptCmd>VisualBlockPara("}")<CR>
+	autocmd ModeChanged *:[\x16] xmap { <ScriptCmd>VisualBlockPara("{")<CR>
+	autocmd ModeChanged *:[\x16] xmap } <ScriptCmd>VisualBlockPara("}")<CR>
 	autocmd ModeChanged [\x16]:* xunmap {
 	autocmd ModeChanged [\x16]:* xunmap }
 augroup end
 omap A <Cmd>normal! ggVG<CR>
 xmap A :<C-U>normal! ggVG<CR>
 
-# write to a privileged file
-if executable('sudo')
-	command! W w !sudo tee "%" >/dev/null
-endif
-
 nmap U <C-R>
 nmap Y y$
-map Q @@
-sunmap Q
-nmap gf gF
-nnoremap & :&&<CR>
-xnoremap & :&&<CR>
+nmap Q @@
+xmap Q @@
+nmap & :&&<CR>
+xmap & :&&<CR>
 
-inoremap <silent><expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <silent><expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\t"
+imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
 
 map <F12> <Cmd>Calendar<CR>
