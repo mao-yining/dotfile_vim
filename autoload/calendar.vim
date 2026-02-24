@@ -431,10 +431,8 @@ export def Open()
 			})
 		buf = winbufnr(win)
 		setbufvar(buf, '&tabstop', 4)
-		if prop_type_list({bufnr: buf})->empty()
-			config.highlights->foreach((name, highlight) => prop_type_add(name,
-				{ bufnr: buf, highlight: highlight }))
-		endif
+		config.highlights->foreach((name, highlight) => prop_type_add(name,
+			{ bufnr: buf, highlight: highlight }))
 	else
 		RenderLines(calendar.year, calendar.month, calendar.grid)
 			-> setbufline(buf, 1)
