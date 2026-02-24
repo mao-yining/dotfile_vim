@@ -394,20 +394,6 @@ def HighlightAdjacentDays(grid: Grid)
 enddef
 
 export def Open()
-	if buf == 0 || !bufexists(buf)
-		buf = bufadd('Calendar')
-		setbufvar(buf, '&buftype', 'nofile')
-		setbufvar(buf, '&bufhidden', 'hide')
-		setbufvar(buf, '&swapfile', false)
-		setbufvar(buf, '&tabstop', 4)
-		if prop_type_list({bufnr: buf})->empty()
-			config.highlights->foreach((name, highlight) => prop_type_add(name, { bufnr: buf, highlight: highlight }))
-		endif
-		bufload(buf)
-	endif
-
-	RenderLines(calendar.year, calendar.month, calendar.grid)->setbufline(buf, 1)
-
 	const popup_opts = {
 		border: null_list,
 		borderchars: config.borderchars,
@@ -454,7 +440,17 @@ export def Open()
 	}
 
 	if popup_show(win) == -1 # Has Popup Show
-		win = buf->popup_create(popup_opts)
+		win = RenderLines(calendar.year, calendar.month, calendar.grid)
+			->popup_create(popup_opts)
+		buf = winbufnr(win)
+		setbufvar(buf, '&tabstop', 4)
+		if prop_type_list({bufnr: buf})->empty()
+			config.highlights->foreach((name, highlight) => prop_type_add(name,
+				{ bufnr: buf, highlight: highlight }))
+		endif
+	else
+		RenderLines(calendar.year, calendar.month, calendar.grid)
+			->setbufline(buf, 1)
 	endif
 
 	HighlightDay(calendar.day)
@@ -466,7 +462,7 @@ export def Open()
 enddef
 
 export def Close()
-	popup_close(win)
+	popup_hide(win)
 enddef
 
 # Journal Extension {{{
