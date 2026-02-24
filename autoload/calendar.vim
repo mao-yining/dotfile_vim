@@ -28,7 +28,7 @@ g:calendar_config = {
 		next_week: 'j',
 		previous_week: 'k',
 		today: 't',
-		close: 'q',
+		hide: 'q',
 	},
 	mark_icon: ' •',
 	highlights: {
@@ -155,9 +155,9 @@ class Calendar
 	var month = str2nr(strftime("%m"))
 	var day   = str2nr(strftime("%d"))
 	var days: number
-	var grid: Grid
 	var localtime = localtime()
-	def Refresh()
+	final grid = range(6)->map("[0]->repeat(7)")
+	def Update()
 		const month = this.month
 		this.year  = str2nr(strftime("%Y", this.localtime))
 		this.month = str2nr(strftime("%m", this.localtime))
@@ -169,11 +169,11 @@ class Calendar
 	enddef
 	def DayPrev(n = 1)
 		this.localtime -= 86400 * n
-		this.Refresh()
+		this.Update()
 	enddef
 	def DayNext(n = 1)
 		this.localtime += 86400 * n
-		this.Refresh()
+		this.Update()
 	enddef
 	def MonthPrev()
 		this.DayPrev(this.GetMonthDays(
@@ -184,14 +184,11 @@ class Calendar
 		this.DayNext(this.days)
 	enddef
 	def new()
-		for i in range(6)
-			this.grid[i] = [0]->repeat(7)
-		endfor
 		this.GridUpdate()
 	enddef
 	def Today()
 		this.localtime = localtime()
-		this.Refresh()
+		this.Update()
 	enddef
 	def GridUpdate()
 		const start_col = this.GetFirstWeekday(this.year, this.month)
@@ -231,12 +228,10 @@ class Calendar
 	def IsLeapYear(year: number): bool
 		return (year % 100 != 0 && year % 4 == 0) || year % 400 == 0
 	enddef
-
 	def GetMonthDays(year: number, month: number): number
 		const month_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 		return month == 2 && this.IsLeapYear(year) ? 29 : month_days[month - 1]
 	enddef
-
 	def GetFirstWeekday(year: number, month: number): number
 		# Use Zeller's congruence
 		# https://en.wikipedia.org/wiki/Zeller%27s_congruence
@@ -312,10 +307,8 @@ def HighlightDay(day_num: number)
 	var is_current_month = false
 	for [row, week] in items(calendar.grid)
 		for [col, val] in items(week)
-			if is_current_month && val == 1
-				is_current_month = false
-			elseif !is_current_month && val == 1
-				is_current_month = true
+			if val == 1
+				is_current_month = !is_current_month
 			endif
 			if is_current_month && val == day_num
 				prop_add(row * 2 + 5, col * 4 + 4, {
@@ -333,13 +326,11 @@ def HighlightToday(year: number, month: number, grid: Grid)
 	if "%Y"->strftime()->str2nr() != year || "%m"->strftime()->str2nr() != month
 		return
 	endif
-	var is_current_month: bool
+	var is_current_month = false
 	for [row, week] in items(grid)
 		for [col, val] in items(week)
-			if is_current_month && val == 1
-				is_current_month = false
-			elseif !is_current_month && val == 1
-				is_current_month = true
+			if val == 1
+				is_current_month = !is_current_month
 			endif
 			if is_current_month && val == "%d"->strftime()->str2nr()
 				prop_add(row * 2 + 5, col * 4 + 5, {
@@ -353,16 +344,14 @@ def HighlightToday(year: number, month: number, grid: Grid)
 	endfor
 enddef
 
-def SetMark(year: number, month: number, grid: Grid)
+def SetMarks(year: number, month: number, grid: Grid, marks: list<number>)
 	var is_current_month = false
 	for [row, week] in items(grid)
 		for [col, val] in items(week)
-			if is_current_month && val == 1
-				is_current_month = false
-			elseif !is_current_month && val == 1
-				is_current_month = true
+			if val == 1
+				is_current_month = !is_current_month
 			endif
-			if is_current_month && HasMarks(year, month, val)
+			if is_current_month && marks->index(year * 10000 + month * 100 + val) != -1
 				prop_add(row * 2 + 6, col + 2, {
 					bufnr: buf,
 					text: config.mark_icon,
@@ -377,10 +366,8 @@ def HighlightAdjacentDays(grid: Grid)
 	var is_current_month = false
 	for [row, week] in items(grid)
 		for [col, val] in items(week)
-			if is_current_month && val == 1
-				is_current_month = false
-			elseif !is_current_month && val == 1
-				is_current_month = true
+			if val == 1
+				is_current_month = !is_current_month
 			endif
 			if !is_current_month
 				prop_add(row * 2 + 5, col * 4 + 5, {
@@ -420,8 +407,8 @@ export def Open()
 				HighlightDay(calendar.day)
 			elseif key == config.keymap.today
 				calendar.Today()
-			elseif key == config.keymap.close || key == "\<ESC>"
-				Close()
+			elseif key == config.keymap.hide || key == "\<ESC>"
+				Hide()
 			elseif key == "\<LeftMouse>"
 				const pos = getmousepos()
 				if pos.winid == win && pos.line > 3 && (pos.line - 3) % 2 == 0
@@ -457,114 +444,39 @@ export def Open()
 	HighlightAdjacentDays(calendar.grid)
 	HighlightToday(calendar.year, calendar.month, calendar.grid)
 
-	OnChange(calendar.year, calendar.month)
-	SetMark(calendar.year, calendar.month, calendar.grid)
+	const marks = GetMarks(calendar.year, calendar.month)
+	SetMarks(calendar.year, calendar.month, calendar.grid, marks)
 enddef
 
-export def Close()
+export def Hide()
 	popup_hide(win)
 enddef
 
-# Journal Extension {{{
-import autoload "notebook.vim"
-def Get(year: number, month: number): list<dict<number>>
-	var marks: list<dict<number>>
+export def Close()
+	popup_close(win)
+enddef
 
+import autoload "notebook.vim"
+def GetMarks(year: number, month: number): list<number>
+	var marks: list<number>
 	for file in notebook.GetJournals(year, month)
 		const parts = file->fnamemodify(':r')->split('-')
 		if len(parts) >= 3
-			const note_year  = parts[0]->str2nr()
-			const note_month = parts[1]->str2nr()
-			const note_day   = parts[2]->str2nr()
-			if note_year == year && note_month == month
-				marks->add({
-					year: note_year,
-					month: note_month,
-					day: note_day,
-				})
+			const y = parts[0]->str2nr()
+			const m = parts[1]->str2nr()
+			const d = parts[2]->str2nr()
+			if y == year && m == month
+				marks->add(y * 10000 + m * 100 + d)
 			endif
 		endif
 	endfor
 	return marks
 enddef
 
-def OpenDailyJournal(year: number, month: number, day: number)
-	Close()
+def OnAction(year: number, month: number, day: number)
+	Hide()
 	notebook.Journal({year: year, month: month, day: day})
 enddef
-
-const journals = {
-	get: Get,
-	actions: {
-		open_daily_note: OpenDailyJournal,
-	}
-} # }}}
-# Actions {{{
-var extensions: dict<any>
-var marked_days: dict<bool>
-def GetCalendarExts(): dict<dict<any>>
-	return {journals: journals}
-enddef
-
-def HasMarks(year: number, month: number, day: number): bool
-	return marked_days->has_key(printf('%4d%2d%2d', year, month, day))
-enddef
-
-def Mark(year: number, month: number, day: number)
-	marked_days[printf('%4d%2d%2d', year, month, day)] = true
-enddef
-
-export def Register(name: string, ext: dict<any>)
-	extensions[name] = ext
-enddef
-
-def OnChange(year: number, month: number)
-	extensions->extend(GetCalendarExts())
-	for ext in extensions->values()
-		for mark in ext.get(year, month)
-			Mark(mark.year, mark.month, mark.day)
-		endfor
-	endfor
-enddef
-
-import autoload "popup.vim"
-def OnAction(year: number, month: number, day: number)
-	var actions: list<dict<any>>
-	for [extension, ext] in items(extensions)
-		for [action, callback] in items(ext.actions)
-			actions->add({
-				text: extension .. '/' .. action,
-				callback: callback,
-				date: { year: year, month: month, day: day },
-			})
-		endfor
-	endfor
-	if empty(actions)
-		return
-	endif
-	if len(actions) == 1
-		const res = actions[0]
-		res.callback(res.date.year, res.date.month, res.date.day)
-	elseif len(actions) < 5
-		popup_menu(actions->mapnew((_, v) => v.text), {
-			borderchars: config.borderchars,
-			borderhighlight: config.borderhighlight,
-			highlight: config.highlight,
-			callback: (_, result) => {
-				if result > 0
-					const res = actions[result - 1]
-					res.callback(res.date.year, res.date.month, res.date.day)
-				endif
-			}
-		})
-	else
-		popup.Select("calendar actions", actions,
-			(res, key) => {
-				res.callback(res.date.year, res.date.month, res.date.day)
-			})
-	endif
-enddef
-# }}}
 # command! -nargs=0 Calendar Open()
 # map <buffer><F5> <Cmd>so<CR><Cmd>Calendar<CR>
 # vim:fdm=marker
