@@ -323,7 +323,7 @@ def HighlightDay(day_num: number)
 enddef
 
 def HighlightToday(year: number, month: number, grid: Grid)
-	if "%Y"->strftime()->str2nr() != year || "%m"->strftime()->str2nr() != month
+	if str2nr(strftime("%Y")) != year || str2nr(strftime("%m")) != month
 		return
 	endif
 	var is_current_month = false
@@ -380,55 +380,55 @@ def HighlightAdjacentDays(grid: Grid)
 	endfor
 enddef
 
-export def Open()
-	const popup_opts = {
-		border: null_list,
-		borderchars: config.borderchars,
-		borderhighlight: config.borderhighlight,
-		highlight: config.highlight,
-		mapping: false,
-		zindex: 49,
-		filter: (_, key) => {
-			if key == config.keymap.previous_month || key == "\<ScrollWheelUp>"
-				calendar.MonthPrev()
-			elseif key == config.keymap.next_month || key == "\<ScrollWheelDown>"
-				calendar.MonthNext()
-			elseif key == config.keymap.previous_day
-				calendar.DayPrev()
-				HighlightDay(calendar.day)
-			elseif key == config.keymap.next_day
-				calendar.DayNext()
-				HighlightDay(calendar.day)
-			elseif key == config.keymap.previous_week
-				calendar.DayPrev(7)
-				HighlightDay(calendar.day)
-			elseif key == config.keymap.next_week
-				calendar.DayNext(7)
-				HighlightDay(calendar.day)
-			elseif key == config.keymap.today
-				calendar.Today()
-			elseif key == config.keymap.hide || key == "\<ESC>"
-				Hide()
-			elseif key == "\<LeftMouse>"
-				const pos = getmousepos()
-				if pos.winid == win && pos.line > 3 && (pos.line - 3) % 2 == 0
-					var new_day = calendar.grid->get((pos.line - 3) / 2 - 1)
-						->get((pos.column - 4) / 4)
-					if type(new_day) == v:t_string
-						new_day = new_day->str2nr()
-						OnAction(calendar.year, calendar.month, new_day)
-					endif
-				endif
-			elseif key == "\<Enter>"
-				OnAction(calendar.year, calendar.month, calendar.day)
+def PopupFilter(_, key: string): bool
+	if key == config.keymap.previous_month || key == "\<ScrollWheelUp>"
+		calendar.MonthPrev()
+	elseif key == config.keymap.next_month || key == "\<ScrollWheelDown>"
+		calendar.MonthNext()
+	elseif key == config.keymap.previous_day
+		calendar.DayPrev()
+		HighlightDay(calendar.day)
+	elseif key == config.keymap.next_day
+		calendar.DayNext()
+		HighlightDay(calendar.day)
+	elseif key == config.keymap.previous_week
+		calendar.DayPrev(7)
+		HighlightDay(calendar.day)
+	elseif key == config.keymap.next_week
+		calendar.DayNext(7)
+		HighlightDay(calendar.day)
+	elseif key == config.keymap.today
+		calendar.Today()
+	elseif key == config.keymap.hide || key == "\<ESC>"
+		Hide()
+	elseif key == "\<LeftMouse>"
+		const pos = getmousepos()
+		if pos.winid == win && pos.line > 3 && (pos.line - 3) % 2 == 0
+			var new_day = calendar.grid->get((pos.line - 3) / 2 - 1)
+				->get((pos.column - 4) / 4)
+			if type(new_day) == v:t_string
+				new_day = new_day->str2nr()
+				OnAction(calendar.year, calendar.month, new_day)
 			endif
-			return true
-		}
-	}
+		endif
+	elseif key == "\<Enter>"
+		OnAction(calendar.year, calendar.month, calendar.day)
+	endif
+	return true
+enddef
 
+export def Open()
 	if popup_show(win) == -1 # Has Popup Show
 		win = RenderLines(calendar.year, calendar.month, calendar.grid)
-			->popup_create(popup_opts)
+			-> popup_create({
+				border: null_list,
+				borderchars: config.borderchars,
+				borderhighlight: config.borderhighlight,
+				highlight: config.highlight,
+				mapping: false,
+				zindex: 49,
+				filter: PopupFilter
+			})
 		buf = winbufnr(win)
 		setbufvar(buf, '&tabstop', 4)
 		if prop_type_list({bufnr: buf})->empty()
@@ -437,7 +437,7 @@ export def Open()
 		endif
 	else
 		RenderLines(calendar.year, calendar.month, calendar.grid)
-			->setbufline(buf, 1)
+			-> setbufline(buf, 1)
 	endif
 
 	HighlightDay(calendar.day)
