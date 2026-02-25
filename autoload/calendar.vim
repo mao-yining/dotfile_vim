@@ -40,108 +40,11 @@ g:calendar_config = {
 	borderchars: get(g:, "popup_borderchars", ['─', '│', '─', '│', '╭', '╮', '╯', '╰']),
 	borderhighlight: get(g:, "popup_borderhighlight", ['VertSplit']),
 	highlight: get(g:, "popup_highlight", 'Normal'),
-	locale: v:lang,
 	locales: {
-		'en_US': {
-			months: [
-				'January', 'February', 'March', 'April', 'May', 'June',
-				'July', 'August', 'September', 'October', 'November', 'December'
-			],
-			weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-			year_month: (year: number, month: number, months: list<string>): string =>
-				printf('%s %d', months[month - 1], year),
-		},
-
-		'de_DE': {
-			months: [
-				'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-				'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
-			],
-			weekdays: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
-			year_month: (year: number, month: number, months: list<string>): string =>
-				printf('%s %d', months[month - 1], year),
-		},
-
-		'en_GB': {
-			months: [
-				'January', 'February', 'March', 'April', 'May', 'June',
-				'July', 'August', 'September', 'October', 'November', 'December'
-			],
-			weekdays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-			year_month: (year: number, month: number, months: list<string>): string =>
-				printf('%s %d', months[month - 1], year),
-		},
-
-		'es_ES': {
-			months: [
-				'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-				'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-			],
-			weekdays: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
-			year_month: (year: number, month: number, months: list<string>): string =>
-				printf('%s %d', months[month - 1], year),
-		},
-
-		'fr_FR': {
-			months: [
-				'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-				'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'
-			],
-			weekdays: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
-			year_month: (year: number, month: number, months: list<string>): string =>
-				printf('%s %d', months[month - 1], year),
-		},
-
-		'it_IT': {
-			months: [
-				'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
-				'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'
-			],
-			weekdays: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
-			year_month: (year: number, month: number, months: list<string>): string =>
-				printf('%s %d', months[month - 1], year),
-		},
-
-		'ja_JP': {
-			months: null_list,
-			weekdays: ['日', '月', '火', '水', '木', '金', '土'],
-			year_month: (year: number, month: number, _: list<string>): string =>
-				printf('%04d 年 %2d 月', year, month),
-		},
-
-		'ko_KR': {
-			months: [
-				'1월', '2월', '3월', '4월', '5월', '6월',
-				'7월', '8월', '9월', '10월', '11월', '12월'
-			],
-			weekdays: ['일', '월', '화', '수', '목', '금', '토'],
-			year_month: (year: number, month: number, _: list<string>): string =>
-				printf('%04d년 %2d월', year, month),
-		},
-
-		'zh_CN': {
-			months: null_list,
-			weekdays: ['日', '一', '二', '三', '四', '五', '六'],
-			year_month: (year: number, month: number, _: list<string>): string =>
-				printf('%04d 年 %2d 月', year, month),
-		},
-
-		'zh_TW': {
-			months: null_list,
-			weekdays: ['日', '一', '二', '三', '四', '五', '六'],
-			year_month: (year: number, month: number, _: list<string>): string =>
-				printf('%04d 年 %2d 月', year, month),
-		},
-
-		'ru_RU': {
-			months: [
-				'январь', 'февраль', 'март', 'апрель', 'май', 'июнь',
-				'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
-			],
-			weekdays: ['вс', 'пн', 'вт', 'ср', 'чт', 'пт', 'сб'],
-			year_month: (year: number, month: number, months: list<string>): string =>
-				printf('%s %d г.', months[month - 1], year),
-		},
+		months: null_list,
+		weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+		year_month: (year: number, month: number, _: list<string>): string =>
+			printf('%04d 年 %2d 月', year, month),
 	}
 }->extend(get(g:, 'calendar_config', {}))
 
@@ -285,7 +188,7 @@ def Right(str: string, width: number): string
 enddef
 
 def RenderLines(year: number, month: number, grid: Grid): list<string>
-	const locale_data = config.locales[config.locale]
+	const locale_data = config.locales
 	const year_month = locale_data.year_month(year, month, locale_data.months)
 	const weekdays = locale_data.weekdays
 
