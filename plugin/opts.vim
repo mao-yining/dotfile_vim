@@ -67,6 +67,7 @@ xmap <Tab> <Plug>(EasyAlign)
 nmap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
 
+g:html_font = ["Fira Code", "Consolas"]
 omap i, <Plug>(swap-textobject-i)
 xmap i, <Plug>(swap-textobject-i)
 omap a, <Plug>(swap-textobject-a)
