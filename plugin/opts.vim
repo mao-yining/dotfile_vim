@@ -82,6 +82,11 @@ command -nargs=? StartupTime delc StartupTime | packa vim-startuptime | StartupT
 
 runtime macros/sandwich/keymap/surround.vim
 
+nmap <C-=> <Plug>(GUIFontSizeInc)
+nmap <C-_> <Plug>(GUIFontSizeDec)
+nmap <C--> <Plug>(GUIFontSizeDec)
+nmap <C-0> <Plug>(GUIFontSizeRestore)
+
 g:competitest_configs = {
 	# multiple_testing: 1,
 	testcases_input_file_format: "$(FNOEXT)$(TCNUM).in",
