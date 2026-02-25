@@ -1,6 +1,5 @@
 # mine/opt/dadbod	git@github.com:tpope/vim-dadbod.git
 # mine/opt/dadbod-ui	git@github.com:kristijanhusak/vim-dadbod-ui.git
-# mine/start/vim-closetag	git@github.com:alvan/vim-closetag.git
 # vim: ts=35 sw=0 noet cc=35
 devel	git@github.com:lifepillar/vim-devel.git
 mine/opt/DrawIt	git@github.com:vim-scripts/DrawIt.git
@@ -10,31 +9,32 @@ mine/opt/conflict-marker	git@github.com:rhysd/conflict-marker.vim
 mine/opt/copilot	git@github.com:github/copilot.vim.git
 mine/opt/fugitive	git@github.com:tpope/vim-fugitive.git
 mine/opt/gitgutter	git@github.com:airblade/vim-gitgutter.git
-mine/opt/gv.vim	git@github.com:mao-yining/gv.vim.git
+mine/opt/gnupg	git@github.com:jamessan/vim-gnupg.git
+mine/opt/gutentags	git@github.com:ludovicchabant/vim-gutentags.git
+mine/opt/gv	git@github.com:mao-yining/gv.vim.git
 mine/opt/lsp	git@github.com:yegappan/lsp.git
-mine/opt/vim-gnupg	git@github.com:jamessan/vim-gnupg.git
-mine/opt/vim-gutentags	git@github.com:ludovicchabant/vim-gutentags.git
-mine/opt/vim-pio	git@github.com:normen/vim-pio.git
-mine/opt/vim-startuptime	git@github.com:dstein64/vim-startuptime.git
+mine/opt/pio	git@github.com:normen/vim-pio.git
+mine/opt/startuptime	git@github.com:dstein64/vim-startuptime.git
 mine/opt/vimspector	git@github.com:puremourning/vimspector.git
-mine/start/asyncrun.vim	git@github.com:skywind3000/asyncrun.vim.git
-mine/start/asynctasks.vim	git@github.com:skywind3000/asynctasks.vim.git
+mine/start/asyncrun	git@github.com:skywind3000/asyncrun.vim.git
+mine/start/asynctasks	git@github.com:skywind3000/asynctasks.vim.git
+mine/start/beancount	git@github.com:nathangrigg/vim-beancount.git
 mine/start/catppuccin	git@github.com:catppuccin/vim.git
+mine/start/characterize	git@github.com:tpope/vim-characterize.git
+mine/start/closetag	git@github.com:alvan/vim-closetag.git
 mine/start/competitest	git@github.com:mao-yining/competitest.vim.git
-mine/start/csv.vim	git@github.com:chrisbra/csv.vim.git
+mine/start/csv	git@github.com:chrisbra/csv.vim.git
+mine/start/dir	git@github.com:mao-yining/vim-dir.git
+mine/start/dispatch	git@github.com:tpope/vim-dispatch.git
 mine/start/lion	git@github.com:mao-yining/vim-lion.git
 mine/start/sandwich	git@github.com:mao-yining/vim-sandwich
-mine/start/traces.vim	git@github.com:markonm/traces.vim.git
+mine/start/sleuth	git@github.com:tpope/vim-sleuth.git
+mine/start/startify	git@github.com:mhinz/vim-startify.git
+mine/start/swap	git@github.com:machakann/vim-swap.git
+mine/start/traces	git@github.com:markonm/traces.vim.git
 mine/start/undotree	git@github.com:mao-yining/undotree.vim.git
-mine/start/vim-beancount	git@github.com:nathangrigg/vim-beancount.git
-mine/start/vim-characterize	git@github.com:tpope/vim-characterize.git
-mine/start/vim-dir	git@github.com:mao-yining/vim-dir.git
-mine/start/vim-dispatch	git@github.com:tpope/vim-dispatch.git
-mine/start/vim-sleuth	git@github.com:tpope/vim-sleuth.git
-mine/start/vim-startify	git@github.com:mhinz/vim-startify.git
-mine/start/vim-swap	git@github.com:machakann/vim-swap.git
-mine/start/vim-unimpaired	git@github.com:tpope/vim-unimpaired.git
+mine/start/unimpaired	git@github.com:tpope/vim-unimpaired.git
 mine/start/vim9asm	git@github.com:lacygoill/vim9asm.git
 mine/start/vimcdoc	git@github.com:yianwillis/vimcdoc.git
 mine/start/vimtex	git@github.com:lervag/vimtex.git
-mine/start/vista.vim	git@github.com:liuchengxu/vista.vim.git
+mine/start/vista	git@github.com:liuchengxu/vista.vim.git

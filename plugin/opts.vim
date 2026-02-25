@@ -82,19 +82,19 @@ if executable("ctags")
 	elseif executable('git')
 		g:gutentags_file_list_command = 'git ls-files'
 	endif
-	silent! packadd vim-gutentags
+	silent! packadd gutentags
 endif
 
 if executable("man")
-	silent! packadd vim-man
+	silent! packadd man
 endif
 
 if executable("gpg")
-	silent! packadd vim-gnupg
+	silent! packadd gnupg
 endif
 
 if executable("pio")
-	silent! packadd vim-pio
+	silent! packadd pio
 endif
 
 nmap =d <Cmd>DIstart<CR>
@@ -128,7 +128,7 @@ xmap i, <Plug>(swap-textobject-i)
 omap a, <Plug>(swap-textobject-a)
 xmap a, <Plug>(swap-textobject-a)
 
-command -nargs=? StartupTime delc StartupTime | packa vim-startuptime | StartupTime
+command -nargs=? StartupTime delc StartupTime | packa startuptime | StartupTime
 
 runtime macros/sandwich/keymap/surround.vim
 

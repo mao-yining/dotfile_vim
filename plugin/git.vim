@@ -3,7 +3,7 @@ if !executable("git")
 endif
 silent! packadd fugitive
 silent! packadd gitgutter
-silent! packadd gv.vim
+silent! packadd gv
 silent! packadd conflict-marker
 nmap <Leader>gg <Cmd>Git<CR>
 nmap <Leader>gl <Cmd>GV<CR>
