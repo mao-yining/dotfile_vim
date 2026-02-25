@@ -19,6 +19,10 @@ silent! packadd matchit
 silent! packadd nohlsearch
 silent! packadd vimcdoc
 
+xmap <M-x> <Plug>(CheckboxToggleOp)
+nmap <M-x> <Plug>(CheckboxToggleOp)
+omap <M-x> <Plug>(CheckboxToggleOp)
+
 if executable("ctags")
 	g:gutentags_exclude_filetypes = ['help']
 	if executable('rg')

@@ -96,9 +96,6 @@ xnoremap <buffer><LocalLeader>f <ScriptCmd>&l:opfunc = md.SetBlock<CR>g@
 nnoremap <buffer><LocalLeader>q <ScriptCmd>&l:opfunc = md.SetQuoteBlock<CR>g@
 xnoremap <buffer><LocalLeader>q <ScriptCmd>&l:opfunc = md.SetQuoteBlock<CR>g@
 
-nnoremap <buffer><M-x> <Plug>(CheckboxToggle)
-xnoremap <buffer><M-X> <Plug>(CheckboxToggle)
-
 nnoremap <buffer><LocalLeader>d <ScriptCmd>md.RemoveAllStyle()<CR>
 
 nnoremap <buffer><LocalLeader>l <ScriptCmd>&l:opfunc = md.CreateLink<CR>g@
