@@ -72,6 +72,7 @@ nmap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
 
 g:html_font = ["Fira Code", "Consolas"]
+
 omap i, <Plug>(swap-textobject-i)
 xmap i, <Plug>(swap-textobject-i)
 omap a, <Plug>(swap-textobject-a)
@@ -85,6 +86,7 @@ nmap <silent> <LocalLeader>ts <Cmd>TestSuite<CR>
 nmap <silent> <LocalLeader>tl <Cmd>TestLast<CR>
 nmap <silent> <LocalLeader>tv <Cmd>TestVisit<CR>
 g:test#strategy = "vimterminal"
+runtime macros/sandwich/keymap/surround.vim
 
 g:competitest_configs = {
 	# multiple_testing: 1,
