@@ -5,6 +5,58 @@ g:popup_borderchars_t = ['─', '│', '─', '│', '├', '┤', '╯', '╰']
 g:loaded_netrw        = 1
 g:loaded_netrwPlugin  = 1
 nmap - <Cmd>Dir<CR>
+g:dir_change_cwd = true
+g:dir_actions = [
+	{text: 'Share with 0x0.st', Action: (items) => {
+		var urls = []
+		for item in items
+			var path = $"{b:dir_cwd}/{item.name}"
+			if item.type != 'dir' && filereadable(path)
+				var url = systemlist($'curl -A "Vim Paste" -F file=@"{path}" http://0x0.st')[-1]
+				add(urls, url)
+			endif
+		endfor
+		setreg("@", urls->join("\n"))
+		setreg("+", urls->join("\n"))
+		echom urls->join("\n")
+	}},
+	{text: 'Convert to gif', Action: (items) => {
+		if len(items) > 1
+			return
+		endif
+		var input = items[0].name
+		if fnamemodify(input, ":e") != "mkv"
+			echom "Should only work for MKV file!"
+			return
+		endif
+		var output = fnamemodify(input, ":r") .. ".gif"
+		var gs_cmd = 'ffmpeg -i "%s" -vf "split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" "%s"'
+		term_start(printf(gs_cmd, input, output), {term_finish: "close"})
+	# if v:shell_error
+	#     echom $"Couldn't convert {input}"
+	# else
+	#     :Dir
+	# endif
+	}},
+	{text: 'Optimize PDF', Action: (items) => {
+		if len(items) > 1
+			return
+		endif
+		var input = items[0].name
+		if fnamemodify(input, ":e") != "pdf"
+			echom "Should only work for PDF file!"
+			return
+		endif
+		var output = fnamemodify(input, ":r") .. "_opt.pdf"
+		var gs_cmd = 'gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="%s" "%s"'
+		system(printf(gs_cmd, output, input))
+		if v:shell_error
+			echom $"Couldn't optimize {input}"
+		else
+			exe "Dir"
+		endif
+	}},
+]
 
 silent! packadd comment
 silent! packadd editexisting
