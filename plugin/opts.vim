@@ -66,8 +66,6 @@ imap <silent><F9>  <Esc><Cmd>AsyncTask project-run<CR>
 map  <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 imap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 
-xmap <Tab> <Plug>(EasyAlign)
-
 nmap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
 

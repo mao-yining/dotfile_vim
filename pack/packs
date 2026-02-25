@@ -22,6 +22,7 @@ mine/start/asynctasks.vim	git@github.com:skywind3000/asynctasks.vim.git
 mine/start/catppuccin	git@github.com:catppuccin/vim.git
 mine/start/competitest	git@github.com:mao-yining/competitest.vim.git
 mine/start/csv.vim	git@github.com:chrisbra/csv.vim.git
+mine/start/lion	git@github.com:mao-yining/vim-lion.git
 mine/start/sandwich	git@github.com:mao-yining/vim-sandwich
 mine/start/traces.vim	git@github.com:markonm/traces.vim.git
 mine/start/undotree	git@github.com:mao-yining/undotree.vim.git
@@ -29,7 +30,6 @@ mine/start/vim-beancount	git@github.com:nathangrigg/vim-beancount.git
 mine/start/vim-characterize	git@github.com:tpope/vim-characterize.git
 mine/start/vim-dir	git@github.com:mao-yining/vim-dir.git
 mine/start/vim-dispatch	git@github.com:tpope/vim-dispatch.git
-mine/start/vim-easy-align	git@github.com:junegunn/vim-easy-align.git
 mine/start/vim-signature	git@github.com:kshenoy/vim-signature.git
 mine/start/vim-sleuth	git@github.com:tpope/vim-sleuth.git
 mine/start/vim-startify	git@github.com:mhinz/vim-startify.git
