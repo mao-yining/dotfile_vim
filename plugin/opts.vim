@@ -44,7 +44,6 @@ endif
 nmap =d <Cmd>DIstart<CR>
 nmap \d <Cmd>DIstop<CR>
 
-g:vista#renderer#enable_icon = false
 nmap <LocalLeader>v <Cmd>Vista!!<CR>
 
 g:asynctasks_term_pos = "tab"
