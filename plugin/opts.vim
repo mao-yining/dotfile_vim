@@ -80,12 +80,6 @@ xmap a, <Plug>(swap-textobject-a)
 
 command -nargs=? StartupTime delc StartupTime | packa vim-startuptime | StartupTime
 
-nmap <silent> <LocalLeader>tt <Cmd>TestNearest<CR>
-nmap <silent> <LocalLeader>tf <Cmd>TestFile<CR>
-nmap <silent> <LocalLeader>ts <Cmd>TestSuite<CR>
-nmap <silent> <LocalLeader>tl <Cmd>TestLast<CR>
-nmap <silent> <LocalLeader>tv <Cmd>TestVisit<CR>
-g:test#strategy = "vimterminal"
 runtime macros/sandwich/keymap/surround.vim
 
 g:competitest_configs = {

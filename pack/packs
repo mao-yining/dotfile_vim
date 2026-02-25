@@ -16,7 +16,6 @@ mine/opt/vim-gnupg	git@github.com:jamessan/vim-gnupg.git
 mine/opt/vim-gutentags	git@github.com:ludovicchabant/vim-gutentags.git
 mine/opt/vim-pio	git@github.com:normen/vim-pio.git
 mine/opt/vim-startuptime	git@github.com:dstein64/vim-startuptime.git
-mine/opt/vim-test	git@github.com:vim-test/vim-test.git
 mine/opt/vimspector	git@github.com:puremourning/vimspector.git
 mine/start/asyncrun.vim	git@github.com:skywind3000/asyncrun.vim.git
 mine/start/asynctasks.vim	git@github.com:skywind3000/asynctasks.vim.git
