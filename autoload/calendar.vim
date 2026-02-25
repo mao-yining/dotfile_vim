@@ -156,14 +156,14 @@ class Calendar
 	var day   = str2nr(strftime("%d"))
 	var days: number
 	var localtime = localtime()
-	final grid = range(6)->map("[0]->repeat(7)")
+	final grid = range(6)->map((_, v) => [0]->repeat(7))
 	def Update()
 		const month = this.month
 		this.year  = str2nr(strftime("%Y", this.localtime))
 		this.month = str2nr(strftime("%m", this.localtime))
 		this.day   = str2nr(strftime("%d", this.localtime))
 		if month != this.month
-			this.GridUpdate()
+			this.ComputeGrid()
 			Open()
 		endif
 	enddef
@@ -184,13 +184,13 @@ class Calendar
 		this.DayNext(this.days)
 	enddef
 	def new()
-		this.GridUpdate()
+		this.ComputeGrid()
 	enddef
 	def Today()
 		this.localtime = localtime()
 		this.Update()
 	enddef
-	def GridUpdate()
+	def ComputeGrid()
 		const start_col = this.GetFirstWeekday(this.year, this.month)
 		this.days = this.GetMonthDays(this.year, this.month)
 
