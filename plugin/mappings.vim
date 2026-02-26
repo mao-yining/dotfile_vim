@@ -316,3 +316,10 @@ nmap ]n <Scriptcmd>diff.NextChange()<CR>
 nmap [n <Scriptcmd>diff.PrevChange()<CR>
 xmap ]n <Scriptcmd>diff.NextChange()<CR>
 xmap [n <Scriptcmd>diff.PrevChange()<CR>
+
+import autoload 'os.vim'
+# go to current file in as file manager
+nnoremap gof <ScriptCmd>os.FileManager()<CR>
+
+# open URLs
+nnoremap gx <ScriptCmd>os.Gx()<CR>
