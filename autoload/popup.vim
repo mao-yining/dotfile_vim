@@ -43,7 +43,7 @@ export def Commands(commands: list<dict<any>>, pos_botright: bool = true): numbe
         hi def link PopupCommandKeyTitle Title
         prop_type_add('PopupCommandKeyTitle', {highlight: "PopupCommandKeyTitle", override: true, priority: 1000, combine: true})
     endif
-    commands->foreach((_, v) => {
+    for v in commands
         if v->has_key("key")
             v.text = $"  {keytrans(v.key)} → {v.text}"
             v.props = [{col: 3, length: len(keytrans(v.key)), type: "PopupCommandKey"},
@@ -51,7 +51,7 @@ export def Commands(commands: list<dict<any>>, pos_botright: bool = true): numbe
         else
             v.props = [{col: 1, length: len(v.text), type: "PopupCommandKeyTitle"}]
         endif
-    })
+    endfor
     var winid = popup_create(commands, {
         pos: 'botright',
         col: pos_botright ? &columns : 'cursor',
@@ -113,10 +113,10 @@ export def ShowAtCursor(text: any, Setup: func(number) = null_function): number
             if key == "\<Space>"
                 win_execute(winid, "normal! \<C-d>\<C-d>")
                 return true
-            elseif key == "j"
+            elseif key == "d"
                 win_execute(winid, "normal! \<C-d>")
                 return true
-            elseif key == "k"
+            elseif key == "u"
                 win_execute(winid, "normal! \<C-u>")
                 return true
             elseif key == "g"
@@ -125,9 +125,13 @@ export def ShowAtCursor(text: any, Setup: func(number) = null_function): number
             elseif key == "G"
                 win_execute(winid, "normal! G")
                 return true
+            elseif key == "y"
+                win_execute(winid, ":%yank")
+                return true
             endif
-            if key == "\<ESC>"
+            if key == "\<ESC>" || key =~ '\a'
                 popup_close(winid)
+                exe "normal" key
                 return true
             endif
             return true
@@ -310,12 +314,12 @@ export def Select(title: string, items: list<any>, Callback: func(any, string), 
     enddef
 
     var ignore_input = ["\<cursorhold>", "\<ignore>", "\<Nul>",
-          \ "\<LeftMouse>", "\<LeftRelease>", "\<LeftDrag>", $"\<2-LeftMouse>",
-          \ "\<RightMouse>", "\<RightRelease>", "\<RightDrag>", "\<2-RightMouse>",
-          \ "\<MiddleMouse>", "\<MiddleRelease>", "\<MiddleDrag>", "\<2-MiddleMouse>",
-          \ "\<MiddleMouse>", "\<MiddleRelease>", "\<MiddleDrag>", "\<2-MiddleMouse>",
-          \ "\<X1Mouse>", "\<X1Release>", "\<X1Drag>", "\<X2Mouse>", "\<X2Release>", "\<X2Drag>",
-          \ "\<ScrollWheelLeft>", "\<ScrollWheelRight>"
+        "\<LeftMouse>", "\<LeftRelease>", "\<LeftDrag>", $"\<2-LeftMouse>",
+        "\<RightMouse>", "\<RightRelease>", "\<RightDrag>", "\<2-RightMouse>",
+        "\<MiddleMouse>", "\<MiddleRelease>", "\<MiddleDrag>", "\<2-MiddleMouse>",
+        "\<MiddleMouse>", "\<MiddleRelease>", "\<MiddleDrag>", "\<2-MiddleMouse>",
+        "\<X1Mouse>", "\<X1Release>", "\<X1Drag>", "\<X2Mouse>", "\<X2Release>", "\<X2Drag>",
+        "\<ScrollWheelLeft>", "\<ScrollWheelRight>"
     ]
     # this sequence of bytes are generated when left/right mouse is pressed and
     # mouse wheel is rolled
