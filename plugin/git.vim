@@ -2,7 +2,7 @@ if !executable("git")
 	finish
 endif
 silent! packadd fugitive
-silent! packadd gitgutter
+" silent! packadd gitgutter
 silent! packadd gv
 silent! packadd conflict-marker
 nmap <Leader>gg <Cmd>Git<CR>

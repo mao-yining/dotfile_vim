@@ -27,6 +27,8 @@ nnoremap <expr> <Leader>fu ":Unicode "
 inoremap <M-t> <C-o>:InsertTemplate<Space>
 nnoremap <M-t> :<C-u>InsertTemplate<Space>
 
+nmap ga <Cmd>Characterize<CR>
+
 # Grep word under cursor
 nnoremap <Leader>fw <Cmd>silent execute "grep" expand("<cword>")<CR>
 # lvimgrep word in a current buffer
@@ -342,3 +344,4 @@ xmap [n <ScriptCmd>Context(true)<CR>
 xmap ]n <ScriptCmd>Context(false)<CR>
 omap [n <ScriptCmd>ContextMotion(true)<CR>
 omap ]n <ScriptCmd>ContextMotion(false)<CR>
+

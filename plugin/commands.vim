@@ -130,6 +130,7 @@ endif
 
 import autoload 'unicode.vim'
 command! -nargs=1 -complete=custom,unicode.Complete Unicode unicode.Copy(<f-args>)
+command! -bar -nargs=? Characterize echo unicode.Info(<q-args>)
 
 import autoload 'hlblink.vim'
 command BlinkLine hlblink.Line()
