@@ -312,10 +312,19 @@ nmap yow <Cmd>set wrap! wrap?<CR>
 nmap yox <Cmd>exe "set" &cul && &cuc ? "nocuc culopt-=line" : "cul cuc culopt+=line"<CR>
 
 import autoload 'diff.vim'
-nmap ]n <Scriptcmd>diff.NextChange()<CR>
-nmap [n <Scriptcmd>diff.PrevChange()<CR>
-xmap ]n <Scriptcmd>diff.NextChange()<CR>
-xmap [n <Scriptcmd>diff.PrevChange()<CR>
+nmap ]n <ScriptCmd>diff.NextChange()<CR>
+nmap [n <ScriptCmd>diff.PrevChange()<CR>
+xmap ]n <ScriptCmd>diff.NextChange()<CR>
+xmap [n <ScriptCmd>diff.PrevChange()<CR>
+
+import autoload 'docs.vim'
+nnoremap go <nop>
+# go to journal file
+nnoremap goj <ScriptCmd>docs.Journal()<CR>
+# go to todo file
+nnoremap got <ScriptCmd>docs.EditInTab(docs.root .. "todo.md")<CR>
+# go to work too file
+nnoremap gon <Cmd>Note<CR>
 
 import autoload 'os.vim'
 # go to current file in as file manager

@@ -166,9 +166,9 @@ command! -nargs=1 -complete=expression EchoHere string(<args>)->split("\n")->app
 import autoload 'chineselinter.vim'
 command! -nargs=0 CheckChinese chineselinter.Check()
 
-import autoload "../autoload/notebook.vim"
-command! -nargs=0 Note notebook.Note()
-command! -nargs=0 Journal notebook.Journal()
+import autoload "docs.vim"
+command! -nargs=0 Note docs.Note()
+command! -nargs=0 Journal docs.Journal()
 
 import autoload "calendar.vim"
 command! -nargs=0 Calendar calendar.Open()

@@ -357,10 +357,10 @@ export def Close()
 	popup_close(win)
 enddef
 
-import autoload "notebook.vim"
+import autoload "docs.vim"
 def GetMarks(year: number, month: number): list<number>
 	var marks: list<number>
-	for file in notebook.GetJournals(year, month)
+	for file in docs.GetJournals(year, month)
 		const parts = file->fnamemodify(':r')->split('-')
 		if len(parts) >= 3
 			const y = parts[0]->str2nr()
@@ -376,7 +376,7 @@ enddef
 
 def OnAction(year: number, month: number, day: number)
 	Hide()
-	notebook.Journal({year: year, month: month, day: day})
+	docs.Journal({year: year, month: month, day: day})
 enddef
 # command! -nargs=0 Calendar Open()
 # map <buffer><F5> <Cmd>so<CR><Cmd>Calendar<CR>
