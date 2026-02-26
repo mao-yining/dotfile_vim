@@ -321,9 +321,9 @@ export def LspCommands()
 		{text: "LSP"},
 		{text: "Diagnostics", key: "d", close: true, cmd: "LspDiag current"},
 		{text: "Code Action", key: "a", close: true, cmd: "LspCodeAction"},
-		{text: "Show References", key: "r", close: true, cmd: "LspShowReferences"},
-		{text: "Show Signature", key: "s", close: true, cmd: "LspShowSignature"},
-		{text: "Rename", key: "R", close: true, cmd: "LspRename"},
+		{text: "Code Lens", key: "l", close: true, cmd: "LspCodeLens"},
+		{text: "Show Sub Type Hierarchy", key: "s", close: true, cmd: "LspSubTypeHierarchy"},
+		{text: "Show Super Type Hierarchy", key: "S", close: true, cmd: "LspSuperTypeHierarchy"},
 	])
 	popup.Commands(commands)
 enddef
