@@ -2,9 +2,6 @@ if exists('b:load_ftp')
 	finish
 endif
 vim9script
-
-import autoload "popup.vim"
-
 # TODO: complete
 # - highlight groups as the first word or a link after ->
 # - colortemplete keywords
@@ -31,40 +28,6 @@ def HighlightCompletor(findstart: number, base: string): any
 	return items->empty() ? v:none : items
 enddef
 
-def ColorSupport()
-	var commands = []
-	commands->extend([
-		{text: "Color support"},
-		{text: "tgc/256", key: "g", cmd: (_) => {
-			if &tgc
-				set t_Co=256
-				set notgc
-				popup_notification("Switching to 256 colors", {})
-			else
-				set t_Co=256
-				set tgc
-				popup_notification("Switching to GUI colors", {})
-			endif
-		}},
-		{text: "16/8", key: "t", cmd: (_) => {
-			set notgc
-			if str2nr(&t_Co) == 16
-				set t_Co=8
-				popup_notification("Switching to 8 colors", {})
-			else
-				set t_Co=16
-				popup_notification("Switching to 16 colors", {})
-			endif
-		}},
-		{text: "0", key: "T", cmd: (_) => {
-			set notgc
-			set t_Co=0
-			popup_notification("Switching to 0 colors", {})
-		}},
-	])
-	popup.Commands(commands)
-enddef
-
 def Run()
 	update
 	Colortemplate!
@@ -77,13 +40,8 @@ noremap <buffer><F7> <Cmd>ColortemplateShow<CR>
 noremap <buffer><F8> <Cmd>Colortemplate!<CR>
 noremap <buffer><F9> <Cmd>ColortemplateAll!<CR>
 
-b:undo_ftplugin = 'setl omnifunc<'
-	.. ' | exe "nunmap <buffer> <F5>"'
-	.. ' | exe "nunmap <buffer> <F7>"'
-	.. ' | exe "nunmap <buffer> <F8>"'
-	.. ' | exe "nunmap <buffer> <F9>"'
+import autoload "qc.vim"
 if !has("gui_running")
-	noremap <buffer><F3> <ScriptCmd>ColorSupport()<CR>
-	b:undo_ftplugin ..= ' | exe "nunmap <buffer> <F3>"'
+	noremap <buffer><F3> <ScriptCmd>qc.ColorSupport()<CR>
 endif
 b:load_ftp = 1
