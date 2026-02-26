@@ -17,7 +17,7 @@ set splitbelow splitright
 set foldopen+=jump,insert
 set jumpoptions=stack
 set autowrite autoread
-set hlsearch incsearch ignorecase smartcase showmatch matchpairs+=<:> 
+set hlsearch incsearch ignorecase smartcase showmatch matchpairs+=<:>
 set number relativenumber cursorline cursorlineopt=number signcolumn=number
 set breakindent linebreak nojoinspaces
 set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
