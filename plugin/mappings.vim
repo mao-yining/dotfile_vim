@@ -36,22 +36,22 @@ nnoremap <Leader>o <Cmd>execute "Occur" expand("<cword>")<CR>
 
 import autoload 'qc.vim'
 # git popup commands
-nnoremap <space>g <scriptcmd>qc.Git()<CR>
-xnoremap <space>g <scriptcmd>qc.Git()<CR>
+nnoremap <Leader>g <scriptcmd>qc.Git()<CR>
+xnoremap <Leader>g <scriptcmd>qc.Git()<CR>
 # calc visually selected math expression
 # base64 encode/decode
-xnoremap <space>t <scriptcmd>qc.TextTr()<cr>
-nnoremap <space>t <scriptcmd>qc.TextTr()<cr>
+xnoremap <Leader>t <scriptcmd>qc.TextTr()<cr>
+nnoremap <Leader>t <scriptcmd>qc.TextTr()<cr>
 # quickfix&locations&diff
-nnoremap <silent> <space>n <scriptcmd>qc.Nav()<CR>
+nnoremap <Leader>n <scriptcmd>qc.Nav()<CR>
 # horizontal scroll
-nnoremap zl <scriptcmd>qc.HScroll($'normal! {v:count1}zl')<CR>
-nnoremap zh <scriptcmd>qc.HScroll($'normal! {v:count1}zh')<CR>
-nnoremap zs <scriptcmd>qc.HScroll('normal! zs')<CR>
-nnoremap ze <scriptcmd>qc.HScroll('normal! ze')<CR>
+nnoremap zl <ScriptCmd>qc.HScroll($'normal! {v:count1}zl')<CR>
+nnoremap zh <ScriptCmd>qc.HScroll($'normal! {v:count1}zh')<CR>
+nnoremap zs <ScriptCmd>qc.HScroll('normal! zs')<CR>
+nnoremap ze <ScriptCmd>qc.HScroll('normal! ze')<CR>
 # changelist
-nnoremap g; <scriptcmd>qc.ChangeList('g;')<CR>
-nnoremap g, <scriptcmd>qc.ChangeList('g,')<CR>
+nnoremap g; <ScriptCmd>qc.ChangeList('g;')<CR>
+nnoremap g, <ScriptCmd>qc.ChangeList('g,')<CR>
 
 import autoload 'text.vim'
 
