@@ -28,7 +28,6 @@ mine/start/dir	git@github.com:mao-yining/vim-dir.git
 mine/start/dispatch	git@github.com:tpope/vim-dispatch.git
 mine/start/lion	git@github.com:mao-yining/vim-lion.git
 mine/start/sandwich	git@github.com:mao-yining/vim-sandwich
-mine/start/sleuth	git@github.com:tpope/vim-sleuth.git
 mine/start/startify	git@github.com:mhinz/vim-startify.git
 mine/start/swap	git@github.com:machakann/vim-swap.git
 mine/start/traces	git@github.com:markonm/traces.vim.git
