@@ -21,53 +21,14 @@ export def Copy(u: string)
 enddef
 
 export def Info(arg: string): string
-	var char = arg
-	var nl_is_null = false
-
-	if empty(char)
-		char = getline('.')->strpart(col('.') - 1)
-		nl_is_null = true
-	elseif char =~# '^\\[xuU]\=0\+\x\@!'
-		char = "\n"
-		nl_is_null = true
-	elseif char =~# '^\\.'
-		silent! char = eval('"' .. char .. '"')
-	endif
-
-	char = char->matchstr('.')
-	if empty(char)
-		return 'NUL'
-	endif
-
-	var nr: number
-	if nl_is_null && char =~# "^\n"
-		nr = 0
-	elseif nl_is_null && char =~# "^\r" && &fileformat == 'mac'
-		nr = 10
-	else
-		nr = char2nr(char)
-	endif
-
-	var ch = nr < 32 ? '^' .. nr2char(64 + nr) : nr2char(nr)
-
-	var out = '<' .. ch .. '> ' .. nr
-
-	if nr < 256
-		out ..= nr->printf(', \%03o')
-	endif
-
-	out ..= nr->printf(', U+%04X') .. ' ' .. Description(nr)
-
-	var entities = html_entities->get(ch, null_string)
-	if !empty(entities)
-		out ..= ', ' .. entities
-	endif
-
-	for emoji in BinaryGet(emojis, nr, [])
-		out ..= ', ' .. emoji
-	endfor
-
-	return out
+	const nr = (empty(arg) ? getline('.') -> strpart(col('.') - 1)
+		: arg =~# '^\\.' ? eval($'"{arg}"') : arg) -> char2nr()
+	const char = nr->nr2char()->strtrans()
+	return ($'<{char}> {nr}{nr < 256 ? nr->printf('\%03o, ') : ""}'
+		.. nr->printf('U+%04X, ') .. Description(nr) .. ', '
+		.. BinaryGet(emojis, nr, null_list)->join(', ')
+		.. html_entities->get(char, null_string))
+		-> trim(', ')
 enddef
 
 def Description(nr: number, default = '<unknown>'): string
@@ -79,7 +40,7 @@ def Description(nr: number, default = '<unknown>'): string
 	return BinaryGet(all, nr, default)
 enddef
 
-def BinaryGet(list: list<any>, nr: number, default: any): any
+def BinaryGet(list: list<tuple<number, any>>, nr: number, default: any): any
 	var [low, high] = (0, len(list))
 	while low < high
 		var mid = (low + high) / 2
