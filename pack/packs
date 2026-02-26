@@ -1,10 +1,7 @@
-# mine/opt/dadbod	git@github.com:tpope/vim-dadbod.git
-# mine/opt/dadbod-ui	git@github.com:kristijanhusak/vim-dadbod-ui.git
 # vim: ts=35 sw=0 noet cc=35
 devel	git@github.com:lifepillar/vim-devel.git
 mine/opt/DrawIt	git@github.com:vim-scripts/DrawIt.git
 mine/opt/airline	git@github.com:vim-airline/vim-airline.git
-mine/opt/coc	git@github.com:neoclide/coc.nvim.git
 mine/opt/conflict-marker	git@github.com:rhysd/conflict-marker.vim
 mine/opt/copilot	git@github.com:github/copilot.vim.git
 mine/opt/fugitive	git@github.com:tpope/vim-fugitive.git
