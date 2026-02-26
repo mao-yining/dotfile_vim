@@ -143,7 +143,7 @@ xmap s <Esc>`<<ScriptCmd>substitute.SetOperatorFunc(true)<CR>g@`>
 xmap <silent><M-k> :sil! m '<-2<CR>gv
 xmap <silent><M-j> :sil! m '>+1<CR>gv
 
-nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " .. (&buftype !=# "terminal" ? (v:count ? "write" : "update") : &modified <Bar><Bar> exists("*jobwait") && jobwait([&channel], 0)[0] == -1 ? "normal! i" : "bdelete!") .. "\r"
+nmap <CR> <Cmd>update<CR>
 
 nmap =b <Cmd>enew<CR>
 nmap \b <Cmd>bdelete<CR>

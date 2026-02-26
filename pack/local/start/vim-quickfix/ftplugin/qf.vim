@@ -25,6 +25,7 @@ nnoremap <buffer> J <ScriptCmd>qf.Next()<CR>
 nnoremap <buffer> K <ScriptCmd>qf.Prev()<CR>
 nnoremap <buffer> <Left>  <ScriptCmd>qf.Older()<CR>
 nnoremap <buffer> <Right> <ScriptCmd>qf.Newer()<CR>
+nnoremap <buffer> <CR> <CR>
 b:undo_ftplugin ..= "| execute 'nunmap <buffer> o'"
 	.. "| execute 'nunmap <buffer> t'"
 	.. "| execute 'nunmap <buffer> q'"
