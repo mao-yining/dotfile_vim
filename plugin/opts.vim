@@ -75,6 +75,24 @@ xmap <M-x> <Plug>(CheckboxToggleOp)
 nmap <M-x> <Plug>(CheckboxToggleOp)
 omap <M-x> <Plug>(CheckboxToggleOp)
 
+if executable("git")
+	g:gitgutter_map_keys = 0
+	g:gitgutter_preview_win_floating = 1
+	nmap <LocalLeader>hw <Plug>(GitGutterStageHunk)
+	nmap <LocalLeader>hr <Plug>(GitGutterUndoHunk)
+	nmap <LocalLeader>hp <Plug>(GitGutterPreviewHunk)
+	omap ih <Plug>(GitGutterTextObjectInnerPending)
+	omap ah <Plug>(GitGutterTextObjectOuterPending)
+	xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+	xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+	nmap ]h <Plug>(GitGutterNextHunk)
+	nmap [h <Plug>(GitGutterPrevHunk)
+	silent! packadd fugitive
+	silent! packadd gitgutter
+	silent! packadd gv
+	silent! packadd conflict-marker
+endif
+
 if executable("ctags")
 	g:gutentags_exclude_filetypes = ['help']
 	if executable('rg')
