@@ -41,32 +41,64 @@ nnoremap <silent> <Leader><CR> <ScriptCmd>text.Toggle()<CR>
 # i_ i. i: i, i; i| i/ i\ i* i+ i- i# i<Tab>
 # a_ a. a: a, a; a| a/ a\ a* a+ a- a# a<Tab>
 for char in [ '_', '.', ':', ',', ';', '<Bar>', '/', '<Bslash>', '*', '+', '-', '#', '<Tab>' ]
-	execute $"xnoremap <silent> i{char} <Esc><ScriptCmd>text.Obj('{char}', 1)<CR>"
-	execute $"xnoremap <silent> a{char} <Esc><ScriptCmd>text.Obj('{char}', 0)<CR>"
-	execute $"onoremap <silent> i{char} :normal vi{char}<CR>"
-	execute $"onoremap <silent> a{char} :normal va{char}<CR>"
+	execute $"xnoremap i{char} <Esc><ScriptCmd>text.Obj('{char}', 1)<CR>"
+	execute $"xnoremap a{char} <Esc><ScriptCmd>text.Obj('{char}', 0)<CR>"
+	execute $"onoremap i{char} <Cmd>normal vi{char}<CR>"
+	execute $"onoremap a{char} <Cmd>normal va{char}<CR>"
 endfor
 
 # indent text object
-onoremap <silent>ii <ScriptCmd>text.ObjIndent(true)<CR>
-onoremap <silent>ai <ScriptCmd>text.ObjIndent(false)<CR>
-xnoremap <silent>ii <Esc><ScriptCmd>text.ObjIndent(true)<CR>
-xnoremap <silent>ai <Esc><ScriptCmd>text.ObjIndent(false)<CR>
+omap ii <ScriptCmd>text.ObjIndent(true)<CR>
+omap ai <ScriptCmd>text.ObjIndent(false)<CR>
+xmap ii <Esc><ScriptCmd>text.ObjIndent(true)<CR>
+xmap ai <Esc><ScriptCmd>text.ObjIndent(false)<CR>
 
-xnoremap <silent> in <Esc><ScriptCmd>text.ObjNumber()<CR>
-onoremap <silent> in :<C-u>normal vin<CR>
+xmap in <Esc><ScriptCmd>text.ObjNumber()<CR>
+omap in <ScriptCmd>normal vin<CR>
 
 # date text object
-xnoremap <silent> id <Esc><ScriptCmd>text.ObjDate(1)<CR>
-onoremap <silent> id :<C-u>normal vid<CR>
-xnoremap <silent> ad <Esc><ScriptCmd>text.ObjDate(0)<CR>
-onoremap <silent> ad :<C-u>normal vad<CR>
+xmap id <Esc><ScriptCmd>text.ObjDate(1)<CR>
+omap id <ScriptCmd>normal vid<CR>
+xmap ad <Esc><ScriptCmd>text.ObjDate(0)<CR>
+omap ad <ScriptCmd>normal vad<CR>
 
 # line text object
-xnoremap <silent> il <Esc><ScriptCmd>text.ObjLine(1)<CR>
-onoremap <silent> il :<C-u>normal vil<CR>
-xnoremap <silent> al <Esc><ScriptCmd>text.ObjLine(0)<CR>
-onoremap <silent> al :<C-u>normal val<CR>
+xmap il <Esc><ScriptCmd>text.ObjLine(1)<CR>
+omap il <ScriptCmd>normal vil<CR>
+xmap al <Esc><ScriptCmd>text.ObjLine(0)<CR>
+omap al <ScriptCmd>normal val<CR>
+
+nmap <expr> [y  text.TransformSetup('string_encode')
+xmap <expr> [y  text.TransformSetup('string_encode')
+nmap <expr> ]y  text.TransformSetup('string_decode')
+xmap <expr> ]y  text.TransformSetup('string_decode')
+nmap <expr> [yy text.TransformSetup('string_encode') .. '_'
+nmap <expr> ]yy text.TransformSetup('string_decode') .. '_'
+
+nmap <expr> [u  text.TransformSetup('url_encode')
+xmap <expr> [u  text.TransformSetup('url_encode')
+nmap <expr> ]u  text.TransformSetup('url_decode')
+xmap <expr> ]u  text.TransformSetup('url_decode')
+nmap <expr> [uu text.TransformSetup('url_encode') .. '_'
+nmap <expr> ]uu text.TransformSetup('url_decode') .. '_'
+
+nmap <expr> [x  text.TransformSetup('xml_encode')
+xmap <expr> [x  text.TransformSetup('xml_encode')
+nmap <expr> ]x  text.TransformSetup('xml_decode')
+xmap <expr> ]x  text.TransformSetup('xml_decode')
+nmap <expr> [xx text.TransformSetup('xml_encode') .. '_'
+nmap <expr> ]xx text.TransformSetup('xml_decode') .. '_'
+
+nmap [p <ScriptCmd>text.PutLine('[p')<CR>
+nmap ]p <ScriptCmd>text.PutLine(']p')<CR>
+nmap [P <ScriptCmd>text.PutLine('[p')<CR>
+nmap ]P <ScriptCmd>text.PutLine(']p')<CR>
+nmap >P <ScriptCmd>text.PutLine(v:count1 .. '[p')<CR>>']
+nmap >p <ScriptCmd>text.PutLine(v:count1 .. ']p')<CR>>']
+nmap <P <ScriptCmd>text.PutLine(v:count1 .. '[p')<CR><']
+nmap <p <ScriptCmd>text.PutLine(v:count1 .. ']p')<CR><']
+nmap =P <ScriptCmd>text.PutLine(v:count1 .. '[p')<CR>=']
+nmap =p <ScriptCmd>text.PutLine(v:count1 .. ']p')<CR>=']
 
 # CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 # so that you can undo CTRL-U after inserting a line break.
@@ -87,8 +119,8 @@ nmap S <ScriptCmd>substitute.ToEndOfLine()<CR>
 xmap s <Esc>`<<ScriptCmd>substitute.SetOperatorFunc(true)<CR>g@`>
 
 # move lines
-xnoremap <M-j> :sil! m '>+1<CR>gv
-xnoremap <M-k> :sil! m '<-2<CR>gv
+xmap <silent><M-k> :sil! m '<-2<CR>gv
+xmap <silent><M-j> :sil! m '>+1<CR>gv
 
 nnoremap <silent><expr> <CR> &buftype ==# "quickfix" ? "\r" : ":\025confirm " .. (&buftype !=# "terminal" ? (v:count ? "write" : "update") : &modified <Bar><Bar> exists("*jobwait") && jobwait([&channel], 0)[0] == -1 ? "normal! i" : "bdelete!") .. "\r"
 
@@ -180,7 +212,7 @@ augroup visual-block | au!
 	autocmd ModeChanged *:[\x16] xmap { <ScriptCmd>VisualBlockPara("{")<CR>
 	autocmd ModeChanged *:[\x16] xmap } <ScriptCmd>VisualBlockPara("}")<CR>
 	autocmd ModeChanged [\x16]:* xunmap {
-	autocmd ModeChanged [\x16]:* xunmap }
+		autocmd ModeChanged [\x16]:* xunmap }
 augroup end
 omap A <Cmd>normal! ggVG<CR>
 xmap A :<C-U>normal! ggVG<CR>
@@ -196,3 +228,205 @@ imap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\t"
 imap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\t"
 
 map <F12> <Cmd>Calendar<CR>
+
+nmap [a <Cmd>exe "previous" (v:count ? v:count : "")<CR>zv
+nmap ]a <Cmd>exe "next" (v:count ? v:count : "")<CR>zv
+nmap [A <Cmd>exe v:count ? v:count .. "argument" : "first"<CR>zv
+nmap ]A <Cmd>exe v:count ? v:count .. "argument" : "last"<CR>zv
+
+nmap [b <Cmd>exe "bprevious" (v:count ? v:count : "")<CR>zv
+nmap ]b <Cmd>exe "bnext" (v:count ? v:count : "")<CR>zv
+nmap [B <Cmd>exe v:count ? v:count .. "bfirst" : "bfirst"<CR>zv
+nmap ]B <Cmd>exe v:count ? v:count .. "blast" : "blast"<CR>zv
+
+nmap [l <Cmd>exe "lprevious" (v:count ? v:count : "")<CR>zv
+nmap ]l <Cmd>exe "lnext" (v:count ? v:count : "")<CR>zv
+nmap [L <Cmd>exe v:count ? v:count .. "ll" : "lfirst"<CR>zv
+nmap ]L <Cmd>exe v:count ? v:count .. "ll" : "llast"<CR>zv
+
+nmap [q <Cmd>exe "cprevious" (v:count ? v:count : "")<CR>zv
+nmap ]q <Cmd>exe "cnext" (v:count ? v:count : "")<CR>zv
+nmap [Q <Cmd>exe v:count ? v:count .. "cc" : "cfirst"<CR>zv
+nmap ]Q <Cmd>exe v:count ? v:count .. "cc" : "clast"<CR>zv
+
+nmap [t <Cmd>exe "tprevious" (v:count ? v:count : "")<CR>
+nmap ]t <Cmd>exe "tnext" (v:count ? v:count : "")<CR>
+nmap [T <Cmd>exe v:count ? v:count .. "trewind" : "trewind"<CR>
+nmap ]T <Cmd>exe v:count ? v:count .. "tlast" : "tlast"<CR>
+
+nmap [<C-L> <Cmd>exe "lpfile" (v:count ? v:count : "")<CR>
+nmap ]<C-L> <Cmd>exe "lnfile" (v:count ? v:count : "")<CR>
+nmap [<C-Q> <Cmd>exe "cpfile" (v:count ? v:count : "")<CR>
+nmap ]<C-Q> <Cmd>exe "cnfile" (v:count ? v:count : "")<CR>
+
+nmap [<C-T> <Cmd>exe v:count1 .. "ptprevious"<CR>
+nmap ]<C-T> <Cmd>exe v:count1 .. "ptnext"<CR>
+
+nmap [<Space> <Cmd>put!=nr2char(10)->repeat(v:count1)<Bar>']+<CR>
+nmap ]<Space> <Cmd>put =nr2char(10)->repeat(v:count1)<Bar>']-<CR>
+
+var colorcolumn: string
+def ColorColumn()
+	if !empty(&colorcolumn)
+		colorcolumn = &colorcolumn
+	endif
+	&colorcolumn = empty(&colorcolumn) ?  colorcolumn : ''
+enddef
+nmap yot <ScriptCmd>ColorColumn()<CR>
+nmap yob <Cmd>let &background = &background == "dark" ? "light" : "dark"<CR>
+nmap yod <Cmd>exe (&diff ? "diffoff" : "diffthis")<CR>
+nmap yoh <Cmd>set hlsearch! hlsearch?<CR>
+nmap yoi <Cmd>set ignorecase! ignorecase?<CR>
+nmap yol <Cmd>setl list! list?<CR>
+nmap yon <Cmd>set number! number?<CR>
+nmap yoo <Cmd>setl cursorline! cursorline?<CR>
+nmap yor <Cmd>setl relativenumber! relativenumber?<CR>
+nmap yos <Cmd>setl spell! spell?<CR>
+nmap you <Cmd>setl cursorcolumn! cursorcolumn?<CR>
+nmap yov <Cmd>let &ve = &ve =~# "all" ? "block,onemore" : "all"<Bar>set ve<CR>
+nmap yow <Cmd>set wrap! wrap?<CR>
+nmap yox <Cmd>exe "set" &cul && &cuc ? "nocuc culopt-=line" : "cul cuc culopt+=line"<CR>
+
+def FileByOffset(num: number): string
+	var file = expand('%:p')
+	if empty(file)
+		file = getcwd() .. '/'
+	endif
+	var cnt = num
+	while cnt != 0
+		const dir = file->fnamemodify(':h')
+		var path = dir->substitute('[\\/]$', '', '')
+			->substitute('[[$*]', '[&]', 'g')
+		var files  = glob(path .. "/.*")->split("\n")
+		files += glob(path .. "/*")->split("\n")
+		files = files->mapnew((_, v) => substitute(v, '[\\/]$', '', ''))
+			->filter((_, v) => v !~# '[\\/]\.\.\=$')
+
+		var filter_suffixes = &suffixes->escape('~.*$^')->substitute(',', '$\\|', 'g') .. '$'
+		files = files->filter((_, v) => v !~# filter_suffixes)->sort()
+
+		if num < 0
+			files = reverse(copy(files))
+			files = files->copy()->reverse()->filter((_, v) => v <# file)
+		else
+			files = files->filter((_, v) => v ># file)
+		endif
+
+		var temp = files->get(0, '')
+		if empty(temp)
+			file = dir
+		else
+			file = temp
+			var found = true
+			while isdirectory(file)
+				path = file->trim('\/', 2)
+				path = path->substitute('[[$*]', '[&]', 'g')
+				files = glob(path .. "/.*")->split("\n")
+				files += glob(path .. "/*")->split("\n")
+				files = files->mapnew((_, v) => v->trim('\/', 2))
+					->filter((_, v) => v !~# '[\\/]\.\.\=$')
+					->filter((_, v) => v !~# filter_suffixes)
+					->sort()
+				if empty(files)
+					found = false
+					break
+				endif
+				file = files[num > 0 ? 0 : -1]
+			endwhile
+			cnt += (num > 0 ? -1 : 1) * (found ? 1 : 0)
+		endif
+	endwhile
+	return file
+enddef
+
+def GetWindow(): dict<any>
+	if exists('*getwininfo') && exists('*win_getid')
+		return getwininfo(win_getid())->get(0, {})
+	else
+		return {}
+	endif
+enddef
+
+def PreviousFileEntry(cnt: number)
+	var window = GetWindow()
+
+	if window->get('loclist', false)
+		exe 'lolder' cnt
+	elseif window->get('quickfix', false)
+		exe 'colder' cnt
+	else
+		exe 'edit' FileByOffset(-v:count1)->fnamemodify(':.')->fnameescape()
+	endif
+enddef
+
+def NextFileEntry(cnt: number)
+	var window = GetWindow()
+
+	if window->get('loclist', false)
+		exe 'lnewer' cnt
+	elseif window->get('quickfix', false)
+		exe 'cnewer' cnt
+	else
+		exe 'edit' FileByOffset(v:count1)->fnamemodify(':.')->fnameescape()
+	endif
+enddef
+
+# [f / ]f - 文件导航
+nmap [f <ScriptCmd>PreviousFileEntry(v:count1)<CR>
+nmap ]f <ScriptCmd>NextFileEntry(v:count1)<CR>
+
+# 上下文导航（diff）
+def Context(reverse: bool)
+	search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', reverse ? 'bW' : 'W')
+enddef
+
+def ContextMotion(reverse: bool)
+	if reverse
+		:- # up
+		search('^@@ .* @@\|^diff \|^[<=>|]\{7}[<=>|]\@!', 'bWc')
+		if getline('.') =~# '^diff '
+			const end = search('^diff ', 'Wn') - 1
+			if end < 0
+				end = line('$')
+			endif
+			if end > line('.')
+				exe 'normal! V' .. (end - line('.')) .. 'j'
+			elseif end == line('.')
+				normal! V
+			endif
+		elseif getline('.') =~# '^@@ '
+			const end = search('^@@ .* @@\|^diff ', 'Wn') - 1
+			if end < 0
+				end = line('$')
+			endif
+			if end > line('.')
+				exe 'normal! V' .. (end - line('.')) .. 'j'
+			elseif end == line('.')
+				normal! V
+			endif
+		elseif getline('.') =~# '^=\{7\}'
+			:+ # down
+			const end = search('^>\{7}>\@!', 'Wnc')
+			if end > line('.')
+				exe 'normal! V' .. (end - line('.')) .. 'j'
+			elseif end == line('.')
+				normal! V
+			endif
+		elseif getline('.') =~# '^[<=>|]\{7\}'
+			const end = search('^[<=>|]\{7}[<=>|]\@!', 'Wn') - 1
+			if end > line('.')
+				exe 'normal! V' .. (end - line('.')) .. 'j'
+			elseif end == line('.')
+				normal! V
+			endif
+		endif
+	endif
+enddef
+
+# [n / ]n - diff上下文
+nmap [n <ScriptCmd>Context(1)<CR>
+nmap ]n <ScriptCmd>Context(0)<CR>
+xmap [n <ScriptCmd>Context(1)<CR>
+xmap ]n <ScriptCmd>Context(0)<CR>
+omap [n <ScriptCmd>ContextMotion(1)<CR>
+omap ]n <ScriptCmd>ContextMotion(0)<CR>
