@@ -16,10 +16,10 @@ const default_config = {
 	highlight: get(g:, "popup_highlight", 'Normal'),
 	borderhighlight: get(g:, "popup_borderhighlight", ['VertSplit']),
 	while_list: [
-			"<CR>",
-			"<Tab>",
-			"<Esc>",
-		],
+		"<CR>",
+		"<Tab>",
+		"<Esc>",
+	],
 }
 g:recordkey_config = get(g:, 'recordkey_config', {})->extend(default_config, 'keep')
 var config = g:recordkey_config
