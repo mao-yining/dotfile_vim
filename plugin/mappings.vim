@@ -289,59 +289,8 @@ nmap yov <Cmd>let &ve = &ve =~# "all" ? "block,onemore" : "all"<Bar>set ve<CR>
 nmap yow <Cmd>set wrap! wrap?<CR>
 nmap yox <Cmd>exe "set" &cul && &cuc ? "nocuc culopt-=line" : "cul cuc culopt+=line"<CR>
 
-# 上下文导航（diff）
-def Context(reverse: bool)
-	search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', reverse ? 'bW' : 'W')
-enddef
-
-def ContextMotion(reverse: bool)
-	if reverse
-		:- # up
-		search('^@@ .* @@\|^diff \|^[<=>|]\{7}[<=>|]\@!', 'bWc')
-		if getline('.') =~# '^diff '
-			const end = search('^diff ', 'Wn') - 1
-			if end < 0
-				end = line('$')
-			endif
-			if end > line('.')
-				exe 'normal! V' .. (end - line('.')) .. 'j'
-			elseif end == line('.')
-				normal! V
-			endif
-		elseif getline('.') =~# '^@@ '
-			const end = search('^@@ .* @@\|^diff ', 'Wn') - 1
-			if end < 0
-				end = line('$')
-			endif
-			if end > line('.')
-				exe 'normal! V' .. (end - line('.')) .. 'j'
-			elseif end == line('.')
-				normal! V
-			endif
-		elseif getline('.') =~# '^=\{7\}'
-			:+ # down
-			const end = search('^>\{7}>\@!', 'Wnc')
-			if end > line('.')
-				exe 'normal! V' .. (end - line('.')) .. 'j'
-			elseif end == line('.')
-				normal! V
-			endif
-		elseif getline('.') =~# '^[<=>|]\{7\}'
-			const end = search('^[<=>|]\{7}[<=>|]\@!', 'Wn') - 1
-			if end > line('.')
-				exe 'normal! V' .. (end - line('.')) .. 'j'
-			elseif end == line('.')
-				normal! V
-			endif
-		endif
-	endif
-enddef
-
-# [n / ]n - diff上下文
-nmap [n <ScriptCmd>Context(true)<CR>
-nmap ]n <ScriptCmd>Context(false)<CR>
-xmap [n <ScriptCmd>Context(true)<CR>
-xmap ]n <ScriptCmd>Context(false)<CR>
-omap [n <ScriptCmd>ContextMotion(true)<CR>
-omap ]n <ScriptCmd>ContextMotion(false)<CR>
-
+import autoload 'diff.vim'
+nmap ]n <Scriptcmd>diff.NextChange()<CR>
+nmap [n <Scriptcmd>diff.PrevChange()<CR>
+xmap ]n <Scriptcmd>diff.NextChange()<CR>
+xmap [n <Scriptcmd>diff.PrevChange()<CR>
