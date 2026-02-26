@@ -287,94 +287,6 @@ nmap yov <Cmd>let &ve = &ve =~# "all" ? "block,onemore" : "all"<Bar>set ve<CR>
 nmap yow <Cmd>set wrap! wrap?<CR>
 nmap yox <Cmd>exe "set" &cul && &cuc ? "nocuc culopt-=line" : "cul cuc culopt+=line"<CR>
 
-def FileByOffset(num: number): string
-	var file = expand('%:p')
-	if empty(file)
-		file = getcwd() .. '/'
-	endif
-	var cnt = num
-	while cnt != 0
-		const dir = file->fnamemodify(':h')
-		var path = dir->substitute('[\\/]$', '', '')
-			->substitute('[[$*]', '[&]', 'g')
-		var files  = glob(path .. "/.*")->split("\n")
-		files += glob(path .. "/*")->split("\n")
-		files = files->mapnew((_, v) => substitute(v, '[\\/]$', '', ''))
-			->filter((_, v) => v !~# '[\\/]\.\.\=$')
-
-		var filter_suffixes = &suffixes->escape('~.*$^')->substitute(',', '$\\|', 'g') .. '$'
-		files = files->filter((_, v) => v !~# filter_suffixes)->sort()
-
-		if num < 0
-			files = reverse(copy(files))
-			files = files->copy()->reverse()->filter((_, v) => v <# file)
-		else
-			files = files->filter((_, v) => v ># file)
-		endif
-
-		var temp = files->get(0, '')
-		if empty(temp)
-			file = dir
-		else
-			file = temp
-			var found = true
-			while isdirectory(file)
-				path = file->trim('\/', 2)
-				path = path->substitute('[[$*]', '[&]', 'g')
-				files = glob(path .. "/.*")->split("\n")
-				files += glob(path .. "/*")->split("\n")
-				files = files->mapnew((_, v) => v->trim('\/', 2))
-					->filter((_, v) => v !~# '[\\/]\.\.\=$')
-					->filter((_, v) => v !~# filter_suffixes)
-					->sort()
-				if empty(files)
-					found = false
-					break
-				endif
-				file = files[num > 0 ? 0 : -1]
-			endwhile
-			cnt += (num > 0 ? -1 : 1) * (found ? 1 : 0)
-		endif
-	endwhile
-	return file
-enddef
-
-def GetWindow(): dict<any>
-	if exists('*getwininfo') && exists('*win_getid')
-		return getwininfo(win_getid())->get(0, {})
-	else
-		return {}
-	endif
-enddef
-
-def PreviousFileEntry(cnt: number)
-	var window = GetWindow()
-
-	if window->get('loclist', false)
-		exe 'lolder' cnt
-	elseif window->get('quickfix', false)
-		exe 'colder' cnt
-	else
-		exe 'edit' FileByOffset(-v:count1)->fnamemodify(':.')->fnameescape()
-	endif
-enddef
-
-def NextFileEntry(cnt: number)
-	var window = GetWindow()
-
-	if window->get('loclist', false)
-		exe 'lnewer' cnt
-	elseif window->get('quickfix', false)
-		exe 'cnewer' cnt
-	else
-		exe 'edit' FileByOffset(v:count1)->fnamemodify(':.')->fnameescape()
-	endif
-enddef
-
-# [f / ]f - 文件导航
-nmap [f <ScriptCmd>PreviousFileEntry(v:count1)<CR>
-nmap ]f <ScriptCmd>NextFileEntry(v:count1)<CR>
-
 # 上下文导航（diff）
 def Context(reverse: bool)
 	search('^\(@@ .* @@\|[<=>|]\{7}[<=>|]\@!\)', reverse ? 'bW' : 'W')
@@ -424,9 +336,9 @@ def ContextMotion(reverse: bool)
 enddef
 
 # [n / ]n - diff上下文
-nmap [n <ScriptCmd>Context(1)<CR>
-nmap ]n <ScriptCmd>Context(0)<CR>
-xmap [n <ScriptCmd>Context(1)<CR>
-xmap ]n <ScriptCmd>Context(0)<CR>
-omap [n <ScriptCmd>ContextMotion(1)<CR>
-omap ]n <ScriptCmd>ContextMotion(0)<CR>
+nmap [n <ScriptCmd>Context(true)<CR>
+nmap ]n <ScriptCmd>Context(false)<CR>
+xmap [n <ScriptCmd>Context(true)<CR>
+xmap ]n <ScriptCmd>Context(false)<CR>
+omap [n <ScriptCmd>ContextMotion(true)<CR>
+omap ]n <ScriptCmd>ContextMotion(false)<CR>
