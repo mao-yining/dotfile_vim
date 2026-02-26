@@ -189,6 +189,9 @@ tnoremap <M-L> <Cmd>wincmd l<CR>
 tnoremap <C-S-V> <C-_>"+
 tnoremap <C-\> <C-\><C-N>
 
+import autoload 'window.vim'
+nnoremap <C-w>o <ScriptCmd>window.ToggleZoom()<CR>
+
 nmap L gt
 nmap H gT
 nmap =<Tab> <Cmd>tabnew<CR>
