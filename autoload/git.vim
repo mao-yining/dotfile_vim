@@ -1,7 +1,7 @@
 vim9script
 
 import autoload 'popup.vim'
-# import autoload 'os.vim'
+import autoload 'os.vim'
 
 # Show commit that introduced current(selected) line
 # If a count was given, show full history
@@ -65,5 +65,5 @@ export def GithubOpen(firstline: number = line("."), lastline: number = line("."
     endif
     remote_url = remote_url->substitute('.git$', '', '')
     var github_url = $'{remote_url}/blob/{branch}/{filename}#L{firstline}-L{lastline}'
-    Open(github_url)
+    os.Open(github_url)
 enddef
