@@ -125,7 +125,7 @@ g:asyncrun_open       = 9
 g:asyncrun_save       = true
 g:asyncrun_bell       = true
 if has("win32")
-	g:asyncrun_encs = "cp936"
+	g:asyncrun_encs   = "cp936"
 endif
 map  <silent><F7>  <Esc><Cmd>AsyncTask file-run<CR>
 imap <silent><F7>  <Esc><Cmd>AsyncTask file-run<CR>
@@ -140,6 +140,9 @@ nmap <Leader>u <Cmd>UndotreeToggle<CR>
 g:undotree_SetFocusWhenToggle = true
 
 g:html_font = ["Fira Code", "Consolas"]
+
+xmap gl <Plug>(EasyAlign)
+nmap gl <Plug>(EasyAlign)
 
 omap i, <Plug>(swap-textobject-i)
 xmap i, <Plug>(swap-textobject-i)
