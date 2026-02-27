@@ -57,7 +57,7 @@ g:LspOptionsSet({
 	diagVirtualTextAlign: "after",
 	filterCompletionDuplicates: true,
 	ignoreMissingServer: false,
-	popupBorderHighlight: 'Normal',
+	popupBorderHighlight: 'PmenuBorder',
 	popupHighlight: 'Normal',
 	semanticHighlight: true,
 	semanticHighlightDelay: 350,

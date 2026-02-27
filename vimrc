@@ -29,6 +29,7 @@ set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal
 set viewoptions=cursor,folds,curdir,slash
 set diffopt+=algorithm:histogram,linematch:60
 set completeopt=menuone,popup,fuzzy completepopup=border:off
+set previewpopup=border:round,borderhighlight:PmenuBorder
 set autocomplete complete=o^9,.^9,w^5,b^5,t^3,u^2
 set complete+=Fcompletor#Path^9,Fcompletor#Abbrev^3,Fcompletor#Register^3
 set mouse=a mousemodel=extend clipboard^=unnamed
