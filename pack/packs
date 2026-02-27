@@ -15,7 +15,6 @@ mine/opt/startuptime	git@github.com:dstein64/vim-startuptime.git
 mine/opt/vimspector	git@github.com:puremourning/vimspector.git
 mine/start/asyncrun	git@github.com:skywind3000/asyncrun.vim.git
 mine/start/asynctasks	git@github.com:skywind3000/asynctasks.vim.git
-mine/start/ledger	git@github.com:ledger/vim-ledger.git
 mine/start/catppuccin	git@github.com:mao-yining/catppuccin_vim.git
 mine/start/closetag	git@github.com:alvan/vim-closetag.git
 mine/start/competitest	git@github.com:mao-yining/competitest.vim.git

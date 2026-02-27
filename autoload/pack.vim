@@ -106,7 +106,6 @@ export def Update(...args: list<string>)
 		if !IsRunning()
 			timer_stop(t)
 			popup_close(winid)
-			helptags ALL
 			ShowChangelog()
 		endif
 	}, {repeat: -1})
@@ -137,6 +136,7 @@ export def Update(...args: list<string>)
 				close_cb: (_) => {
 					const buftext = bufnr->getbufline(1, '$')
 						->map((_, v) =>  v == $"{UPD1} {name}" ? $"{UPD2} {name}" : v)
+					execute($"helptags {path}/doc", 'silent!')
 					winid->popup_settext(buftext)
 				}}
 			)
@@ -153,6 +153,7 @@ export def Update(...args: list<string>)
 					const buftext = bufnr->getbufline(1, '$')
 						->mapnew((_, v) => v == $"{INST1} {name}" ? $"{INST2} {name}" : v)
 					pack_msg[name] = "Installed.\n"
+					execute($"helptags {path}/doc'", 'silent!')
 					winid->popup_settext(buftext)
 				}}
 			)
