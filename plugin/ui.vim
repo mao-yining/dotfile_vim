@@ -24,7 +24,7 @@ g:startify_session_dir = $MYVIMDIR .. "/sessions"
 g:startify_skiplist = ["/pack/.*/doc/", "/.git/", "/tmp/", '\Temp\']
 g:startify_skiplist += ["fugitiveblame$", "^dir:", "^fugitive:"]
 g:startify_bookmarks = [{ "c": $MYVIMRC }]
-g:startify_bookmarks += [{ "b": "~/Documents/vault/projects/accounts/main.bean" }]
+g:startify_bookmarks += [{ "l": $DOCS .. "projects/accounts/main.ledger" }]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read \":help uganda\".", ""]
 if "airline"->getcompletion("packadd")->empty()|finish|endif
 g:airline_experimental = 1
