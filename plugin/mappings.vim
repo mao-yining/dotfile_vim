@@ -34,7 +34,7 @@ nnoremap <Leader>fw <Cmd>silent execute "grep" expand("<cword>")<CR>
 # lvimgrep word in a current buffer
 nnoremap <Leader>o <Cmd>execute "Occur" expand("<cword>")<CR>
 
-import autoload 'qc.vim'
+import autoload '../autoload/qc.vim'
 # git popup commands
 nnoremap <Leader>g <scriptcmd>qc.Git()<CR>
 xnoremap <Leader>g <scriptcmd>qc.Git()<CR>
@@ -53,7 +53,7 @@ nnoremap ze <ScriptCmd>qc.HScroll('normal! ze')<CR>
 nnoremap g; <ScriptCmd>qc.ChangeList('g;')<CR>
 nnoremap g, <ScriptCmd>qc.ChangeList('g,')<CR>
 
-import autoload 'text.vim'
+import autoload '../autoload/text.vim'
 
 nnoremap <silent> <Leader><CR> <ScriptCmd>text.Toggle()<CR>
 
@@ -132,7 +132,7 @@ xnoremap <Leader>% y:%s/\V<C-R>"/<C-R>"
 nnoremap <Leader>/ <ScriptCmd>exe $"Search {input("Search: ")}"<CR>
 xnoremap <Leader>/ y/\V<C-R>"<CR>
 
-import autoload 'substitute.vim'
+import autoload '../autoload/substitute.vim'
 
 nmap s <ScriptCmd>substitute.SetOperatorFunc(false)<CR>g@
 nmap ss <ScriptCmd>substitute.Line()<CR>
@@ -189,7 +189,7 @@ tnoremap <M-L> <Cmd>wincmd l<CR>
 tnoremap <C-S-V> <C-_>"+
 tnoremap <C-\> <C-\><C-N>
 
-import autoload 'window.vim'
+import autoload '../autoload/window.vim'
 nnoremap <C-w>o <ScriptCmd>window.ToggleZoom()<CR>
 
 nmap L gt
@@ -311,13 +311,13 @@ nmap yov <Cmd>let &ve = &ve =~# "all" ? "block,onemore" : "all"<Bar>set ve<CR>
 nmap yow <Cmd>set wrap! wrap?<CR>
 nmap yox <Cmd>exe "set" &cul && &cuc ? "nocuc culopt-=line" : "cul cuc culopt+=line"<CR>
 
-import autoload 'diff.vim'
+import autoload '../autoload/diff.vim'
 nmap ]n <ScriptCmd>diff.NextChange()<CR>
 nmap [n <ScriptCmd>diff.PrevChange()<CR>
 xmap ]n <ScriptCmd>diff.NextChange()<CR>
 xmap [n <ScriptCmd>diff.PrevChange()<CR>
 
-import autoload 'docs.vim'
+import autoload '../autoload/docs.vim'
 nnoremap go <nop>
 # go to journal file
 nnoremap goj <ScriptCmd>docs.Journal()<CR>
@@ -328,7 +328,7 @@ nnoremap goc <ScriptCmd>docs.EditInTab($MYVIMRC)<CR>
 # go to work too file
 nnoremap gon <Cmd>Note<CR>
 
-import autoload 'os.vim'
+import autoload '../autoload/os.vim'
 # go to current file in as file manager
 nnoremap gof <ScriptCmd>os.FileManager()<CR>
 

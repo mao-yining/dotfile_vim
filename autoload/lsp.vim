@@ -1,6 +1,6 @@
 vim9script
 
-import autoload "qc.vim"
+import autoload "./qc.vim"
 export def SetupMaps()
 	autocmd_add([{
 		replace: true,

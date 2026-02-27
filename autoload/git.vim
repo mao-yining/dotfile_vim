@@ -1,7 +1,7 @@
 vim9script
 
-import autoload 'popup.vim'
-import autoload 'os.vim'
+import autoload './popup.vim'
+import autoload './os.vim'
 
 # Show commit that introduced current(selected) line
 # If a count was given, show full history

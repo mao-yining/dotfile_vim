@@ -357,7 +357,7 @@ export def Close()
 	popup_close(win)
 enddef
 
-import autoload "docs.vim"
+import autoload "./docs.vim"
 def GetMarks(year: number, month: number): list<number>
 	var marks: list<number>
 	for file in docs.GetJournals(year, month)

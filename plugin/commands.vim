@@ -76,7 +76,7 @@ command! DiffOrig {
 }
 
 # update packages
-import autoload "pack.vim"
+import autoload "../autoload/pack.vim"
 command! -nargs=* -complete=custom,pack.Complete PackUpdate pack.Update(<f-args>)
 
 command! WipeHiddenBuffers {
@@ -111,13 +111,13 @@ command! FixTrailingSpaces {
 	echom 'Remove trailing spaces and ^Ms.'
 }
 
-import autoload "text.vim"
+import autoload "../autoload/text.vim"
 command! -range FixSpaces text.FixSpaces(<line1>, <line2>)
 
-import autoload "share.vim"
+import autoload "../autoload/share.vim"
 command! -range=% -nargs=? -complete=custom,share.Complete Share share.Paste(<q-args>, <line1>, <line2>)
 
-import autoload "template.vim"
+import autoload "../autoload/template.vim"
 command! -nargs=1 -complete=custom,template.Complete InsertTemplate template.Insert(<f-args>)
 
 # syntax group names under cursor
@@ -128,11 +128,11 @@ if executable('sudo')
 	command! W w !sudo tee "%" >/dev/null
 endif
 
-import autoload 'unicode.vim'
+import autoload '../autoload/unicode.vim'
 command! -nargs=1 -complete=custom,unicode.Complete Unicode unicode.Copy(<f-args>)
 command! -bar -nargs=? Characterize echo unicode.Info(<q-args>)
 
-import autoload 'hlblink.vim'
+import autoload '../autoload/hlblink.vim'
 command BlinkLine hlblink.Line()
 
 def RecentComplete(_, _, _): string
@@ -163,18 +163,19 @@ command! BackupVault exe "Git commit -am \"vault backup:" strftime("%Y-%m-%d %H:
 
 command! -nargs=1 -complete=expression EchoHere string(<args>)->split("\n")->append(line('.'))
 
-import autoload 'chineselinter.vim'
+import autoload '../autoload/chineselinter.vim'
 command! -nargs=0 CheckChinese chineselinter.Check()
 
-import autoload "docs.vim"
+import autoload "../autoload/docs.vim"
 command! -nargs=0 Note docs.Note()
 command! -nargs=0 Journal docs.Journal()
 
-import autoload "calendar.vim"
+import autoload "../autoload/calendar.vim"
 command! -nargs=0 Calendar calendar.Open()
 
-import autoload "disassemble.vim"
+import autoload "../autoload/disassemble.vim"
 command! -nargs=* -complete=file ObjDump disassemble.Disassemble(<q-mods>, <q-args>)
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 import autoload "bullet.vim"
@@ -196,3 +197,5 @@ import autoload "../autoload/bullet.vim"
 command! -range=% BulletDemoteVisual  bullet.ChangeBulletLevel(-1, true)
 command! -range=% BulletPromoteVisual bullet.ChangeBulletLevel(1,  true)
 command! -range=% RenumberSelection   bullet.RenumberSelection()
+=======
+>>>>>>> d53ae65 (refactor(imports): standardize import paths)

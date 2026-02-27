@@ -65,7 +65,7 @@ g:LspOptionsSet({
 	usePopupInCodeAction: true,
 	useQuickfixForLocations: true, # For LspShowReferences
 })
-import autoload 'lsp.vim'
+import autoload '../autoload/lsp.vim'
 augroup LspSetup
 	au!
 	au User LspAttached lsp.SetupMaps()

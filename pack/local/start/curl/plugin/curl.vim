@@ -4,6 +4,6 @@ if exists("g:loaded_curl")
 endif
 g:loaded_curl = 1
 
-import autoload 'curl.vim'
+import autoload '../autoload/curl.vim'
 
 command! -range Curl curl.Execute(<line1>, <line2>)

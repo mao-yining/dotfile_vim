@@ -2,10 +2,10 @@ vim9script
 
 # Quick commands popup
 
-import autoload 'popup.vim'
-import autoload 'text.vim'
-import autoload 'diff.vim'
-import autoload 'git.vim'
+import autoload './popup.vim'
+import autoload './text.vim'
+import autoload './diff.vim'
+import autoload './git.vim'
 
 # Example of multi level popup
 # export def QfLoc()

@@ -1,6 +1,6 @@
 vim9script
 
-import autoload 'terminal.vim'
+import autoload '../autoload/terminal.vim'
 
 command! -nargs=* -complete=shellcmdline Term terminal.Run(<q-args> ?? &shell, <q-mods> ?? window#BotRight())
 
