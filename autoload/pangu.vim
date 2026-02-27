@@ -5,8 +5,8 @@ vim9script
 # 参考：中文文案排版指北（简体中文版）<https://github.com/mzlogin/chinese-copywriting-guidelines>
 # Usage:
 # import autoload 'pangu.vim'
-# command -nargs=* -range Pangu <line1>,<line2> pangu.PanGuSpacingCore("RANGE", <line1>, <line2>)
-# command -nargs=* PanguAll pangu.PanGuSpacingCore("ALL", 1, line("$"))
+# command -nargs=* -range Pangu pangu.SpacingCore(<line1>, <line2>)
+# command -nargs=* PanguAll pangu.SpacingCore(1, line("$"), "ALL")
 # command -nargs=0 PanguDisable let g:pangu_enabled = false
 # command -nargs=0 PanguEnable let g:pangu_enabled = true
 
@@ -24,7 +24,7 @@ g:pangu_rule_remove_zero_width_whitespace = get(g:, 'pangu_rule_remove_zero_widt
 # g:pangu_punctuation_brackets = get(g:, 'pangu_punctuation_brackets', ["【", "】"])
 g:pangu_punctuation_ellipsis = get(g:, 'pangu_punctuation_ellipsis', "······")
 
-export def PanGuSpacingCore(mode: string, firstline: number, lastline: number)
+export def SpacingCore(firstline: number, lastline: number, mode = "RANGE")
 	if search("PANGU_DISABLE", 'nw') > 0 || &filetype == "diff"
 		return
 	endif

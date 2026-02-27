@@ -28,6 +28,6 @@ setlocal formatlistpat+=^\\s*[.]\\+\\s\\+
 setlocal textwidth=80
 
 bullet#SetLocalMappings()
-autocmd BufWritePre <buffer> PanguAll
+xnoremap <silent><buffer> <Tab> :Pangu<CR>
 
 b:load_ftp = 1
