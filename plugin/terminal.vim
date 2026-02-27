@@ -4,12 +4,14 @@ import autoload 'terminal.vim'
 
 command! -nargs=* -complete=shellcmdline Term terminal.Run(<q-args> ?? &shell, <q-mods> ?? window#BotRight())
 
+
 if executable("nu")
-	nmap c<CR> <Cmd>Term nu<CR>
+	nmap '<CR> <Cmd>Term nu<CR>
 else
-	nmap c<CR> <Cmd>Term<CR>
+	nmap '<CR> <Cmd>Term<CR>
 endif
-nmap c<Space> :Term<Space>
+nmap '<Space> :Term<Space>
+nmap '? <Cmd>set shell?<CR>
 
 def TermMappings()
 	setlocal nonumber

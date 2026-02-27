@@ -155,6 +155,16 @@ nmap <C-_> <Plug>(GUIFontSizeDec)
 nmap <C--> <Plug>(GUIFontSizeDec)
 nmap <C-0> <Plug>(GUIFontSizeRestore)
 
+g:dispatch_no_maps = 1
+nmap `! :Dispatch!
+nmap `<CR> <Cmd>Dispatch<CR>
+nmap `<Space> :Dispatch<Space>
+nmap `? <Cmd>FocusDispatch<CR>
+nmap m! :Make!
+nmap m<CR> <Cmd>Make<CR>
+nmap m<Space> :Make<Space>
+nmap m? <Cmd>set makeprg?<CR>
+
 g:competitest_configs = {
 	# multiple_testing: 1,
 	testcases_input_file_format: "$(FNOEXT)$(TCNUM).in",
