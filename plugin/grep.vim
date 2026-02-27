@@ -10,3 +10,5 @@ endif
 
 command! Todo silent grep! TODO:<Space>
 nnoremap g<Space> <Cmd>silent call g:SetProjectRoot()<CR>:silent grep!<Space>
+xnoremap g<Space> ""y<Cmd>silent call g:SetProjectRoot()<CR>:<C-U>silent grep! <C-r>"
+xnoremap g<CR> ""y<Cmd>silent call g:SetProjectRoot()<CR>:silent grep! <C-r>"<CR>
