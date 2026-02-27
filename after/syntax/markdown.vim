@@ -1,10 +1,12 @@
 exe $'syn match mdTodoCheckbox /\%({&l:formatlistpat}\)\@<=\[ \]/ containedin=TOP'
 exe $'syn match mdDoneCheckbox /\%({&l:formatlistpat}\)\@<=\[[xX]\]/ containedin=TOP'
 exe $'syn match mdPendingCheckbox /\%({&l:formatlistpat}\)\@<=\[[-=]\]/ containedin=TOP'
+exe $'syn match mdWorkingCheckbox /\%({&l:formatlistpat}\)\@<=\[[.oO]\]/ containedin=TOP'
 exe $'syn match mdWrongCheckbox /\%({&l:formatlistpat}\)\@<=\[[?!]\]/ containedin=TOP'
 hi! def link mdTodoCheckbox Todo
 hi! def link mdDoneCheckbox Added
 hi! def link mdPendingCheckbox Changed
+hi! def link mdWorkingCheckbox MatchParen
 hi! def link mdWrongCheckbox Error
 
 syn match mdTodo /\<TODO\>/
