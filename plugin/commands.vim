@@ -178,27 +178,8 @@ command! -nargs=0 Calendar calendar.Open()
 
 import autoload "../autoload/disassemble.vim"
 command! -nargs=* -complete=file ObjDump disassemble.Disassemble(<q-mods>, <q-args>)
-<<<<<<< HEAD
 
-<<<<<<< HEAD
-import autoload "bullet.vim"
-
-command! RecomputeCheckboxes  bullet.RecomputeCheckboxes()
-command! RenumberList         bullet.RenumberWholeList()
-command! BulletDemote         bullet.ChangeBulletLevel(-1, false)
-command! BulletPromote        bullet.ChangeBulletLevel(1, false)
-command! InsertNewBullet      bullet.InsertNewBullet()
-command! SelectBullet         bullet.SelectBulletItem(line('.'))
-command! SelectBulletText     bullet.SelectBulletText(line('.'))
-command! SelectCheckbox       bullet.SelectCheckbox(false)
-command! SelectCheckboxInside bullet.SelectCheckbox(true)
-command! ToggleCheckbox       bullet.ToggleCheckboxesNested(line("."))
-=======
 import autoload "../autoload/bullet.vim"
->>>>>>> c4856af (fixup! feat(bullet): replace checkbox plugin)
-
 command! -range=% BulletDemoteVisual  bullet.ChangeBulletLevel(-1, true)
 command! -range=% BulletPromoteVisual bullet.ChangeBulletLevel(1,  true)
 command! -range=% RenumberSelection   bullet.RenumberSelection()
-=======
->>>>>>> d53ae65 (refactor(imports): standardize import paths)

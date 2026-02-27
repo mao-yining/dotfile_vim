@@ -59,7 +59,7 @@ g:dir_actions = [
 ]
 
 silent! packadd comment
-silent! packadd editexisting
+# silent! packadd editexisting
 silent! packadd editorconfig
 silent! packadd helptoc
 tnoremap <C-t><C-t> <Cmd>HelpToc<CR>
