@@ -6,6 +6,8 @@ else
     b:undo_ftplugin = "setl cms< com< fo< flp< tw<"
 endif
 
+bullet#SetLocalMappings()
+
 setlocal comments=
 setlocal commentstring=
 setlocal formatoptions=tcqlnmMjro

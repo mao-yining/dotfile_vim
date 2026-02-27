@@ -71,10 +71,6 @@ silent! packadd matchit
 silent! packadd nohlsearch
 silent! packadd vimcdoc
 
-xmap <M-x> <Plug>(CheckboxToggleOp)
-nmap <M-x> <Plug>(CheckboxToggleOp)
-omap <M-x> <Plug>(CheckboxToggleOp)
-
 if executable("git")
 	g:gitgutter_map_keys = 0
 	g:gitgutter_preview_win_floating = 1

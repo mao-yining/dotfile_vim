@@ -52,24 +52,10 @@ xnoremap <buffer><silent>af <Esc><ScriptCmd>md.ObjCodeFence(false)<CR>
 command! -nargs=? -buffer -complete=custom,md.PandocComplete Pandoc md.Pandoc(<f-args>)
 noremap <buffer> <F5> <ScriptCmd>update<Bar>md.Make()<CR>
 
-# This is the dictionary of the form [32]: https://example.com that takes into
-# account of all the links that the user place at the bottom of a markdown
-# file.
-# b:markdown_links = md.RefreshLinksDict()
-
-# # Check that the values of the dict are valid URL
-# for link in values(b:markdown_links)
-# 	if !md.IsURL(link)
-# 		md.Echowarn($'"{link}" is not a valid URL.')
-# 		sleep 200m
-# 		break
-# 	endif
-# endfor
-
 # Convert links inline links [mylink](blabla) to referenced links [mylink][3]
 command! -buffer -nargs=0 ConvertLinks md.ConvertLinks()
 
-inoremap <buffer><silent><CR> <C-O>:call markdown#CR_Hacked()<CR>
+bullet#SetLocalMappings()
 
 def SetSurroundOpFunc(style: string)
 	&l:opfunc = md.SurroundSmart->function([style])
