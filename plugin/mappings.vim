@@ -323,6 +323,8 @@ nnoremap go <nop>
 nnoremap goj <ScriptCmd>docs.Journal()<CR>
 # go to todo file
 nnoremap got <ScriptCmd>docs.EditInTab(docs.root .. "todo.md")<CR>
+nnoremap gol <ScriptCmd>docs.EditInTab(docs.root .. "projects/accounts/main.ledger")<CR>
+nnoremap goc <ScriptCmd>docs.EditInTab($MYVIMRC)<CR>
 # go to work too file
 nnoremap gon <Cmd>Note<CR>
 

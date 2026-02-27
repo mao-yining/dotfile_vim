@@ -14,7 +14,6 @@ g:startify_session_delete_buffers = 1
 g:startify_lists = [
 	{ type: "files",     header: ["   MRU"]       },
 	{ type: "sessions",  header: ["   Sessions"]  },
-	{ type: "bookmarks", header: ["   Bookmarks"] },
 	{ type: "commands",  header: ["   Commands"]  },
 ]
 if !isdirectory($MYVIMDIR .. "/sessions")
@@ -23,8 +22,6 @@ endif
 g:startify_session_dir = $MYVIMDIR .. "/sessions"
 g:startify_skiplist = ["/pack/.*/doc/", "/.git/", "/tmp/", '\Temp\']
 g:startify_skiplist += ["fugitiveblame$", "^dir:", "^fugitive:"]
-g:startify_bookmarks = [{ "c": $MYVIMRC }]
-g:startify_bookmarks += [{ "l": $DOCS .. "projects/accounts/main.ledger" }]
 g:startify_custom_footer = ["", "   Vim is charityware. Please read \":help uganda\".", ""]
 if "airline"->getcompletion("packadd")->empty()|finish|endif
 g:airline_experimental = 1
