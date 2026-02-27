@@ -26,7 +26,7 @@ export def Info(arg: string): string
 	const char = nr->nr2char()->strtrans()
 	return ($'<{char}> {nr}{nr < 256 ? nr->printf('\%03o, ') : ""}'
 		.. nr->printf('U+%04X, ') .. Description(nr) .. ', '
-		.. BinaryGet(emojis, nr, null_list)->join(', ')
+		.. BinaryGet<list<string>>(emojis, nr, null_list)->join(', ')
 		.. html_entities->get(char, null_string))
 		-> trim(', ')
 enddef
@@ -37,10 +37,10 @@ def Description(nr: number, default = '<unknown>'): string
 			return name
 		endif
 	endfor
-	return BinaryGet(all, nr, default)
+	return BinaryGet<string>(all, nr, default)
 enddef
 
-def BinaryGet(list: list<tuple<number, any>>, nr: number, default: any): any
+def BinaryGet<T>(list: list<tuple<number, T>>, nr: number, default: T): T
 	var [low, high] = (0, len(list))
 	while low < high
 		var mid = (low + high) / 2
