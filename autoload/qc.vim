@@ -471,7 +471,7 @@ export def Git()
 	var commit_commands: list<dict<any>> = [
 		{text: 'Git commands of commit"'},
 		{text: 'commit', key: "c", close: true, cmd: "Git commit -v" },
-		{text: 'commit --signoff', key: "s", close: true, cmd: "Git commit -signoff -v" },
+		{text: 'commit --signoff', key: "s", close: true, cmd: "Git commit --signoff -v" },
 		{text: 'commit --amend', key: "a", close: true, cmd: "Git commit --amend -v" },
 		{text: 'commit --amend --no-edit', key: "e", close: true, cmd: "Git commit --amend --no-edit -v" },
 		{text: 'command', key: " ", close: true, cmd: (_) => feedkeys(':Git merge ', 'n') },
@@ -513,10 +513,7 @@ export def Git()
 		{text: 'log (local)', key: "L", close: true, cmd: "GV!" },
 		{text: 'write file', key: "w", close: true, cmd: "Gwrite" },
 		{text: 'read HEAD file', key: "r", close: true, cmd: "Gread" },
-		{text: 'merge tool', key: "m", close: true, cmd: "Git mergetool" },
-		{text: 'diff tool', key: "d", close: true, cmd: "Git difftool" },
-		{text: 'merge', key: "M", close: true, cmd: (_) => feedkeys(':Git merge ', 'n') },
-		{text: 'stash', key: "S", close: true, cmd: (_) => feedkeys(':Git stash ', 'n') },
+		{text: 'diff (this file)', key: "d", close: true, cmd: "Git diff %" },
 		{text: 'history ...', key: "h", close: true, cmd: (_) => {
 			popup.Commands(hist_commands)
 		}},
