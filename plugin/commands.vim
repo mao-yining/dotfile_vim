@@ -163,8 +163,11 @@ command! BackupVault exe "Git commit -am \"vault backup:" strftime("%Y-%m-%d %H:
 
 command! -nargs=1 -complete=expression EchoHere string(<args>)->split("\n")->append(line('.'))
 
-import autoload '../autoload/chineselinter.vim'
-command! -nargs=0 CheckChinese chineselinter.Check()
+import autoload '../autoload/pangu.vim'
+command -nargs=* -range Pangu <line1>,<line2> pangu.PanGuSpacingCore("RANGE", <line1>, <line2>)
+command -nargs=* PanguAll pangu.PanGuSpacingCore("ALL", 1, line("$"))
+command -nargs=0 PanguDisable let g:pangu_enabled = false
+command -nargs=0 PanguEnable let g:pangu_enabled = true
 
 import autoload "../autoload/docs.vim"
 command! -nargs=0 Note docs.Note()

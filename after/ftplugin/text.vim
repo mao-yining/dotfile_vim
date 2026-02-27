@@ -1,12 +1,8 @@
-vim9script
-
-if exists('b:undo_ftplugin')
-    b:undo_ftplugin ..= "|setl cms< com< fo< flp< tw<"
-else
-    b:undo_ftplugin = "setl cms< com< fo< flp< tw<"
+if exists('b:load_ftp')
+	finish
 endif
-
-bullet#SetLocalMappings()
+vim9script
+b:undo_ftplugin ..= "|setl cms< com< fo< flp< tw<"
 
 setlocal comments=
 setlocal commentstring=
@@ -30,3 +26,8 @@ setlocal formatlistpat+=\\\|
 setlocal formatlistpat+=^\\s*[.]\\+\\s\\+
 
 setlocal textwidth=80
+
+bullet#SetLocalMappings()
+autocmd BufWritePre <buffer> PanguAll
+
+b:load_ftp = 1

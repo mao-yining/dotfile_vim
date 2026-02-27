@@ -56,6 +56,7 @@ noremap <buffer> <F5> <ScriptCmd>update<Bar>md.Make()<CR>
 command! -buffer -nargs=0 ConvertLinks md.ConvertLinks()
 
 bullet#SetLocalMappings()
+autocmd BufWritePre <buffer> PanguAll
 
 def SetSurroundOpFunc(style: string)
 	&l:opfunc = md.SurroundSmart->function([style])
