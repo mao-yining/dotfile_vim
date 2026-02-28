@@ -1,7 +1,5 @@
 vim9script
 
-set guioptions=!cC
-
 inoremap <C-S-V> <C-R><C-P>+
 cnoremap <C-S-V> <C-R><C-O>+
 

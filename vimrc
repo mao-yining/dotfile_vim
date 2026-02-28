@@ -1,8 +1,6 @@
 vim9script
 g:mapleader = ' '
 g:maplocalleader = ';'
-filetype plugin indent on
-syntax on
 
 set hidden confirm
 set ttimeout ttimeoutlen=50
@@ -33,6 +31,9 @@ set previewpopup=border:round,borderhighlight:PmenuBorder
 set autocomplete complete=o^9,.^9,w^5,b^5,t^3,u^2
 set complete+=Fcompletor#Path^9,Fcompletor#Abbrev^3,Fcompletor#Register^3
 set mouse=a mousemodel=extend clipboard^=unnamed
+set guioptions=!cCM
+filetype plugin indent on
+syntax on
 if !empty($XDG_DATA_HOME)
 	$DATA_HOME = $XDG_DATA_HOME->trim("/", 2) .. "/vim/"
 elseif has("win32")
