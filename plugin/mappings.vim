@@ -15,17 +15,19 @@ enddef
 nnoremap <expr> <Leader><Leader> Find()
 nnoremap <expr> <Leader><LocalLeader> Find("tab")
 nnoremap <expr> <LocalLeader><Leader> Find("", expand("%"))
-nnoremap <expr> <Leader>b ":buffer "
-nnoremap <expr> <Leader>t ":AsyncTask "
-nnoremap <expr> <Leader>h ":help "
-nnoremap <expr> <Leader>r ":Recent "
+nnoremap <expr> <Leader>b  ":buffer "
+nnoremap <expr> <Leader>h  ":help "
+nnoremap <expr> <Leader>r  ":Recent "
 nnoremap <expr> <Leader>fm ":compiler "
 nnoremap <expr> <Leader>ft ":set filetype="
 nnoremap <expr> <Leader>fs ":SLoad "
 nnoremap <expr> <Leader>fc ":colorscheme "
 nnoremap <expr> <Leader>fu ":Unicode "
-inoremap <M-t> <C-o>:InsertTemplate<Space>
-nnoremap <M-t> :<C-u>InsertTemplate<Space>
+nnoremap <expr> <Leader>fi Find("", $MYVIMDIR)
+nnoremap <expr> <Leader>fr Find("", $VIMRUNTIME)
+nnoremap <expr> <Leader>d  Find("", $DOCS ?? "~/docs")
+inoremap <expr> <M-t> "\<C-o>:InsertTemplate "
+nnoremap <expr> <M-t> ":\<C-u>InsertTemplate "
 
 nmap ga <Cmd>Characterize<CR>
 
