@@ -57,7 +57,7 @@ augroup General | au!
 	# save last session on exit if there is a buffer with name
 	au VimLeavePre * {
 		if reduce(getbufinfo({'buflisted': 1}), (a, v) => a || !empty(v.name), false)
-			exe $'mksession! {$MYVIMDIR}/sessions/__LAST__'
+			exe $'mksession! {$DATA_HOME}sessions/__LAST__'
 		endif
 	}
 
