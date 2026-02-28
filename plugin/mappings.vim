@@ -170,24 +170,7 @@ map <C-Down> <C-W>-
 map <C-Left> <C-W><
 map <C-Right> <C-W>>
 
-# change window in normal
 nmap <Leader>w <C-W>
-set termwinkey=<C-_>
-noremap <M-H> <Cmd>wincmd h<CR>
-noremap <M-J> <Cmd>wincmd j<CR>
-noremap <M-K> <Cmd>wincmd k<CR>
-noremap <M-L> <Cmd>wincmd l<CR>
-inoremap <M-H> <Esc><Cmd>wincmd h<CR>
-inoremap <M-J> <Esc><Cmd>wincmd j<CR>
-inoremap <M-K> <Esc><Cmd>wincmd k<CR>
-inoremap <M-L> <Esc><Cmd>wincmd l<CR>
-tnoremap <M-H> <Cmd>wincmd h<CR>
-tnoremap <M-J> <Cmd>wincmd j<CR>
-tnoremap <M-K> <Cmd>wincmd k<CR>
-tnoremap <M-L> <Cmd>wincmd l<CR>
-
-tnoremap <C-S-V> <C-_>"+
-tnoremap <C-\> <C-\><C-N>
 
 import autoload '../autoload/window.vim'
 nnoremap <C-w>o <ScriptCmd>window.ToggleZoom()<CR>
@@ -196,10 +179,6 @@ nmap L gt
 nmap H gT
 nmap =<Tab> <Cmd>tabnew<CR>
 nmap \<Tab> <Cmd>tabclose<CR>
-
-for i in range(10)
-	execute($"map <M-{i}> <Cmd>tabn {i == 0 ? 10 : i}<CR>")
-endfor
 
 def Tab_MoveLeft()
 	const tabnr = tabpagenr() - 2

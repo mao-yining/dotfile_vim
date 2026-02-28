@@ -4,6 +4,8 @@ import autoload '../autoload/terminal.vim'
 
 command! -nargs=* -complete=shellcmdline Term terminal.Run(<q-args> ?? &shell, <q-mods> ?? window#BotRight())
 
+tnoremap <C-S-V> <C-w>"+
+tnoremap <C-\> <C-\><C-N>
 
 if executable("nu")
 	nmap '<CR> <Cmd>Term nu<CR>
