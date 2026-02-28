@@ -5,13 +5,19 @@ def CmdReplace(cmd: string, ucmd: string): string
 enddef
 
 cnoreabbrev <expr> git CmdReplace('git', 'Git')
+cnoreabbrev <expr> todo CmdReplace('todo', 'Todo')
 
 # quick to change dir
 cab cdn lcd <C-R>=expand('%:p:h')<CR>
 cab cdr cd <C-R>=FindProjectRoot()<CR>
 
 inorea myn Mao-Yining
-inorea mymail mao.yining@outlook.com
+inorea MYN Mao-Yining <mao.yining@outlook.com>
+inorea ddd <C-r>=strftime("%Y-%m-%d")<CR><C-R>=misc#Eatchar('\s')<CR>
+inorea ddt <C-r>=strftime("%Y-%m-%d %H:%M")<CR><C-R>=misc#Eatchar('\s')<CR>
+inorea :shrug: ¯\_(ツ)_/¯<C-R>=misc#Eatchar('\s')<CR>
+inorea :cool: ( •_•) ( -_-)~⌐■-■ (⌐■_■)><C-R>=misc#Eatchar('\s')<CR>
+
 inorea latex LaTeX
 inorea xetex XeTeX
 inorea xelatex XeLaTeX
