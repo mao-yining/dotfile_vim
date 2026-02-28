@@ -54,6 +54,13 @@ augroup General | au!
 		source
 	}
 
+	# save last session on exit if there is a buffer with name
+	au VimLeavePre * {
+		if reduce(getbufinfo({'buflisted': 1}), (a, v) => a || !empty(v.name), false)
+			exe $'mksession! {$MYVIMDIR}/sessions/__LAST__'
+		endif
+	}
+
 	# 设置 q 来退出窗口
 	autocmd FileType startuptime,fugitive,fugitiveblame map <buffer> q <Cmd>wincmd c<CR>
 
@@ -137,7 +144,7 @@ command BlinkLine hlblink.Line()
 
 def RecentComplete(_, _, _): string
 	const skip_lists: list<string> = get(g:, "startify_skiplist", [])
-	return v:oldfiles->filter((_, val: string): bool => {
+	return v:oldfiles->filter((_, val) => {
 		for pattern in skip_lists
 			if val =~# pattern || empty(val)
 				return false
