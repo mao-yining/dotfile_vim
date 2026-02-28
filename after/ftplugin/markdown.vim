@@ -99,7 +99,7 @@ g:markdown_fenced_languages = [
 	"asm", "c", "cpp",
 	"rust", "go",
 	"javascript",
-	"yaml", "json", "jsonc", "toml",
+	"yaml", "json", "jsonc", "toml", "ledger",
 	"python", "perl", "vim", "ruby", "lua",
 	"tex", "tikz=tex", "typst",
 	"git", "gitcommit", "gitrebase", "diff",
