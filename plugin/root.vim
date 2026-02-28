@@ -68,7 +68,7 @@ def g:SetProjectRoot()
 	silent exe "lcd" g:FindProjectRoot()
 enddef
 
-augroup prjroot | au!
+augroup root | au!
 	au BufReadPost * g:SetProjectRoot() # TODO: Weather Leave it or not.
 augroup END
 
