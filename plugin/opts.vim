@@ -164,6 +164,8 @@ nmap m<CR> <Cmd>Make<CR>
 nmap m<Space> :Make<Space>
 nmap m? <Cmd>set makeprg?<CR>
 
+g:ledger_extra_options = '--pedantic --explicit '
+
 g:competitest_configs = {
 	# multiple_testing: 1,
 	testcases_input_file_format: "$(FNOEXT)$(TCNUM).in",
