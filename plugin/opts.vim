@@ -164,7 +164,7 @@ nmap m<CR> <Cmd>Make<CR>
 nmap m<Space> :Make<Space>
 nmap m? <Cmd>set makeprg?<CR>
 
-g:ledger_extra_options = '--pedantic --explicit '
+g:ledger_extra_options = '--strict'
 
 g:competitest_configs = {
 	# multiple_testing: 1,
