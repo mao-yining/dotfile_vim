@@ -24,11 +24,31 @@ export def Info(arg: string): string
 	const nr = (empty(arg) ? getline('.') -> strpart(col('.') - 1)
 		: arg =~# '^\\.' ? eval($'"{arg}"') : arg) -> char2nr()
 	const char = nr->nr2char()->strtrans()
-	return ($'<{char}> {nr}{nr < 256 ? nr->printf('\%03o, ') : ""}'
-		.. nr->printf('U+%04X, ') .. Description(nr) .. ', '
-		.. BinaryGet<list<string>>(emojis, nr, null_list)->join(', ')
-		.. html_entities->get(char, null_string))
-		-> trim(', ')
+	
+	var parts = [$'<{char}>  {nr}']
+	
+	if nr < 256
+		parts[0] ..= nr->printf('/%03o')
+	endif
+	
+	parts->add(nr->printf('U+%04X'))
+	
+	const desc = Description(nr)
+	if !empty(desc)
+		parts->add(desc)
+	endif
+	
+	const emoji_list = BinaryGet<list<string>>(emojis, nr, null_list)
+	if !empty(emoji_list)
+		parts->add(emoji_list->join(', '))
+	endif
+	
+	const html_entity = html_entities->get(char, null_string)
+	if html_entity != null_string
+		parts->add(html_entity)
+	endif
+	
+	return parts->join(', ')
 enddef
 
 def Description(nr: number, default = '<unknown>'): string
