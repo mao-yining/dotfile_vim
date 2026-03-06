@@ -55,7 +55,7 @@ augroup General | au!
 	}
 
 	# save last session on exit if there is a buffer with name
-	au VimLeavePre * {
+	au VimLeave * {
 		if reduce(getbufinfo({'buflisted': 1}), (a, v) => a || !empty(v.name), false)
 			exe $'mksession! {$DATA_HOME}sessions/__LAST__'
 		endif
@@ -87,7 +87,7 @@ import autoload "../autoload/pack.vim"
 command! -nargs=* -complete=custom,pack.Complete PackUpdate pack.Update(<f-args>)
 
 command! WipeHiddenBuffers {
-	const buffers = getbufinfo()->filter((_, v) => v.hidden )
+	const buffers = getbufinfo()->filter((_, v) => v.hidden)
 	if !empty(buffers)
 		execute 'confirm bwipeout' buffers->mapnew((_, v) => v.bufnr)->join()
 	endif
