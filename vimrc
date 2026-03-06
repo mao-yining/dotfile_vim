@@ -30,6 +30,7 @@ set completeopt=menuone,popup,fuzzy completepopup=border:off
 set previewpopup=border:round,borderhighlight:PmenuBorder
 set autocomplete complete=o^9,.^9,w^5,b^5,t^3,u^2
 set complete+=Fcompletor#Path^9,Fcompletor#Abbrev^3,Fcompletor#Register^3
+set thesaurus+=$MYVIMDIR/spell/thesaurus.txt
 set mouse=a mousemodel=extend clipboard^=unnamed
 set guioptions=!cCM
 filetype plugin indent on
