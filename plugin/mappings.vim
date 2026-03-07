@@ -38,14 +38,14 @@ nnoremap <Leader>o <Cmd>execute "Occur" expand("<cword>")<CR>
 
 import autoload '../autoload/qc.vim'
 # git popup commands
-nnoremap <Leader>g <scriptcmd>qc.Git()<CR>
-xnoremap <Leader>g <scriptcmd>qc.Git()<CR>
+nnoremap <Leader>g <ScriptCmd>qc.Git()<CR>
+xnoremap <Leader>g <ScriptCmd>qc.Git()<CR>
 # calc visually selected math expression
 # base64 encode/decode
-xnoremap <Leader>t <scriptcmd>qc.TextTr()<cr>
-nnoremap <Leader>t <scriptcmd>qc.TextTr()<cr>
+xnoremap <Leader>t <ScriptCmd>qc.TextTr()<cr>
+nnoremap <Leader>t <ScriptCmd>qc.TextTr()<cr>
 # quickfix&locations&diff
-nnoremap <Leader>n <scriptcmd>qc.Nav()<CR>
+nnoremap <Leader>n <ScriptCmd>qc.Nav()<CR>
 # horizontal scroll
 nnoremap zl <ScriptCmd>qc.HScroll($'normal! {v:count1}zl')<CR>
 nnoremap zh <ScriptCmd>qc.HScroll($'normal! {v:count1}zh')<CR>

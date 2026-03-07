@@ -157,7 +157,7 @@ class Calendar
 		return (h + 6) % 7
 	enddef
 endclass
-var calendar = Calendar.new()
+const calendar = Calendar.new()
 
 def AlignStr(str: string, width: number, align = 'left', fillchar = ' '): string
 	const str_width = str->strdisplaywidth()
