@@ -12,10 +12,10 @@ if !has("gui_running")
 	&t_EI = "\e[2 q"
 	&t_SI = "\e[5 q"
 	&t_SR = "\e[3 q"
-	set <M-H>=h
-	set <M-J>=j
-	set <M-K>=k
-	set <M-L>=l
+	set <M-h>=h
+	set <M-j>=j
+	set <M-k>=k
+	set <M-l>=l
 	set <M-t>=t
 	set <M-x>=x
 endif
