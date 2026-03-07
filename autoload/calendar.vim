@@ -68,6 +68,8 @@ class Calendar
 		if month != this.month
 			this.ComputeGrid()
 			Open()
+		else
+			HighlightDay(calendar.day)
 		endif
 	enddef
 	def DayPrev(n = 1)
