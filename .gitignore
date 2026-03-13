@@ -1,8 +1,9 @@
-plugged/
+/pack/bundle/
 pack/devel/
 pack/mine/
-sessions/
-*.swp
-*.dll
-tags*
+
+**/tags
+/tags
+tags.lock
+
 .netrwhist
