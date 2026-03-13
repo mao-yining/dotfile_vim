@@ -35,8 +35,10 @@ def CmdCompleteSelectFirst()
 	endif
 
 	# Commands to accept first element of completion if no selection is made and
-	# completion is visible.
-	# :e newfile<CR> should always edit newfile, not the first element of completion
+	# completion is visible, e.g:
+	# - :find somefile<CR> should edit the first element of the completion popup
+	# - on the other hand, :e newfile<CR> should always edit newfile, not the
+	#   first element of completion popup
 	var commands = [
 		'sfind', 'find', 'tabfind', 'buffer', 'sbuffer', 'colorscheme',
 		'highlight', 'help', 'tselect', 'tag', 'compiler', 'packadd',
@@ -87,6 +89,7 @@ enddef
 
 def CmdComplete()
 	const cmdcompltype = getcmdcompltype()
+	# :! and :term completion is very slow on Windows and WSL, avoid using it there.
 	if ((has("win32") || exists("$WSLENV")) && cmdcompltype == 'shellcmd')
 			|| cmdcompltype ==# 'customlist,fugitive#Complete'
 			|| cmdcompltype ==# 'customlist,dispatch#command_complete'
