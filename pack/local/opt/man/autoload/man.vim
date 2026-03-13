@@ -1,4 +1,7 @@
 vim9script
+
+g:vim_man_cmd = get(g:, 'man_cmd', '/usr/bin/man')
+
 # GetPage {{{
 var man_tag_depth = -1
 var man_tag_bufs: dict<number>
@@ -172,25 +175,21 @@ catch /E145:/
 	# Ignore the error in restricted mode
 endtry
 
-export def SectionArg(): string
-	return section_arg
-enddef
-
-export def Error(str: string)
+def Error(str: string)
 	echohl ErrorMsg
 	echomsg str
 	echohl None
 enddef
 
-export def GetCmdArg(sect: string, page: string): string
+def GetCmdArg(sect: string, page: string): string
 	if empty(sect)
 		return page
 	else
-		return SectionArg() .. ' ' .. sect .. ' ' .. page
+		return section_arg .. ' ' .. sect .. ' ' .. page
 	endif
 enddef
 
-export def SetManpageBufferName(page: string, section: string)
+def SetManpageBufferName(page: string, section: string)
 	silent execute 'edit' ManpageBufferName(page, section)
 enddef
 
@@ -202,7 +201,7 @@ def ManpageBufferName(page: string, section: string): string
 	endif
 enddef
 
-export def LoadManpageText(page: string, section: string)
+def LoadManpageText(page: string, section: string)
 	setlocal modifiable
 	silent keepjumps normal! 1GdG
 	$MANWIDTH = string(Manwidth())
@@ -226,7 +225,7 @@ enddef
 
 # Default manpage width is the width of the screen. Change this with
 # 'g:man_width'. Example: 'let g:man_width = 120'.
-export def Manwidth(): number
+def Manwidth(): number
 	if exists('g:man_width')
 		return g:man_width
 	else
@@ -234,7 +233,7 @@ export def Manwidth(): number
 	endif
 enddef
 
-export def ExtractPermittedSectionValue(section: string): string
+def ExtractPermittedSectionValue(section: string): string
 	if section =~# '^*$'
 		# matches all dirs with a glob 'man*'
 		return section
@@ -267,7 +266,7 @@ enddef
 # fetches a colon separated list of paths where manpages are stored
 var manpath_cache: string = ''
 
-export def Manpath(): string
+def Manpath(): string
 	# We don't expect manpath to change, so after first invocation it's
 	# saved/cached in a script variable to speed things up on later invocations.
 	if empty(manpath_cache)
@@ -388,7 +387,7 @@ var job: job
 var grep_not_bang: bool
 var grep_opened_first_result: number
 
-export def JobRun(bang: bool, insensitive: bool, pattern: string, path_glob: string)
+def JobRun(bang: bool, insensitive: bool, pattern: string, path_glob: string)
 	echo 'Mangrep command started in background'
 	if job != null_job
 		job_stop(job)

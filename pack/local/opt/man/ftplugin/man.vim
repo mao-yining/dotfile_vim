@@ -36,5 +36,4 @@ nnoremap <buffer> [[ <ScriptCmd>man.SectionMove(v:count1, 'b')<CR>
 xnoremap <buffer> [[ <ScriptCmd>man.SectionMove(v:count1, 'b')<CR>
 nnoremap <buffer> q <Cmd>q<CR>
 nnoremap <buffer> g/ /^\s*\zs
-b:undo_ftplugin = 'setlocal iskeyword<'
 b:did_ftplugin = 1
