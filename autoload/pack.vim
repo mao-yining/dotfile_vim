@@ -76,6 +76,13 @@ def IsRunning(): bool
 	return pack_jobs->reduce((acc, val) => acc || job_status(val) == 'run', false)
 enddef
 
+def UpdateHelptags(path: string)
+	const docdirs = globpath(path, "**/doc", false, true)
+	for dir in docdirs
+		silent! execute 'helptags' dir->escape(' ')
+	endfor
+enddef
+
 # Update or install plugins listed in packs
 export def Update(...args: list<string>)
 	if IsRunning()
@@ -136,7 +143,7 @@ export def Update(...args: list<string>)
 				close_cb: (_) => {
 					const buftext = bufnr->getbufline(1, '$')
 						->map((_, v) =>  v == $"{UPD1} {name}" ? $"{UPD2} {name}" : v)
-					execute($"helptags {path}/doc", 'silent!')
+					UpdateHelptags(path)
 					winid->popup_settext(buftext)
 				}}
 			)
@@ -153,7 +160,7 @@ export def Update(...args: list<string>)
 					const buftext = bufnr->getbufline(1, '$')
 						->mapnew((_, v) => v == $"{INST1} {name}" ? $"{INST2} {name}" : v)
 					pack_msg[name] = "Installed.\n"
-					execute($"helptags {path}/doc'", 'silent!')
+					UpdateHelptags(path)
 					winid->popup_settext(buftext)
 				}}
 			)
