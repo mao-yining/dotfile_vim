@@ -23,7 +23,7 @@ set fillchars=vert:│,fold:·,foldsep:│
 set virtualedit=block,onemore nostartofline
 set switchbuf=uselast
 set nrformats=bin,hex,unsigned
-set sessionoptions=buffers,options,curdir,help,tabpages,winsize,slash,terminal
+set sessionoptions=buffers,curdir,help,tabpages,winsize,slash,terminal
 set viewoptions=cursor,folds,curdir,slash
 set diffopt+=algorithm:histogram,linematch:60
 set completeopt=menuone,popup,fuzzy completepopup=border:off
