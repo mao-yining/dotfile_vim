@@ -24,25 +24,15 @@ vim9script
 # import autoload "bullet.vim"
 # bullet.SetLocalMappings()
 
-if !exists('g:bullets_delete_last_bullet_if_empty')
-	g:bullets_delete_last_bullet_if_empty = 1
-endif
+g:bullets_delete_last_bullet_if_empty = get(g:, 'bullets_delete_last_bullet_if_empty', 1)
 
-if !exists('g:bullets_line_spacing')
-	g:bullets_line_spacing = 1
-endif
+g:bullets_line_spacing = get(g:, 'bullets_line_spacing', 1)
 
-if !exists('g:bullets_pad_right')
-	g:bullets_pad_right = 1
-endif
+g:bullets_pad_right = get(g:, 'bullets_pad_right', 1)
 
-if !exists('g:bullets_max_alpha_characters')
-	g:bullets_max_alpha_characters = 2
-endif
+g:bullets_max_alpha_characters = get(g:, 'bullets_max_alpha_characters', 2)
 
-if !exists('g:bullets_enable_roman_list')
-	g:bullets_enable_roman_list = 1
-endif
+g:bullets_enable_roman_list = get(g:, 'bullets_enable_roman_list', 1)
 
 # calculate the decimal equivalent to the last alphabetical list item
 var power = g:bullets_max_alpha_characters
@@ -52,59 +42,45 @@ while power >= 0
 	power -= 1
 endwhile
 
-if !exists('g:bullets_list_item_styles')
-	# A list of regex patterns that are recognized as bullet points for
-	# bullet items.
-	g:bullets_list_item_styles = ['-', '\*+', '\.+', '#\.', '\+', '\\item']
-endif
+# A list of regex patterns that are recognized as bullet points for
+# bullet items.
+g:bullets_list_item_styles = get(g:, 'bullets_list_item_styles', ['-', '\*+', '\.+', '#\.', '\+', '\\item'])
 
-if !exists('g:bullets_outline_levels')
-	# Capitalization matters: all caps will make the symbol caps, lower = lower
-	# Standard bullets should include the marker symbol after 'std'
-	g:bullets_outline_levels = ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-', 'std*', 'std+']
-endif
+# Capitalization matters: all caps will make the symbol caps, lower = lower
+# Standard bullets should include the marker symbol after 'std'
+g:bullets_outline_levels = get(g:, 'bullets_outline_levels', ['ROM', 'ABC', 'num', 'abc', 'rom', 'std-', 'std*', 'std+'])
 
-if !exists('g:bullets_renumber_on_change')
-	g:bullets_renumber_on_change = 1
-endif
+g:bullets_renumber_on_change = get(g:, 'bullets_renumber_on_change', 1)
 
-if !exists('g:bullets_nested_checkboxes')
-	# Enable nested checkboxes that toggle parents and children when the current
-	# checkbox status changes
-	g:bullets_nested_checkboxes = 1
-endif
+# Enable nested checkboxes that toggle parents and children when the current
+# checkbox status changes
+g:bullets_nested_checkboxes = get(g:, 'bullets_nested_checkboxes', 1)
 
-if !exists('g:bullets_enable_wrapped_lines')
-	g:bullets_enable_wrapped_lines = 1
-endif
+g:bullets_enable_wrapped_lines = get(g:, 'bullets_enable_wrapped_lines', 1)
 
-if !exists('g:bullets_checkbox_markers')
-	# The ordered series of markers to use in checkboxes
-	# If only two markers are listed, they represent 'off' and 'on'
-	# When more than two markers are included, the (n) intermediate markers
-	# represent partial completion where each marker is 1/n of the total number
-	# of markers.
-	# E.g. the default ' .oOX': ' ' = 0 < '.' <= 1/3 < 'o' < 2/3 < 'O' < 1 = X
-	# This scheme is borrowed from https://github.com/vimwiki/vimwiki
-	g:bullets_checkbox_markers = ' .oOX'
+# The ordered series of markers to use in checkboxes
+# If only two markers are listed, they represent 'off' and 'on'
+# When more than two markers are included, the (n) intermediate markers
+# represent partial completion where each marker is 1/n of the total number
+# of markers.
+# E.g. the default ' .oOX': ' ' = 0 < '.' <= 1/3 < 'o' < 2/3 < 'O' < 1 = X
+# This scheme is borrowed from https://github.com/vimwiki/vimwiki
+#
+# You can use fancy symbols like this:
+# g:bullets_checkbox_markers = get(g:, 'bullets_checkbox_markers', '✗○◐●✓')
+#
+# You can disable partial completion markers like this:
+# g:bullets_checkbox_markers = get(g:, 'bullets_checkbox_markers', ' X')
+g:bullets_checkbox_markers = get(g:, 'bullets_checkbox_markers', ' .oOX')
 
-	# You can use fancy symbols like this:
-	# g:bullets_checkbox_markers = '✗○◐●✓'
 
-	# You can disable partial completion markers like this:
-	# g:bullets_checkbox_markers = ' X'
-endif
+# Should toggling on a partially completed checkbox set it to on (1), off
+# (0), or disable toggling partially completed checkboxes (-1)
+g:bullets_checkbox_partials_toggle = get(g:, 'bullets_checkbox_partials_toggle', 1)
 
-if !exists('g:bullets_checkbox_partials_toggle')
-	# Should toggling on a partially completed checkbox set it to on (1), off
-	# (0), or disable toggling partially completed checkboxes (-1)
-	g:bullets_checkbox_partials_toggle = 1
-endif
+# Should a line ending in a colon result in the next line being indented (1)?
+g:bullets_auto_indent_after_colon = get(g:, 'bullets_auto_indent_after_colon', 1)
 
-if !exists('g:bullets_auto_indent_after_colon')
-	# Should a line ending in a colon result in the next line being indented (1)?
-	g:bullets_auto_indent_after_colon = 1
-endif
 # --------------------------------------------------------
 
 # Parse Bullet Type --------------------------------------
