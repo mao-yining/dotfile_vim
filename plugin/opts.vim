@@ -111,9 +111,6 @@ if executable("pio")
 	silent! packadd pio
 endif
 
-nmap =d <Cmd>DIstart<CR>
-nmap \d <Cmd>DIstop<CR>
-
 nmap <LocalLeader>v <Cmd>Vista!!<CR>
 
 g:asynctasks_term_pos = "tab"

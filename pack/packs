@@ -1,5 +1,4 @@
 # vim: ts=35 sw=0 noet cc=35
-bundle/opt/DrawIt	git@github.com:vim-scripts/DrawIt.git
 bundle/opt/airline	git@github.com:vim-airline/vim-airline.git
 bundle/opt/conflict-marker	git@github.com:rhysd/conflict-marker.vim
 bundle/opt/copilot	git@github.com:github/copilot.vim.git
