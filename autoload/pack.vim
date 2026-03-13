@@ -211,7 +211,7 @@ def ShowChangelog()
 	endif
 	new
 	setl nobuflisted noswapfile buftype=nofile
-	nnoremap <buffer> gq <Cmd>bd!<CR>
+	nnoremap <buffer> q <Cmd>bd!<CR>
 	set syntax=git
 	syn match H1 "^.\+\n=\+$"
 	hi! link H1 Title
