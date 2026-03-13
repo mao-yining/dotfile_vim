@@ -1,11 +1,9 @@
 vim9script
 
-def CmdReplace(cmd: string, ucmd: string): string
-	return (getcmdtype() ==# ':' && getcmdline() ==# cmd) ? ucmd : cmd
-enddef
+import autoload "../autoload/abbrev.vim"
 
-cnoreabbrev <expr> git CmdReplace('git', 'Git')
-cnoreabbrev <expr> todo CmdReplace('todo', 'Todo')
+cnoreabbrev <expr> git abbrev.CmdReplace('git', 'Git')
+cnoreabbrev <expr> todo abbrev.CmdReplace('todo', 'Todo')
 
 # quick to change dir
 cab cdn lcd <C-R>=expand('%:p:h')<CR>
@@ -13,10 +11,10 @@ cab cdr cd <C-R>=FindProjectRoot()<CR>
 
 inorea myn Mao-Yining
 inorea MYN Mao-Yining <mao.yining@outlook.com>
-inorea ddd <C-r>=strftime("%Y-%m-%d")<CR><C-R>=misc#Eatchar('\s')<CR>
-inorea ddt <C-r>=strftime("%Y-%m-%d %H:%M")<CR><C-R>=misc#Eatchar('\s')<CR>
-inorea :shrug: ¯\_(ツ)_/¯<C-R>=misc#Eatchar('\s')<CR>
-inorea :cool: ( •_•) ( -_-)~⌐■-■ (⌐■_■)><C-R>=misc#Eatchar('\s')<CR>
+inorea ddd <C-r>=strftime("%Y-%m-%d")<CR><C-R>=abbrev#Eatchar('\s')<CR>
+inorea ddt <C-r>=strftime("%Y-%m-%d %H:%M")<CR><C-R>=abbrev#Eatchar('\s')<CR>
+inorea :shrug: ¯\_(ツ)_/¯<C-R>=abbrev#Eatchar('\s')<CR>
+inorea :cool: ( •_•) ( -_-)~⌐■-■ (⌐■_■)><C-R>=abbrev#Eatchar('\s')<CR>
 
 inorea latex LaTeX
 inorea xetex XeTeX
