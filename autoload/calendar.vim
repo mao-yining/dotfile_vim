@@ -328,10 +328,11 @@ export def Open()
 				border: null_list,
 				borderchars: config.borderchars,
 				borderhighlight: config.borderhighlight,
+				filter: PopupFilter,
 				highlight: config.highlight,
 				mapping: false,
-				zindex: 49,
-				filter: PopupFilter
+				tabpage: -1,
+				zindex: 49
 			})
 		buf = winbufnr(win)
 		setbufvar(buf, '&tabstop', 4)
