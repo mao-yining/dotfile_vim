@@ -52,9 +52,6 @@ xnoremap <buffer><silent>af <Esc><ScriptCmd>md.ObjCodeFence(false)<CR>
 command! -nargs=? -buffer -complete=custom,md.PandocComplete Pandoc md.Pandoc(<f-args>)
 noremap <buffer> <F5> <ScriptCmd>update<Bar>md.Make()<CR>
 
-# Convert links inline links [mylink](blabla) to referenced links [mylink][3]
-command! -buffer -nargs=0 ConvertLinks md.ConvertLinks()
-
 bullet#SetLocalMappings()
 xnoremap <silent><buffer> <Tab> :Pangu<CR>
 
@@ -84,12 +81,6 @@ nnoremap <buffer><LocalLeader>q <ScriptCmd>&l:opfunc = md.SetQuoteBlock<CR>g@
 xnoremap <buffer><LocalLeader>q <ScriptCmd>&l:opfunc = md.SetQuoteBlock<CR>g@
 
 nnoremap <buffer><LocalLeader>d <ScriptCmd>md.RemoveAllStyle()<CR>
-
-nnoremap <buffer><LocalLeader>l <ScriptCmd>&l:opfunc = md.CreateLink<CR>g@
-xnoremap <buffer><LocalLeader>l <ScriptCmd>&l:opfunc = md.CreateLink<CR>g@
-
-nnoremap <buffer><silent> K <ScriptCmd>md.PreviewPopup()<CR>
-
 b:load_ftp = 1
 if exists("g:markdown_fenced_languages")|finish|endif
 g:markdown_minlines = 500
