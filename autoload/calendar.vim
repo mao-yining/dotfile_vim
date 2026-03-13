@@ -43,8 +43,7 @@ g:calendar_config = {
 	locales: {
 		months: null_list,
 		weekdays: ['日', '一', '二', '三', '四', '五', '六'],
-		year_month: (year: number, month: number, _: list<string>): string =>
-			printf('%04d 年 %2d 月', year, month),
+		year_month: (year, month, _) => printf('%04d 年 %2d 月', year, month),
 	}
 }->extend(get(g:, 'calendar_config', {}))
 
