@@ -1,51 +1,16 @@
 vim9script
 
-def Find(how = null_string, path = null_string): string
-	var mods: string
-	if how == "s" && winwidth(winnr()) * 0.3 > winheight(winnr())
-		mods = "vert "
-	endif
-	if empty(path)
-		silent g:SetProjectRoot()
-	else
-		silent g:Lcd(path)
-	endif
-	return $":{mods}{how}find "
-enddef
-nnoremap <expr> <Leader><Leader> Find()
-nnoremap <expr> <Leader><LocalLeader> Find("tab")
-nnoremap <expr> <LocalLeader><Leader> Find("", expand("%"))
-nnoremap <expr> <Leader>b  ":buffer "
-nnoremap <expr> <Leader>h  ":help "
-nnoremap <expr> <Leader>r  ":Recent "
-nnoremap <expr> <Leader>fm ":compiler "
-nnoremap <expr> <Leader>ft ":set filetype="
-nnoremap <expr> <Leader>fs ":SLoad "
-nnoremap <expr> <Leader>fc ":colorscheme "
-nnoremap <expr> <Leader>fu ":Unicode "
-nnoremap <expr> <Leader>fi Find("", $MYVIMDIR)
-nnoremap <expr> <Leader>fr Find("", $VIMRUNTIME)
-nnoremap <expr> <Leader>d  Find("", $DOCS ?? "~/docs")
+import autoload "../autoload/mappings.vim"
+
+nnoremap <Leader> <ScriptCmd>mappings.LeaderNormal()<CR>
+xnoremap <Leader> <ScriptCmd>mappings.LeaderVisual()<CR>
+
 inoremap <expr> <M-t> "\<C-o>:InsertTemplate "
 nnoremap <expr> <M-t> ":\<C-u>InsertTemplate "
 
 nmap ga <Cmd>Characterize<CR>
 
-# Grep word under cursor
-nnoremap <Leader>fw <Cmd>silent execute "grep" expand("<cword>")<CR>
-# lvimgrep word in a current buffer
-nnoremap <Leader>o <Cmd>execute "Occur" expand("<cword>")<CR>
-
 import autoload '../autoload/qc.vim'
-# git popup commands
-nnoremap <Leader>g <ScriptCmd>qc.Git()<CR>
-xnoremap <Leader>g <ScriptCmd>qc.Git()<CR>
-# calc visually selected math expression
-# base64 encode/decode
-xnoremap <Leader>t <ScriptCmd>qc.TextTr()<cr>
-nnoremap <Leader>t <ScriptCmd>qc.TextTr()<cr>
-# quickfix&locations&diff
-nnoremap <Leader>n <ScriptCmd>qc.Nav()<CR>
 # horizontal scroll
 nnoremap zl <ScriptCmd>qc.HScroll($'normal! {v:count1}zl')<CR>
 nnoremap zh <ScriptCmd>qc.HScroll($'normal! {v:count1}zh')<CR>
@@ -56,9 +21,6 @@ nnoremap g; <ScriptCmd>qc.ChangeList('g;')<CR>
 nnoremap g, <ScriptCmd>qc.ChangeList('g,')<CR>
 
 import autoload '../autoload/text.vim'
-
-nnoremap <silent> <Leader><CR> <ScriptCmd>text.Toggle()<CR>
-
 # simple text objects
 # -------------------
 # i_ i. i: i, i; i| i/ i\ i* i+ i- i# i<Tab>
@@ -128,12 +90,6 @@ nmap =p <ScriptCmd>text.PutLine(v:count1 .. ']p')<CR>=']
 inoremap <C-U> <C-G>u<C-U>
 inoremap <CR> <C-G>u<CR>
 
-nnoremap <Leader>% :%s/\<<C-R>=expand("<cword>")<CR>\>/<C-R>=expand("<cword>")<CR>
-xnoremap <Leader>% y:%s/\V<C-R>"/<C-R>"
-# literal search
-nnoremap <Leader>/ <ScriptCmd>exe $"Search {input("Search: ")}"<CR>
-xnoremap <Leader>/ y/\V<C-R>"<CR>
-
 import autoload '../autoload/substitute.vim'
 
 nmap s <ScriptCmd>substitute.SetOperatorFunc(false)<CR>g@
@@ -150,29 +106,11 @@ nmap <CR> <Cmd>update<CR>
 nmap =b <Cmd>enew<CR>
 nmap \b <Cmd>bdelete<CR>
 
-# source vimscript (operator)
-def SourceVim(...args: list<any>): string
-	if len(args) == 0
-		&opfunc = matchstr(expand('<stack>'), '[^. ]*\ze[')
-		return 'g@'
-	endif
-	if getline(nextnonblank(1) ?? 1) =~ '^\s*vim9script\s*$'
-		vim9cmd :'[,']source
-	else
-		:'[,']source
-	endif
-	return ''
-enddef
-nnoremap <silent><expr> <Leader>S SourceVim()
-xnoremap <silent><expr> <Leader>S SourceVim()
-
 # change window width
 map <C-Up> <C-W>+
 map <C-Down> <C-W>-
 map <C-Left> <C-W><
 map <C-Right> <C-W>>
-
-nmap <Leader>w <C-W>
 
 import autoload '../autoload/window.vim'
 nnoremap <C-w>o <ScriptCmd>window.ToggleZoom()<CR>

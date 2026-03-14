@@ -5,8 +5,6 @@ set quickfixtextfunc=qf.QuickFixText
 
 nmap <Home> <Cmd>cprev<CR>
 nmap <End>  <Cmd>cnext<CR>
-nmap <leader>q <ScriptCmd>qf.ToggleQF()<CR>
-nmap <leader>l <ScriptCmd>qf.ToggleLoc()<CR>
 
 const quickfix_cmd_pattern = [ 'caddbuffer', 'caddexpr', 'caddfile', 'cbuffer',
 	'cexpr', 'cfile', 'cgetbuffer', 'cgetexpr', 'cgetfile', 'grep', 'grepadd',

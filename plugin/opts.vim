@@ -129,9 +129,6 @@ imap <silent><F9>  <Esc><Cmd>AsyncTask project-run<CR>
 map  <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 imap <silent><F10> <Esc><Cmd>AsyncTask project-build<CR>
 
-nmap <Leader>u <Cmd>UndotreeToggle<CR>
-g:undotree_SetFocusWhenToggle = true
-
 g:html_font = ["Fira Code", "Consolas"]
 
 xmap gl <Plug>(EasyAlign)
@@ -161,7 +158,7 @@ nmap m<CR> <Cmd>Make<CR>
 nmap m<Space> :Make<Space>
 nmap m? <Cmd>set makeprg?<CR>
 
-g:ledger_extra_options = '--strict'
+g:ledger_extra_options = '--strict --pretty=y'
 
 g:competitest_configs = {
 	# multiple_testing: 1,
