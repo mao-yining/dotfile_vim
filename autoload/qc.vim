@@ -601,7 +601,7 @@ enddef
 export def LeaderNormal()
 	g:undotree_SetFocusWhenToggle = true
 	var find_commands = [
-		{text: "Find in VIMRUNTIME", key: "r", close: true, cmd: (_) => Find("", $VIMRUNTIME)},
+		{text: "$VIMRUNTIME", key: "r", close: true, cmd: (_) => Find("", $VIMRUNTIME)},
 		{text: "Grep word under cursor", key: "w", close: true, cmd: "silent execute 'grep' expand('<cword>')"},
 		{text: "Find in VIM config directory", key: "i", close: true, cmd: (_) => Find("", $MYVIMDIR)},
 		{text: "Unicode search", key: "u", close: true, cmd: (_) => feedkeys(":Unicode ")},
@@ -642,7 +642,7 @@ enddef
 export def LeaderVisual()
 	var commands = [
 		{text: "Window commands", key: "w", close: true, cmd: (_) => feedkeys("\<C-W>", 'm')},
-		{text: "Source current vim file", key: "S", close: true, cmd: (_) => SourceVim()},
+		{text: "Source", key: "S", close: true, cmd: (_) => SourceVim()},
 		{text: "Text transformations", key: "t", close: true, cmd: (_) => TextTr()},
 		{text: "Git commands", key: "g", close: true, cmd: (_) => Git()},
 	]
