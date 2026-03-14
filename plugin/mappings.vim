@@ -1,16 +1,13 @@
 vim9script
 
-import autoload "../autoload/mappings.vim"
-
-nnoremap <Leader> <ScriptCmd>mappings.LeaderNormal()<CR>
-xnoremap <Leader> <ScriptCmd>mappings.LeaderVisual()<CR>
-
 inoremap <expr> <M-t> "\<C-o>:InsertTemplate "
 nnoremap <expr> <M-t> ":\<C-u>InsertTemplate "
 
 nmap ga <Cmd>Characterize<CR>
 
 import autoload '../autoload/qc.vim'
+nnoremap <Leader> <ScriptCmd>qc.LeaderNormal()<CR>
+xnoremap <Leader> <ScriptCmd>qc.LeaderVisual()<CR>
 # horizontal scroll
 nnoremap zl <ScriptCmd>qc.HScroll($'normal! {v:count1}zl')<CR>
 nnoremap zh <ScriptCmd>qc.HScroll($'normal! {v:count1}zh')<CR>

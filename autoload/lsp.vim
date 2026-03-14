@@ -9,7 +9,6 @@ export def SetupMaps()
 		cmd:     'setl omnifunc=LspOmniFunc keywordprg=:LspHover'
 	}])
 	setl omnifunc=LspOmniFunc keywordprg=:LspHover
-	nmap <buffer> <Leader>s <Cmd>LspDocumentSymbol<CR>
 	nmap <buffer> gD <Cmd>LspGotoDeclaration<CR>
 	nmap <buffer> gd <Cmd>LspGotoDefinition<CR>
 	nmap <buffer> gy <Cmd>LspGotoTypeDef<CR>
@@ -22,5 +21,6 @@ export def SetupMaps()
 	xmap <buffer> . <Cmd>LspSelectionExpand<CR>
 	xmap <buffer> , <Cmd>LspSelectionShrink<CR>
 	map  <buffer> <F2> <Cmd>LspRename<CR>
-	nmap <buffer> <Leader>c <ScriptCmd>qc.LspCommands()<CR>
+	nmap <buffer> <LocalLeader>s <Cmd>LspDocumentSymbol<CR>
+	nmap <buffer> <LocalLeader>c <ScriptCmd>qc.LspCommands()<CR>
 enddef
