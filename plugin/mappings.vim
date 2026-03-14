@@ -1,5 +1,9 @@
 vim9script
 
+if !has("gui_running")
+	set <M-t>=t
+	set <M-x>=x
+endif
 inoremap <expr> <M-t> "\<C-o>:InsertTemplate "
 nnoremap <expr> <M-t> ":\<C-u>InsertTemplate "
 

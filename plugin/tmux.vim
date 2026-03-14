@@ -7,17 +7,10 @@ vim9script
 # bind -n M-l if "[ $(tmux display -p '#{pane_current_command}') = vim ]" "send-keys M-l" "select-pane -R"
 
 if !has("gui_running")
-	&t_TI = "\<Esc>[>4;2m"
-	&t_TE = "\<Esc>[>4;m"
-	&t_EI = "\e[2 q"
-	&t_SI = "\e[5 q"
-	&t_SR = "\e[3 q"
 	set <M-h>=h
 	set <M-j>=j
 	set <M-k>=k
 	set <M-l>=l
-	set <M-t>=t
-	set <M-x>=x
 endif
 
 if empty($TMUX)

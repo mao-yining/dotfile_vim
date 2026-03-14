@@ -49,3 +49,14 @@ if !isdirectory(&undodir)   | &undodir->mkdir('p', 0700)   | endif
 if !isdirectory(&directory) | &directory->mkdir('p', 0700) | endif
 if !isdirectory(&backupdir) | &backupdir->mkdir('p', 0700) | endif
 set backup undofile
+
+if !has("gui_running")
+	# modifyOtherKeys
+	&t_TI = "\<Esc>[>4;2m"
+	&t_TE = "\<Esc>[>4;m"
+
+	# Cursor
+	&t_EI = "\e[2 q"
+	&t_SI = "\e[5 q"
+	&t_SR = "\e[3 q"
+endif
