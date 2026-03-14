@@ -613,7 +613,7 @@ export def LeaderNormal()
 	var commands = [
 		{text: "Toggle location list", key: "l", close: true, cmd: (_) => qf.ToggleLoc()},
 		{text: "Toggle quickfix list", key: "q", close: true, cmd: (_) => qf.ToggleQF()},
-		{text: "Window commands", key: "w", cmd: "<C-W>"},
+		{text: "Window commands", key: "w", close: true, cmd: (_) => feedkeys("\<C-W>", 'm')},
 		{text: "Source current vim file", key: "S", close: true, cmd: (_) => SourceVim()},
 		{text: "Search in files", key: "/", close: true, cmd: 'exe $"Search {input("Search: ")}"'},
 		{text: "Replace word under cursor", key: "%", close: true,
@@ -641,7 +641,7 @@ enddef
 
 export def LeaderVisual()
 	var commands = [
-		{text: "Window commands", key: "w", cmd: "<C-W>"},
+		{text: "Window commands", key: "w", close: true, cmd: (_) => feedkeys("\<C-W>", 'm')},
 		{text: "Source current vim file", key: "S", close: true, cmd: (_) => SourceVim()},
 		{text: "Text transformations", key: "t", close: true, cmd: (_) => TextTr()},
 		{text: "Git commands", key: "g", close: true, cmd: (_) => Git()},
