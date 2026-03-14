@@ -20,7 +20,7 @@ set number relativenumber cursorline cursorlineopt=number signcolumn=number
 set breakindent linebreak nojoinspaces
 set list listchars=tab:›\ ,nbsp:␣,trail:·,extends:…,precedes:…
 set fillchars=vert:│,fold:·,foldsep:│
-set virtualedit=block,onemore nostartofline
+set virtualedit=block nostartofline
 set switchbuf=uselast
 set nrformats=bin,hex,unsigned
 set sessionoptions=buffers,curdir,help,tabpages,winsize,slash,terminal

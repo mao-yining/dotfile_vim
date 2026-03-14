@@ -15,9 +15,6 @@ export def SetupMaps()
 	nmap <buffer> gi <Cmd>LspGotoImpl<CR>
 	nmap <buffer> gr <Cmd>LspShowReferences<CR>
 	nmap <buffer> gs <Cmd>LspShowSignature<CR>
-	nmap <buffer> yoI <Cmd>LspInlayHints toggle<CR>
-	nmap <buffer> [oI <Cmd>LspInlayHints enable<CR>
-	nmap <buffer> ]oI <Cmd>LspInlayHints disable<CR>
 	xmap <buffer> . <Cmd>LspSelectionExpand<CR>
 	xmap <buffer> , <Cmd>LspSelectionShrink<CR>
 	map  <buffer> <F2> <Cmd>LspRename<CR>

@@ -316,8 +316,44 @@ export def Copilot()
 	popup.Commands(commands)
 enddef
 
+var colorcolumn: string
+export def Options()
+	var commands = [
+		{text: "Toggle Options"},
+		{text: "colorcolumn", key: "t", close: true, cmd: (_) => {
+			if !empty(&colorcolumn)
+				colorcolumn = &colorcolumn
+			endif
+			&colorcolumn = empty(&colorcolumn) ?  colorcolumn : ''
+		}},
+		{text: "background (dark/light)", key: "b", close: true, cmd: (_) => {
+			&background = &background == "dark" ? "light" : "dark"
+		}},
+		{text: "diff mode", key: "d", close: true, cmd: &diff ? "diffoff" : "diffthis"},
+		{text: "highlight search", key: "h", close: true, cmd: 'set hlsearch! hlsearch?'},
+		{text: "ignore case", key: "i", close: true, cmd: 'set ignorecase! ignorecase?'},
+		{text: "list (show hidden chars)", key: "l", close: true, cmd: 'setl list! list?'},
+		{text: "line numbers", key: "n", close: true, cmd: 'set number! number?'},
+		{text: "cursor line", key: "o", close: true, cmd: 'setl cursorline! cursorline?'},
+		{text: "relative numbers", key: "r", close: true, cmd: 'setl relativenumber! relativenumber?'},
+		{text: "spell check", key: "s", close: true, cmd: 'setl spell! spell?'},
+		{text: "cursor column", key: "u", close: true, cmd: 'setl cursorcolumn! cursorcolumn?'},
+		{text: "virtualedit (all/block)", key: "v", close: true, cmd: (_) => {
+			&ve = &ve =~# "all" ? "block" : "all"
+			set virtualedit
+		}},
+		{text: "line wrap", key: "w", close: true, cmd: 'set wrap! wrap?'},
+		{text: "cursor line+column", key: "x", close: true, cmd: (_) => {
+			exe "set" &cul && &cuc ? "nocuc culopt-=line" : "cul cuc culopt+=line"
+		}},
+		{text: "LSP inlay hints", key: "I", close: true, cmd: 'LspInlayHints toggle'},
+	]
+	popup.Commands(commands)
+enddef
+
 export def LspCommands()
 	var commands = []
+	nmap yoI <Cmd>LspInlayHints toggle<CR>
 	commands->extend([
 		{text: "LSP"},
 		{text: "Diagnostics", key: "d", close: true, cmd: "LspDiag current"},
@@ -577,7 +613,6 @@ export def LeaderNormal()
 	var commands = [
 		{text: "Toggle location list", key: "l", close: true, cmd: (_) => qf.ToggleLoc()},
 		{text: "Toggle quickfix list", key: "q", close: true, cmd: (_) => qf.ToggleQF()},
-		{text: "Toggle undotree", key: "u", close: true, cmd: "UndotreeToggle"},
 		{text: "Window commands", key: "w", cmd: "<C-W>"},
 		{text: "Source current vim file", key: "S", close: true, cmd: (_) => SourceVim()},
 		{text: "Search in files", key: "/", close: true, cmd: 'exe $"Search {input("Search: ")}"'},
@@ -588,16 +623,19 @@ export def LeaderNormal()
 		{text: "Git commands", key: "g", close: true, cmd: (_) => Git()},
 		{text: "Occur search in buffer", key: "o", close: true, cmd: "execute 'Occur' expand('<cword>')"},
 		{text: "Find in documents", key: "d", close: true, cmd: (_) => Find("", $DOCS ?? "~/docs")},
-		{text: "Find files...", key: "f", close: true, cmd: (_) => {
+		{text: "Find ...", key: "f", close: true, cmd: (_) => {
 			popup.Commands(find_commands)
 		}},
 		{text: "Recent files", key: "r", close: true, cmd: (_) => feedkeys(":Recent ")},
 		{text: "Help topics", key: "h", close: true, cmd: (_) => feedkeys(":help ")},
 		{text: "Switch buffers", key: "b", close: true, cmd: (_) => feedkeys(":buffer ")},
 		{text: "Find in tabs", key: ";", close: true, cmd: (_) => Find("tab")},
-		{text: "Find files (default)", key: " ", close: true, cmd: (_) => Find()},
+		{text: "Find files", key: " ", close: true, cmd: (_) => Find()},
 		{text: "Toggle text wrap", key: "\<CR>", close: true, cmd: (_) => text.Toggle()},
 	]
+	if exists(":UndotreeToggle") == 2
+		commands->add({text: "Toggle undotree", key: "u", close: true, cmd: "UndotreeToggle"})
+	endif
 	popup.Commands(commands)
 enddef
 

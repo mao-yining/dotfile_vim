@@ -8,6 +8,7 @@ nmap ga <Cmd>Characterize<CR>
 import autoload '../autoload/qc.vim'
 nnoremap <Leader> <ScriptCmd>qc.LeaderNormal()<CR>
 xnoremap <Leader> <ScriptCmd>qc.LeaderVisual()<CR>
+nnoremap yo <ScriptCmd>qc.Options()<CR>
 # horizontal scroll
 nnoremap zl <ScriptCmd>qc.HScroll($'normal! {v:count1}zl')<CR>
 nnoremap zh <ScriptCmd>qc.HScroll($'normal! {v:count1}zh')<CR>
@@ -204,28 +205,6 @@ nmap ]<C-T> <Cmd>exe v:count1 .. "ptnext"<CR>
 
 nmap [<Space> <Cmd>put!=nr2char(10)->repeat(v:count1)<Bar>']+<CR>
 nmap ]<Space> <Cmd>put =nr2char(10)->repeat(v:count1)<Bar>']-<CR>
-
-var colorcolumn: string
-def ColorColumn()
-	if !empty(&colorcolumn)
-		colorcolumn = &colorcolumn
-	endif
-	&colorcolumn = empty(&colorcolumn) ?  colorcolumn : ''
-enddef
-nmap yot <ScriptCmd>ColorColumn()<CR>
-nmap yob <Cmd>let &background = &background == "dark" ? "light" : "dark"<CR>
-nmap yod <Cmd>exe (&diff ? "diffoff" : "diffthis")<CR>
-nmap yoh <Cmd>set hlsearch! hlsearch?<CR>
-nmap yoi <Cmd>set ignorecase! ignorecase?<CR>
-nmap yol <Cmd>setl list! list?<CR>
-nmap yon <Cmd>set number! number?<CR>
-nmap yoo <Cmd>setl cursorline! cursorline?<CR>
-nmap yor <Cmd>setl relativenumber! relativenumber?<CR>
-nmap yos <Cmd>setl spell! spell?<CR>
-nmap you <Cmd>setl cursorcolumn! cursorcolumn?<CR>
-nmap yov <Cmd>let &ve = &ve =~# "all" ? "block,onemore" : "all"<Bar>set ve<CR>
-nmap yow <Cmd>set wrap! wrap?<CR>
-nmap yox <Cmd>exe "set" &cul && &cuc ? "nocuc culopt-=line" : "cul cuc culopt+=line"<CR>
 
 import autoload '../autoload/diff.vim'
 nmap ]n <ScriptCmd>diff.NextChange()<CR>
